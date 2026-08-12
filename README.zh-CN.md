@@ -2,7 +2,7 @@
   <img src="cloudterm.png" alt="CloudTerm" width="128">
 </p>
 
-<h1 align="center">CloudTerm</h1>
+<h1 align="center">NoxSSH</h1>
 
 <p align="center">
   <strong>SSH、SFTP、Telnet 与 Windows RDP，全部集于一个终端</strong>
@@ -12,6 +12,9 @@
   基于 Electron、React 和 xterm.js 打造的现代终端工作区。<br/>
   AI 助手 · 分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
 </p>
+
+> **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork，已改名并进行修改。  
+>
 
 <p align="center">
   <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
@@ -32,13 +35,34 @@
 
 ---
 
+**NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm)（由 [CloudBlast](https://cloudblast.io) 开发）的 fork，已改名并进行了修改。
+
+本项目遵循原 [CloudTerm 许可证](LICENSE)（fair-code 模式）分发：
+- 源码开放，可阅读。
+- 软件可免费使用、修改、分享（包括发布 fork），无论个人还是公司内部使用均可。
+- 出售本软件、将任何部分代码用于收费产品/服务、作为付费托管服务运行，或其他商业分发，**需要向 CloudBlast 单独申请商业授权**。
+
+分发时必须保留原许可证和版权声明。
+
+你可以准确地说明本作品衍生自 CloudTerm。  
+你不得将本项目称为“CloudTerm”，也不得声称它来自 CloudBlast。
+
+完整条款见：[LICENSE](LICENSE) | https://faircode.io
+
+原项目地址：https://github.com/BradPerbs/cloudterm （CloudBlast）
+
+---
+
 CloudTerm 把连接服务器的所有方式放进同一个窗口。开一个 SSH 会话、用 SFTP 传文件、
 转发一个端口、接管一台 Windows 桌面，全都在同一条连接、同一排标签页上完成。不需要
 第二个程序，也不需要第二次登录。
 
 它能连接任何设备：笔记本上的串口控制台、只会说 telnet 的交换机、通过 RDP 访问的
-Windows 主机，或者任意服务商上的服务器。CloudTerm 由 VPS 云主机公司
-[CloudBlast](https://cloudblast.io) 开发，对所有人免费，全部源码都在这个仓库里，可以随意阅读和修改。
+Windows 主机，或者任意服务商上的服务器。原 CloudTerm 由 VPS 云主机公司
+[CloudBlast](https://cloudblast.io) 开发，对所有人免费，全部源码都在仓库里。
+
+NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、历史备份等），
+并遵循原 CloudTerm 许可证继续开放。
 
 <img src="Main%20Image.png" alt="CloudTerm" width="100%">
 
@@ -235,11 +259,11 @@ Debian 和 Fedora 的机器，不用去读主机名。
 
 下载适用于你平台的最新版本：
 
-| 操作系统 | 下载 |
-| --- | --- |
-| macOS | [Apple 芯片（M1 及更新机型）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg) |
-| Windows | [安装版，x64（推荐）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [便携版，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux | [AppImage，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage) |
+| 操作系统    | 下载                                                                                                                                                                                                     |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| macOS   | [Apple 芯片（M1 及更新机型）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg) |
+| Windows | [安装版，x64（推荐）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [便携版，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe)  |
+| Linux   | [AppImage，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                              |
 
 在 Windows 上也可以直接从终端安装和更新：
 
@@ -270,11 +294,11 @@ npm run build
 
 ### 快捷键
 
-| | | | |
-| --- | --- | --- | --- |
-| `Ctrl+Shift+F` | 回滚区搜索 | `Alt+Shift+=` | 向右分屏 |
-| `Ctrl+Shift+K` | 片段面板 | `Alt+Shift+-` | 向下分屏 |
-| `Ctrl+Shift+B` | 广播输入 | `Alt+Shift+Z` | 放大面板 |
+|                      |       |                |      |
+| -------------------- | ----- | -------------- | ---- |
+| `Ctrl+Shift+F`       | 回滚区搜索 | `Alt+Shift+=`  | 向右分屏 |
+| `Ctrl+Shift+K`       | 片段面板  | `Alt+Shift+-`  | 向下分屏 |
+| `Ctrl+Shift+B`       | 广播输入  | `Alt+Shift+Z`  | 放大面板 |
 | `Ctrl+Shift+C` / `V` | 复制与粘贴 | `Ctrl+Shift+W` | 关闭面板 |
 
 <a name="community"></a>
@@ -310,7 +334,19 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 <a name="license"></a>
 ## 许可证
 
-CloudTerm 采用 [fair-code](https://faircode.io) 模式，条款见 [CloudTerm 许可证](LICENSE)：
-源码公开，软件可以自由使用、修改和免费分发，在公司里用也没问题。但要出售它，或者把它的
-任何一部分代码放进你收费的产品或服务里，需要向 [CloudBlast](https://cloudblast.io)
-取得商业许可，通常问一声就行。
+**NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork。
+
+本项目遵循原 [CloudTerm 许可证](LICENSE)（fair-code 模式）分发。
+
+- 源码公开可读。
+- 软件可免费使用、修改和分享（包括发布 fork），个人或公司内部使用均可。
+- 出售本软件、将任何部分代码用于收费的产品或服务、作为付费托管服务运行，或进行其他商业分发，**需要向 CloudBlast 单独取得商业许可**。
+
+分发任何副本或实质性部分时，必须保留原许可证和版权声明。
+
+你可以准确地说明本作品衍生自 CloudTerm。  
+你不得将本项目称为“CloudTerm”，也不得声称它来自 CloudBlast。
+
+完整条款： [LICENSE](LICENSE) | https://faircode.io
+
+原项目：https://github.com/BradPerbs/cloudterm （由 CloudBlast 开发）

@@ -81,6 +81,19 @@ const PROVIDERS = [
         hintKey: 'settings.assistant.provider.opencode',
         mark: OpenCodeMark,
     },
+    {
+        value: 'relay',
+        nameKey: 'settings.assistant.provider.relayName',
+        hintKey: 'settings.assistant.provider.relay',
+        mark: ({ size = 22 }) => (
+            <span
+                style={{ fontSize: size * 0.7, lineHeight: 1 }}
+                className="inline-flex items-center justify-center font-semibold text-gray-700 dark:text-gray-200"
+            >
+                API
+            </span>
+        ),
+    },
 ];
 
 const CARD = `relative flex-1 min-w-0 p-3 rounded-xl border text-left transition-colors outline-none
@@ -90,10 +103,10 @@ export default function ProviderPicker({ value, available = [], onChange }) {
     const t = useT();
 
     return (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
             {PROVIDERS.map((provider) => {
                 const Mark = provider.mark;
-                const ready = available.includes(provider.value);
+                const ready = available.length === 0 || available.includes(provider.value);
                 const selected = provider.value === value;
 
                 return (
@@ -120,7 +133,7 @@ export default function ProviderPicker({ value, available = [], onChange }) {
 
                         <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                             <Mark size={22} />
-                            <span className="text-sm font-semibold">{provider.name}</span>
+                            <span className="text-sm font-semibold">{provider.nameKey ? t(provider.nameKey) : provider.name}</span>
                         </span>
 
                         <span className="mt-1.5 block text-[11px] leading-snug text-gray-500 dark:text-gray-400">

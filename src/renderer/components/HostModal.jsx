@@ -18,13 +18,7 @@ import { monitorSupport, defaultCheckPort } from '../lib/monitor';
 import { nameProxy, proxyRoute } from '../lib/proxies';
 import { useProxies } from '../hooks/useProxies';
 import useMonitor from '../hooks/useMonitor';
-
-const AUTH_METHODS = [
-    { id: 'password', label: 'Password', hint: 'Send a stored password' },
-    { id: 'keychain', label: 'Keychain', hint: 'Use a key from the app keychain' },
-    { id: 'key', label: 'Key', hint: 'Paste a private key for this host only' },
-    { id: 'agent', label: 'Agent', hint: 'Use keys held by your SSH agent' },
-];
+import { useT } from '../i18n';
 
 /**
  * The hosts that could relay this one.
@@ -64,6 +58,21 @@ function jumpCandidates(hosts, hostId) {
  * seeded from props instead of being reset by an effect on every open.
  */
 function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allTags = [] }) {
+    const t = useT();
+
+    const AUTH_METHODS = [
+        { id: 'password', label: t('hosts.editor.auth.password'), hint: t('hosts.editor.auth.passwordHint') },
+        { id: 'keychain', label: t('hosts.editor.auth.keychain'), hint: t('hosts.editor.auth.keychainHint') },
+        { id: 'key', label: t('hosts.editor.auth.key'), hint: t('hosts.editor.auth.keyHint') },
+        { id: 'agent', label: t('hosts.editor.auth.agent'), hint: t('hosts.editor.auth.agentHint') },
+    ];
+
+    // Localized host kinds for the top picker
+    const kindOptions = useMemo(() => HOST_KINDS.map(k => ({
+        ...k,
+        label: t(`hosts.kind.${k.id}`) || k.label,
+    })), [t]);
+
     const [formData, setFormData] = useState(() => ({
         id: host?.id,
         name: host?.name || '',
@@ -159,8 +168,8 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
     const watchable = monitorSupport(formData);
     const checkPort = defaultCheckPort(formData);
     const checkPortHint = checkPort
-        ? `Left blank, this host is checked on port ${checkPort}, the one it connects on.`
-        : 'Left blank, this host is checked on the port it connects on.';
+        ? t('hosts.editor.checkPortHintDefaultOn', { port: checkPort })
+        : t('hosts.editor.checkPortHintDefault');
 
     /**
      * What the jump host picker offers. The current choice stays on the list
@@ -239,9 +248,9 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
             proxy: via ? nameProxy(via) : '',
             initCommand: (formData.initCommand || '').split('\n')[0].trim(),
             tunnels: tunnelCount ? plural(tunnelCount, 'forward') : '',
-            desktop: desktop.enabled ? (desktop.protocol === 'rdp' ? 'RDP' : 'VNC') : '',
+            desktop: desktop.enabled ? (desktop.protocol === 'rdp' ? t('hosts.editor.desktopRdp') : t('hosts.editor.desktopVnc')) : '',
             bmc: formData.bmc?.enabled
-                ? (formData.bmc.host || 'Same as the host')
+                ? (formData.bmc.host || t('hosts.editor.bmcSameHost'))
                 : '',
             // Not "Watched" for a host that has since been given a jump host:
             // the switch is still set, and the save is about to clear it,
@@ -249,9 +258,9 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
             // rather than read off `watchable`, which is a fresh object every
             // render and would defeat the memo it was added to.
             monitor: formData.monitor?.enabled && monitorSupport(formData).ok
-                ? (formData.monitor.port ? `Watched on port ${formData.monitor.port}` : 'Watched')
+                ? (formData.monitor.port ? t('hosts.editor.monitorSummaryWithPort', { port: formData.monitor.port }) : t('hosts.editor.monitorSummary'))
                 : '',
-            advanced: formData.legacyAlgorithms ? 'Legacy algorithms allowed' : '',
+            advanced: formData.legacyAlgorithms ? t('hosts.editor.advancedSummary') : '',
         };
     }, [formData, hosts, proxies]);
 
@@ -372,15 +381,15 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
 
     return (
         <Sheet
-            title={host ? 'Edit host' : 'New host'}
-            subtitle="Where to connect, how to authenticate, and what to do once you are in."
+            title={host ? t('hosts.editor.titleEdit') : t('hosts.editor.titleNew')}
+            subtitle={t('hosts.editor.subtitle')}
             dismiss={dismiss}
             onClose={onClose}
             footer={(close) => (
                 <>
-                    <Button onClick={close}>Cancel</Button>
+                    <Button onClick={close}>{t('common.cancel')}</Button>
                     <Button variant="primary" onClick={() => submit(close)}>
-                        {host ? 'Save host' : 'Create host'}
+                        {host ? t('hosts.editor.save') : t('hosts.editor.create')}
                     </Button>
                 </>
             )}
@@ -401,7 +410,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     through Desktop. */}
                 <div className="flex flex-col gap-1.5">
                     <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        This host is
+                        {t('hosts.editor.thisHostIs')}
                     </span>
                     {/* One column per kind, so the row is the whole question and
                         not the first four fifths of it. Counted by hand because
@@ -410,7 +419,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         means changing this number, and forgetting to wraps the
                         new one onto a line of its own. */}
                     <div className="grid grid-cols-5 gap-1 p-1 bg-gray-100 dark:bg-surface-base rounded-xl">
-                        {HOST_KINDS.map((entry) => (
+                        {kindOptions.map((entry) => (
                             <button
                                 key={entry.id}
                                 type="button"
@@ -443,49 +452,47 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     <p className="flex items-start gap-2 text-[11px] text-amber-600 dark:text-amber-500 rounded-lg border border-amber-200 dark:border-amber-500/25 bg-amber-50 dark:bg-amber-500/5 px-3 py-2">
                         <AlertSquareIcon size={14} strokeWidth={2} className="shrink-0 mt-px" />
                         <span>
-                            Telnet is unencrypted. Everything sent over it, including whatever you
-                            type at a login prompt, is readable by anything on the path. Use it for
-                            devices that offer nothing better.
+                            {t('hosts.editor.telnetWarning')}
                         </span>
                     </p>
                 )}
 
                 {!isSerial && (
                     <div className="grid grid-cols-4 gap-4">
-                        <Field
-                            label="Hostname / IP"
-                            className={hasShell ? 'col-span-3' : 'col-span-4'}
-                            hint={isDesktop
-                                ? 'Where the desktop is. Used unless the Desktop section below names a different address.'
-                                : isIpmi
-                                ? 'Where the service processor is. Used unless the IPMI section below names a different address.'
-                                : undefined}
-                        >
-                            <input
-                                data-autofocus
-                                type="text"
-                                value={formData.host}
-                                onChange={(e) => handleChange('host', e.target.value)}
-                                className={`${FIELD_CLASS} font-mono`}
-                                placeholder="192.168.1.1"
-                                required
-                            />
-                        </Field>
-                        {/* The session's port, so a host with no session has no
-                            use for it: the desktop carries its own, below. */}
-                        {hasShell && (
-                        <Field label="Port">
-                            <input
-                                type="number"
-                                value={formData.port}
-                                onChange={(e) => handleChange(
-                                    'port',
-                                    parseInt(e.target.value) || DEFAULT_PORTS[kind] || 22
-                                )}
-                                className={`${FIELD_CLASS} font-mono`}
-                            />
-                        </Field>
-                        )}
+                    <Field
+                        label={t('hosts.editor.hostname')}
+                        className={hasShell ? 'col-span-3' : 'col-span-4'}
+                        hint={isDesktop
+                            ? t('hosts.editor.hostnameDesktopHint')
+                            : isIpmi
+                            ? t('hosts.editor.hostnameIpmiHint')
+                            : undefined}
+                    >
+                        <input
+                            data-autofocus
+                            type="text"
+                            value={formData.host}
+                            onChange={(e) => handleChange('host', e.target.value)}
+                            className={`${FIELD_CLASS} font-mono`}
+                            placeholder="192.168.1.1"
+                            required
+                        />
+                    </Field>
+                    {/* The session's port, so a host with no session has no
+                        use for it: the desktop carries its own, below. */}
+                    {hasShell && (
+                    <Field label={t('hosts.editor.port')}>
+                        <input
+                            type="number"
+                            value={formData.port}
+                            onChange={(e) => handleChange(
+                                'port',
+                                parseInt(e.target.value) || DEFAULT_PORTS[kind] || 22
+                            )}
+                            className={`${FIELD_CLASS} font-mono`}
+                        />
+                    </Field>
+                    )}
                     </div>
                 )}
 
@@ -502,7 +509,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     the way it would to a physical terminal. Asking here in
                     either case would be demanding a value nothing ever reads. */}
                 {sshHost && (
-                <Field label="Username">
+                <Field label={t('hosts.editor.username')}>
                     <input
                         type="text"
                         value={formData.username}
@@ -521,7 +528,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                 {sshHost && (
                 <div className="flex flex-col gap-1.5">
                     <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        Authentication method
+                        {t('hosts.editor.authMethod')}
                     </span>
                     <div className="grid grid-cols-4 gap-1 p-1 bg-gray-100 dark:bg-surface-base rounded-xl">
                         {AUTH_METHODS.map((method) => (
@@ -544,11 +551,11 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                 )}
 
                 {sshHost && formData.authMethod === 'keychain' && (
-                    <Field label="SSH key">
+                    <Field label={t('hosts.editor.sshKey')}>
                         {keys.length === 0 ? (
                             <div className="px-3 py-2.5 rounded-xl border border-gray-300 dark:border-surface-control bg-gray-50 dark:bg-surface-base text-gray-500 dark:text-gray-400 text-sm flex items-center gap-2">
                                 <AlertSquareIcon className="w-4 h-4 shrink-0" size={16} />
-                                No SSH keys found. Add keys in the Keychain page first.
+                                {t('hosts.editor.noKeysInKeychain')}
                             </div>
                         ) : (
                             <Select
@@ -557,7 +564,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                 className={FIELD_CLASS}
                                 required
                                 options={[
-                                    { value: '', label: 'Select a key…' },
+                                    { value: '', label: t('hosts.editor.selectKey') },
                                     ...keys.map(key => ({
                                         value: key.id,
                                         label: `${key.name} (${key.type})`,
@@ -577,20 +584,20 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                 )}
 
                 {sshHost && formData.authMethod === 'password' && (
-                    <Field label="Password">
+                    <Field label={t('hosts.editor.password')}>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 value={formData.password}
                                 onChange={(e) => handleChange('password', e.target.value)}
                                 className={`${FIELD_CLASS} pr-10`}
-                                placeholder={host?.hasPassword ? 'Stored, leave blank to keep' : '••••••••'}
+                                placeholder={host?.hasPassword ? t('hosts.editor.passwordPlaceholderStored') : t('hosts.editor.passwordPlaceholder')}
                             />
                             <IconButton
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => setShowPassword(!showPassword)}
-                                title={showPassword ? 'Hide password' : 'Show password'}
+                                title={showPassword ? t('hosts.editor.hidePassword') : t('hosts.editor.showPassword')}
                                 className="absolute right-1 top-1/2 -translate-y-1/2"
                                 icon={showPassword
                                     ? <ViewOffIcon size={15} strokeWidth={2} />
@@ -599,7 +606,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         </div>
                         {host?.hasPassword && !formData.password && (
                             <StoredSecretHint
-                                label="A password is stored for this host."
+                                label={t('hosts.editor.storedPasswordHint')}
                                 cleared={clearSecrets}
                                 onClear={() => setClearSecrets(true)}
                             />
@@ -609,33 +616,54 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
 
                 {sshHost && formData.authMethod === 'key' && (
                     <>
-                        <Field label="Private key">
-                            <textarea
-                                value={formData.privateKey}
-                                onChange={(e) => handleChange('privateKey', e.target.value)}
-                                rows={4}
-                                spellCheck={false}
-                                className={`${MONO_FIELD_CLASS} resize-y`}
-                                placeholder={host?.hasPrivateKey
-                                    ? 'Stored, leave blank to keep'
-                                    : '-----BEGIN OPENSSH PRIVATE KEY-----…'}
-                            />
+                        <Field label={t('hosts.editor.privateKey')}>
+                            <div className="flex flex-col gap-2">
+                                <textarea
+                                    value={formData.privateKey}
+                                    onChange={(e) => handleChange('privateKey', e.target.value)}
+                                    rows={4}
+                                    spellCheck={false}
+                                    className={`${MONO_FIELD_CLASS} resize-y`}
+                                    placeholder={host?.hasPrivateKey
+                                        ? t('hosts.editor.privateKeyPlaceholderStored')
+                                        : t('hosts.editor.privateKeyPlaceholder')}
+                                />
+                                <div>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={async () => {
+                                            try {
+                                                const res = await window.api.hostChoosePrivateKey?.();
+                                                if (res && !res.canceled && res.success && res.text) {
+                                                    handleChange('privateKey', res.text);
+                                                }
+                                            } catch {
+                                                // ignore picker errors; user can still paste
+                                            }
+                                        }}
+                                    >
+                                        {t('hosts.editor.chooseKeyFile')}
+                                    </Button>
+                                </div>
+                            </div>
                             {host?.hasPrivateKey && !formData.privateKey && (
                                 <StoredSecretHint
-                                    label="A private key is stored for this host."
+                                    label={t('hosts.editor.storedPrivateKeyHint')}
                                     cleared={clearSecrets}
                                     onClear={() => setClearSecrets(true)}
                                 />
                             )}
                         </Field>
 
-                        <Field label="Key passphrase">
+                        <Field label={t('hosts.editor.keyPassphrase')}>
                             <input
                                 type="password"
                                 value={formData.passphrase}
                                 onChange={(e) => handleChange('passphrase', e.target.value)}
                                 className={FIELD_CLASS}
-                                placeholder="Leave empty if the key has no passphrase"
+                                placeholder={t('hosts.editor.keyPassphrasePlaceholder')}
                             />
                         </Field>
                     </>
@@ -686,7 +714,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         section heading, see NewTabView and PanePicker. A step
                         darker than this and it sinks into the surface behind it. */}
                     <span className="shrink-0 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-neutral-400">
-                        Optional
+                        {t('hosts.editor.optional')}
                     </span>
                     <span className="h-px flex-1 bg-gray-200 dark:bg-surface-control" />
                 </div>
@@ -697,19 +725,17 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     {/* Always closed, unlike the rest. A name is fully said by
                         the summary, so opening it on every edit would expand a
                         section to show what the closed row already showed. */}
-                    <Disclosure title="Name and tags" summary={summaries.naming}>
+                    <Disclosure title={t('hosts.editor.disclosure.nameAndTags')} summary={summaries.naming}>
                         <Field
-                            label="Display name"
-                            hint={`Left blank, this host is listed as ${
-                                (isSerial ? formData.serial?.path : formData.host) || 'its address'
-                            }.`}
+                            label={t('hosts.editor.displayName')}
+                            hint={t('hosts.editor.displayNameHint', { address: (isSerial ? formData.serial?.path : formData.host) || t('hosts.editor.displayNamePlaceholder') })}
                         >
                             <input
                                 type="text"
                                 value={formData.name}
                                 onChange={(e) => handleChange('name', e.target.value)}
                                 className={FIELD_CLASS}
-                                placeholder="e.g. Production Server"
+                                placeholder={t('hosts.editor.displayNamePlaceholder')}
                             />
                         </Field>
 
@@ -727,7 +753,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                 htmlFor="host-tags"
                                 className="text-xs font-semibold text-gray-700 dark:text-gray-300"
                             >
-                                Tags
+                                {t('hosts.editor.tags')}
                             </label>
                             <TagInput
                                 id="host-tags"
@@ -736,7 +762,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                 onChange={(tags) => handleChange('tags', tags)}
                             />
                             <span className="text-[11px] text-gray-500 dark:text-neutral-500">
-                                Cuts across folders: a host sits in one folder and carries as many tags as you like.
+                                {t('hosts.editor.tagsHint')}
                             </span>
                         </div>
                     </Disclosure>
@@ -752,21 +778,21 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         has one. */}
                     {sshHost && (
                     <Disclosure
-                        title="Connect through"
+                        title={t('hosts.editor.disclosure.connectThrough')}
                         summary={summaries.jump}
                         defaultOpen={Boolean(formData.jumpHostId)}
                     >
                         <Field
                             hint={formData.jumpHostId
-                                ? 'Dialled first; this host is then reached over a channel on it. The session inside stays encrypted end to end, so the relay carries bytes it cannot read.'
-                                : 'For a host with no route from this machine, name the bastion that does have one.'}
+                                ? t('hosts.editor.jumpHintWith')
+                                : t('hosts.editor.jumpHintWithout')}
                         >
                             <Select
                                 value={formData.jumpHostId}
                                 onChange={(next) => handleChange('jumpHostId', next)}
                                 className={FIELD_CLASS}
                                 options={[
-                                    { value: '', label: 'Connect directly' },
+                                    { value: '', label: t('hosts.editor.connectDirectly') },
                                     ...jumpOptions.map(candidate => ({
                                         value: candidate.id,
                                         label: candidate.name
@@ -799,19 +825,19 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         socket for a proxy to open. */}
                     {!isSerial && (
                     <Disclosure
-                        title="Proxies"
+                        title={t('hosts.editor.disclosure.proxies')}
                         summary={summaries.proxy}
                         defaultOpen={Boolean(formData.proxyId)}
                     >
                         <Field
                             hint={formData.proxyId
-                                ? 'The socket is opened through the proxy, which is asked to reach the address above. Everything the session carries travels inside it: files, port forwards and a directly dialled desktop alike.'
-                                : 'For a network only reachable through a SOCKS or HTTP proxy. Saved proxies are managed on the Proxies page.'}
+                                ? t('hosts.editor.proxyHintWith')
+                                : t('hosts.editor.proxyHintWithout')}
                         >
                             {proxies.length === 0 ? (
                                 <div className="px-3 py-2.5 rounded-xl border border-gray-300 dark:border-surface-control bg-gray-50 dark:bg-surface-base text-gray-500 dark:text-gray-400 text-sm flex items-center gap-2">
                                     <AlertSquareIcon className="w-4 h-4 shrink-0" size={16} />
-                                    No proxies saved. Add one on the Proxies page first.
+                                    {t('hosts.editor.noProxiesSaved')}
                                 </div>
                             ) : (
                                 <Select
@@ -819,7 +845,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                     onChange={(next) => handleChange('proxyId', next)}
                                     className={FIELD_CLASS}
                                     options={[
-                                        { value: '', label: 'Dial straight out' },
+                                        { value: '', label: t('hosts.editor.dialStraightOut') },
                                         ...proxies.map(candidate => ({
                                             value: candidate.id,
                                             label: nameProxy(candidate),
@@ -849,10 +875,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                 host's proxy that opens it. */}
                             {formData.proxyId && formData.jumpHostId && (
                                 <p className="text-[11px] text-amber-600 dark:text-amber-500">
-                                    Reached through {jumpChain[0] || 'a jump host'}, the only connection
-                                    out of this machine is the one to {jumpChain[0] || 'that host'}, so its
-                                    own proxy setting is what opens it. The proxy chosen here is used when
-                                    this host is dialled without the relay.
+                                    {t('hosts.editor.proxyJumpNote', { jump: jumpChain[0] || t('hosts.editor.aJumpHost') })}
                                 </p>
                             )}
                         </Field>
@@ -863,14 +886,14 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         nowhere to put it. */}
                     {hasShell && (
                     <Disclosure
-                        title="Run on connect"
+                        title={t('hosts.editor.disclosure.runOnConnect')}
                         summary={summaries.initCommand}
                         defaultOpen={Boolean(formData.initCommand)}
                     >
                         <Field
                             hint={sshHost
-                                ? 'Sent to the shell as soon as it opens, and again after a reconnect. One command per line.'
-                                : 'Sent the moment the session opens, with nothing waited for. There is no prompt detection here, so on a device that asks for a login this is typed at the login prompt.'}
+                                ? t('hosts.editor.initHintSsh')
+                                : t('hosts.editor.initHintOther')}
                         >
                             <textarea
                                 value={formData.initCommand}
@@ -878,7 +901,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                 rows={2}
                                 spellCheck={false}
                                 className={`${MONO_FIELD_CLASS} resize-y`}
-                                placeholder={sshHost ? 'cd /srv/app && tmux attach' : 'terminal length 0'}
+                                placeholder={sshHost ? t('hosts.editor.initPlaceholderSsh') : t('hosts.editor.initPlaceholderOther')}
                             />
                         </Field>
                     </Disclosure>
@@ -892,7 +915,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         socket to knock on. */}
                     {!isSerial && (
                     <Disclosure
-                        title="Monitoring"
+                        title={t('hosts.editor.disclosure.monitoring')}
                         summary={summaries.monitor}
                         defaultOpen={Boolean(formData.monitor?.enabled)}
                     >
@@ -905,19 +928,15 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                         ...formData.monitor,
                                         enabled: e.target.checked,
                                     })}
-                                    label="Watch this host"
-                                    description="While the app is open, check on a timer that something is
-                                        still answering here. A host that stops raises a notification once,
-                                        and its card is marked until it comes back."
+                                    label={t('hosts.editor.watchThisHost')}
+                                    description={t('hosts.editor.watchDesc')}
                                 />
 
                                 {formData.monitor?.enabled && (
                                     <>
                                         <Field
-                                            label="Check port"
-                                            hint={`${checkPortHint} Set it to watch something else on the
-                                                same machine, a web server or a database, rather than the
-                                                login this host is reached by.`}
+                                            label={t('hosts.editor.checkPort')}
+                                            hint={t('hosts.editor.checkPortHint', { checkPortHint })}
                                         >
                                             <input
                                                 type="number"
@@ -948,8 +967,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                                 dark:border-surface-control bg-gray-50 dark:bg-surface-base
                                                 text-gray-500 dark:text-gray-400 text-sm flex items-center gap-3">
                                                 <span className="flex-1 min-w-0">
-                                                    Monitoring is off for the app, so this host will be set up
-                                                    and not yet checked.
+                                                    {t('hosts.editor.monitoringOffForApp')}
                                                 </span>
                                                 <Button
                                                     size="sm"
@@ -957,7 +975,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                                                     className="shrink-0"
                                                     onClick={() => configureMonitor({ enabled: true })}
                                                 >
-                                                    Turn it on
+                                                    {t('hosts.editor.turnItOn')}
                                                 </Button>
                                             </div>
                                         )}
@@ -983,7 +1001,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         connects to it. `labelled` off because the row above the
                         contents has already said "Port forwarding". */}
                     <Disclosure
-                        title="Port forwarding"
+                        title={t('hosts.editor.disclosure.portForwarding')}
                         summary={summaries.tunnels}
                         defaultOpen={(formData.tunnels?.length || 0) > 0}
                     >
@@ -999,7 +1017,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         them, riding the connection configured above. A host that
                         is only a desktop is the Desktop kind at the top. */}
                     <Disclosure
-                        title="Remote desktop"
+                        title={t('hosts.editor.disclosure.remoteDesktop')}
                         summary={summaries.desktop}
                         defaultOpen={Boolean(formData.desktop?.enabled)}
                     >
@@ -1021,7 +1039,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         connection configured above; it is a second address for
                         the same machine, reachable when the machine is not. */}
                     <Disclosure
-                        title="IPMI"
+                        title={t('hosts.editor.disclosure.ipmi')}
                         summary={summaries.bmc}
                         defaultOpen={Boolean(formData.bmc?.enabled)}
                     >
@@ -1035,7 +1053,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     </Disclosure>
 
                     <Disclosure
-                        title="Advanced"
+                        title={t('hosts.editor.disclosure.advanced')}
                         summary={summaries.advanced}
                         defaultOpen={formData.legacyAlgorithms}
                     >
@@ -1043,8 +1061,8 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                             variant="card"
                             checked={formData.legacyAlgorithms}
                             onChange={(e) => handleChange('legacyAlgorithms', e.target.checked)}
-                            label="Allow legacy algorithms"
-                            description="Enables SHA-1, CBC and 3DES for old servers. Weakens the connection, so leave off unless the handshake fails."
+                            label={t('hosts.editor.allowLegacy')}
+                            description={t('hosts.editor.allowLegacyDesc')}
                         />
                     </Disclosure>
                     </>

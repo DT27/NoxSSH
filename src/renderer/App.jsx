@@ -1277,20 +1277,20 @@ function App() {
         loadKeys();
     }, [loadData, loadKeys]);
 
-    // A background sync adds, renames and removes hosts without the renderer
-    // asking for anything, so the sidebar has to be told rather than left
-    // showing whatever it loaded at startup.
-    useEffect(() => window.api.serverSync.onState(({ report }) => {
-        if (report && !report.error && !report.skipped) loadData();
-    }), [loadData]);
+    // WebDAV sync (snapshot pull) can bring in hosts, folders, keys etc.
+    // When a pull adds new items, refresh the lists shown in the UI.
+    useEffect(() => {
+        const api = window.api?.webdavSync;
+        if (!api || typeof api.onState !== 'function') return;
 
-    // Same for a setup pulled down from another device.
-    useEffect(() => window.api.cloudSnapshot.onState((state) => {
-        if (state?.pulled && state.added > 0) {
-            loadData();
-            loadKeys();
-        }
-    }), [loadData, loadKeys]);
+        const off = api.onState((state) => {
+            if (state?.pulled && state.added > 0) {
+                loadData();
+                loadKeys();
+            }
+        });
+        return () => { if (typeof off === 'function') off(); };
+    }, [loadData, loadKeys]);
 
     // Carries terminal settings to and from the snapshot; they live in
     // localStorage, which main cannot reach.

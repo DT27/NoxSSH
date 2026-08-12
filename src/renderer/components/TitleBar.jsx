@@ -479,8 +479,7 @@ function TabGroup({ group, children, onMenu, renaming, onRenameCommit, onRenameC
  *
  * Deliberately square-cornered. The box is only as big as the artwork inside it,
  * so a radius here does not round a backdrop, it cuts the corners off the mark
- * itself -- which the CloudBlast cloud, drawn to the edges of its viewBox, shows
- * plainly. An image that wants rounded corners can arrive with them.
+ * itself. An image that wants rounded corners can arrive with them.
  */
 function TitleBarLogo({ src }) {
     return (

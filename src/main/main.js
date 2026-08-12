@@ -3,7 +3,15 @@ const fs = require('fs');
 const path = require('path');
 const ipc = require('./ipc');
 const transport = require('./transport');
-const cloudSnapshot = require('./cloud-snapshot');
+const webdavSync = require('./webdav-sync');
+
+// macOS 上常见的 EGL 驱动错误日志（eglQueryDeviceAttribEXT: Bad attribute）
+// 这是 Chromium 在初始化 GPU/EGL 时对驱动的探测失败，通常无害。
+// 为消除启动噪音并避免潜在的图形问题，这里在 macOS 上禁用硬件加速。
+// xterm 的 WebGL 渲染器会自动回退到 DOM 渲染器（TerminalView.jsx 已有降级逻辑）。
+if (process.platform === 'darwin') {
+    app.disableHardwareAcceleration();
+}
 
 let mainWindow = null;
 
@@ -170,7 +178,7 @@ app.whenReady().then(() => {
      *
      * Harmless everywhere else; the call is a no-op off Windows.
      */
-    app.setAppUserModelId('com.cloudblast.ssh');
+    app.setAppUserModelId('com.noxssh.app');
 
     ipc.register(getWindow);
     createWindow();
@@ -182,9 +190,8 @@ app.whenReady().then(() => {
 
 app.on('before-quit', () => {
     // A debounced upload that has not fired yet would be lost with the process,
-    // so quitting right after an edit is the case worth flushing for. Best
-    // effort: nothing here delays the quit waiting on the network.
-    cloudSnapshot.flush();
+    // so quitting right after a change usually still catches it.
+    webdavSync.flush();
     transport.destroyAll();
 });
 

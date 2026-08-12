@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useT } from '../../i18n';
 import Sheet from '../ui/Sheet';
 import Button from '../ui/Button';
 import Checkbox from '../ui/Checkbox';
@@ -23,6 +24,7 @@ import {
  * validated, and only it decides what gets sent.
  */
 export default function SnippetDialog({ snippet, hosts = [], library = [], dismiss, onSave, onClose }) {
+    const t = useT();
     const [form, setForm] = useState(() => ({ ...emptySnippet(), ...(snippet || {}) }));
     const [tagText, setTagText] = useState(() => (snippet?.tags || []).join(', '));
     const [touched, setTouched] = useState(false);
@@ -64,18 +66,18 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
     return (
         <Sheet
             title={snippet?.id
-                ? (asPackage ? 'Edit package' : 'Edit snippet')
-                : (asPackage ? 'New package' : 'New snippet')}
+                ? (asPackage ? t('snippets.editor.titleEditPackage') : t('snippets.editor.titleEdit'))
+                : (asPackage ? t('snippets.editor.titleNewPackage') : t('snippets.editor.titleNew'))}
             subtitle={asPackage
-                ? 'A series of commands, sent into a session in order.'
-                : 'A command you keep around, sent into a session from the palette.'}
+                ? t('snippets.editor.subtitlePackage')
+                : t('snippets.editor.subtitle')}
             dismiss={dismiss}
             onClose={onClose}
             footer={
                 <>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onClose}>{t('common.cancel')}</Button>
                     <Button variant="primary" onClick={submit} disabled={Boolean(error)}>
-                        {snippet?.id ? 'Save' : (asPackage ? 'Add package' : 'Add snippet')}
+                        {snippet?.id ? t('common.save') : (asPackage ? t('snippets.editor.addPackage') : t('snippets.editor.add'))}
                     </Button>
                 </>
             }
@@ -85,30 +87,30 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                     labelable, so clicking the caption would fire the first
                     segment rather than doing nothing. */}
                 <div className="flex flex-col gap-1.5 min-w-0">
-                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Kind</span>
+                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{t('snippets.editor.kind')}</span>
                     <SegmentedControl
-                        ariaLabel="Snippet kind"
+                        ariaLabel={t('snippets.editor.kind')}
                         value={form.kind}
                         onChange={(value) => set('kind', value)}
                         segments={[
-                            { value: 'command', label: 'Command' },
-                            { value: 'package', label: 'Package' },
+                            { value: 'command', label: t('snippets.editor.kindCommand') },
+                            { value: 'package', label: t('snippets.editor.kindPackage') },
                         ]}
                         className="w-full"
                     />
                     <span className="text-[11px] text-gray-500 dark:text-neutral-500">
                         {asPackage
-                            ? 'Steps run in the order you set. A step can be written here or taken from the library.'
-                            : 'One piece of text, dropped at the prompt.'}
+                            ? t('snippets.editor.kindPackageHint')
+                            : t('snippets.editor.kindCommandHint')}
                     </span>
                 </div>
 
-                <Field label="Name">
+                <Field label={t('snippets.editor.name')}>
                     <input
                         data-autofocus
                         value={form.name}
                         onChange={(event) => set('name', event.target.value)}
-                        placeholder={asPackage ? 'e.g. Deploy and restart' : 'e.g. Tail nginx errors'}
+                        placeholder={asPackage ? t('snippets.editor.namePlaceholderPackage') : t('snippets.editor.namePlaceholder')}
                         className={FIELD_CLASS}
                     />
                 </Field>
@@ -117,8 +119,8 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                     <PackageSteps form={form} library={library} onChange={set} />
                 ) : (
                     <Field
-                        label="Command"
-                        hint="Wrap anything you want to be asked for in double braces, e.g. {{service}}."
+                        label={t('snippets.editor.command')}
+                        hint={t('snippets.editor.commandHint')}
                     >
                         <textarea
                             value={form.command}
@@ -134,7 +136,7 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                 {placeholders.length > 0 && (
                     <div className="flex items-center gap-1.5 flex-wrap -mt-2">
                         <span className="text-[11px] text-gray-500 dark:text-neutral-500">
-                            Will ask for
+                            {t('snippets.editor.willAskFor')}
                         </span>
                         {placeholders.map(name => (
                             <span
@@ -147,16 +149,16 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                     </div>
                 )}
 
-                <Field label="Description" hint="Optional. Searched alongside the name.">
+                <Field label={t('snippets.editor.description')} hint={t('snippets.editor.descriptionHint')}>
                     <input
                         value={form.description}
                         onChange={(event) => set('description', event.target.value)}
-                        placeholder="What it does, or when to reach for it"
+                        placeholder={t('snippets.editor.descriptionPlaceholder')}
                         className={FIELD_CLASS}
                     />
                 </Field>
 
-                <Field label="Tags" hint="Comma separated.">
+                <Field label={t('snippets.editor.tags')} hint={t('snippets.editor.tagsHint')}>
                     <input
                         value={tagText}
                         onChange={(event) => setTagText(event.target.value)}
@@ -169,7 +171,7 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                 {/* Scope */}
                 <div className="flex flex-col gap-2">
                     <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        Available on
+                        {t('snippets.editor.availableOn')}
                     </span>
 
                     <div className="grid grid-cols-2 gap-1 p-1 bg-gray-100 dark:bg-surface-base rounded-xl">
@@ -182,7 +184,7 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                                     : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                             }`}
                         >
-                            All hosts
+                            {t('snippets.editor.allHosts')}
                         </button>
                         <button
                             type="button"
@@ -196,7 +198,7 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                                     : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                             }`}
                         >
-                            Specific hosts
+                            {t('snippets.editor.specificHosts')}
                         </button>
                     </div>
 
@@ -218,7 +220,7 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
 
                     {scoped && form.hostIds.length === 0 && (
                         <p className="text-xs text-amber-600 dark:text-amber-500">
-                            With no host selected this snippet will not appear anywhere.
+                            {t('snippets.editor.noHostWarning')}
                         </p>
                     )}
                 </div>
@@ -227,10 +229,10 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
                     variant="card"
                     checked={form.runImmediately}
                     onChange={(event) => set('runImmediately', event.target.checked)}
-                    label="Run as soon as it is inserted"
+                    label={t('snippets.editor.runImmediately')}
                     description={asPackage
-                        ? 'Presses Enter for you, which starts the whole series. Leave off to drop the steps at the prompt so they can be read before anything runs.'
-                        : 'Presses Enter for you. Leave off to drop the command at the prompt so it can be read before it runs.'}
+                        ? t('snippets.editor.runImmediatelyPackage')
+                        : t('snippets.editor.runImmediatelyCommand')}
                 />
 
                 {touched && error && (

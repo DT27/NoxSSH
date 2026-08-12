@@ -48,6 +48,7 @@ export const PROVIDER_NAMES = {
     'claude-code': 'Claude Code',
     codex: 'Codex',
     opencode: 'OpenCode',
+    relay: '中转站',
 };
 
 /**

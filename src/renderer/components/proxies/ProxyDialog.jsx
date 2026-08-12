@@ -13,6 +13,7 @@ import Disclosure from '../ui/Disclosure';
 import StoredSecretHint from '../ui/StoredSecretHint';
 import Field, { FIELD_CLASS } from '../ui/Field';
 import Select from '../ui/Select';
+import { useT } from '../../i18n';
 import {
     DEFAULT_PORTS,
     DEFAULT_TIMEOUT,
@@ -40,6 +41,7 @@ import {
  * animations and calls `onClose` once it has finished leaving.
  */
 function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) {
+    const t = useT();
     const [formData, setFormData] = useState(() => ({
         id: proxy?.id,
         name: proxy?.name || '',
@@ -164,18 +166,18 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
 
     return (
         <Sheet
-            title={proxy ? 'Edit proxy' : 'New proxy'}
-            subtitle="A server to dial through. Hosts point at it, whatever they speak once they are connected."
+            title={proxy ? t('proxies.editor.titleEdit') : t('proxies.editor.titleNew')}
+            subtitle={t('proxies.editor.subtitle')}
             dismiss={dismiss}
             onClose={onClose}
             footer={(close) => (
                 <>
                     <Button className="mr-auto" onClick={runCheck} disabled={check?.running}>
-                        {check?.running ? 'Checking…' : 'Check it answers'}
+                        {check?.running ? t('proxies.editor.checking') : t('proxies.editor.check')}
                     </Button>
-                    <Button onClick={close}>Cancel</Button>
+                    <Button onClick={close}>{t('common.cancel')}</Button>
                     <Button variant="primary" onClick={() => submit(close)}>
-                        {proxy ? 'Save proxy' : 'Create proxy'}
+                        {proxy ? t('proxies.editor.save') : t('proxies.editor.create')}
                     </Button>
                 </>
             )}
@@ -192,7 +194,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                     proxy rather than proving them. */}
                 <div className="flex flex-col gap-1.5">
                     <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        This proxy speaks
+                        {t('proxies.editor.speaks')}
                     </span>
                     <div className="grid grid-cols-3 gap-1 p-1 bg-gray-100 dark:bg-surface-base rounded-xl">
                         {PROXY_TYPES.map((entry) => (
@@ -217,7 +219,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                 </div>
 
                 <div className="grid grid-cols-4 gap-4">
-                    <Field label="Proxy address" className="col-span-3">
+                    <Field label={t('proxies.editor.address')} className="col-span-3">
                         <input
                             data-autofocus
                             type="text"
@@ -228,7 +230,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                             required
                         />
                     </Field>
-                    <Field label="Port">
+                    <Field label={t('proxies.editor.port')}>
                         <input
                             type="number"
                             value={formData.port}
@@ -243,45 +245,45 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                 </div>
 
                 <Field
-                    label="Name"
-                    hint="Optional. Left blank, this proxy is listed as its address."
+                    label={t('proxies.editor.name')}
+                    hint={t('proxies.editor.nameHint')}
                 >
                     <input
                         type="text"
                         value={formData.name}
                         onChange={(e) => handleChange('name', e.target.value)}
                         className={FIELD_CLASS}
-                        placeholder="e.g. Office bastion proxy"
+                        placeholder={t('proxies.editor.namePlaceholder')}
                     />
                 </Field>
 
                 {hasAuth ? (
                     <div className="grid grid-cols-2 gap-4">
-                        <Field label="Username">
+                        <Field label={t('proxies.editor.username')}>
                             <input
                                 type="text"
                                 value={formData.username}
                                 onChange={(e) => handleChange('username', e.target.value)}
                                 className={`${FIELD_CLASS} font-mono`}
-                                placeholder="Leave blank if it needs none"
+                                placeholder={t('proxies.editor.usernamePlaceholder')}
                                 autoComplete="off"
                             />
                         </Field>
-                        <Field label="Password">
+                        <Field label={t('proxies.editor.password')}>
                             <div className="relative">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     value={formData.password}
                                     onChange={(e) => handleChange('password', e.target.value)}
                                     className={`${FIELD_CLASS} pr-10`}
-                                    placeholder={proxy?.hasPassword ? 'Stored, leave blank to keep' : '••••••••'}
+                                    placeholder={proxy?.hasPassword ? t('proxies.editor.passwordStored') : '••••••••'}
                                     autoComplete="off"
                                 />
                                 <IconButton
                                     size="sm"
                                     variant="ghost"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    title={showPassword ? 'Hide password' : 'Show password'}
+                                    title={showPassword ? t('proxies.editor.hidePassword') : t('proxies.editor.showPassword')}
                                     className="absolute right-1 top-1/2 -translate-y-1/2"
                                     icon={showPassword
                                         ? <ViewOffIcon size={15} strokeWidth={2} />
@@ -290,7 +292,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                             </div>
                             {proxy?.hasPassword && !formData.password && (
                                 <StoredSecretHint
-                                    label="A password is stored for this proxy."
+                                    label={t('proxies.editor.passwordStoredHint')}
                                     cleared={clearPassword}
                                     onClear={() => setClearPassword(true)}
                                 />
@@ -303,15 +305,15 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                        matches against identd. Calling it a username here would be
                        claiming the connection is authenticated when it is not. */
                     <Field
-                        label="Ident"
-                        hint="Sent in the clear as the SOCKS4 user id. Most proxies ignore it; leave it blank unless yours is checking it."
+                        label={t('proxies.editor.ident')}
+                        hint={t('proxies.editor.identHint')}
                     >
                         <input
                             type="text"
                             value={formData.username}
                             onChange={(e) => handleChange('username', e.target.value)}
                             className={`${FIELD_CLASS} font-mono`}
-                            placeholder="Usually nothing"
+                            placeholder={t('proxies.editor.identPlaceholder')}
                             autoComplete="off"
                         />
                     </Field>
@@ -340,7 +342,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                 {check?.running && (
                     <p className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-neutral-400">
                         <Loading03Icon size={14} strokeWidth={2} className="animate-spin" />
-                        Opening a connection to the proxy…
+                        {t('proxies.editor.opening')}
                     </p>
                 )}
 
@@ -348,7 +350,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                     proxies never touch any of it. */}
                 <div className="flex items-center gap-3 pt-2">
                     <span className="shrink-0 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-neutral-400">
-                        Optional
+                        {t('proxies.editor.optional')}
                     </span>
                     <span className="h-px flex-1 bg-gray-200 dark:bg-surface-control" />
                 </div>
@@ -359,21 +361,21 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                         one entry saying "no". */}
                     {chainOptions.length > 0 && (
                     <Disclosure
-                        title="Reached through"
+                        title={t('proxies.editor.reachedThrough')}
                         summary={summaries.chain}
                         defaultOpen={Boolean(formData.viaProxyId)}
                     >
                         <Field
                             hint={formData.viaProxyId
-                                ? 'Dialled first; this proxy is then reached through it. Each one only ever knows about the next, so the far end sees the last proxy in the route.'
-                                : 'For a proxy that is not reachable from this machine directly, name the proxy that can see it.'}
+                                ? t('proxies.editor.viaHintWith')
+                                : t('proxies.editor.viaHintWithout')}
                         >
                             <Select
                                 value={formData.viaProxyId}
                                 onChange={(next) => handleChange('viaProxyId', next)}
                                 className={FIELD_CLASS}
                                 options={[
-                                    { value: '', label: 'Dial it from this machine' },
+                                    { value: '', label: t('proxies.editor.dialFromHere') },
                                     ...chainOptions.map(candidate => ({
                                         value: candidate.id,
                                         label: nameProxy(candidate),
@@ -393,7 +395,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                     )}
 
                     <Disclosure
-                        title="Advanced"
+                        title={t('proxies.editor.advanced')}
                         summary={summaries.advanced}
                         defaultOpen={!formData.remoteDns}
                     >
@@ -401,15 +403,15 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                             variant="card"
                             checked={formData.remoteDns}
                             onChange={(e) => handleChange('remoteDns', e.target.checked)}
-                            label="Let the proxy resolve hostnames"
+                            label={t('proxies.editor.remoteDns')}
                             description={formData.type === 'socks4'
-                                ? 'Sends the name rather than an address, which is what SOCKS4a added. Turn it off only for a proxy too old to accept one.'
-                                : 'Keeps DNS off this machine, so nothing here learns which host you are reaching, and split networks resolve on the side that can. Turn it off for a proxy that refuses hostnames.'}
+                                ? t('proxies.editor.remoteDnsSocks4')
+                                : t('proxies.editor.remoteDnsDesc')}
                         />
 
                         <Field
-                            label="Give up after"
-                            hint="How long the proxy has to accept the connection and answer. The session itself is never cut off by this."
+                            label={t('proxies.editor.timeout')}
+                            hint={t('proxies.editor.timeoutHint')}
                         >
                             <div className="flex items-center gap-2">
                                 <input
@@ -423,7 +425,7 @@ function ProxyDialog({ proxy, proxies = [], dismiss, onClose, onSave, onTest }) 
                                     )}
                                     className={`${FIELD_CLASS} font-mono w-24`}
                                 />
-                                <span className="text-xs text-gray-500 dark:text-neutral-400">seconds</span>
+                                <span className="text-xs text-gray-500 dark:text-neutral-400">{t('proxies.editor.seconds')}</span>
                             </div>
                         </Field>
                     </Disclosure>

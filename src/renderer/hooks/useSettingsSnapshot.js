@@ -39,7 +39,8 @@ function readSettings() {
 export default function useSettingsSnapshot() {
     // Report on mount and whenever anything in this window writes a synced key.
     useEffect(() => {
-        const report = () => window.api.cloudSnapshot.reportSettings(readSettings());
+        const api = window.api?.webdavSync;
+        const report = () => api?.reportSettings?.(readSettings());
 
         report();
 
@@ -58,24 +59,30 @@ export default function useSettingsSnapshot() {
     }, []);
 
     // Settings arriving from another device.
-    useEffect(() => window.api.cloudSnapshot.onSettings((settings) => {
-        if (!settings || typeof settings !== 'object') return;
+    useEffect(() => {
+        const api = window.api?.webdavSync;
+        if (!api || typeof api.onSettings !== 'function') return;
 
-        let changed = false;
+        const off = api.onSettings((settings) => {
+            if (!settings || typeof settings !== 'object') return;
 
-        for (const key of SYNCED_KEYS) {
-            const incoming = settings[key];
-            if (typeof incoming !== 'string') continue;
-            if (localStorage.getItem(key) === incoming) continue;
+            let changed = false;
 
-            localStorage.setItem(key, incoming);
-            changed = true;
-        }
+            for (const key of SYNCED_KEYS) {
+                const incoming = settings[key];
+                if (typeof incoming !== 'string') continue;
+                if (localStorage.getItem(key) === incoming) continue;
 
-        // The hooks that own these read them once, at mount, and hold the value
-        // in React state from then on. Rewriting the keys underneath them
-        // changes nothing on screen, and there is no way to re-seed every one
-        // of them from here; a reload is what actually applies the settings.
-        if (changed) window.location.reload();
-    }), []);
+                localStorage.setItem(key, incoming);
+                changed = true;
+            }
+
+            // The hooks that own these read them once, at mount, and hold the value
+            // in React state from then on. Rewriting the keys underneath them
+            // changes nothing on screen, and there is no way to re-seed every one
+            // of them from here; a reload is what actually applies the settings.
+            if (changed) window.location.reload();
+        });
+        return () => { if (typeof off === 'function') off(); };
+    }, []);
 }

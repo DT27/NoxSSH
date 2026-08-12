@@ -22,10 +22,8 @@ const importer = require('./import');
 const importCommon = require('./import-common');
 const vault = require('./vault');
 const backup = require('./backup');
-const account = require('./account');
-const serverSync = require('./server-sync');
 const monitor = require('./monitor');
-const cloudSnapshot = require('./cloud-snapshot');
+const webdavSync = require('./webdav-sync');
 const activity = require('./activity');
 const sessionLog = require('./session-log');
 const assistant = require('./ai');
@@ -182,19 +180,13 @@ function register(getWindow) {
 
     transfers.setNotifier(notify);
 
-    // Schedules the launch sync and the interval behind it. Safe to call while
-    // signed out or locked: it settles into doing nothing and retries when the
-    // vault is unlocked.
-    serverSync.start(notify);
+    // WebDAV encrypted snapshot sync (replaces previous CloudBlast sync).
+    webdavSync.start(notify);
 
     // The reachability poller. Given the window as well as the notifier because
     // it raises Windows notifications of its own, and a toast that is clicked
     // has to be able to bring the app forward.
     monitor.start(notify, getWindow);
-
-    // Registers the store hooks that queue an upload, and pulls whatever another
-    // device saved. Same tolerance for being signed out or locked.
-    cloudSnapshot.start(notify);
 
     // Schedules the daily release check. Unlike the two above it does not care
     // about the account at all, so a locked or signed-out app still finds out
@@ -494,6 +486,27 @@ function register(getWindow) {
             publicKey: publicHalf?.text || '',
             certificate: readCertificateFile(filePath),
         };
+    });
+
+    handle('host-choose-private-key', async () => {
+        const sshDir = path.join(app.getPath('home'), '.ssh');
+        const { canceled, filePaths } = await dialog.showOpenDialog(getWindow(), {
+            title: 'Choose a private key file',
+            defaultPath: fs.existsSync(sshDir) ? sshDir : undefined,
+            properties: ['openFile', 'showHiddenFiles'],
+            filters: [
+                { name: 'All files', extensions: ['*'] },
+                { name: 'Key files', extensions: ['pem', 'key', 'ppk', 'pub'] },
+            ],
+        });
+        if (canceled || !filePaths?.[0]) return { canceled: true };
+        const filePath = filePaths[0];
+        try {
+            const text = await fs.promises.readFile(filePath, 'utf8');
+            return { success: true, text, file: path.basename(filePath) };
+        } catch (error) {
+            return { success: false, message: error.message };
+        }
     });
 
     /* ---------------- Store: snippets ---------------- */
@@ -1072,142 +1085,44 @@ function register(getWindow) {
         return true;
     });
 
-    /* ---------------- CloudBlast account ----------------
-     *
-     * The whole OAuth exchange happens in main: the verifier, the code and the
-     * resulting token never cross the bridge, so a renderer holding a reference
-     * to the API has no more access to the credential than the page next to it.
-     * Only the profile the user is looking at comes back.
-     */
+    /* ---------------- WebDAV encrypted snapshot sync ---------------- */
 
-    handle('account-status', () => account.status());
+    handle('webdav-sync-status', () => webdavSync.status());
 
-    handle('account-sign-in', async () => {
-        try {
-            const status = await account.signIn();
-
-            activity.record({
-                category: 'security',
-                action: 'account.connect',
-                outcome: 'success',
-                target: 'CloudBlast account',
-                detail: status.account?.email || '',
-            });
-
-            // The sidebar shows who is signed in, and it is not the thing that
-            // asked for this, so it has to be told.
-            notify('account-state', status);
-
-            /*
-             * Signing in is the one moment a device has an account and none of
-             * its data. Both of these normally run at launch, which for a fresh
-             * sign-in has already been and gone, so without this the setup only
-             * appears on the next poll or the next restart.
-             *
-             * Forced, because a stale revision left by a previous account would
-             * otherwise make the pull decide it was already up to date.
-             *
-             * Not awaited: the browser round trip is already over and the user
-             * is looking at the app. Both report themselves through their own
-             * events when they land.
-             */
-            cloudSnapshot.pull({ force: true })
-                .catch(error => console.error('Post sign-in restore failed:', error.message))
-                .finally(() => serverSync.sync());
-
-            return { success: true, status };
-        } catch (error) {
-            activity.record({
-                category: 'security',
-                action: 'account.connect',
-                outcome: 'failure',
-                target: 'CloudBlast account',
-                message: error.message,
-            });
-
-            return { success: false, message: error.message };
-        }
+    handle('webdav-sync-configure', (event, patch) => {
+        // patch: { url?, username?, password?, syncPassphrase?, enabled? }
+        return webdavSync.configure(patch || {});
     });
 
-    handle('account-sign-in-cancel', () => {
-        account.cancelSignIn();
-        return true;
+    handle('webdav-sync-test', async (event, { url, username, password } = {}) => {
+        return webdavSync.test({ url, username, password });
     });
 
-    handle('account-sign-out', async () => {
-        const email = account.status().account?.email || '';
-        const { revoked } = await account.signOut();
+    handle('webdav-sync-set-enabled', (event, enabled) => webdavSync.setEnabled(enabled));
 
-        activity.record({
-            category: 'security',
-            action: 'account.disconnect',
-            // A local sign-out that could not reach the console leaves a live
-            // token behind, so it is not the same outcome as a clean one.
-            outcome: revoked ? 'success' : 'failure',
-            target: 'CloudBlast account',
-            detail: email,
-            message: revoked ? '' : 'Signed out locally; the console could not be reached to revoke the token',
-        });
-
-        // The revision and key belong to the account that just left, not to
-        // this machine.
-        cloudSnapshot.reset();
-
-        const status = account.status();
-        notify('account-state', status);
-
-        return { success: true, revoked, status };
-    });
-
-    handle('account-refresh', async () => {
-        try {
-            return { success: true, status: await account.refresh() };
-        } catch (error) {
-            return { success: false, message: error.message, status: account.status() };
-        }
-    });
-
-    handle('account-servers', async () => {
-        try {
-            return { success: true, servers: await account.servers() };
-        } catch (error) {
-            return { success: false, message: error.message, servers: [] };
-        }
-    });
-
-    /* ---------------- CloudBlast server sync ---------------- */
-
-    handle('server-sync-status', () => serverSync.status());
-
-    handle('server-sync-set-enabled', (event, enabled) => serverSync.setEnabled(enabled));
-
-    handle('server-sync-now', async () => {
-        const report = await serverSync.sync({ manual: true });
-        return { report, status: serverSync.status() };
-    });
-
-    /* ---------------- Host monitoring ---------------- */
-
-    handle('monitor-status', () => monitor.status());
-
-    handle('monitor-configure', (event, patch) => monitor.configure(patch || {}));
-
-    handle('monitor-check-now', () => monitor.checkNow());
-
-    /* ---------------- Cloud setup snapshot ---------------- */
-
-    handle('cloud-snapshot-status', () => cloudSnapshot.status());
-
-    handle('cloud-snapshot-set-enabled', (event, enabled) => cloudSnapshot.setEnabled(enabled));
-
-    handle('cloud-snapshot-push', async () => ({
-        result: await cloudSnapshot.push(),
-        status: cloudSnapshot.status(),
+    handle('webdav-sync-push', async () => ({
+        result: await webdavSync.push(),
+        status: webdavSync.status(),
     }));
 
-    handle('cloud-snapshot-pull', async () => ({
-        result: await cloudSnapshot.pull({ force: true }),
-        status: cloudSnapshot.status(),
+    handle('webdav-sync-pull', async () => ({
+        result: await webdavSync.pull({ force: true }),
+        status: webdavSync.status(),
+    }));
+
+    handle('webdav-sync-list-backups', async () => ({
+        result: await webdavSync.listBackups(),
+        status: webdavSync.status(),
+    }));
+
+    handle('webdav-sync-create-backup', async () => ({
+        result: await webdavSync.createBackup(),
+        status: webdavSync.status(),
+    }));
+
+    handle('webdav-sync-restore-backup', async (event, { name } = {}) => ({
+        result: await webdavSync.restoreFromBackup(name),
+        status: webdavSync.status(),
     }));
 
     /**
@@ -1215,10 +1130,16 @@ function register(getWindow) {
      * read, so the renderer hands them over whenever they change. Held in
      * memory only -- the snapshot is the copy that persists.
      */
-    handle('cloud-snapshot-settings', (event, settings) => {
-        cloudSnapshot.setSettings(settings);
+    handle('webdav-sync-settings', (event, settings) => {
+        webdavSync.setSettings(settings);
         return true;
     });
+
+    /* ---------------- Host monitoring ---------------- */
+
+    handle('monitor-status', () => monitor.status());
+    handle('monitor-configure', (event, patch) => monitor.configure(patch || {}));
+    handle('monitor-check-now', () => monitor.checkNow());
 
     /* ---------------- SSH agent ---------------- */
 

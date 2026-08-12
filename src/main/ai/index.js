@@ -28,6 +28,7 @@ const PROVIDERS = {
     'claude-code': require('./providers/claude-code'),
     codex: require('./providers/codex'),
     opencode: require('./providers/opencode'),
+    relay: require('./providers/relay'),
 };
 
 /** Kept per conversation, so a long session cannot grow without bound. */
@@ -573,6 +574,19 @@ function handleProviderEvent(conversation, event) {
         recordToolActivity(conversation, event);
     }
     emit(conversation, event);
+
+    // For the relay provider we drive a simple turn-based loop ourselves.
+    // When a tool result arrives, feed it back to the relay so it can continue.
+    if (event.type === 'tool-result' && conversation.provider === 'relay') {
+        // Fire-and-forget; the relay provider will continue the turn.
+        Promise.resolve().then(() => {
+            try {
+                conversation.session?.sendToolResult?.(event.id, event.text || '', !!event.isError);
+            } catch {
+                // ignore
+            }
+        });
+    }
 }
 
 /**

@@ -103,11 +103,8 @@ export default function AboutPage() {
         <SettingsPage title={t('settings.about.title')}>
             <div className="bg-gray-100 dark:bg-neutral-800 text-gray-900 dark:text-white rounded-xl p-8 flex items-center justify-between">
                 <div>
-                    <h4 className="text-2xl font-bold mb-1">CloudTerm</h4>
-                    {/* Read from the packaged app rather than written here, so
-                        a release cannot ship claiming to be the version before
-                        it. Held back until it is known, since a wrong version
-                        for one frame is worse than none. */}
+                    <h4 className="text-2xl font-bold mb-1">NoxSSH</h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Fork of CloudTerm</p>
                     {status && (
                         <p className="opacity-80">
                             {t('settings.about.version', { version: status.version })}

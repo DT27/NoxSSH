@@ -407,67 +407,35 @@ contextBridge.exposeInMainWorld('api', {
         discard: (token) => ipcRenderer.invoke('backup-discard', token),
     },
 
-    account: {
-        // No token ever crosses this bridge. Main runs the OAuth exchange and
-        // holds the credential; the renderer only learns which account is
-        // connected and what the console said.
-        status: () => ipcRenderer.invoke('account-status'),
-        signIn: () => ipcRenderer.invoke('account-sign-in'),
-        cancelSignIn: () => ipcRenderer.invoke('account-sign-in-cancel'),
-        signOut: () => ipcRenderer.invoke('account-sign-out'),
-        refresh: () => ipcRenderer.invoke('account-refresh'),
-        servers: () => ipcRenderer.invoke('account-servers'),
-        // Signing in or out from Settings has to reach the sidebar, which did
-        // not ask for it.
-        onState: (callback) => subscribe('account-state', callback),
-    },
+    webdavSync: {
+        // WebDAV encrypted snapshot sync (replaces previous CloudBlast cloud sync).
+        // The renderer only sees status and can trigger push/pull; credentials live in main.
+        status: () => ipcRenderer.invoke('webdav-sync-status'),
+        configure: (patch) => ipcRenderer.invoke('webdav-sync-configure', patch || {}),
+        test: (opts) => ipcRenderer.invoke('webdav-sync-test', opts || {}),
+        setEnabled: (enabled) => ipcRenderer.invoke('webdav-sync-set-enabled', enabled),
+        push: () => ipcRenderer.invoke('webdav-sync-push'),
+        pull: () => ipcRenderer.invoke('webdav-sync-pull'),
+        // Terminal settings live in localStorage, so the renderer is the only side that can see them change.
+        reportSettings: (settings) => ipcRenderer.invoke('webdav-sync-settings', settings),
+        onState: (callback) => subscribe('webdav-sync-state', callback),
+        // A pull brought settings down from another device.
+        onSettings: (callback) => subscribe('cloud-snapshot-settings', callback),
 
-    serverSync: {
-        status: () => ipcRenderer.invoke('server-sync-status'),
-        setEnabled: (enabled) => ipcRenderer.invoke('server-sync-set-enabled', enabled),
-        now: () => ipcRenderer.invoke('server-sync-now'),
-        // Fired after any sync, including the ones on a timer that nothing in
-        // the renderer asked for, so the host list can refresh itself.
-        onState: (callback) => subscribe('server-sync-state', callback),
+        // Point-in-time backups
+        listBackups: () => ipcRenderer.invoke('webdav-sync-list-backups'),
+        createBackup: () => ipcRenderer.invoke('webdav-sync-create-backup'),
+        restoreBackup: (name) => ipcRenderer.invoke('webdav-sync-restore-backup', { name }),
     },
 
     /**
      * Watching whether hosts are still answering.
-     *
-     * Everything here is main's: it owns the timer, the states and the Windows
-     * notifications, because a renderer that was reloading would be a renderer
-     * not noticing a server go down. This side reads the states and changes the
-     * settings, and never learns an address it did not already have from the
-     * host list.
-     *
-     * There is no list of past alerts to read. A host crossing between states
-     * raises a notification and writes an activity entry, and the activity log
-     * is where it stays; keeping a second copy in memory for a panel to show
-     * would be two records of one thing.
      */
     monitor: {
         status: () => ipcRenderer.invoke('monitor-status'),
         configure: (patch) => ipcRenderer.invoke('monitor-configure', patch || {}),
-        // Sweeps now, at the next opportunity rather than the next interval.
         checkNow: () => ipcRenderer.invoke('monitor-check-now'),
-
-        // Every sweep and every state change. Nothing in the renderer asked for
-        // these, which is the point: the host cards and the bell keep up with a
-        // timer they do not own.
         onState: (callback) => subscribe('monitor-state', callback),
-    },
-
-    cloudSnapshot: {
-        status: () => ipcRenderer.invoke('cloud-snapshot-status'),
-        setEnabled: (enabled) => ipcRenderer.invoke('cloud-snapshot-set-enabled', enabled),
-        push: () => ipcRenderer.invoke('cloud-snapshot-push'),
-        pull: () => ipcRenderer.invoke('cloud-snapshot-pull'),
-        // Terminal settings live in localStorage, so the renderer is the only
-        // side that can see them change.
-        reportSettings: (settings) => ipcRenderer.invoke('cloud-snapshot-settings', settings),
-        onState: (callback) => subscribe('cloud-snapshot-state', callback),
-        // A pull brought settings down from another device.
-        onSettings: (callback) => subscribe('cloud-snapshot-settings', callback),
     },
 
     remoteEdit: {
@@ -524,6 +492,11 @@ contextBridge.exposeInMainWorld('api', {
         save: (options) => ipcRenderer.invoke('show-save-dialog', options || {}),
         open: (options) => ipcRenderer.invoke('show-open-dialog', options || {}),
     },
+
+    // Choose a private key file for the Host editor's "key" auth method.
+    // Main reads the file and returns its text content so the renderer never
+    // touches the filesystem directly.
+    hostChoosePrivateKey: () => ipcRenderer.invoke('host-choose-private-key'),
 
     clipboard: {
         readText: () => ipcRenderer.invoke('clipboard-read-text'),

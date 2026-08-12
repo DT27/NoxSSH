@@ -1,7 +1,7 @@
 {
-    "name": "cloudblast-ssh",
-    "version": "1.3.0",
-    "description": "Modern SSH Client built with Electron, React and xterm.js",
+    "name": "noxssh",
+    "version": "1.0.0",
+    "description": "NoxSSH - Modern SSH Client built with Electron, React and xterm.js",
     "main": "src/main/main.js",
     "scripts": {
         "postinstall": "patch-package",
@@ -21,16 +21,16 @@
         "build:linux": "npm run build:renderer && npm run build:electron:linux"
     },
     "build": {
-        "appId": "com.cloudblast.ssh",
-        "productName": "CloudTerm",
+        "appId": "com.noxssh.app",
+        "productName": "NoxSSH",
         "directories": {
             "output": "dist"
         },
         "publish": [
             {
                 "provider": "github",
-                "owner": "BradPerbs",
-                "repo": "cloudterm"
+                "owner": "DT27",
+                "repo": "NoxSSH"
             }
         ],
         "files": [
@@ -99,15 +99,15 @@
             ]
         },
         "portable": {
-            "artifactName": "CloudTerm-${arch}.exe"
+            "artifactName": "NoxSSH-${arch}.exe"
         },
         "nsis": {
-            "artifactName": "CloudTerm-Setup-${arch}.${ext}",
+            "artifactName": "NoxSSH-Setup-${arch}.${ext}",
             "oneClick": false,
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "CloudTerm",
+            "shortcutName": "NoxSSH",
             "deleteAppDataOnUninstall": false,
             "perMachine": false
         },
@@ -119,7 +119,7 @@
             "category": "public.app-category.developer-tools",
             "darkModeSupport": true,
             "icon": "build/icon.png",
-            "artifactName": "CloudTerm-${arch}.${ext}"
+            "artifactName": "NoxSSH-${arch}.${ext}"
         },
         "dmg": {
             "background": null,
@@ -146,7 +146,7 @@
             "target": "AppImage",
             "category": "Development",
             "synopsis": "Modern SSH client",
-            "artifactName": "CloudTerm-${arch}.${ext}",
+            "artifactName": "NoxSSH-${arch}.${ext}",
             "icon": "build/icon.png",
             "desktop": {
                 "entry": {
@@ -161,7 +161,7 @@
         "terminal",
         "electron"
     ],
-    "author": "CloudBlast",
+    "author": "NoxSSH",
     "license": "SEE LICENSE IN LICENSE",
     "devDependencies": {
         "@vitejs/plugin-react": "^4.2.1",

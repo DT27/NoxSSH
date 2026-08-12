@@ -17,7 +17,7 @@ const fs = require('fs');
 
 const CONFIG_VERSION = 1;
 
-const PROVIDERS = new Set(['claude-code', 'codex', 'opencode']);
+const PROVIDERS = new Set(['claude-code', 'codex', 'opencode', 'relay']);
 
 /**
  * Every level any agent here offers, low to high. The union, not one agent's
@@ -95,6 +95,9 @@ const DEFAULTS = {
     // of things nobody here asked for is filler, and the useful ones are the
     // ones a particular person asks their particular fleet over and over.
     quickPrompts: [],
+    // Relay / 中转站 (OpenAI-compatible HTTP endpoint). No local Claude Code / Codex / OpenCode needed.
+    relayBaseUrl: '',   // e.g. https://your-relay.example.com/v1
+    relayModel: '',     // default model name to use when not overridden in the panel
 };
 
 const stateFile = () => path.join(app.getPath('userData'), 'assistant.json');
@@ -148,6 +151,8 @@ function sanitize(raw) {
                 .filter(Boolean)
                 .slice(0, 12);
         }
+        if (typeof raw.relayBaseUrl === 'string') next.relayBaseUrl = raw.relayBaseUrl.trim();
+        if (typeof raw.relayModel === 'string') next.relayModel = raw.relayModel.trim().slice(0, 120);
     }
     return next;
 }
@@ -199,6 +204,9 @@ function get() {
             autoApproveCommands: [...DEFAULTS.autoApproveCommands],
             blockedCommands: [...DEFAULTS.blockedCommands],
         },
+        // Relay config (non-secret parts)
+        relayBaseUrl: load().relayBaseUrl || '',
+        relayModel: load().relayModel || '',
     };
 }
 

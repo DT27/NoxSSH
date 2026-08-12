@@ -5,6 +5,7 @@ import { toastOptions } from '../lib/toast';
 import Sheet from './ui/Sheet';
 import Button, { IconButton } from './ui/Button';
 import Field, { FIELD_CLASS, MONO_FIELD_CLASS } from './ui/Field';
+import { useT } from '../i18n';
 
 // Animated collapse component for smooth reveal/hide
 function AnimatedCollapse({ isOpen, children }) {
@@ -48,9 +49,9 @@ function AnimatedCollapse({ isOpen, children }) {
 }
 
 const KEY_TYPES = [
-    { id: 'ED25519', label: 'ED25519', description: 'Modern, fast, secure (recommended)' },
-    { id: 'ECDSA', label: 'ECDSA', description: 'Elliptic Curve DSA' },
-    { id: 'RSA', label: 'RSA', description: 'Traditional RSA key' },
+    { id: 'ED25519', label: 'ED25519', descKey: 'keychain.editor.typeEd25519' },
+    { id: 'ECDSA', label: 'ECDSA', descKey: 'keychain.editor.typeEcdsa' },
+    { id: 'RSA', label: 'RSA', descKey: 'keychain.editor.typeRsa' },
 ];
 
 /**
@@ -81,22 +82,20 @@ const shortDate = (value) => new Date(value).toLocaleDateString(undefined, {
  * working are invisible in the blob itself: it expires, and it only covers the
  * principals it names.
  */
-function certificateNote(info) {
-    if (!info) return 'Signed by a CA and presented instead of the bare key. Paste a *-cert.pub.';
+function certificateNote(t, info) {
+    if (!info) return t('keychain.editor.certHintEmpty');
 
     const expiry = info.validBefore === null
-        ? 'never expires'
+        ? t('keychain.editor.certNeverExpires')
         : Date.now() > info.validBefore
-            ? `EXPIRED ${shortDate(info.validBefore)}`
-            : `valid until ${shortDate(info.validBefore)}`;
+            ? t('keychain.editor.certExpired', { date: shortDate(info.validBefore) })
+            : t('keychain.editor.certValidUntil', { date: shortDate(info.validBefore) });
 
     const who = info.principals?.length
-        ? `logs in as ${info.principals.join(', ')}`
-        // No principals at all means every username, which is worth naming
-        // rather than showing as an empty list.
-        : 'valid for any username';
+        ? t('keychain.editor.certLogsInAs', { names: info.principals.join(', ') })
+        : t('keychain.editor.certAnyUser');
 
-    return `${who} · ${expiry} · CA ${info.caFingerprint}`;
+    return t('keychain.editor.certSummary', { who, expiry, ca: info.caFingerprint });
 }
 
 /**
@@ -118,6 +117,7 @@ function FieldGroup({ label, hint, className = '', children }) {
 
 /** A password box with the app's reveal control, which three fields here want. */
 function SecretField({ label, hint, value, placeholder, onChange, autoComplete = 'new-password' }) {
+    const t = useT();
     const [shown, setShown] = useState(false);
 
     return (
@@ -135,7 +135,7 @@ function SecretField({ label, hint, value, placeholder, onChange, autoComplete =
                     size="sm"
                     variant="ghost"
                     onClick={() => setShown(!shown)}
-                    title={shown ? 'Hide passphrase' : 'Show passphrase'}
+                    title={shown ? t('keychain.editor.hidePassphrase') : t('keychain.editor.showPassphrase')}
                     className="absolute right-1 top-1/2 -translate-y-1/2"
                     icon={shown
                         ? <ViewOffIcon size={15} strokeWidth={2} />
@@ -157,6 +157,7 @@ function SecretField({ label, hint, value, placeholder, onChange, autoComplete =
  * is worse than one that arrived unlabelled.
  */
 function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave, onGenerate, onRequestDelete }) {
+    const t = useT();
     // Editing an existing key is always the import shape: it already has its
     // material, so there is nothing to generate.
     const [mode] = useState(keyData ? 'import' : initialMode);
@@ -233,7 +234,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
             const result = await onGenerate({
                 type: formData.type,
                 keySize: formData.keySize ? parseInt(formData.keySize) : undefined,
-                comment: formData.comment || `cloudblast-${formData.name}`,
+	                comment: formData.comment || `key-${formData.name}`,
                 passphrase: formData.passphrase,
             });
 
@@ -333,17 +334,17 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
 
     return (
         <Sheet
-            title={keyData?.hello ? 'Windows Hello key'
-                : keyData ? 'Edit SSH key'
-                : mode === 'generate' ? 'Generate SSH key' : 'Import SSH key'}
+            title={keyData?.hello ? t('keychain.editor.titleHello')
+                : keyData ? t('keychain.editor.titleEdit')
+                : mode === 'generate' ? t('keychain.editor.titleGenerate') : t('keychain.editor.titleImport')}
             subtitle={keyData?.hello
-                ? 'The private key is in this PC’s TPM. Nothing here can read it, including this app.'
-                : 'Keys live in the app keychain and never leave the main process.'}
+                ? t('keychain.editor.subtitleHello')
+                : t('keychain.editor.subtitle')}
             dismiss={dismiss}
             onClose={onClose}
             footer={(close) => (
                 <>
-                    <Button onClick={close}>Cancel</Button>
+                    <Button onClick={close}>{t('common.cancel')}</Button>
                     <Button
                         variant="primary"
                         onClick={() => submit(close)}
@@ -352,7 +353,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                         // the id that claims it is handed over at the end.
                         disabled={isGenerating || (generating && !formData.pendingKeyId)}
                     >
-                        Save key
+                        {t('keychain.editor.save')}
                     </Button>
                 </>
             )}
@@ -363,13 +364,13 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                 onSubmit={(event) => { event.preventDefault(); submit(close); }}
                 className="flex flex-col gap-4"
             >
-                <Field label="Key name" error={errors.name}>
+                <Field label={t('keychain.editor.name')} error={errors.name}>
                     <input
                         type="text"
                         value={formData.name}
                         onChange={(e) => handleChange('name', e.target.value)}
                         className={FIELD_CLASS}
-                        placeholder="e.g. My GitHub Key"
+                        placeholder={t('keychain.editor.namePlaceholder')}
                         required
                     />
                 </Field>
@@ -388,24 +389,20 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             />
                             <div className="min-w-0 flex flex-col gap-1">
                                 <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-                                    Held by Windows Hello
+                                    {t('keychain.editor.helloHeld')}
                                 </span>
                                 <span className="text-xs text-gray-600 dark:text-gray-400">
-                                    The private key lives in this PC’s TPM and cannot be exported, copied
-                                    or backed up, not by this app and not by you. Every connection asks
-                                    for Windows Hello.
+                                    {t('keychain.editor.helloBody')}
                                 </span>
                                 <span className="text-xs text-amber-600 dark:text-amber-500 mt-1">
-                                    It only works from this machine. Reinstalling elsewhere, or resetting
-                                    Windows Hello, loses it for good. Keep another key on your servers so
-                                    that does not lock you out.
+                                    {t('keychain.editor.helloWarn')}
                                 </span>
                             </div>
                         </div>
 
                         <Field
-                            label="Public key"
-                            hint="Put this line in ~/.ssh/authorized_keys on the servers you want to reach."
+                            label={t('keychain.editor.publicKey')}
+                            hint={t('keychain.editor.publicKeyHelloHint')}
                         >
                             <div className="relative">
                                 <textarea
@@ -420,16 +417,16 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                     className="absolute right-1.5 top-1.5"
                                     onClick={() => {
                                         navigator.clipboard.writeText(formData.publicKey);
-                                        toast.success('Public key copied', toastOptions({ duration: 1800 }));
+                                        toast.success(t('keychain.editor.publicKeyCopied'), toastOptions({ duration: 1800 }));
                                     }}
                                 >
-                                    Copy
+                                    {t('keychain.editor.copy')}
                                 </Button>
                             </div>
                         </Field>
 
                         {formData.fingerprint && (
-                            <Field label="Fingerprint">
+                            <Field label={t('keychain.editor.fingerprint')}>
                                 <input
                                     value={formData.fingerprint}
                                     readOnly
@@ -446,7 +443,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             same way the host form's auth picker is not: `Field`
                             is a `<label>`, and a label whose control is one of
                             three buttons is a label pointing at the wrong one. */}
-                        <FieldGroup label="Key type">
+                        <FieldGroup label={t('keychain.editor.keyType')}>
                             <div className="grid grid-cols-3 gap-2">
                                 {KEY_TYPES.map((keyType) => (
                                     <button
@@ -468,7 +465,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                             tone the app's other option cards
                                             use for the line under a label. */}
                                         <span className="block text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                            {keyType.description}
+                                            {t(keyType.descKey)}
                                         </span>
                                     </button>
                                 ))}
@@ -477,12 +474,8 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
 
                         <AnimatedCollapse isOpen={formData.type === 'ECDSA' || formData.type === 'RSA'}>
                             <FieldGroup
-                                label={formData.type === 'ECDSA' ? 'Elliptic curve size (bits)' : 'Key size (bits)'}
-                                // None of them starts picked, which used to read
-                                // as three broken buttons. It is a real state:
-                                // ssh-keygen has a default and this is how you
-                                // ask for it.
-                                hint="Optional. Left alone, ssh-keygen picks its own default."
+                                label={formData.type === 'ECDSA' ? t('keychain.editor.curveSize') : t('keychain.editor.keySize')}
+                                hint={t('keychain.editor.keySizeHint')}
                                 className="pb-1"
                             >
                                 <div className="grid grid-cols-3 gap-2">
@@ -504,13 +497,13 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             </FieldGroup>
                         </AnimatedCollapse>
 
-                        <Field label="Comment" hint="Optional. Written into the key itself.">
+                        <Field label={t('keychain.editor.comment')} hint={t('keychain.editor.commentHint')}>
                             <input
                                 type="text"
                                 value={formData.comment}
                                 onChange={(e) => handleChange('comment', e.target.value)}
                                 className={FIELD_CLASS}
-                                placeholder="e.g. user@example.com"
+                                placeholder={t('keychain.editor.commentPlaceholder')}
                             />
                         </Field>
                     </>
@@ -520,10 +513,10 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                     locked with, so it is asked for before the pair is made. */}
                 {settingUp && (
                     <SecretField
-                        label="Passphrase"
-                        hint="Optional. The generated key is encrypted with this."
+                        label={t('keychain.editor.passphrase')}
+                        hint={t('keychain.editor.passphraseGenerateHint')}
                         value={formData.passphrase}
-                        placeholder="Leave empty for no passphrase"
+                        placeholder={t('keychain.editor.passphraseGeneratePlaceholder')}
                         onChange={(value) => handleChange('passphrase', value)}
                     />
                 )}
@@ -536,7 +529,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                         onClick={handleGenerate}
                         disabled={isGenerating}
                     >
-                        {isGenerating ? 'Generating…' : 'Generate key pair'}
+                        {isGenerating ? t('keychain.editor.generating') : t('keychain.editor.generate')}
                     </Button>
                 )}
 
@@ -554,13 +547,10 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             <div className="rounded-xl border border-gray-200 dark:border-surface-control bg-gray-50 dark:bg-surface-base/60 p-3 flex items-center gap-3">
                                 <div className="min-w-0 flex flex-col gap-0.5">
                                     <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                                        Import from a file
+                                        {t('keychain.editor.importFromFile')}
                                     </span>
                                     <span className="text-[11px] text-gray-500 dark:text-neutral-500">
-                                        Pick a key such as <span className="font-mono">id_ed25519</span>.
-                                        A <span className="font-mono">.pub</span> or
-                                        {' '}<span className="font-mono">-cert.pub</span> sitting beside it
-                                        comes too, and the key is read without passing through this window.
+                                        {t('keychain.editor.importFromFileHint')}
                                     </span>
                                 </div>
                                 <Button
@@ -569,15 +559,15 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                     disabled={choosingFile}
                                     icon={<FileImportIcon size={15} strokeWidth={2} />}
                                 >
-                                    {choosingFile ? 'Choosing…' : 'Choose file'}
+                                    {choosingFile ? t('keychain.editor.choosing') : t('keychain.editor.chooseFile')}
                                 </Button>
                             </div>
                         )}
 
                         <Field
-                            label={mode === 'import' ? 'Public key (optional)' : 'Public key'}
+                            label={mode === 'import' ? t('keychain.editor.publicKeyOptional') : t('keychain.editor.publicKey')}
                             hint={mode === 'import'
-                                ? 'Paste it to record the fingerprint and the algorithm.'
+                                ? t('keychain.editor.publicKeyImportHint')
                                 : undefined}
                         >
                             <div className="relative">
@@ -596,10 +586,10 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                         className="absolute right-1.5 top-1.5"
                                         onClick={() => {
                                             navigator.clipboard.writeText(formData.publicKey);
-                                            toast.success('Public key copied', toastOptions({ duration: 1800 }));
+                                            toast.success(t('keychain.editor.publicKeyCopied'), toastOptions({ duration: 1800 }));
                                         }}
                                     >
-                                        Copy
+                                        {t('keychain.editor.copy')}
                                     </Button>
                                 )}
                             </div>
@@ -611,11 +601,12 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                         {formData.pendingKeyId ? (
                             <div className="rounded-lg border border-gray-200 dark:border-surface-control bg-gray-50 dark:bg-surface-base/60 p-3 flex flex-col gap-1">
                                 <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                                    {imported ? `Private key read from ${imported.file}` : 'Private key generated'}
+                                    {imported
+                                        ? t('keychain.editor.privateKeyFromFile', { file: imported.file })
+                                        : t('keychain.editor.privateKeyGenerated')}
                                 </span>
                                 <span className="text-[11px] text-gray-500 dark:text-neutral-500">
-                                    It is held by the app and will be encrypted with the OS
-                                    keystore when you save.
+                                    {t('keychain.editor.privateKeyHeld')}
                                 </span>
                                 {formData.fingerprint && (
                                     <span className="text-[11px] font-mono break-all text-gray-600 dark:text-gray-300 mt-1">
@@ -629,16 +620,16 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                 {imported && (
                                     <div className="flex gap-1 mt-1.5 -ml-2">
                                         <Button size="sm" variant="ghost" onClick={handleChooseFile} disabled={choosingFile}>
-                                            {choosingFile ? 'Choosing…' : 'Choose another file'}
+                                            {choosingFile ? t('keychain.editor.choosing') : t('keychain.editor.chooseAnother')}
                                         </Button>
                                         <Button size="sm" variant="ghost" onClick={handleForgetFile}>
-                                            Paste instead
+                                            {t('keychain.editor.pasteInstead')}
                                         </Button>
                                     </div>
                                 )}
                             </div>
                         ) : (
-                            <Field label="Private key" error={errors.privateKey}>
+                            <Field label={t('keychain.editor.privateKey')} error={errors.privateKey}>
                                 <div className="relative">
                                     <textarea
                                         value={formData.privateKey}
@@ -646,7 +637,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                         rows={6}
                                         className={`${MONO_FIELD_CLASS} resize-none pr-10`}
                                         placeholder={keyData?.hasPrivateKey
-                                            ? 'Stored, leave blank to keep the existing key'
+                                            ? t('keychain.editor.privateKeyStoredPlaceholder')
                                             : '-----BEGIN OPENSSH PRIVATE KEY-----...'}
                                         required={mode === 'import' && !keyData?.hasPrivateKey}
                                         style={!showPrivate && formData.privateKey ? { WebkitTextSecurity: 'disc' } : {}}
@@ -655,7 +646,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                         size="sm"
                                         variant="ghost"
                                         onClick={() => setShowPrivate(!showPrivate)}
-                                        title={showPrivate ? 'Hide private key' : 'Show private key'}
+                                        title={showPrivate ? t('keychain.editor.hidePrivate') : t('keychain.editor.showPrivate')}
                                         className="absolute right-1.5 top-1.5"
                                         icon={showPrivate
                                             ? <ViewOffIcon size={15} strokeWidth={2} />
@@ -673,8 +664,8 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             key is used, exactly as `ssh` picks up a
                             `<key>-cert.pub` sitting beside the key file. */}
                         <Field
-                            label="Certificate (optional)"
-                            hint={certificateNote(keyData?.certificateInfo)}
+                            label={t('keychain.editor.certificate')}
+                            hint={certificateNote(t, keyData?.certificateInfo)}
                         >
                             <textarea
                                 value={formData.certificate}
@@ -694,20 +685,16 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                             it, nor anywhere to change it on an existing key. */}
                         {!generating && (
                             <SecretField
-                                label="Passphrase"
-                                // A file the app has already read can say whether
-                                // it is encrypted, and it is worth saying here:
-                                // stored without one, that key fails at the far
-                                // end of a connection rather than on this form.
+                                label={t('keychain.editor.passphrase')}
                                 hint={imported?.encrypted
-                                    ? `${imported.file} is encrypted. Without its passphrase the key cannot connect.`
+                                    ? t('keychain.editor.passphraseFileEncrypted', { file: imported.file })
                                     : keyData?.hasPassphrase
-                                        ? 'A passphrase is stored for this key. Leave blank to keep it.'
-                                        : 'Only if the private key above is encrypted.'}
+                                        ? t('keychain.editor.passphraseStoredHint')
+                                        : t('keychain.editor.passphraseImportHint')}
                                 value={formData.passphrase}
                                 placeholder={keyData?.hasPassphrase
-                                    ? 'Stored, leave blank to keep'
-                                    : 'Leave empty if the key has none'}
+                                    ? t('keychain.editor.passphraseStoredPlaceholder')
+                                    : t('keychain.editor.passphraseNonePlaceholder')}
                                 onChange={(value) => handleChange('passphrase', value)}
                             />
                         )}
@@ -721,10 +708,10 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                 {keyData && onRequestDelete && (
                     <div className="mt-2 p-4 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-900/10">
                         <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">
-                            Danger zone
+                            {t('keychain.editor.dangerZone')}
                         </h3>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                            Once you delete this key, there is no going back. Please be certain.
+                            {t('keychain.editor.dangerZoneDesc')}
                         </p>
                         <Button
                             variant="dangerOutline"
@@ -734,7 +721,7 @@ function KeyModal({ keyData, initialMode = 'generate', dismiss, onClose, onSave,
                                 close();
                             }}
                         >
-                            Delete this key
+                            {t('keychain.editor.delete')}
                         </Button>
                     </div>
                 )}

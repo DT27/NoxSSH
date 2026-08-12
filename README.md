@@ -2,7 +2,7 @@
   <img src="cloudterm.png" alt="CloudTerm" width="128">
 </p>
 
-<h1 align="center">CloudTerm</h1>
+<h1 align="center">NoxSSH</h1>
 
 <p align="center">
   <strong>SSH, SFTP, Telnet and Windows RDP, all in one terminal</strong>
@@ -12,6 +12,12 @@
   A modern terminal workspace built with Electron, React and xterm.js.<br/>
   AI agent · Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
 </p>
+
+> **NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm), modified and renamed.  
+>
+> The source is open; you may use, study, modify and share it for free.  
+>
+> Original project: CloudTerm by CloudBlast. NoxSSH is an independent fork.
 
 <p align="center">
   <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
@@ -32,14 +38,24 @@
 
 ---
 
+**NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm) by [CloudBlast](https://cloudblast.io), renamed and modified.
+
+This project is distributed under the original [CloudTerm License](LICENSE) (fair-code).  
+You may use, study, modify and share it for free. Selling it, or including any part of it in a commercial product or service, requires a separate commercial license from CloudBlast.
+
+You may accurately state that this work is derived from CloudTerm. You may not call this project CloudTerm or present it as coming from CloudBlast.
+
+---
+
 CloudTerm keeps every way you reach a server in one window. Open an SSH session,
 move files over SFTP, forward a port and take a Windows desktop, all on the same
 connection and the same tab strip. No second app, no second login.
 
 It connects to anything: your laptop's serial console, a switch that only speaks
-telnet, a Windows box over RDP, or a server on any host you like. CloudTerm is
-made by [CloudBlast](https://cloudblast.io), a VPS hosting company. It is free for
-everyone, and the whole source is here to read and change.
+telnet, a Windows box over RDP, or a server on any host you like. The original
+CloudTerm is made by [CloudBlast](https://cloudblast.io). NoxSSH is an independent
+fork with its own changes (WebDAV sync, historical backups, etc.). The whole
+source remains available to read and change under the original license.
 
 <img src="Main%20Image.png" alt="CloudTerm" width="100%">
 
@@ -86,14 +102,19 @@ everyone, and the whole source is here to read and change.
 ## What is CloudTerm
 
 - **A terminal** for SSH, telnet and serial consoles, with tabs, split panes and
+
   GPU-accelerated rendering.
 - **An SFTP client** on the connection you already have open, with recursive
+
   transfers and drag and drop.
 - **An RDP and VNC viewer**, so a Windows box and a Linux box live side by side
+
   in the same app.
 - **A place to keep servers**: folders, tags, a key vault and snippets, all
+
   encrypted and all searchable.
 - **An AI agent** in a panel beside the terminal, which reads the session you
+
   are looking at and works on the server through it, asking before it changes
   anything.
 
@@ -132,26 +153,33 @@ to.
 Whichever you choose, the agent:
 
 - **Reads the session you are watching**, so the error on your screen is the
+
   one it answers, without you pasting anything
 - **Works in the terminal you can see**: commands are typed into the pane and
+
   the output stays in your scrollback, or run on a hidden channel if you prefer
 - **Asks before it changes anything**, with an allow list for the commands that
+
   only look, and a stricter or looser mode when you want one
 - **Pointed where you like**: the session in front, one you pin, or every host
+
   you have saved
 - **Tools instead of guesses**: connect a saved host, read and write files,
+
   answer a prompt that is already waiting, read the scrollback
 - **Leaves your own machine alone** unless you say otherwise, and stops on its
+
   own rather than looping
 - **Model and reasoning effort per conversation**, with what it is costing, or
+
   how much of your plan it has used, shown as it works
 
 > Claude Code has to be the native install, the one that puts `claude` in
-> `~/.local/bin`. An npm install leaves a `.cmd` shim on Windows, which cannot
+>
 > be started the way the agent runs it.
 
 > On Windows, install OpenCode natively with Chocolatey, Scoop, npm, or its
-> release binary. A copy installed only inside WSL is not visible to the native
+>
 > CloudTerm desktop app.
 
 ### Terminal
@@ -283,11 +311,11 @@ Terminal themes, app colours, fonts and even the logo in the title bar.
 
 Download the latest release for your platform:
 
-| OS | Download |
-| --- | --- |
-| macOS | [Apple silicon (M1 and later)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg) |
+| OS      | Download                                                                                                                                                                                                                     |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | [Apple silicon (M1 and later)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)             |
 | Windows | [Installer, x64 (recommended)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [Portable, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage) |
+| Linux   | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                                   |
 
 On Windows you can install and update it from a terminal instead:
 
@@ -318,13 +346,13 @@ npm run build
 
 ### Shortcuts
 
-| | | | |
-| --- | --- | --- | --- |
-| `Ctrl+Shift+F` | Find in scrollback | `Alt+Shift+=` | Split right |
-| `Ctrl+Shift+K` | Snippet palette | `Alt+Shift+-` | Split down |
-| `Ctrl+Shift+B` | Broadcast input | `Alt+Shift+Z` | Zoom pane |
-| `Ctrl+Shift+C` / `V` | Copy and paste | `Ctrl+Shift+W` | Close pane |
-| `Ctrl+Shift+A` | AI agent | `Alt+Arrows` | Move between panes |
+|                      |                    |                |                    |
+| -------------------- | ------------------ | -------------- | ------------------ |
+| `Ctrl+Shift+F`       | Find in scrollback | `Alt+Shift+=`  | Split right        |
+| `Ctrl+Shift+K`       | Snippet palette    | `Alt+Shift+-`  | Split down         |
+| `Ctrl+Shift+B`       | Broadcast input    | `Alt+Shift+Z`  | Zoom pane          |
+| `Ctrl+Shift+C` / `V` | Copy and paste     | `Ctrl+Shift+W` | Close pane         |
+| `Ctrl+Shift+A`       | AI agent           | `Alt+Arrows`   | Move between panes |
 
 <a name="community"></a>
 ## Community
@@ -359,9 +387,19 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 <a name="license"></a>
 ## License
 
-CloudTerm is [fair-code](https://faircode.io) under the
-[CloudTerm License](LICENSE): the source is open to read, and the software is
-free to use, modify and share, at work or anywhere else. Selling it, or putting
-any part of its code into something you charge for, needs a commercial license
-from [CloudBlast](https://cloudblast.io), which is usually just a matter of
-asking.
+**NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm).
+
+This project is distributed under the original [CloudTerm License](LICENSE) (a fair-code license).
+
+- The source is open to read.
+- The software is free to use, modify, and share (including publishing forks), for personal or commercial work.
+- Selling the software, including any part of it in a paid product/service, running it as a paid hosted service, or other commercial distribution **requires a separate commercial license** from CloudBlast.
+
+You must keep the original license and copyright notice with any copy or substantial portion you distribute.
+
+You may accurately state that this work is derived from CloudTerm.  
+You may not call this project "CloudTerm" or present it as coming from CloudBlast.
+
+Full text: [LICENSE](LICENSE) | https://faircode.io
+
+Original project: https://github.com/BradPerbs/cloudterm by CloudBlast.

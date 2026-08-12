@@ -1,0 +1,18 @@
+NoxSSH
+
+This project is a fork of CloudTerm (https://github.com/BradPerbs/cloudterm),
+modified and renamed by the NoxSSH authors.
+
+It is distributed under the original CloudTerm License, version 1.0
+(fair-code), Copyright 2026 CloudBlast. All rights reserved.
+
+Full license text: LICENSE file in this repository.
+
+You may use, study, modify and share the software for free.
+Commercial use (selling, paid hosting, bundling into paid products, etc.)
+requires a separate commercial license from CloudBlast.
+
+You may state accurately that this work is derived from CloudTerm.
+You may not call this project CloudTerm or present it as coming from CloudBlast.
+
+See the LICENSE file for the complete terms.

@@ -41,9 +41,8 @@ const CLOUD_CUTOUT = 'M7.9 16a1.9 1.9 0 0 1 1.05-3.45 2.9 2.9 0 0 1 5.5-.2 2.1 2
 /**
  * Why a machine-managed folder is here, on the hover.
  *
- * The account folder says it in a badge as well, because that is the one the
- * question gets asked about: it appears on its own the first time an account is
- * connected, in among folders the user did make.
+ * These come from external sync (e.g. WebDAV snapshot or legacy imports).
+ * We keep neutral labels so the UI does not mention any specific provider.
  */
 const SYNC_TITLES = {
     account: 'hosts.syncedAccount',
