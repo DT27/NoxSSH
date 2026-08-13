@@ -538,6 +538,11 @@ export default {
     'appImport.keyUnreadable': 'unreadable',
     'appImport.copyKeysDesc': 'Each key file is read into the keychain and encrypted with the OS '
         + 'keystore. Without this, imported hosts are set to use your SSH agent instead.',
+    'appImport.chooseNextsshTitle': 'Choose a NextSSH backup file',
+    'appImport.copyNextsshKeysDesc': 'Private keys in the backup are stored in the keychain and encrypted with the OS '
+        + 'keystore. Without this, hosts with a password use that password; the rest use your SSH agent.',
+    'appImport.nextsshFileKind': 'NextSSH backup',
+    'appImport.nextsshHint': 'Choose a backup file',
     'appImport.report': 'Imported {hosts} hosts',
 
     /* ---------------------------------------------------------------- *
@@ -1461,4 +1466,40 @@ export default {
     'assistant.allowed': 'Allowed',
     'assistant.declined': 'Declined',
     'assistant.timedOut': 'Timed out',
+
+    /* ---------------------------------------------------------------- *
+     * Connection overlay (host key, extra auth, retry)
+     * ---------------------------------------------------------------- */
+    'session.additionalAuth': 'Additional authentication',
+    'session.closePane': 'Close pane',
+    'session.connectingTo': 'Connecting to {title}',
+    'session.continue': 'Continue',
+    'session.copied': 'Copied',
+    'session.copyFingerprint': 'Copy fingerprint',
+    'session.couldNotConnect': 'Could not connect',
+    'session.disconnect': 'Disconnect',
+    'session.hostKeyChanged': 'Host key has changed',
+    'session.hostKeyChangedDesc': 'The key this server presented is not the one you trusted for this '
+        + 'address.',
+    'session.hostKeyChangedWarn': 'A server that was rebuilt or rekeyed looks exactly like this. So does a '
+        + 'connection someone else is sitting in the middle of. Do not continue unless you know which one it is.',
+    'session.hostKeyUnknown': 'Unknown host key',
+    'session.hostKeyUnknownDesc': 'This server has not been seen before. Check its fingerprint against one you got '
+        + 'from the server itself, not over this connection.',
+    'session.replaceStoredKey': 'Replace stored key',
+    'session.response': 'Response',
+    'session.retryAttempt': '(attempt {attempt} of {max})',
+    'session.retryIn': 'Trying again in {seconds}s',
+    'session.retryNow': 'Retry now',
+    'session.statusConnected': 'Connected',
+    'session.statusConnecting': 'Connecting…',
+    'session.statusDisconnected': 'Disconnected',
+    'session.statusFailed': 'Disconnected, could not reconnect',
+    'session.statusFailedShort': 'Could not reconnect',
+    'session.statusReconnecting': 'Reconnecting…',
+    'session.statusRetrying': 'Reconnecting in {seconds}s (attempt {attempt} of {max})',
+    'session.statusRetryingShort': 'Retrying in {seconds}s',
+    'session.trustAndConnect': 'Trust and connect',
+    'session.tryAgain': 'Try again',
+    'session.unknownKeyType': 'unknown',
 };

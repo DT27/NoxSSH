@@ -19,6 +19,7 @@ import SegmentedControl from './ui/SegmentedControl';
 import MenuButton from './ui/MenuButton';
 import Tooltip from './ui/Tooltip';
 import SessionScreen from './ui/SessionScreen';
+import { useT } from '../i18n';
 import SftpView from './SftpView';
 import TunnelsView from './tunnels/TunnelsView';
 import VncView from './VncView';
@@ -216,6 +217,7 @@ function TerminalView({
     authPrompt = null,
     onAuthRespond,
 }) {
+    const t = useT();
     const rootRef = useRef(null);
     const terminalRef = useRef(null);
     const termRef = useRef(null);
@@ -967,18 +969,24 @@ function TerminalView({
     // `short` is what fits in a header beside everything else, and it leaves
     // out whatever the neighbouring Reconnect button already says.
     const STATUS_UI = {
-        connecting: { dot: 'bg-yellow-500 animate-pulse', label: 'Connecting…' },
-        connected: { dot: 'bg-green-500', label: 'Connected' },
-        reconnecting: { dot: 'bg-yellow-500 animate-pulse', label: 'Reconnecting…' },
+        connecting: { dot: 'bg-yellow-500 animate-pulse', label: t('session.statusConnecting') },
+        connected: { dot: 'bg-green-500', label: t('session.statusConnected') },
+        reconnecting: { dot: 'bg-yellow-500 animate-pulse', label: t('session.statusReconnecting') },
         waiting: {
             dot: 'bg-amber-500 animate-pulse',
             label: connection.retryIn
-                ? `Reconnecting in ${connection.retryIn}s (attempt ${connection.attempt} of ${connection.maxAttempts})`
-                : 'Reconnecting…',
-            short: connection.retryIn ? `Retrying in ${connection.retryIn}s` : 'Reconnecting…',
+                ? t('session.statusRetrying', {
+                    seconds: connection.retryIn,
+                    attempt: connection.attempt,
+                    max: connection.maxAttempts,
+                })
+                : t('session.statusReconnecting'),
+            short: connection.retryIn
+                ? t('session.statusRetryingShort', { seconds: connection.retryIn })
+                : t('session.statusReconnecting'),
         },
-        failed: { dot: 'bg-red-500', label: 'Disconnected, could not reconnect', short: 'Could not reconnect' },
-        closed: { dot: 'bg-gray-400 dark:bg-neutral-600', label: 'Disconnected' },
+        failed: { dot: 'bg-red-500', label: t('session.statusFailed'), short: t('session.statusFailedShort') },
+        closed: { dot: 'bg-gray-400 dark:bg-neutral-600', label: t('session.statusDisconnected') },
     };
 
     const statusUi = STATUS_UI[connection.status] || STATUS_UI.connecting;
@@ -1267,7 +1275,7 @@ function TerminalView({
             // scrollback where it is.
             key: 'close',
             shed: 1,
-            label: isSplit ? 'Close pane' : 'Disconnect',
+            label: isSplit ? t('session.closePane') : t('session.disconnect'),
             hint: isSplit ? 'Ctrl+Shift+W' : undefined,
             icon: <Cancel01Icon size={16} strokeWidth={2} />,
             menuIcon: <Cancel01Icon size={14} strokeWidth={2} />,

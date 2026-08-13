@@ -517,6 +517,11 @@ export default {
     'appImport.keyUnreadable': 'нечитаем',
     'appImport.copyKeysDesc': 'Каждый файл ключа считывается в хранилище ключей и шифруется '
         + 'хранилищем ОС. Без этого импортированные хосты будут использовать ваш SSH-агент.',
+    'appImport.chooseNextsshTitle': 'Выберите файл резервной копии NextSSH',
+    'appImport.copyNextsshKeysDesc': 'Закрытые ключи из резервной копии сохраняются в хранилище ключей и шифруются '
+        + 'хранилищем ОС. Без этого хосты с паролем используют этот пароль; остальные — ваш SSH-агент.',
+    'appImport.nextsshFileKind': 'Резервная копия NextSSH',
+    'appImport.nextsshHint': 'Выбрать файл резервной копии',
     'appImport.report': 'Импортировано хостов: {hosts}',
 
     /* ---- Settings navigation ---- */
@@ -1490,4 +1495,40 @@ export default {
     'assistant.allowed': 'Разрешено',
     'assistant.declined': 'Отклонено',
     'assistant.timedOut': 'Истекло время',
+
+    /* ---------------------------------------------------------------- *
+     * Connection overlay (host key, extra auth, retry)
+     * ---------------------------------------------------------------- */
+    'session.additionalAuth': 'Дополнительная проверка',
+    'session.closePane': 'Закрыть панель',
+    'session.connectingTo': 'Подключение к {title}',
+    'session.continue': 'Продолжить',
+    'session.copied': 'Скопировано',
+    'session.copyFingerprint': 'Скопировать отпечаток',
+    'session.couldNotConnect': 'Не удалось подключиться',
+    'session.disconnect': 'Отключить',
+    'session.hostKeyChanged': 'Ключ хоста изменился',
+    'session.hostKeyChangedDesc': 'Ключ, который предъявил этот сервер, не совпадает с тем, которому вы доверяли для '
+        + 'этого адреса.',
+    'session.hostKeyChangedWarn': 'Так выглядит и переустановленный или переключенный сервер, и атака посредника. Не '
+        + 'продолжайте, пока не знаете, что из этого происходит.',
+    'session.hostKeyUnknown': 'Неизвестный ключ хоста',
+    'session.hostKeyUnknownDesc': 'Этот сервер ещё не встречался. Сверьте отпечаток с тем, который получили с самого '
+        + 'сервера, а не по этому соединению.',
+    'session.replaceStoredKey': 'Заменить сохранённый ключ',
+    'session.response': 'Ответ',
+    'session.retryAttempt': '(попытка {attempt} из {max})',
+    'session.retryIn': 'Повтор через {seconds} с',
+    'session.retryNow': 'Повторить сейчас',
+    'session.statusConnected': 'Подключено',
+    'session.statusConnecting': 'Подключение…',
+    'session.statusDisconnected': 'Отключено',
+    'session.statusFailed': 'Отключено, не удалось переподключиться',
+    'session.statusFailedShort': 'Не удалось переподключиться',
+    'session.statusReconnecting': 'Переподключение…',
+    'session.statusRetrying': 'Переподключение через {seconds} с (попытка {attempt} из {max})',
+    'session.statusRetryingShort': 'Повтор через {seconds} с',
+    'session.trustAndConnect': 'Доверить и подключить',
+    'session.tryAgain': 'Попробовать снова',
+    'session.unknownKeyType': 'неизвестно',
 };

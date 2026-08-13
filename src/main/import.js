@@ -7,6 +7,7 @@ const sshConfig = require('./ssh-config');
 const common = require('./import-common');
 const puttyImport = require('./putty-import');
 const mobaxtermImport = require('./mobaxterm-import');
+const nextsshImport = require('./nextssh-import');
 
 /**
  * Bring an existing setup into the app.
@@ -277,6 +278,7 @@ function scan(options = {}) {
     const source = options.source || 'openssh';
     if (source === 'putty' || source === 'kitty') return puttyImport.scan(source);
     if (source === 'mobaxterm') return mobaxtermImport.scan(options);
+    if (source === 'nextssh') return nextsshImport.scan(options);
     return scanOpenSsh(options);
 }
 
@@ -425,6 +427,7 @@ function apply(options = {}) {
     const source = options.source || 'openssh';
     if (source === 'putty' || source === 'kitty') return puttyImport.apply(source, options);
     if (source === 'mobaxterm') return mobaxtermImport.apply(options);
+    if (source === 'nextssh') return nextsshImport.apply(options);
     return applyOpenSsh(options);
 }
 

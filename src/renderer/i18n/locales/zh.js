@@ -488,6 +488,10 @@ export default {
     'appImport.keyUnreadable': '无法读取',
     'appImport.copyKeysDesc': '每个密钥文件都会读入密钥串，并用系统密钥库加密。不勾选时，'
         + '导入的主机会改为使用你的 SSH agent。',
+    'appImport.chooseNextsshTitle': '选择 NextSSH 备份文件',
+    'appImport.copyNextsshKeysDesc': '备份中的私钥会写入密钥串并用系统密钥库加密。不勾选时，有密码的主机使用密码，其余改用 SSH agent。',
+    'appImport.nextsshFileKind': 'NextSSH 备份',
+    'appImport.nextsshHint': '选择备份文件',
     'appImport.report': '已导入 {hosts} 台主机',
 
     /* ---- Settings navigation ---- */
@@ -1285,4 +1289,37 @@ export default {
     'assistant.allowed': '已允许',
     'assistant.declined': '已拒绝',
     'assistant.timedOut': '已超时',
+
+    /* ---------------------------------------------------------------- *
+     * Connection overlay (host key, extra auth, retry)
+     * ---------------------------------------------------------------- */
+    'session.additionalAuth': '需要额外认证',
+    'session.closePane': '关闭窗格',
+    'session.connectingTo': '正在连接到 {title}',
+    'session.continue': '继续',
+    'session.copied': '已复制',
+    'session.copyFingerprint': '复制指纹',
+    'session.couldNotConnect': '无法连接',
+    'session.disconnect': '断开连接',
+    'session.hostKeyChanged': '主机密钥已更改',
+    'session.hostKeyChangedDesc': '这台服务器出示的密钥，与你此前为该地址信任的密钥不一致。',
+    'session.hostKeyChangedWarn': '服务器重装或更换密钥时会是这个样子。中间人劫持也是这个样子。在你确认是哪一种之前，不要继续。',
+    'session.hostKeyUnknown': '未知主机密钥',
+    'session.hostKeyUnknownDesc': '此前未见过这台服务器。请用从服务器本身拿到的指纹核对，不要用这次连接里看到的。',
+    'session.replaceStoredKey': '替换已存密钥',
+    'session.response': '应答',
+    'session.retryAttempt': '（第 {attempt} / {max} 次）',
+    'session.retryIn': '{seconds} 秒后重试',
+    'session.retryNow': '立即重试',
+    'session.statusConnected': '已连接',
+    'session.statusConnecting': '正在连接…',
+    'session.statusDisconnected': '已断开',
+    'session.statusFailed': '已断开，无法重连',
+    'session.statusFailedShort': '无法重连',
+    'session.statusReconnecting': '正在重连…',
+    'session.statusRetrying': '{seconds} 秒后重连（第 {attempt} / {max} 次）',
+    'session.statusRetryingShort': '{seconds} 秒后重试',
+    'session.trustAndConnect': '信任并连接',
+    'session.tryAgain': '再试一次',
+    'session.unknownKeyType': '未知',
 };

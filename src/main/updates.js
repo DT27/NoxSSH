@@ -33,7 +33,7 @@ const path = require('path');
  * quietly withheld from the people least likely to notice it was missing.
  */
 
-const REPO = process.env.CLOUDBLAST_UPDATE_REPO || 'BradPerbs/cloudterm';
+const REPO = process.env.CLOUDBLAST_UPDATE_REPO || 'DT27/NoxSSH';
 const RELEASES_API = `https://api.github.com/repos/${REPO}/releases/latest`;
 const RELEASES_PAGE = `https://github.com/${REPO}/releases/latest`;
 

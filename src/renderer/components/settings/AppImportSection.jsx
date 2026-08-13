@@ -37,6 +37,7 @@ const SOURCES = [
     { id: 'putty', label: 'PuTTY', logo: logoPutty },
     { id: 'kitty', label: 'KiTTY', logo: logoKitty },
     { id: 'mobaxterm', label: 'MobaXterm', logo: logoMobaxterm },
+    { id: 'nextssh', label: 'NextSSH', logo: null },
 ];
 
 const PROTOCOL_LABELS = { ssh: 'SSH', telnet: 'telnet', serial: 'serial', rdp: 'RDP', vnc: 'VNC' };
@@ -48,6 +49,7 @@ const KEY_STATES = {
 };
 
 function sourceSubtitle(t, id, info) {
+    if (id === 'nextssh') return t('appImport.nextsshHint');
     if (info === undefined) return t('appImport.checking');
     if (!info?.found) return t('appImport.notFound');
     if (id === 'mobaxterm') return info.path.split(/[\\/]/).pop();
@@ -61,7 +63,8 @@ function sourceSubtitle(t, id, info) {
  */
 function SourceCard({ source, info, active, scanning, onScan }) {
     const t = useT();
-    const found = Boolean(info?.found);
+    const fileOnly = source.id === 'nextssh';
+    const found = fileOnly || Boolean(info?.found);
     const busy = active && scanning;
 
     return (
@@ -73,11 +76,17 @@ function SourceCard({ source, info, active, scanning, onScan }) {
             }`}
         >
             <div className="flex items-center gap-3 min-w-0">
-                <img
-                    src={source.logo}
-                    alt=""
-                    className={`w-9 h-9 shrink-0 object-contain ${found ? '' : 'grayscale opacity-40'}`}
-                />
+                {source.logo ? (
+                    <img
+                        src={source.logo}
+                        alt=""
+                        className={`w-9 h-9 shrink-0 object-contain ${found ? '' : 'grayscale opacity-40'}`}
+                    />
+                ) : (
+                    <span className="w-9 h-9 shrink-0 rounded-lg bg-gray-100 dark:bg-surface-control flex items-center justify-center text-[10px] font-bold text-gray-500 dark:text-neutral-400">
+                        NS
+                    </span>
+                )}
                 <div className="min-w-0 flex flex-col gap-0.5">
                     <span className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">
                         {source.label}
@@ -96,7 +105,7 @@ function SourceCard({ source, info, active, scanning, onScan }) {
 
             <button
                 onClick={() => onScan(source.id)}
-                disabled={!found || scanning}
+                disabled={(!found && !fileOnly) || scanning}
                 className="h-8 rounded-lg border border-gray-300 dark:border-surface-control text-xs
                     font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100
                     dark:hover:bg-surface-control transition-colors
@@ -179,17 +188,25 @@ export default function AppImportSection({ onImported }) {
         }
     }, [t]);
 
-    const chooseFile = useCallback(async () => {
+    const chooseFile = useCallback(async (source = 'mobaxterm') => {
+        const nextssh = source === 'nextssh';
         const result = await window.api.dialog.open({
-            title: t('appImport.chooseFileTitle'),
+            title: nextssh
+                ? t('appImport.chooseNextsshTitle')
+                : t('appImport.chooseFileTitle'),
             properties: ['openFile'],
-            filters: [
-                { name: t('appImport.fileKind'), extensions: ['ini', 'mxtsessions'] },
-                { name: t('common.allFiles'), extensions: ['*'] },
-            ],
+            filters: nextssh
+                ? [
+                    { name: t('appImport.nextsshFileKind'), extensions: ['json'] },
+                    { name: t('common.allFiles'), extensions: ['*'] },
+                ]
+                : [
+                    { name: t('appImport.fileKind'), extensions: ['ini', 'mxtsessions'] },
+                    { name: t('common.allFiles'), extensions: ['*'] },
+                ],
         });
         if (result.canceled || !result.filePaths?.[0]) return;
-        runScan('mobaxterm', { path: result.filePaths[0] });
+        runScan(source, { path: result.filePaths[0] });
     }, [runScan, t]);
 
     const toggle = useCallback((key) => {
@@ -220,7 +237,7 @@ export default function AppImportSection({ onImported }) {
             onImported?.();
             // Re-scan so everything just taken now reads as "already added",
             // then show the report, in that order: the re-scan clears it.
-            await runScan(active, active === 'mobaxterm' ? { path: scan.path } : {});
+            await runScan(active, (active === 'mobaxterm' || active === 'nextssh') ? { path: scan.path } : {});
             setReport(result);
 
             const parts = [];
@@ -256,7 +273,7 @@ export default function AppImportSection({ onImported }) {
             </div>
 
             <div className="flex flex-col gap-2">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {SOURCES.map(source => (
                         <SourceCard
                             key={source.id}
@@ -265,13 +282,13 @@ export default function AppImportSection({ onImported }) {
                             info={sources ? (sources[source.id] || { found: false }) : undefined}
                             active={active === source.id}
                             scanning={scanning}
-                            onScan={runScan}
+                            onScan={(id) => (id === 'nextssh' ? chooseFile('nextssh') : runScan(id))}
                         />
                     ))}
                 </div>
 
                 <button
-                    onClick={chooseFile}
+                    onClick={() => chooseFile('mobaxterm')}
                     className="self-end flex items-center gap-1.5 text-[11px] font-medium text-gray-400
                         dark:text-neutral-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                     title={t('appImport.chooseFileHint')}
@@ -359,7 +376,11 @@ export default function AppImportSection({ onImported }) {
                             checked={withIdentityFiles}
                             onChange={(event) => setWithIdentityFiles(event.target.checked)}
                             label={t('import.copyKeys')}
-                            description={t('appImport.copyKeysDesc')}
+                            description={
+                                active === 'nextssh'
+                                    ? t('appImport.copyNextsshKeysDesc')
+                                    : t('appImport.copyKeysDesc')
+                            }
                         />
                     )}
 

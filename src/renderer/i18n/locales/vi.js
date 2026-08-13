@@ -499,6 +499,11 @@ export default {
     'appImport.keyUnreadable': 'không đọc được',
     'appImport.copyKeysDesc': 'Mỗi tệp khoá được đọc vào kho khoá và mã hoá bằng kho khoá của hệ '
         + 'điều hành. Không bật thì các máy chủ nhập vào sẽ dùng SSH agent của bạn.',
+    'appImport.chooseNextsshTitle': 'Chọn tệp sao lưu NextSSH',
+    'appImport.copyNextsshKeysDesc': 'Khoá riêng trong bản sao lưu được lưu vào kho khoá và mã hoá bằng kho khoá hệ '
+        + 'thống. Không bật thì máy chủ có mật khẩu dùng mật khẩu đó; còn lại dùng SSH agent của bạn.',
+    'appImport.nextsshFileKind': 'Sao lưu NextSSH',
+    'appImport.nextsshHint': 'Chọn tệp sao lưu',
     'appImport.report': 'Đã nhập {hosts} máy chủ',
 
     /* ---- Settings navigation ---- */
@@ -1416,4 +1421,40 @@ export default {
     'assistant.allowed': 'Đã cho phép',
     'assistant.declined': 'Đã từ chối',
     'assistant.timedOut': 'Đã hết thời gian',
+
+    /* ---------------------------------------------------------------- *
+     * Connection overlay (host key, extra auth, retry)
+     * ---------------------------------------------------------------- */
+    'session.additionalAuth': 'Xác thực bổ sung',
+    'session.closePane': 'Đóng ngăn',
+    'session.connectingTo': 'Đang kết nối tới {title}',
+    'session.continue': 'Tiếp tục',
+    'session.copied': 'Đã sao chép',
+    'session.copyFingerprint': 'Sao chép dấu vân tay',
+    'session.couldNotConnect': 'Không thể kết nối',
+    'session.disconnect': 'Ngắt kết nối',
+    'session.hostKeyChanged': 'Khóa máy chủ đã thay đổi',
+    'session.hostKeyChangedDesc': 'Khóa mà máy chủ này vừa đưa ra không khớp với khóa bạn đã tin tưởng cho địa chỉ '
+        + 'này.',
+    'session.hostKeyChangedWarn': 'Máy chủ vừa cài lại hoặc vừa đổi khóa trông đúng như thế này. Kẻ đứng giữa cũng '
+        + 'vậy. Đừng tiếp tục nếu chưa biết đang là trường hợp nào.',
+    'session.hostKeyUnknown': 'Khóa máy chủ chưa biết',
+    'session.hostKeyUnknownDesc': 'Máy chủ này chưa từng được thấy. Hãy đối chiếu dấu vân tay với một bản bạn lấy '
+        + 'trực tiếp từ máy chủ, không phải qua kết nối này.',
+    'session.replaceStoredKey': 'Thay khóa đã lưu',
+    'session.response': 'Phản hồi',
+    'session.retryAttempt': '(lần {attempt} / {max})',
+    'session.retryIn': 'Thử lại sau {seconds}s',
+    'session.retryNow': 'Thử ngay',
+    'session.statusConnected': 'Đã kết nối',
+    'session.statusConnecting': 'Đang kết nối…',
+    'session.statusDisconnected': 'Đã ngắt kết nối',
+    'session.statusFailed': 'Đã ngắt, không thể kết nối lại',
+    'session.statusFailedShort': 'Không thể kết nối lại',
+    'session.statusReconnecting': 'Đang kết nối lại…',
+    'session.statusRetrying': 'Kết nối lại sau {seconds}s (lần {attempt} / {max})',
+    'session.statusRetryingShort': 'Thử lại sau {seconds}s',
+    'session.trustAndConnect': 'Tin tưởng và kết nối',
+    'session.tryAgain': 'Thử lại',
+    'session.unknownKeyType': 'không rõ',
 };

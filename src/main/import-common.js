@@ -85,6 +85,56 @@ function labelForAlgorithm(name) {
  *   ppk         a PuTTY .ppk; valid, but PuTTYgen has to convert it first
  *   unreadable  missing, a directory, or not a private key at all
  */
+/**
+ * Inspect a private key that is already in memory (a pasted block, or one
+ * embedded in another app's export). Same states as inspectIdentityFile.
+ */
+function inspectIdentityText(text) {
+    const body = String(text || '');
+    if (!body.trim()) {
+        return { state: 'unreadable', reason: 'Empty key' };
+    }
+
+    // PuTTY's own format. The header names the algorithm, and the Encryption
+    // line says whether a passphrase guards it, so both are worth reporting
+    // even though the key cannot be taken as it stands.
+    const ppk = body.match(/^PuTTY-User-Key-File-\d+:\s*(\S+)/m);
+    if (ppk) {
+        return {
+            state: 'ppk',
+            encrypted: /^Encryption:\s*(?!none\b)/m.test(body),
+            type: labelForAlgorithm(ppk[1]),
+            fingerprint: '',
+        };
+    }
+
+    if (!/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(body)) {
+        // Pointing IdentityFile at the public half is a common slip.
+        return {
+            state: 'unreadable',
+            reason: /ssh-(rsa|ed25519)|ecdsa-/.test(body)
+                ? 'This is a public key, not a private one'
+                : 'Not a private key',
+        };
+    }
+
+    const openssh = inspectOpenSshKey(body);
+    if (openssh) {
+        return {
+            state: openssh.encrypted ? 'encrypted' : 'ready',
+            text: body,
+            type: labelForAlgorithm(openssh.algorithm),
+            fingerprint: openssh.publicBlob.length ? knownHosts.fingerprint(openssh.publicBlob) : '',
+        };
+    }
+
+    // Classic PEM. `Proc-Type: 4,ENCRYPTED` is the only marker it carries.
+    const encrypted = /Proc-Type:\s*4,\s*ENCRYPTED/i.test(body);
+    const type = /BEGIN RSA/.test(body) ? 'RSA' : /BEGIN EC/.test(body) ? 'ECDSA' : 'ED25519';
+
+    return { state: encrypted ? 'encrypted' : 'ready', text: body, type, fingerprint: '' };
+}
+
 function inspectIdentityFile(filePath) {
     let text;
     try {
@@ -95,44 +145,7 @@ function inspectIdentityFile(filePath) {
         return { state: 'unreadable', reason: error.code === 'ENOENT' ? 'File not found' : error.message };
     }
 
-    // PuTTY's own format. The header names the algorithm, and the Encryption
-    // line says whether a passphrase guards it, so both are worth reporting
-    // even though the key cannot be taken as it stands.
-    const ppk = text.match(/^PuTTY-User-Key-File-\d+:\s*(\S+)/m);
-    if (ppk) {
-        return {
-            state: 'ppk',
-            encrypted: /^Encryption:\s*(?!none\b)/m.test(text),
-            type: labelForAlgorithm(ppk[1]),
-            fingerprint: '',
-        };
-    }
-
-    if (!/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/.test(text)) {
-        // Pointing IdentityFile at the public half is a common slip.
-        return {
-            state: 'unreadable',
-            reason: /ssh-(rsa|ed25519)|ecdsa-/.test(text)
-                ? 'This is a public key, not a private one'
-                : 'Not a private key',
-        };
-    }
-
-    const openssh = inspectOpenSshKey(text);
-    if (openssh) {
-        return {
-            state: openssh.encrypted ? 'encrypted' : 'ready',
-            text,
-            type: labelForAlgorithm(openssh.algorithm),
-            fingerprint: openssh.publicBlob.length ? knownHosts.fingerprint(openssh.publicBlob) : '',
-        };
-    }
-
-    // Classic PEM. `Proc-Type: 4,ENCRYPTED` is the only marker it carries.
-    const encrypted = /Proc-Type:\s*4,\s*ENCRYPTED/i.test(text);
-    const type = /BEGIN RSA/.test(text) ? 'RSA' : /BEGIN EC/.test(text) ? 'ECDSA' : 'ED25519';
-
-    return { state: encrypted ? 'encrypted' : 'ready', text, type, fingerprint: '' };
+    return inspectIdentityText(text);
 }
 
 /** Prefer the fingerprint from the `.pub` file, which is what `ssh-keygen -l` shows. */
@@ -241,6 +254,7 @@ function freshId(prefix) {
 
 module.exports = {
     inspectIdentityFile,
+    inspectIdentityText,
     readPublicKey,
     importIdentity,
     matchExistingHost,

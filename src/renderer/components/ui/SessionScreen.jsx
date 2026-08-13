@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Copy01Icon, Refresh01Icon, Tick01Icon } from 'hugeicons-react';
 import { OsIcon } from '../../lib/os-icons';
+import { useT } from '../../i18n';
 import ConnectingSplash from './ConnectingSplash';
 
 /**
@@ -77,6 +78,7 @@ function ScreenButton({ variant = 'ghost', background, accent, children, ...prop
 }
 
 function CopyFingerprint({ text }) {
+    const t = useT();
     const [copied, setCopied] = useState(false);
     const timer = useRef(0);
 
@@ -107,8 +109,8 @@ function CopyFingerprint({ text }) {
             type="button"
             onClick={copy}
             data-copied={copied}
-            title={copied ? 'Copied' : 'Copy fingerprint'}
-            aria-label={copied ? 'Copied' : 'Copy fingerprint'}
+            title={copied ? t('session.copied') : t('session.copyFingerprint')}
+            aria-label={copied ? t('session.copied') : t('session.copyFingerprint')}
             className="session-copy shrink-0 w-6 h-6 flex items-center justify-center rounded-md outline-none"
         >
             {copied
@@ -128,6 +130,7 @@ function CopyFingerprint({ text }) {
  * digest.
  */
 function Identity({ prompt }) {
+    const t = useT();
     const value = String(prompt.fingerprint || '');
     const cut = value.indexOf(':');
     const prefix = cut === -1 ? '' : value.slice(0, cut + 1);
@@ -140,7 +143,7 @@ function Identity({ prompt }) {
                     {prompt.host}:{prompt.port}
                 </span>
                 <span className="shrink-0 font-mono text-[11px]" style={{ opacity: 0.5 }}>
-                    {prompt.keyType || 'unknown'}
+                    {prompt.keyType || t('session.unknownKeyType')}
                 </span>
             </div>
 
@@ -162,16 +165,15 @@ function Identity({ prompt }) {
  * every state shares, which is the whole point of putting them on one screen.
  */
 
-function hostKeyFace({ prompt, onRespond, background, accent }) {
+function hostKeyFace({ prompt, onRespond, background, accent, t }) {
     const changed = prompt.status === 'changed';
     const decline = () => onRespond(prompt.requestId, false);
 
     return {
-        heading: changed ? 'Host key has changed' : 'Unknown host key',
+        heading: changed ? t('session.hostKeyChanged') : t('session.hostKeyUnknown'),
         supporting: changed
-            ? 'The key this server presented is not the one you trusted for this address.'
-            : 'This server has not been seen before. Check its fingerprint against one you '
-              + 'got from the server itself, not over this connection.',
+            ? t('session.hostKeyChangedDesc')
+            : t('session.hostKeyUnknownDesc'),
         onEscape: decline,
         content: (
             <>
@@ -186,9 +188,7 @@ function hostKeyFace({ prompt, onRespond, background, accent }) {
                             backgroundColor: `color-mix(in srgb, ${accent} 8%, transparent)`,
                         }}
                     >
-                        A server that was rebuilt or rekeyed looks exactly like this. So does a
-                        connection someone else is sitting in the middle of. Do not continue
-                        unless you know which one it is.
+                        {t('session.hostKeyChangedWarn')}
                     </p>
                 )}
             </>
@@ -198,14 +198,14 @@ function hostKeyFace({ prompt, onRespond, background, accent }) {
                 {/* Focus starts on the refusal, and Escape is the same answer.
                     Declining costs a reconnect; trusting the wrong key costs
                     the session. */}
-                <ScreenButton onClick={decline} autoFocus>Cancel</ScreenButton>
+                <ScreenButton onClick={decline} autoFocus>{t('common.cancel')}</ScreenButton>
                 <ScreenButton
                     variant={changed ? 'danger' : 'primary'}
                     background={background}
                     accent={accent}
                     onClick={() => onRespond(prompt.requestId, true)}
                 >
-                    {changed ? 'Replace stored key' : 'Trust and connect'}
+                    {changed ? t('session.replaceStoredKey') : t('session.trustAndConnect')}
                 </ScreenButton>
             </>
         ),
@@ -226,6 +226,7 @@ function hostKeyFace({ prompt, onRespond, background, accent }) {
  * box, presented as if it were still good, is worse than an empty one.
  */
 function AuthFields({ prompt, onRespond, background }) {
+    const t = useT();
     const fields = prompt.prompts || [];
     const [answers, setAnswers] = useState(() => new Array(fields.length).fill(''));
     const firstField = useRef(null);
@@ -245,7 +246,7 @@ function AuthFields({ prompt, onRespond, background }) {
             {fields.map((field, index) => (
                 <label key={index} className="flex flex-col gap-1.5 text-left">
                     <span className="text-[13px] font-medium whitespace-pre-wrap break-words" style={{ opacity: 0.75 }}>
-                        {field.text?.trim() || 'Response'}
+                        {field.text?.trim() || t('session.response')}
                     </span>
                     <input
                         ref={index === 0 ? firstField : undefined}
@@ -266,19 +267,19 @@ function AuthFields({ prompt, onRespond, background }) {
 
             <div className="flex items-center justify-center gap-2 pt-1">
                 <ScreenButton onClick={() => onRespond(prompt.requestId, null)}>
-                    Cancel
+                    {t('common.cancel')}
                 </ScreenButton>
                 <ScreenButton type="submit" variant="primary" background={background}>
-                    Continue
+                    {t('session.continue')}
                 </ScreenButton>
             </div>
         </form>
     );
 }
 
-function authFace({ prompt, onRespond, background, address }) {
+function authFace({ prompt, onRespond, background, address, t }) {
     return {
-        heading: prompt.name?.trim() || 'Additional authentication',
+        heading: prompt.name?.trim() || t('session.additionalAuth'),
         // The server's instructions where it gave any, and otherwise the
         // account being authenticated, which is the next most useful thing to
         // know about a box asking for a code.
@@ -305,11 +306,11 @@ function authFace({ prompt, onRespond, background, address }) {
  * is only that something is about to happen on its own. So the reason stays put
  * and the button becomes the way to skip the wait.
  */
-function failedFace({ message, address, retryIn, attempt, maxAttempts, onReconnect, background }) {
+function failedFace({ message, address, retryIn, attempt, maxAttempts, onReconnect, background, t }) {
     const counting = retryIn > 0;
 
     return {
-        heading: 'Could not connect',
+        heading: t('session.couldNotConnect'),
         supporting: <Address value={address} />,
         content: (
             <>
@@ -324,10 +325,10 @@ function failedFace({ message, address, retryIn, attempt, maxAttempts, onReconne
                     changing, and it is what the header no longer says. */}
                 {counting && (
                     <p className="text-[13px] font-medium">
-                        Trying again in {retryIn}s
+                        {t('session.retryIn', { seconds: retryIn })}
                         {attempt ? (
                             <span className="font-normal" style={{ opacity: 0.55 }}>
-                                {` (attempt ${attempt} of ${maxAttempts})`}
+                                {` ${t('session.retryAttempt', { attempt, max: maxAttempts })}`}
                             </span>
                         ) : ''}
                     </p>
@@ -337,7 +338,7 @@ function failedFace({ message, address, retryIn, attempt, maxAttempts, onReconne
         actions: (
             <ScreenButton variant="primary" background={background} onClick={onReconnect} autoFocus>
                 <Refresh01Icon size={13} strokeWidth={2.5} />
-                {counting ? 'Retry now' : 'Try again'}
+                {counting ? t('session.retryNow') : t('session.tryAgain')}
             </ScreenButton>
         ),
     };
@@ -363,6 +364,8 @@ export default function SessionScreen({
     className = '',
     style,
 }) {
+    const t = useT();
+
     // Still dialling: the screen it has always been, halos and all.
     if (state === 'connecting') {
         return (
@@ -379,9 +382,9 @@ export default function SessionScreen({
 
     const body =
         state === 'hostkey' && hostKeyPrompt
-            ? hostKeyFace({ prompt: hostKeyPrompt, onRespond: onHostKeyRespond, background, accent })
+            ? hostKeyFace({ prompt: hostKeyPrompt, onRespond: onHostKeyRespond, background, accent, t })
             : state === 'auth' && authPrompt
-                ? authFace({ prompt: authPrompt, onRespond: onAuthRespond, background, address })
+                ? authFace({ prompt: authPrompt, onRespond: onAuthRespond, background, address, t })
                 : state === 'failed'
                     ? failedFace({
                         message,
@@ -391,6 +394,7 @@ export default function SessionScreen({
                         maxAttempts,
                         onReconnect,
                         background,
+                        t,
                     })
                     : null;
 

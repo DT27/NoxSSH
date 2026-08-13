@@ -1,4 +1,5 @@
 import { OsIcon } from '../../lib/os-icons';
+import { useT } from '../../i18n';
 
 /**
  * The screen a session shows while it is coming up.
@@ -22,6 +23,9 @@ export default function ConnectingSplash({
     className = '',
     style,
 }) {
+    const t = useT();
+    const [before, after = ''] = t('session.connectingTo', { title: '\u0000' }).split('\u0000');
+
     return (
         <div
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 ${className}`}
@@ -45,7 +49,7 @@ export default function ConnectingSplash({
                 </div>
 
                 <p className="mt-5 text-sm font-medium">
-                    Connecting to <span className="font-semibold">{title}</span>
+                    {before}<span className="font-semibold">{title}</span>{after}
                 </p>
 
                 {subtitle && (

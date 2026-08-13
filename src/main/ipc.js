@@ -906,7 +906,7 @@ function register(getWindow) {
     // renderer's word.
     handle('import-apply', (event, options) => {
         const result = importer.apply(options || {});
-        const sourceLabels = { putty: 'PuTTY', kitty: 'KiTTY', mobaxterm: 'MobaXterm' };
+        const sourceLabels = { putty: 'PuTTY', kitty: 'KiTTY', mobaxterm: 'MobaXterm', nextssh: 'NextSSH' };
         activity.record({
             category: 'data',
             action: 'import.apply',

@@ -502,6 +502,11 @@ export default {
     'appImport.keyUnreadable': 'ilegível',
     'appImport.copyKeysDesc': 'Cada ficheiro de chave é lido para o porta-chaves e cifrado com o '
         + 'cofre do sistema. Sem isto, os anfitriões importados ficam a usar o seu agente SSH.',
+    'appImport.chooseNextsshTitle': 'Escolher um ficheiro de cópia de segurança do NextSSH',
+    'appImport.copyNextsshKeysDesc': 'As chaves privadas da cópia de segurança vão para o porta-chaves e são cifradas '
+        + 'com o cofre do sistema. Sem isto, os anfitriões com palavra-passe usam essa palavra-passe; os restantes usam o seu agente SSH.',
+    'appImport.nextsshFileKind': 'Cópia de segurança do NextSSH',
+    'appImport.nextsshHint': 'Escolher um ficheiro de cópia de segurança',
     'appImport.report': 'Importados {hosts} anfitriões',
 
     /* ---- Settings navigation ---- */
@@ -1445,4 +1450,40 @@ export default {
     'assistant.allowed': 'Permitido',
     'assistant.declined': 'Recusado',
     'assistant.timedOut': 'Expirou',
+
+    /* ---------------------------------------------------------------- *
+     * Connection overlay (host key, extra auth, retry)
+     * ---------------------------------------------------------------- */
+    'session.additionalAuth': 'Autenticação adicional',
+    'session.closePane': 'Fechar painel',
+    'session.connectingTo': 'A ligar a {title}',
+    'session.continue': 'Continuar',
+    'session.copied': 'Copiado',
+    'session.copyFingerprint': 'Copiar impressão digital',
+    'session.couldNotConnect': 'Não foi possível ligar',
+    'session.disconnect': 'Desligar',
+    'session.hostKeyChanged': 'A chave do anfitrião mudou',
+    'session.hostKeyChangedDesc': 'A chave que este servidor apresentou não é a que confiava para este '
+        + 'endereço.',
+    'session.hostKeyChangedWarn': 'Um servidor reinstalado ou com chave nova parece exactamente isto. Um '
+        + 'intermediário também. Não continue sem saber qual dos dois é.',
+    'session.hostKeyUnknown': 'Chave do anfitrião desconhecida',
+    'session.hostKeyUnknownDesc': 'Este servidor ainda não foi visto. Confirme a impressão digital com uma que tenha '
+        + 'obtido do próprio servidor, não através desta ligação.',
+    'session.replaceStoredKey': 'Substituir a chave guardada',
+    'session.response': 'Resposta',
+    'session.retryAttempt': '(tentativa {attempt} de {max})',
+    'session.retryIn': 'A tentar de novo em {seconds}s',
+    'session.retryNow': 'Tentar agora',
+    'session.statusConnected': 'Ligado',
+    'session.statusConnecting': 'A ligar…',
+    'session.statusDisconnected': 'Desligado',
+    'session.statusFailed': 'Desligado, não foi possível religar',
+    'session.statusFailedShort': 'Não foi possível religar',
+    'session.statusReconnecting': 'A religar…',
+    'session.statusRetrying': 'A religar em {seconds}s (tentativa {attempt} de {max})',
+    'session.statusRetryingShort': 'A tentar de novo em {seconds}s',
+    'session.trustAndConnect': 'Confiar e ligar',
+    'session.tryAgain': 'Tentar de novo',
+    'session.unknownKeyType': 'desconhecido',
 };
