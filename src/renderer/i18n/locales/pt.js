@@ -5,1485 +5,1771 @@
  * missing here falls back to en.js.
  */
 export default {
-    /* ---- Shared words ---- */
-    'common.allFiles': 'Todos os ficheiros',
-    'common.apply': 'Aplicar',
-    'common.cancel': 'Cancelar',
-    'common.change': 'Alterar',
-    'common.changeEllipsis': 'Alterar…',
-    'common.clear': 'Limpar',
-    'common.close': 'Fechar',
-    'common.filter': 'Filtrar',
-    'common.filtered': 'Filtrado.',
-    'common.keepCurrentColors': 'Nenhuma (manter as cores atuais)',
-    'common.left': 'Esquerda',
-    'common.loading': 'A carregar…',
-    'common.noFilterMatches': 'Nada corresponde a esses filtros.',
-    'common.noMatches': 'Nada corresponde a “{query}”',
-    'common.noMatchesTitle': 'Sem resultados',
-    'common.off': 'Desligado',
-    'common.remove': 'Remover',
-    'common.reset': 'Repor',
-    'common.right': 'Direita',
-    'common.save': 'Guardar',
-    'common.saveAndApply': 'Guardar e aplicar',
-    'common.startFrom': 'Começar a partir de',
-    'common.working': 'A trabalhar…',
+  /* ---- Shared words ---- */
+  "common.allFiles": "Todos os ficheiros",
+  "common.apply": "Aplicar",
+  "common.cancel": "Cancelar",
+  "common.change": "Alterar",
+  "common.changeEllipsis": "Alterar…",
+  "common.clear": "Limpar",
+  "common.close": "Fechar",
+  "common.filter": "Filtrar",
+  "common.filtered": "Filtrado.",
+  "common.keepCurrentColors": "Nenhuma (manter as cores atuais)",
+  "common.left": "Esquerda",
+  "common.loading": "A carregar…",
+  "common.noFilterMatches": "Nada corresponde a esses filtros.",
+  "common.noMatches": "Nada corresponde a “{query}”",
+  "common.noMatchesTitle": "Sem resultados",
+  "common.off": "Desligado",
+  "common.remove": "Remover",
+  "common.reset": "Repor",
+  "common.right": "Direita",
+  "common.save": "Guardar",
+  "common.saveAndApply": "Guardar e aplicar",
+  "common.startFrom": "Começar a partir de",
+  "common.working": "A trabalhar…",
 
-    /* ---- Sidebar ---- */
-    'nav.hosts': 'Anfitriões',
-    'nav.keychain': 'Porta-chaves',
-    'nav.proxies': 'Proxies',
-    'nav.snippets': 'Excertos',
-    'nav.logs': 'Registos',
-    'nav.settings': 'Definições',
+  /* ---- Sidebar ---- */
+  "nav.hosts": "Anfitriões",
+  "nav.keychain": "Porta-chaves",
+  "nav.proxies": "Proxies",
+  "nav.snippets": "Excertos",
+  "nav.logs": "Registos",
+  "nav.settings": "Definições",
 
-    /* ---- Hosts ---- */
-    'hosts.count_one': '{count} anfitrião',
-    'hosts.count_other': '{count} anfitriões',
-    'hosts.folderCount_one': '{count} pasta',
-    'hosts.folderCount_other': '{count} pastas',
-    'hosts.empty': 'Ainda sem anfitriões',
-    'hosts.emptyNote': 'Adicione um servidor para começar.',
-    'hosts.emptyFolder': 'Ainda não há nada aqui',
-    'hosts.layout': 'Disposição dos cartões',
-    'hosts.newFolder': 'Nova pasta',
-    'hosts.newHost': 'Novo anfitrião',
-    'hosts.search': 'Procurar anfitriões',
-    'hosts.viewGrid': 'Grelha',
-    'hosts.viewList': 'Lista',
+  /* ---- Hosts ---- */
+  "hosts.count_one": "{count} anfitrião",
+  "hosts.count_other": "{count} anfitriões",
+  "hosts.folderCount_one": "{count} pasta",
+  "hosts.folderCount_other": "{count} pastas",
+  "hosts.empty": "Ainda sem anfitriões",
+  "hosts.emptyNote": "Adicione um servidor para começar.",
+  "hosts.emptyFolder": "Ainda não há nada aqui",
+  "hosts.layout": "Disposição dos cartões",
+  "hosts.newFolder": "Nova pasta",
+  "hosts.newHost": "Novo anfitrião",
+  "hosts.search": "Procurar anfitriões",
+  "hosts.viewGrid": "Grelha",
+  "hosts.viewList": "Lista",
 
-    'hosts.editor.titleNew': 'Novo anfitrião',
-    'hosts.editor.titleEdit': 'Editar anfitrião',
-    'hosts.editor.subtitle': 'Onde ligar, como autenticar e o que fazer depois de entrar.',
-    'hosts.editor.thisHostIs': 'Este anfitrião é',
-    'hosts.kind.ssh': 'SSH',
-    'hosts.kind.telnet': 'Telnet',
-    'hosts.kind.serial': 'Série',
-    'hosts.kind.desktop': 'Ambiente de trabalho',
-    'hosts.kind.ipmi': 'IPMI',
-    'hosts.editor.telnetWarning': 'O Telnet não é cifrado. Tudo o que passa por ele, incluindo o que escrever no ecrã de início de sessão, pode ser lido por qualquer um no caminho. Use-o só em equipamentos que não ofereçam nada melhor.',
-    'hosts.editor.hostname': 'Nome / IP',
-    'hosts.editor.hostnameDesktopHint': 'Onde está o ambiente de trabalho. Usado salvo se a secção Ambiente de trabalho abaixo indicar outro endereço.',
-    'hosts.editor.hostnameIpmiHint': 'Onde está o processador de serviço. Usado salvo se a secção IPMI abaixo indicar outro endereço.',
-    'hosts.editor.port': 'Porta',
-    'hosts.editor.username': 'Nome de utilizador',
-    'hosts.editor.authMethod': 'Método de autenticação',
-    'hosts.editor.auth.password': 'Palavra-passe',
-    'hosts.editor.auth.passwordHint': 'Enviar uma palavra-passe guardada',
-    'hosts.editor.auth.keychain': 'Chaveiro',
-    'hosts.editor.auth.keychainHint': 'Usar uma chave do chaveiro da aplicação',
-    'hosts.editor.auth.key': 'Chave',
-    'hosts.editor.auth.keyHint': 'Colar uma chave privada só para este anfitrião',
-    'hosts.editor.auth.agent': 'Agente',
-    'hosts.editor.auth.agentHint': 'Usar as chaves do seu agente SSH',
-    'hosts.editor.sshKey': 'Chave SSH',
-    'hosts.editor.noKeysInKeychain': 'Não há chaves SSH. Adicione-as primeiro na página Chaveiro.',
-    'hosts.editor.selectKey': 'Selecionar uma chave…',
-    'hosts.editor.password': 'Palavra-passe',
-    'hosts.editor.passwordPlaceholderStored': 'Guardada, deixe em branco para manter',
-    'hosts.editor.passwordPlaceholder': '••••••••',
-    'hosts.editor.showPassword': 'Mostrar palavra-passe',
-    'hosts.editor.hidePassword': 'Ocultar palavra-passe',
-    'hosts.editor.storedPasswordHint': 'Há uma palavra-passe guardada para este anfitrião.',
-    'hosts.editor.privateKey': 'Chave privada',
-    'hosts.editor.privateKeyPlaceholderStored': 'Guardada, deixe em branco para manter',
-    'hosts.editor.privateKeyPlaceholder': '-----BEGIN OPENSSH PRIVATE KEY-----…',
-    'hosts.editor.storedPrivateKeyHint': 'Há uma chave privada guardada para este anfitrião.',
-    'hosts.editor.keyPassphrase': 'Frase-passe da chave',
-    'hosts.editor.keyPassphrasePlaceholder': 'Deixe vazio se a chave não tiver frase-passe',
-    'hosts.editor.chooseKeyFile': 'Escolher ficheiro da chave…',
-    'hosts.editor.optional': 'Opcional',
-    'hosts.editor.disclosure.nameAndTags': 'Nome e etiquetas',
-    'hosts.editor.displayName': 'Nome a mostrar',
-    'hosts.editor.displayNameHint': 'Se ficar em branco, este anfitrião aparece como {address}.',
-    'hosts.editor.displayNamePlaceholder': 'p. ex. Servidor de produção',
-    'hosts.editor.tags': 'Etiquetas',
-    'hosts.editor.tagsHint': 'Atravessam pastas: um anfitrião fica numa pasta e pode ter quantas etiquetas quiser.',
-    'hosts.editor.disclosure.connectThrough': 'Ligar através de',
-    'hosts.editor.connectDirectly': 'Ligar diretamente',
-    'hosts.editor.jumpHintWith': 'É marcado primeiro; este anfitrião chega depois por um canal nele. A sessão interior permanece cifrada de ponta a ponta, por isso o relay transporta bytes que não consegue ler.',
-    'hosts.editor.jumpHintWithout': 'Para um anfitrião sem rota a partir desta máquina, indique o bastião que a tem.',
-    'hosts.editor.disclosure.proxies': 'Proxies',
-    'hosts.editor.proxyHintWith': 'O socket abre-se através do proxy, a quem se pede que chegue ao endereço acima. Tudo o que a sessão transporta viaja lá dentro: ficheiros, encaminhamentos de portas e um ambiente de trabalho marcado diretamente.',
-    'hosts.editor.proxyHintWithout': 'Para uma rede só acessível por um proxy SOCKS ou HTTP. Os proxies guardados gerem-se na página Proxies.',
-    'hosts.editor.noProxiesSaved': 'Nenhum proxy guardado. Adicione um na página Proxies primeiro.',
-    'hosts.editor.dialStraightOut': 'Marcar diretamente',
-    'hosts.editor.proxyJumpNote': 'Chega-se através de {jump}; a única ligação para fora desta máquina é a de {jump}, por isso é a definição de proxy dele que a abre. O proxy escolhido aqui usa-se quando este anfitrião é marcado sem o relay.',
-    'hosts.editor.disclosure.runOnConnect': 'Executar ao ligar',
-    'hosts.editor.initHintSsh': 'Enviado à shell assim que abre, e de novo após uma religação. Um comando por linha.',
-    'hosts.editor.initHintOther': 'Enviado no momento em que a sessão abre, sem esperar por nada. Não há deteção de prompt, por isso num equipamento que pede início de sessão isto é escrito no ecrã de início de sessão.',
-    'hosts.editor.initPlaceholderSsh': 'cd /srv/app && tmux attach',
-    'hosts.editor.initPlaceholderOther': 'terminal length 0',
-    'hosts.editor.disclosure.monitoring': 'Monitorização',
-    'hosts.editor.watchThisHost': 'Vigiar este anfitrião',
-    'hosts.editor.watchDesc': 'Enquanto a aplicação estiver aberta, verificar periodicamente se ainda há resposta aqui. Um anfitrião que pára gera uma notificação uma vez, e o cartão fica marcado até voltar.',
-    'hosts.editor.checkPort': 'Porta a verificar',
-    'hosts.editor.checkPortHint': 'Defina para vigiar outra coisa na mesma máquina, um servidor web ou uma base de dados, em vez da porta de início de sessão deste anfitrião.',
-    'hosts.editor.checkPortHintDefault': 'Se ficar em branco, este anfitrião é verificado na porta em que se liga.',
-    'hosts.editor.checkPortHintDefaultOn': 'Se ficar em branco, este anfitrião é verificado na porta {port}, a da ligação.',
-    'hosts.editor.monitorSummary': 'Vigiado',
-    'hosts.editor.monitorSummaryWithPort': 'Vigiado na porta {port}',
-    'hosts.editor.advancedSummary': 'Algoritmos antigos permitidos',
-    'hosts.editor.desktopRdp': 'RDP',
-    'hosts.editor.desktopVnc': 'VNC',
-    'hosts.editor.bmcSameHost': 'O mesmo que o anfitrião',
-    'hosts.editor.aJumpHost': 'um anfitrião de salto',
-    'hosts.editor.monitoringOffForApp': 'A monitorização está desligada na aplicação, por isso este anfitrião será configurado e ainda não verificado.',
-    'hosts.editor.turnItOn': 'Ativar',
-    'hosts.editor.disclosure.portForwarding': 'Encaminhamento de portas',
-    'hosts.editor.disclosure.remoteDesktop': 'Ambiente de trabalho remoto',
-    'hosts.editor.disclosure.ipmi': 'IPMI',
-    'hosts.editor.disclosure.advanced': 'Avançado',
-    'hosts.editor.allowLegacy': 'Permitir algoritmos antigos',
-    'hosts.editor.allowLegacyDesc': 'Ativa SHA-1, CBC e 3DES para servidores velhos. Enfraquece a ligação; deixe desligado salvo se o handshake falhar.',
-    'hosts.editor.cancel': 'Cancelar',
-    'hosts.editor.save': 'Guardar anfitrião',
-    'hosts.editor.create': 'Criar anfitrião',
+  "hosts.editor.titleNew": "Novo anfitrião",
+  "hosts.editor.titleEdit": "Editar anfitrião",
+  "hosts.editor.subtitle":
+    "Onde ligar, como autenticar e o que fazer depois de entrar.",
+  "hosts.editor.thisHostIs": "Este anfitrião é",
+  "hosts.kind.ssh": "SSH",
+  "hosts.kind.telnet": "Telnet",
+  "hosts.kind.serial": "Série",
+  "hosts.kind.desktop": "Ambiente de trabalho",
+  "hosts.kind.ipmi": "IPMI",
+  "hosts.editor.telnetWarning":
+    "O Telnet não é cifrado. Tudo o que passa por ele, incluindo o que escrever no ecrã de início de sessão, pode ser lido por qualquer um no caminho. Use-o só em equipamentos que não ofereçam nada melhor.",
+  "hosts.editor.hostname": "Nome / IP",
+  "hosts.editor.hostnameDesktopHint":
+    "Onde está o ambiente de trabalho. Usado salvo se a secção Ambiente de trabalho abaixo indicar outro endereço.",
+  "hosts.editor.hostnameIpmiHint":
+    "Onde está o processador de serviço. Usado salvo se a secção IPMI abaixo indicar outro endereço.",
+  "hosts.editor.port": "Porta",
+  "hosts.editor.username": "Nome de utilizador",
+  "hosts.editor.authMethod": "Método de autenticação",
+  "hosts.editor.auth.password": "Palavra-passe",
+  "hosts.editor.auth.passwordHint": "Enviar uma palavra-passe guardada",
+  "hosts.editor.auth.keychain": "Chaveiro",
+  "hosts.editor.auth.keychainHint": "Usar uma chave do chaveiro da aplicação",
+  "hosts.editor.auth.key": "Chave",
+  "hosts.editor.auth.keyHint": "Colar uma chave privada só para este anfitrião",
+  "hosts.editor.auth.agent": "Agente",
+  "hosts.editor.auth.agentHint": "Usar as chaves do seu agente SSH",
+  "hosts.editor.sshKey": "Chave SSH",
+  "hosts.editor.noKeysInKeychain":
+    "Não há chaves SSH. Adicione-as primeiro na página Chaveiro.",
+  "hosts.editor.selectKey": "Selecionar uma chave…",
+  "hosts.editor.password": "Palavra-passe",
+  "hosts.editor.passwordPlaceholderStored":
+    "Guardada, deixe em branco para manter",
+  "hosts.editor.passwordPlaceholder": "••••••••",
+  "hosts.editor.showPassword": "Mostrar palavra-passe",
+  "hosts.editor.hidePassword": "Ocultar palavra-passe",
+  "hosts.editor.storedPasswordHint":
+    "Há uma palavra-passe guardada para este anfitrião.",
+  "hosts.editor.privateKey": "Chave privada",
+  "hosts.editor.privateKeyPlaceholderStored":
+    "Guardada, deixe em branco para manter",
+  "hosts.editor.privateKeyPlaceholder": "-----BEGIN OPENSSH PRIVATE KEY-----…",
+  "hosts.editor.storedPrivateKeyHint":
+    "Há uma chave privada guardada para este anfitrião.",
+  "hosts.editor.keyPassphrase": "Frase-passe da chave",
+  "hosts.editor.keyPassphrasePlaceholder":
+    "Deixe vazio se a chave não tiver frase-passe",
+  "hosts.editor.chooseKeyFile": "Escolher ficheiro da chave…",
+  "hosts.editor.optional": "Opcional",
+  "hosts.editor.disclosure.nameAndTags": "Nome e etiquetas",
+  "hosts.editor.displayName": "Nome a mostrar",
+  "hosts.editor.displayNameHint":
+    "Se ficar em branco, este anfitrião aparece como {address}.",
+  "hosts.editor.displayNamePlaceholder": "p. ex. Servidor de produção",
+  "hosts.editor.tags": "Etiquetas",
+  "hosts.editor.tagsHint":
+    "Atravessam pastas: um anfitrião fica numa pasta e pode ter quantas etiquetas quiser.",
+  "hosts.editor.disclosure.connectThrough": "Ligar através de",
+  "hosts.editor.connectDirectly": "Ligar diretamente",
+  "hosts.editor.jumpHintWith":
+    "É marcado primeiro; este anfitrião chega depois por um canal nele. A sessão interior permanece cifrada de ponta a ponta, por isso o relay transporta bytes que não consegue ler.",
+  "hosts.editor.jumpHintWithout":
+    "Para um anfitrião sem rota a partir desta máquina, indique o bastião que a tem.",
+  "hosts.editor.disclosure.proxies": "Proxies",
+  "hosts.editor.proxyHintWith":
+    "O socket abre-se através do proxy, a quem se pede que chegue ao endereço acima. Tudo o que a sessão transporta viaja lá dentro: ficheiros, encaminhamentos de portas e um ambiente de trabalho marcado diretamente.",
+  "hosts.editor.proxyHintWithout":
+    "Para uma rede só acessível por um proxy SOCKS ou HTTP. Os proxies guardados gerem-se na página Proxies.",
+  "hosts.editor.noProxiesSaved":
+    "Nenhum proxy guardado. Adicione um na página Proxies primeiro.",
+  "hosts.editor.dialStraightOut": "Marcar diretamente",
+  "hosts.editor.proxyJumpNote":
+    "Chega-se através de {jump}; a única ligação para fora desta máquina é a de {jump}, por isso é a definição de proxy dele que a abre. O proxy escolhido aqui usa-se quando este anfitrião é marcado sem o relay.",
+  "hosts.editor.disclosure.runOnConnect": "Executar ao ligar",
+  "hosts.editor.initHintSsh":
+    "Enviado à shell assim que abre, e de novo após uma religação. Um comando por linha.",
+  "hosts.editor.initHintOther":
+    "Enviado no momento em que a sessão abre, sem esperar por nada. Não há deteção de prompt, por isso num equipamento que pede início de sessão isto é escrito no ecrã de início de sessão.",
+  "hosts.editor.initPlaceholderSsh": "cd /srv/app && tmux attach",
+  "hosts.editor.initPlaceholderOther": "terminal length 0",
+  "hosts.editor.disclosure.monitoring": "Monitorização",
+  "hosts.editor.watchThisHost": "Vigiar este anfitrião",
+  "hosts.editor.watchDesc":
+    "Enquanto a aplicação estiver aberta, verificar periodicamente se ainda há resposta aqui. Um anfitrião que pára gera uma notificação uma vez, e o cartão fica marcado até voltar.",
+  "hosts.editor.checkPort": "Porta a verificar",
+  "hosts.editor.checkPortHint":
+    "Defina para vigiar outra coisa na mesma máquina, um servidor web ou uma base de dados, em vez da porta de início de sessão deste anfitrião.",
+  "hosts.editor.checkPortHintDefault":
+    "Se ficar em branco, este anfitrião é verificado na porta em que se liga.",
+  "hosts.editor.checkPortHintDefaultOn":
+    "Se ficar em branco, este anfitrião é verificado na porta {port}, a da ligação.",
+  "hosts.editor.monitorSummary": "Vigiado",
+  "hosts.editor.monitorSummaryWithPort": "Vigiado na porta {port}",
+  "hosts.editor.advancedSummary": "Algoritmos antigos permitidos",
+  "hosts.editor.desktopRdp": "RDP",
+  "hosts.editor.desktopVnc": "VNC",
+  "hosts.editor.bmcSameHost": "O mesmo que o anfitrião",
+  "hosts.editor.aJumpHost": "um anfitrião de salto",
+  "hosts.editor.monitoringOffForApp":
+    "A monitorização está desligada na aplicação, por isso este anfitrião será configurado e ainda não verificado.",
+  "hosts.editor.turnItOn": "Ativar",
+  "hosts.editor.disclosure.portForwarding": "Encaminhamento de portas",
+  "hosts.editor.disclosure.remoteDesktop": "Ambiente de trabalho remoto",
+  "hosts.editor.disclosure.ipmi": "IPMI",
+  "hosts.editor.disclosure.advanced": "Avançado",
+  "hosts.editor.allowLegacy": "Permitir algoritmos antigos",
+  "hosts.editor.allowLegacyDesc":
+    "Ativa SHA-1, CBC e 3DES para servidores velhos. Enfraquece a ligação; deixe desligado salvo se o handshake falhar.",
+  "hosts.editor.cancel": "Cancelar",
+  "hosts.editor.save": "Guardar anfitrião",
+  "hosts.editor.create": "Criar anfitrião",
 
-    /* ---- Keychain ---- */
-    'keychain.count_one': '{count} chave',
-    'keychain.count_other': '{count} chaves',
-    'keychain.empty': 'Ainda sem chaves',
-    'keychain.emptyNote': 'Gere ou importe uma para começar.',
-    'keychain.helloAdd': 'Adicionar uma chave do Windows Hello, guardada no TPM deste PC',
-    'keychain.helloWaiting': 'A aguardar o Windows Hello…',
-    'keychain.import': 'Importar uma chave existente, de um ficheiro ou colada',
-    'keychain.newKey': 'Nova chave',
-    'keychain.search': 'Procurar chaves',
-    'keychain.editor.titleHello': 'Chave do Windows Hello',
-    'keychain.editor.titleEdit': 'Editar chave SSH',
-    'keychain.editor.titleGenerate': 'Gerar chave SSH',
-    'keychain.editor.titleImport': 'Importar chave SSH',
-    'keychain.editor.subtitleHello': 'A chave privada está no TPM deste PC. Nada aqui a consegue ler, incluindo esta aplicação.',
-    'keychain.editor.subtitle': 'As chaves ficam no chaveiro da aplicação e nunca saem do processo principal.',
-    'keychain.editor.save': 'Guardar chave',
-    'keychain.editor.name': 'Nome da chave',
-    'keychain.editor.namePlaceholder': 'p. ex. A minha chave do GitHub',
-    'keychain.editor.helloHeld': 'Guardada pelo Windows Hello',
-    'keychain.editor.helloBody': 'A chave privada vive no TPM deste PC e não pode ser exportada, copiada nem copiada de segurança, nem por esta aplicação nem por si. Cada ligação pede o Windows Hello.',
-    'keychain.editor.helloWarn': 'Só funciona nesta máquina. Reinstalar noutro sítio, ou repor o Windows Hello, perde-a para sempre. Mantenha outra chave nos servidores para não ficar de fora.',
-    'keychain.editor.publicKey': 'Chave pública',
-    'keychain.editor.publicKeyOptional': 'Chave pública (opcional)',
-    'keychain.editor.publicKeyHelloHint': 'Coloque esta linha em ~/.ssh/authorized_keys nos servidores a que quiser chegar.',
-    'keychain.editor.publicKeyImportHint': 'Cole-a para registar a impressão digital e o algoritmo.',
-    'keychain.editor.publicKeyCopied': 'Chave pública copiada',
-    'keychain.editor.copy': 'Copiar',
-    'keychain.editor.fingerprint': 'Impressão digital',
-    'keychain.editor.keyType': 'Tipo de chave',
-    'keychain.editor.typeEd25519': 'Moderna, rápida, segura (recomendado)',
-    'keychain.editor.typeEcdsa': 'DSA de curva elíptica',
-    'keychain.editor.typeRsa': 'Chave RSA tradicional',
-    'keychain.editor.curveSize': 'Tamanho da curva elíptica (bits)',
-    'keychain.editor.keySize': 'Tamanho da chave (bits)',
-    'keychain.editor.keySizeHint': 'Opcional. Se não escolher, o ssh-keygen usa o valor predefinido.',
-    'keychain.editor.comment': 'Comentário',
-    'keychain.editor.commentHint': 'Opcional. Escrito na própria chave.',
-    'keychain.editor.commentPlaceholder': 'p. ex. user@example.com',
-    'keychain.editor.passphrase': 'Frase-passe',
-    'keychain.editor.passphraseGenerateHint': 'Opcional. A chave gerada é cifrada com isto.',
-    'keychain.editor.passphraseGeneratePlaceholder': 'Deixe vazio para não ter frase-passe',
-    'keychain.editor.generating': 'A gerar…',
-    'keychain.editor.generate': 'Gerar par de chaves',
-    'keychain.editor.importFromFile': 'Importar de um ficheiro',
-    'keychain.editor.importFromFileHint': 'Escolha uma chave como id_ed25519. Um .pub ou -cert.pub ao lado também entra, e a chave é lida sem passar por esta janela.',
-    'keychain.editor.choosing': 'A escolher…',
-    'keychain.editor.chooseFile': 'Escolher ficheiro',
-    'keychain.editor.chooseAnother': 'Escolher outro ficheiro',
-    'keychain.editor.pasteInstead': 'Colar em vez disso',
-    'keychain.editor.privateKey': 'Chave privada',
-    'keychain.editor.privateKeyFromFile': 'Chave privada lida de {file}',
-    'keychain.editor.privateKeyGenerated': 'Chave privada gerada',
-    'keychain.editor.privateKeyHeld': 'É guardada pela aplicação e será cifrada com o cofre do SO ao guardar.',
-    'keychain.editor.privateKeyStoredPlaceholder': 'Guardada, deixe em branco para manter',
-    'keychain.editor.hidePrivate': 'Ocultar chave privada',
-    'keychain.editor.showPrivate': 'Mostrar chave privada',
-    'keychain.editor.hidePassphrase': 'Ocultar frase-passe',
-    'keychain.editor.showPassphrase': 'Mostrar frase-passe',
-    'keychain.editor.certificate': 'Certificado (opcional)',
-    'keychain.editor.certHintEmpty': 'Assinado por uma CA e apresentado em vez da chave nua. Cole um *-cert.pub.',
-    'keychain.editor.certNeverExpires': 'nunca expira',
-    'keychain.editor.certExpired': 'EXPIRADO {date}',
-    'keychain.editor.certValidUntil': 'válido até {date}',
-    'keychain.editor.certLogsInAs': 'entra como {names}',
-    'keychain.editor.certAnyUser': 'válido para qualquer nome de utilizador',
-    'keychain.editor.certSummary': '{who} · {expiry} · CA {ca}',
-    'keychain.editor.passphraseFileEncrypted': '{file} está cifrado. Sem a frase-passe a chave não liga.',
-    'keychain.editor.passphraseStoredHint': 'Há uma frase-passe guardada para esta chave. Deixe em branco para a manter.',
-    'keychain.editor.passphraseImportHint': 'Só se a chave privada acima estiver cifrada.',
-    'keychain.editor.passphraseStoredPlaceholder': 'Guardada, deixe em branco para manter',
-    'keychain.editor.passphraseNonePlaceholder': 'Deixe vazio se a chave não tiver nenhuma',
-    'keychain.editor.dangerZone': 'Zona de perigo',
-    'keychain.editor.dangerZoneDesc': 'Depois de apagar esta chave não há volta atrás. Tenha a certeza.',
-    'keychain.editor.delete': 'Apagar esta chave',
+  /* ---- Keychain ---- */
+  "keychain.count_one": "{count} chave",
+  "keychain.count_other": "{count} chaves",
+  "keychain.empty": "Ainda sem chaves",
+  "keychain.emptyNote": "Gere ou importe uma para começar.",
+  "keychain.helloAdd":
+    "Adicionar uma chave do Windows Hello, guardada no TPM deste PC",
+  "keychain.helloWaiting": "A aguardar o Windows Hello…",
+  "keychain.import": "Importar uma chave existente, de um ficheiro ou colada",
+  "keychain.newKey": "Nova chave",
+  "keychain.search": "Procurar chaves",
+  "keychain.editor.titleHello": "Chave do Windows Hello",
+  "keychain.editor.titleEdit": "Editar chave SSH",
+  "keychain.editor.titleGenerate": "Gerar chave SSH",
+  "keychain.editor.titleImport": "Importar chave SSH",
+  "keychain.editor.subtitleHello":
+    "A chave privada está no TPM deste PC. Nada aqui a consegue ler, incluindo esta aplicação.",
+  "keychain.editor.subtitle":
+    "As chaves ficam no chaveiro da aplicação e nunca saem do processo principal.",
+  "keychain.editor.save": "Guardar chave",
+  "keychain.editor.name": "Nome da chave",
+  "keychain.editor.namePlaceholder": "p. ex. A minha chave do GitHub",
+  "keychain.editor.helloHeld": "Guardada pelo Windows Hello",
+  "keychain.editor.helloBody":
+    "A chave privada vive no TPM deste PC e não pode ser exportada, copiada nem copiada de segurança, nem por esta aplicação nem por si. Cada ligação pede o Windows Hello.",
+  "keychain.editor.helloWarn":
+    "Só funciona nesta máquina. Reinstalar noutro sítio, ou repor o Windows Hello, perde-a para sempre. Mantenha outra chave nos servidores para não ficar de fora.",
+  "keychain.editor.publicKey": "Chave pública",
+  "keychain.editor.publicKeyOptional": "Chave pública (opcional)",
+  "keychain.editor.publicKeyHelloHint":
+    "Coloque esta linha em ~/.ssh/authorized_keys nos servidores a que quiser chegar.",
+  "keychain.editor.publicKeyImportHint":
+    "Cole-a para registar a impressão digital e o algoritmo.",
+  "keychain.editor.publicKeyCopied": "Chave pública copiada",
+  "keychain.editor.copy": "Copiar",
+  "keychain.editor.fingerprint": "Impressão digital",
+  "keychain.editor.keyType": "Tipo de chave",
+  "keychain.editor.typeEd25519": "Moderna, rápida, segura (recomendado)",
+  "keychain.editor.typeEcdsa": "DSA de curva elíptica",
+  "keychain.editor.typeRsa": "Chave RSA tradicional",
+  "keychain.editor.curveSize": "Tamanho da curva elíptica (bits)",
+  "keychain.editor.keySize": "Tamanho da chave (bits)",
+  "keychain.editor.keySizeHint":
+    "Opcional. Se não escolher, o ssh-keygen usa o valor predefinido.",
+  "keychain.editor.comment": "Comentário",
+  "keychain.editor.commentHint": "Opcional. Escrito na própria chave.",
+  "keychain.editor.commentPlaceholder": "p. ex. user@example.com",
+  "keychain.editor.passphrase": "Frase-passe",
+  "keychain.editor.passphraseGenerateHint":
+    "Opcional. A chave gerada é cifrada com isto.",
+  "keychain.editor.passphraseGeneratePlaceholder":
+    "Deixe vazio para não ter frase-passe",
+  "keychain.editor.generating": "A gerar…",
+  "keychain.editor.generate": "Gerar par de chaves",
+  "keychain.editor.importFromFile": "Importar de um ficheiro",
+  "keychain.editor.importFromFileHint":
+    "Escolha uma chave como id_ed25519. Um .pub ou -cert.pub ao lado também entra, e a chave é lida sem passar por esta janela.",
+  "keychain.editor.choosing": "A escolher…",
+  "keychain.editor.chooseFile": "Escolher ficheiro",
+  "keychain.editor.chooseAnother": "Escolher outro ficheiro",
+  "keychain.editor.pasteInstead": "Colar em vez disso",
+  "keychain.editor.privateKey": "Chave privada",
+  "keychain.editor.privateKeyFromFile": "Chave privada lida de {file}",
+  "keychain.editor.privateKeyGenerated": "Chave privada gerada",
+  "keychain.editor.privateKeyHeld":
+    "É guardada pela aplicação e será cifrada com o cofre do SO ao guardar.",
+  "keychain.editor.privateKeyStoredPlaceholder":
+    "Guardada, deixe em branco para manter",
+  "keychain.editor.hidePrivate": "Ocultar chave privada",
+  "keychain.editor.showPrivate": "Mostrar chave privada",
+  "keychain.editor.hidePassphrase": "Ocultar frase-passe",
+  "keychain.editor.showPassphrase": "Mostrar frase-passe",
+  "keychain.editor.certificate": "Certificado (opcional)",
+  "keychain.editor.certHintEmpty":
+    "Assinado por uma CA e apresentado em vez da chave nua. Cole um *-cert.pub.",
+  "keychain.editor.certNeverExpires": "nunca expira",
+  "keychain.editor.certExpired": "EXPIRADO {date}",
+  "keychain.editor.certValidUntil": "válido até {date}",
+  "keychain.editor.certLogsInAs": "entra como {names}",
+  "keychain.editor.certAnyUser": "válido para qualquer nome de utilizador",
+  "keychain.editor.certSummary": "{who} · {expiry} · CA {ca}",
+  "keychain.editor.passphraseFileEncrypted":
+    "{file} está cifrado. Sem a frase-passe a chave não liga.",
+  "keychain.editor.passphraseStoredHint":
+    "Há uma frase-passe guardada para esta chave. Deixe em branco para a manter.",
+  "keychain.editor.passphraseImportHint":
+    "Só se a chave privada acima estiver cifrada.",
+  "keychain.editor.passphraseStoredPlaceholder":
+    "Guardada, deixe em branco para manter",
+  "keychain.editor.passphraseNonePlaceholder":
+    "Deixe vazio se a chave não tiver nenhuma",
+  "keychain.editor.dangerZone": "Zona de perigo",
+  "keychain.editor.dangerZoneDesc":
+    "Depois de apagar esta chave não há volta atrás. Tenha a certeza.",
+  "keychain.editor.delete": "Apagar esta chave",
 
-    /* ---- Proxies ---- */
-    'proxies.empty': 'Ainda sem proxies',
-    'proxies.emptyNote': 'Adicione um proxy SOCKS ou HTTP e qualquer anfitrião passa a poder ligar '
-        + 'através dele: sessões de terminal, SFTP, encaminhamentos de portas e ambientes de '
-        + 'trabalho remotos.',
-    'proxies.newProxy': 'Novo proxy',
-    'proxies.search': 'Procurar proxies',
-    'proxies.editor.titleNew': 'Novo proxy',
-    'proxies.editor.titleEdit': 'Editar proxy',
-    'proxies.editor.subtitle': 'Um servidor por onde marcar. Os anfitriões apontam para ele, independentemente do protocolo depois de ligados.',
-    'proxies.editor.check': 'Verificar se responde',
-    'proxies.editor.checking': 'A verificar…',
-    'proxies.editor.create': 'Criar proxy',
-    'proxies.editor.save': 'Guardar proxy',
-    'proxies.editor.speaks': 'Este proxy fala',
-    'proxies.editor.address': 'Endereço do proxy',
-    'proxies.editor.port': 'Porta',
-    'proxies.editor.name': 'Nome',
-    'proxies.editor.nameHint': 'Opcional. Se ficar em branco, o proxy aparece como o seu endereço.',
-    'proxies.editor.namePlaceholder': 'p. ex. Proxy do bastião do escritório',
-    'proxies.editor.username': 'Nome de utilizador',
-    'proxies.editor.usernamePlaceholder': 'Deixe em branco se não precisar',
-    'proxies.editor.password': 'Palavra-passe',
-    'proxies.editor.passwordStored': 'Guardada, deixe em branco para manter',
-    'proxies.editor.passwordStoredHint': 'Há uma palavra-passe guardada para este proxy.',
-    'proxies.editor.showPassword': 'Mostrar palavra-passe',
-    'proxies.editor.hidePassword': 'Ocultar palavra-passe',
-    'proxies.editor.ident': 'Ident',
-    'proxies.editor.identHint': 'Enviado em claro como o id de utilizador SOCKS4. A maioria dos proxies ignora; deixe em branco salvo se o seu o verificar.',
-    'proxies.editor.identPlaceholder': 'Normalmente nada',
-    'proxies.editor.opening': 'A abrir uma ligação ao proxy…',
-    'proxies.editor.optional': 'Opcional',
-    'proxies.editor.reachedThrough': 'Chega-se através de',
-    'proxies.editor.viaHintWith': 'É marcado primeiro; este proxy chega depois através dele. Cada um só conhece o seguinte, por isso o extremo distante vê o último proxy da rota.',
-    'proxies.editor.viaHintWithout': 'Para um proxy que não é acessível desta máquina diretamente, indique o proxy que o vê.',
-    'proxies.editor.dialFromHere': 'Marcar desta máquina',
-    'proxies.editor.advanced': 'Avançado',
-    'proxies.editor.remoteDns': 'Deixar o proxy resolver nomes',
-    'proxies.editor.remoteDnsSocks4': 'Envia o nome em vez de um endereço, o que o SOCKS4a acrescentou. Desligue só para um proxy demasiado antigo para aceitar um nome.',
-    'proxies.editor.remoteDnsDesc': 'Mantém o DNS fora desta máquina, para aqui não se saber a que anfitrião vai, e redes partidas resolverem do lado que consegue. Desligue para um proxy que recusa nomes.',
-    'proxies.editor.timeout': 'Desistir após',
-    'proxies.editor.timeoutHint': 'Quanto tempo o proxy tem para aceitar a ligação e responder. A sessão em si nunca é cortada por isto.',
-    'proxies.editor.seconds': 'segundos',
+  /* ---- Proxies ---- */
+  "proxies.empty": "Ainda sem proxies",
+  "proxies.emptyNote":
+    "Adicione um proxy SOCKS ou HTTP e qualquer anfitrião passa a poder ligar " +
+    "através dele: sessões de terminal, SFTP, encaminhamentos de portas e ambientes de " +
+    "trabalho remotos.",
+  "proxies.newProxy": "Novo proxy",
+  "proxies.search": "Procurar proxies",
+  "proxies.editor.titleNew": "Novo proxy",
+  "proxies.editor.titleEdit": "Editar proxy",
+  "proxies.editor.subtitle":
+    "Um servidor por onde marcar. Os anfitriões apontam para ele, independentemente do protocolo depois de ligados.",
+  "proxies.editor.check": "Verificar se responde",
+  "proxies.editor.checking": "A verificar…",
+  "proxies.editor.create": "Criar proxy",
+  "proxies.editor.save": "Guardar proxy",
+  "proxies.editor.speaks": "Este proxy fala",
+  "proxies.editor.address": "Endereço do proxy",
+  "proxies.editor.port": "Porta",
+  "proxies.editor.name": "Nome",
+  "proxies.editor.nameHint":
+    "Opcional. Se ficar em branco, o proxy aparece como o seu endereço.",
+  "proxies.editor.namePlaceholder": "p. ex. Proxy do bastião do escritório",
+  "proxies.editor.username": "Nome de utilizador",
+  "proxies.editor.usernamePlaceholder": "Deixe em branco se não precisar",
+  "proxies.editor.password": "Palavra-passe",
+  "proxies.editor.passwordStored": "Guardada, deixe em branco para manter",
+  "proxies.editor.passwordStoredHint":
+    "Há uma palavra-passe guardada para este proxy.",
+  "proxies.editor.showPassword": "Mostrar palavra-passe",
+  "proxies.editor.hidePassword": "Ocultar palavra-passe",
+  "proxies.editor.ident": "Ident",
+  "proxies.editor.identHint":
+    "Enviado em claro como o id de utilizador SOCKS4. A maioria dos proxies ignora; deixe em branco salvo se o seu o verificar.",
+  "proxies.editor.identPlaceholder": "Normalmente nada",
+  "proxies.editor.opening": "A abrir uma ligação ao proxy…",
+  "proxies.editor.optional": "Opcional",
+  "proxies.editor.reachedThrough": "Chega-se através de",
+  "proxies.editor.viaHintWith":
+    "É marcado primeiro; este proxy chega depois através dele. Cada um só conhece o seguinte, por isso o extremo distante vê o último proxy da rota.",
+  "proxies.editor.viaHintWithout":
+    "Para um proxy que não é acessível desta máquina diretamente, indique o proxy que o vê.",
+  "proxies.editor.dialFromHere": "Marcar desta máquina",
+  "proxies.editor.advanced": "Avançado",
+  "proxies.editor.remoteDns": "Deixar o proxy resolver nomes",
+  "proxies.editor.remoteDnsSocks4":
+    "Envia o nome em vez de um endereço, o que o SOCKS4a acrescentou. Desligue só para um proxy demasiado antigo para aceitar um nome.",
+  "proxies.editor.remoteDnsDesc":
+    "Mantém o DNS fora desta máquina, para aqui não se saber a que anfitrião vai, e redes partidas resolverem do lado que consegue. Desligue para um proxy que recusa nomes.",
+  "proxies.editor.timeout": "Desistir após",
+  "proxies.editor.timeoutHint":
+    "Quanto tempo o proxy tem para aceitar a ligação e responder. A sessão em si nunca é cortada por isto.",
+  "proxies.editor.seconds": "segundos",
 
-    /* ---- Snippets ---- */
-    'snippets.count_one': '{count} excerto',
-    'snippets.count_other': '{count} excertos',
-    'snippets.empty': 'Ainda sem excertos',
-    'snippets.emptyNote': 'Guarde os comandos que reescreve em todas as máquinas.',
-    'snippets.newPackage': 'Novo pacote',
-    'snippets.newSnippet': 'Novo excerto',
-    'snippets.nothingShown': 'Nada a mostrar',
-    'snippets.search': 'Procurar excertos',
-    'snippets.showing': 'A mostrar: {kind}',
-    'snippets.kind.all': 'Tudo',
-    'snippets.kind.command': 'Só comandos',
-    'snippets.kind.package': 'Só pacotes',
-    'snippets.editor.titleNew': 'Novo excerto',
-    'snippets.editor.titleEdit': 'Editar excerto',
-    'snippets.editor.titleNewPackage': 'Novo pacote',
-    'snippets.editor.titleEditPackage': 'Editar pacote',
-    'snippets.editor.subtitle': 'Um comando que guarda e envia para uma sessão a partir da paleta.',
-    'snippets.editor.subtitlePackage': 'Uma série de comandos, enviados para uma sessão por ordem.',
-    'snippets.editor.add': 'Adicionar excerto',
-    'snippets.editor.addPackage': 'Adicionar pacote',
-    'snippets.editor.kind': 'Tipo',
-    'snippets.editor.kindCommand': 'Comando',
-    'snippets.editor.kindPackage': 'Pacote',
-    'snippets.editor.kindCommandHint': 'Um pedaço de texto, deixado no prompt.',
-    'snippets.editor.kindPackageHint': 'Os passos correm pela ordem que definir. Um passo pode ser escrito aqui ou tirado da biblioteca.',
-    'snippets.editor.name': 'Nome',
-    'snippets.editor.namePlaceholder': 'p. ex. Seguir erros do nginx',
-    'snippets.editor.namePlaceholderPackage': 'p. ex. Implantar e reiniciar',
-    'snippets.editor.command': 'Comando',
-    'snippets.editor.commandHint': 'Envolva o que quiser que seja pedido em chavetas duplas, p. ex. {{service}}.',
-    'snippets.editor.willAskFor': 'Vai pedir',
-    'snippets.editor.description': 'Descrição',
-    'snippets.editor.descriptionHint': 'Opcional. É pesquisada juntamente com o nome.',
-    'snippets.editor.descriptionPlaceholder': 'O que faz, ou quando o usar',
-    'snippets.editor.tags': 'Etiquetas',
-    'snippets.editor.tagsHint': 'Separadas por vírgulas.',
-    'snippets.editor.availableOn': 'Disponível em',
-    'snippets.editor.allHosts': 'Todos os anfitriões',
-    'snippets.editor.specificHosts': 'Anfitriões específicos',
-    'snippets.editor.noHostWarning': 'Sem um anfitrião selecionado este excerto não aparece em lado nenhum.',
-    'snippets.editor.runImmediately': 'Correr assim que for inserido',
-    'snippets.editor.runImmediatelyCommand': 'Carrega Enter por si. Deixe desligado para deixar o comando no prompt e o ler antes de correr.',
-    'snippets.editor.runImmediatelyPackage': 'Carrega Enter por si e começa a série. Deixe desligado para deixar os passos no prompt e os ler antes de correr.',
-    'folders.editor.titleNew': 'Nova pasta',
-    'folders.editor.titleEdit': 'Editar pasta',
-    'folders.editor.subtitle': 'As pastas agrupam anfitriões. Apagar uma mantém o que estava lá dentro.',
-    'folders.editor.create': 'Criar pasta',
-    'folders.editor.save': 'Guardar pasta',
-    'folders.editor.name': 'Nome da pasta',
-    'folders.editor.namePlaceholder': 'p. ex. Servidores AWS',
+  /* ---- Snippets ---- */
+  "snippets.count_one": "{count} excerto",
+  "snippets.count_other": "{count} excertos",
+  "snippets.empty": "Ainda sem excertos",
+  "snippets.emptyNote":
+    "Guarde os comandos que reescreve em todas as máquinas.",
+  "snippets.newPackage": "Novo pacote",
+  "snippets.newSnippet": "Novo excerto",
+  "snippets.nothingShown": "Nada a mostrar",
+  "snippets.search": "Procurar excertos",
+  "snippets.showing": "A mostrar: {kind}",
+  "snippets.kind.all": "Tudo",
+  "snippets.kind.command": "Só comandos",
+  "snippets.kind.package": "Só pacotes",
+  "snippets.editor.titleNew": "Novo excerto",
+  "snippets.editor.titleEdit": "Editar excerto",
+  "snippets.editor.titleNewPackage": "Novo pacote",
+  "snippets.editor.titleEditPackage": "Editar pacote",
+  "snippets.editor.subtitle":
+    "Um comando que guarda e envia para uma sessão a partir da paleta.",
+  "snippets.editor.subtitlePackage":
+    "Uma série de comandos, enviados para uma sessão por ordem.",
+  "snippets.editor.add": "Adicionar excerto",
+  "snippets.editor.addPackage": "Adicionar pacote",
+  "snippets.editor.kind": "Tipo",
+  "snippets.editor.kindCommand": "Comando",
+  "snippets.editor.kindPackage": "Pacote",
+  "snippets.editor.kindCommandHint": "Um pedaço de texto, deixado no prompt.",
+  "snippets.editor.kindPackageHint":
+    "Os passos correm pela ordem que definir. Um passo pode ser escrito aqui ou tirado da biblioteca.",
+  "snippets.editor.name": "Nome",
+  "snippets.editor.namePlaceholder": "p. ex. Seguir erros do nginx",
+  "snippets.editor.namePlaceholderPackage": "p. ex. Implantar e reiniciar",
+  "snippets.editor.command": "Comando",
+  "snippets.editor.commandHint":
+    "Envolva o que quiser que seja pedido em chavetas duplas, p. ex. {{service}}.",
+  "snippets.editor.willAskFor": "Vai pedir",
+  "snippets.editor.description": "Descrição",
+  "snippets.editor.descriptionHint":
+    "Opcional. É pesquisada juntamente com o nome.",
+  "snippets.editor.descriptionPlaceholder": "O que faz, ou quando o usar",
+  "snippets.editor.tags": "Etiquetas",
+  "snippets.editor.tagsHint": "Separadas por vírgulas.",
+  "snippets.editor.availableOn": "Disponível em",
+  "snippets.editor.allHosts": "Todos os anfitriões",
+  "snippets.editor.specificHosts": "Anfitriões específicos",
+  "snippets.editor.noHostWarning":
+    "Sem um anfitrião selecionado este excerto não aparece em lado nenhum.",
+  "snippets.editor.runImmediately": "Correr assim que for inserido",
+  "snippets.editor.runImmediatelyCommand":
+    "Carrega Enter por si. Deixe desligado para deixar o comando no prompt e o ler antes de correr.",
+  "snippets.editor.runImmediatelyPackage":
+    "Carrega Enter por si e começa a série. Deixe desligado para deixar os passos no prompt e os ler antes de correr.",
+  "folders.editor.titleNew": "Nova pasta",
+  "folders.editor.titleEdit": "Editar pasta",
+  "folders.editor.subtitle":
+    "As pastas agrupam anfitriões. Apagar uma mantém o que estava lá dentro.",
+  "folders.editor.create": "Criar pasta",
+  "folders.editor.save": "Guardar pasta",
+  "folders.editor.name": "Nome da pasta",
+  "folders.editor.namePlaceholder": "p. ex. Servidores AWS",
 
-    /* ---- Logs ---- */
-    'logs.blurbStart': 'Todas as ligações feitas e todos os registos alterados nesta máquina, do '
-        + 'mais recente para o mais antigo. Registados na conta do sistema com sessão iniciada',
-    'logs.blurbEnd': ', e assinalados na linha apenas quando foi outra pessoa. Palavras-passe e '
-        + 'material de chaves nunca são registados.',
-    'logs.categoryConnection': 'Ligações',
-    'logs.categoryData': 'Alterações',
-    'logs.categoryFiles': 'Ficheiros',
-    'logs.categorySecurity': 'Segurança',
-    'logs.empty': 'Ainda nada registado',
-    'logs.emptyNote': 'As ligações e alterações aparecem aqui à medida que as faz.',
-    'logs.export': 'Exportar como JSON',
-    'logs.filterAll': 'Tudo',
-    'logs.filterAria': 'Filtrar o registo de atividade',
-    'logs.noMatches': 'Nada corresponde a esses filtros',
-    'logs.noMatchesNote': 'Experimente outra categoria, ou limpe a caixa de filtro.',
-    'logs.problemsOnly': 'Só problemas',
-    'logs.reading': 'A ler o registo…',
-    'logs.refresh': 'Atualizar',
+  /* ---- Logs ---- */
+  "logs.blurbStart":
+    "Todas as ligações feitas e todos os registos alterados nesta máquina, do " +
+    "mais recente para o mais antigo. Registados na conta do sistema com sessão iniciada",
+  "logs.blurbEnd":
+    ", e assinalados na linha apenas quando foi outra pessoa. Palavras-passe e " +
+    "material de chaves nunca são registados.",
+  "logs.categoryConnection": "Ligações",
+  "logs.categoryData": "Alterações",
+  "logs.categoryFiles": "Ficheiros",
+  "logs.categorySecurity": "Segurança",
+  "logs.empty": "Ainda nada registado",
+  "logs.emptyNote":
+    "As ligações e alterações aparecem aqui à medida que as faz.",
+  "logs.export": "Exportar como JSON",
+  "logs.filterAll": "Tudo",
+  "logs.filterAria": "Filtrar o registo de atividade",
+  "logs.noMatches": "Nada corresponde a esses filtros",
+  "logs.noMatchesNote":
+    "Experimente outra categoria, ou limpe a caixa de filtro.",
+  "logs.problemsOnly": "Só problemas",
+  "logs.reading": "A ler o registo…",
+  "logs.refresh": "Atualizar",
 
-    /* ---- New session tab ---- */
-    'newTab.title': 'Nova sessão',
-    'newTab.subtitle': 'Escolha um anfitrião, ou escreva um endereço para ligar diretamente.',
-    'newTab.searchPlaceholder': 'Procure anfitriões, ou escreva um endereço…',
-    'newTab.recent': 'Recentes',
-    'newTab.allHosts': 'Todos os anfitriões',
-    'newTab.notSaved': 'Não guardado',
-    'newTab.notSavedNote': 'Não guardado. Pede as credenciais à medida que liga.',
-    'newTab.connectTo': 'Ligar a',
-    'newTab.hintNavigate': 'navegar',
-    'newTab.hintConnect': 'ligar',
-    'newTab.hintClose': 'fechar separador',
+  /* ---- New session tab ---- */
+  "newTab.title": "Nova sessão",
+  "newTab.subtitle":
+    "Escolha um anfitrião, ou escreva um endereço para ligar diretamente.",
+  "newTab.searchPlaceholder": "Procure anfitriões, ou escreva um endereço…",
+  "newTab.recent": "Recentes",
+  "newTab.allHosts": "Todos os anfitriões",
+  "newTab.notSaved": "Não guardado",
+  "newTab.notSavedNote": "Não guardado. Pede as credenciais à medida que liga.",
+  "newTab.connectTo": "Ligar a",
+  "newTab.hintNavigate": "navegar",
+  "newTab.hintConnect": "ligar",
+  "newTab.hintClose": "fechar separador",
 
-    /* ---- Title bar ---- */
-    'titleBar.reload': 'Recarregar',
-    'titleBar.devTools': 'Ferramentas de programador',
-    'titleBar.minimize': 'Minimizar',
-    'titleBar.maximize': 'Maximizar',
-    'titleBar.exit': 'Sair',
-    'titleBar.rename': 'Mudar o nome…',
-    'titleBar.renameAria': 'Mudar o nome de {name}',
-    'titleBar.renameGroup': 'Mudar o nome do grupo…',
-    'titleBar.renameGroupAria': 'Mudar o nome do grupo {name}',
-    'titleBar.useHostName': 'Voltar a usar o nome do anfitrião',
-    'titleBar.colour': 'Cor',
-    'titleBar.removeFromGroup': 'Retirar do grupo',
-    'titleBar.newGroup': 'Novo grupo a partir deste separador',
-    'titleBar.moveToGroup': 'Mover para “{group}”',
-    'titleBar.duplicate': 'Duplicar',
-    'titleBar.reconnect': 'Voltar a ligar',
-    'titleBar.reconnectAll': 'Voltar a ligar tudo',
-    'titleBar.disconnect': 'Desligar',
-    'titleBar.disconnectAll': 'Desligar tudo',
-    'titleBar.closeTab': 'Fechar separador',
-    'titleBar.closeOthers': 'Fechar os outros',
-    'titleBar.closeRight': 'Fechar os da direita',
-    'titleBar.ungroup': 'Desagrupar',
-    'titleBar.closeGroupTabs_one': 'Fechar o separador',
-    'titleBar.closeGroupTabs_other': 'Fechar os {count} separadores',
+  /* ---- Title bar ---- */
+  "titleBar.reload": "Recarregar",
+  "titleBar.devTools": "Ferramentas de programador",
+  "titleBar.minimize": "Minimizar",
+  "titleBar.maximize": "Maximizar",
+  "titleBar.exit": "Sair",
+  "titleBar.rename": "Mudar o nome…",
+  "titleBar.renameAria": "Mudar o nome de {name}",
+  "titleBar.renameGroup": "Mudar o nome do grupo…",
+  "titleBar.renameGroupAria": "Mudar o nome do grupo {name}",
+  "titleBar.useHostName": "Voltar a usar o nome do anfitrião",
+  "titleBar.colour": "Cor",
+  "titleBar.removeFromGroup": "Retirar do grupo",
+  "titleBar.newGroup": "Novo grupo a partir deste separador",
+  "titleBar.moveToGroup": "Mover para “{group}”",
+  "titleBar.duplicate": "Duplicar",
+  "titleBar.reconnect": "Voltar a ligar",
+  "titleBar.reconnectAll": "Voltar a ligar tudo",
+  "titleBar.disconnect": "Desligar",
+  "titleBar.disconnectAll": "Desligar tudo",
+  "titleBar.closeTab": "Fechar separador",
+  "titleBar.closeOthers": "Fechar os outros",
+  "titleBar.closeRight": "Fechar os da direita",
+  "titleBar.ungroup": "Desagrupar",
+  "titleBar.closeGroupTabs_one": "Fechar o separador",
+  "titleBar.closeGroupTabs_other": "Fechar os {count} separadores",
 
-    /* ---- Monitoring vocabulary ---- */
-    'monitor.every30s': '30 s',
-    'monitor.every1min': '1 min',
-    'monitor.every5min': '5 min',
-    'monitor.every15min': '15 min',
-    'monitor.wait5s': '5 s',
-    'monitor.wait10s': '10 s',
-    'monitor.wait20s': '20 s',
-    'monitor.wait30s': '30 s',
-    'monitor.onceFailed': 'Uma vez',
-    'monitor.twiceFailed': 'Duas vezes',
-    'monitor.thriceFailed': '3 vezes',
-    'monitor.stateOnline': 'Responde',
-    'monitor.stateOffline': 'Não responde',
-    'monitor.stateProblem': 'Não é possível verificar',
-    'monitor.stateUnknown': 'Ainda não verificado',
-    'monitor.unsupportedSerial': 'Uma consola série não tem endereço de rede para verificar.',
-    'monitor.unsupportedJump': 'Este anfitrião é alcançado através de um anfitrião de salto, por '
-        + 'isso não há rota a partir desta máquina para o verificar. Vigie antes o anfitrião de salto.',
-    'monitor.justNow': 'agora mesmo',
-    'monitor.minutesAgo': 'há {count} min',
-    'monitor.hoursAgo': 'há {count} h',
-    'monitor.daysAgo': 'há {count} d',
-    'monitor.notAnswering': 'não responde',
-    'monitor.describeOffline': '{reason}, desde {when}',
-    'monitor.describeOnline': 'respondeu, verificado {when}',
-    'monitor.describeOnlineLatency': 'respondeu em {latency} ms, verificado {when}',
-    'monitor.describeUnknown': 'ainda não verificado',
+  /* ---- Monitoring vocabulary ---- */
+  "monitor.every30s": "30 s",
+  "monitor.every1min": "1 min",
+  "monitor.every5min": "5 min",
+  "monitor.every15min": "15 min",
+  "monitor.wait5s": "5 s",
+  "monitor.wait10s": "10 s",
+  "monitor.wait20s": "20 s",
+  "monitor.wait30s": "30 s",
+  "monitor.onceFailed": "Uma vez",
+  "monitor.twiceFailed": "Duas vezes",
+  "monitor.thriceFailed": "3 vezes",
+  "monitor.stateOnline": "Responde",
+  "monitor.stateOffline": "Não responde",
+  "monitor.stateProblem": "Não é possível verificar",
+  "monitor.stateUnknown": "Ainda não verificado",
+  "monitor.unsupportedSerial":
+    "Uma consola série não tem endereço de rede para verificar.",
+  "monitor.unsupportedJump":
+    "Este anfitrião é alcançado através de um anfitrião de salto, por " +
+    "isso não há rota a partir desta máquina para o verificar. Vigie antes o anfitrião de salto.",
+  "monitor.justNow": "agora mesmo",
+  "monitor.minutesAgo": "há {count} min",
+  "monitor.hoursAgo": "há {count} h",
+  "monitor.daysAgo": "há {count} d",
+  "monitor.notAnswering": "não responde",
+  "monitor.describeOffline": "{reason}, desde {when}",
+  "monitor.describeOnline": "respondeu, verificado {when}",
+  "monitor.describeOnlineLatency":
+    "respondeu em {latency} ms, verificado {when}",
+  "monitor.describeUnknown": "ainda não verificado",
 
-    /* ---- App palette editor ---- */
-    'appColors.subtitle': 'As seis superfícies de que a aplicação é feita. Escolha a cor da janela '
-        + 'e o resto segue, ou defina cada passo à mão.',
-    'appColors.surfaces': 'Superfícies',
-    'appColors.derive': 'Construir a partir de uma cor',
-    'appColors.deriveHint': 'Reescreve os seis passos, mantendo o espaçamento próprio da aplicação '
-        + 'entre eles',
-    'appColors.base': 'Janela',
-    'appColors.baseHint': 'Aquilo sobre o que assenta toda a aplicação',
-    'appColors.raised': 'Painéis',
-    'appColors.raisedHint': 'Cartões, caixas de diálogo, a barra lateral',
-    'appColors.control': 'Controlos',
-    'appColors.controlHint': 'Botões, campos e as suas margens',
-    'appColors.hover': 'Sob o cursor',
-    'appColors.hoverHint': 'Um controlo por baixo do ponteiro',
-    'appColors.active': 'Premido',
-    'appColors.activeHint': 'Um controlo a ser usado, e as linhas',
-    'appColors.muted': 'Texto secundário',
-    'appColors.mutedHint': 'Etiquetas secundárias e texto de sugestão',
+  /* ---- App palette editor ---- */
+  "appColors.subtitle":
+    "As seis superfícies de que a aplicação é feita. Escolha a cor da janela " +
+    "e o resto segue, ou defina cada passo à mão.",
+  "appColors.surfaces": "Superfícies",
+  "appColors.derive": "Construir a partir de uma cor",
+  "appColors.deriveHint":
+    "Reescreve os seis passos, mantendo o espaçamento próprio da aplicação " +
+    "entre eles",
+  "appColors.base": "Janela",
+  "appColors.baseHint": "Aquilo sobre o que assenta toda a aplicação",
+  "appColors.raised": "Painéis",
+  "appColors.raisedHint": "Cartões, caixas de diálogo, a barra lateral",
+  "appColors.control": "Controlos",
+  "appColors.controlHint": "Botões, campos e as suas margens",
+  "appColors.hover": "Sob o cursor",
+  "appColors.hoverHint": "Um controlo por baixo do ponteiro",
+  "appColors.active": "Premido",
+  "appColors.activeHint": "Um controlo a ser usado, e as linhas",
+  "appColors.muted": "Texto secundário",
+  "appColors.mutedHint": "Etiquetas secundárias e texto de sugestão",
 
-    /* ---- Terminal palette editor ---- */
-    'termColors.title': 'Tema de terminal personalizado',
-    'termColors.subtitle': 'Escolha cada cor à mão, ou comece por um tema incluído e altere o que '
-        + 'quiser.',
-    'termColors.groupBase': 'Base',
-    'termColors.groupAnsi': 'Cores ANSI',
-    'termColors.background': 'Fundo',
-    'termColors.foreground': 'Texto',
-    'termColors.cursor': 'Cursor',
-    'termColors.selection': 'Seleção',
-    'termColors.black': 'Preto',
-    'termColors.red': 'Vermelho',
-    'termColors.green': 'Verde',
-    'termColors.yellow': 'Amarelo',
-    'termColors.blue': 'Azul',
-    'termColors.magenta': 'Magenta',
-    'termColors.cyan': 'Ciano',
-    'termColors.white': 'Branco',
+  /* ---- Terminal palette editor ---- */
+  "termColors.title": "Tema de terminal personalizado",
+  "termColors.subtitle":
+    "Escolha cada cor à mão, ou comece por um tema incluído e altere o que " +
+    "quiser.",
+  "termColors.groupBase": "Base",
+  "termColors.groupAnsi": "Cores ANSI",
+  "termColors.background": "Fundo",
+  "termColors.foreground": "Texto",
+  "termColors.cursor": "Cursor",
+  "termColors.selection": "Seleção",
+  "termColors.black": "Preto",
+  "termColors.red": "Vermelho",
+  "termColors.green": "Verde",
+  "termColors.yellow": "Amarelo",
+  "termColors.blue": "Azul",
+  "termColors.magenta": "Magenta",
+  "termColors.cyan": "Ciano",
+  "termColors.white": "Branco",
 
-    /* ---- OpenSSH import ---- */
-    'import.title': 'Do OpenSSH',
-    'import.desc': 'Lê ~/.ssh/config e ~/.ssh/known_hosts e traz para aqui os anfitriões, os seus '
-        + 'encaminhamentos de portas e as suas chaves de confiança.',
-    'import.nothingFound': 'Nada encontrado em {dir}. Pode escolher um ficheiro à mesma.',
-    'import.scan': 'Analisar ~/.ssh',
-    'import.scanning': 'A analisar…',
-    'import.scanFailed': 'Não foi possível ler a configuração SSH: {reason}',
-    'import.chooseConfigTitle': 'Escolher um ficheiro de configuração SSH',
-    'import.trustedKeys': 'Chaves de anfitrião de confiança',
-    'import.statusPresent': 'já adicionado',
-    'import.statusConflict': 'difere da chave guardada',
-    'import.selectedOf': '{selected} de {count} selecionados',
-    'import.keyNote': 'chave {name}',
-    'import.keyNoteState': 'chave {name} ({state})',
-    'import.included': 'mais {count} incluídos',
-    'import.nothingToImport': 'Nada a importar destes ficheiros.',
-    'import.copyKeys': 'Copiar as chaves privadas que estes anfitriões referenciam',
-    'import.copyKeysDesc': 'Cada IdentityFile é lido para o porta-chaves e cifrado com o cofre do '
-        + 'sistema. Sem isto, os anfitriões importados ficam a usar o seu agente SSH.',
-    'import.importing': 'A importar…',
-    'import.importSelected': 'Importar {count} selecionados',
-    'import.nothingSelected': 'Nada selecionado',
-    'import.imported': 'Importado: {what}',
-    'import.nothingNew': 'Nada de novo para importar',
-    'import.failed': 'A importação falhou: {reason}',
-    'import.hostKeyCount_one': '{count} chave de anfitrião',
-    'import.hostKeyCount_other': '{count} chaves de anfitrião',
-    'import.report': 'Importados {hosts} anfitriões, {keys} chaves, {hostKeys} chaves de anfitrião.',
-    'import.reportSkipped': '{count} já existiam.',
-    'import.reportRelayed': '{count} ficaram a ligar através de um anfitrião de salto.',
-    'import.skipHashed': '{count} com hash',
-    'import.skipPatterns': '{count} com caracteres universais',
-    'import.skipMarkers': '{count} de certificado ou revogados',
-    'import.skipMalformed': '{count} ilegíveis',
-    'import.skipped': '{what} ignorados',
+  /* ---- OpenSSH import ---- */
+  "import.title": "Do OpenSSH",
+  "import.desc":
+    "Lê ~/.ssh/config e ~/.ssh/known_hosts e traz para aqui os anfitriões, os seus " +
+    "encaminhamentos de portas e as suas chaves de confiança.",
+  "import.nothingFound":
+    "Nada encontrado em {dir}. Pode escolher um ficheiro à mesma.",
+  "import.scan": "Analisar ~/.ssh",
+  "import.scanning": "A analisar…",
+  "import.scanFailed": "Não foi possível ler a configuração SSH: {reason}",
+  "import.chooseConfigTitle": "Escolher um ficheiro de configuração SSH",
+  "import.trustedKeys": "Chaves de anfitrião de confiança",
+  "import.statusPresent": "já adicionado",
+  "import.statusConflict": "difere da chave guardada",
+  "import.selectedOf": "{selected} de {count} selecionados",
+  "import.keyNote": "chave {name}",
+  "import.keyNoteState": "chave {name} ({state})",
+  "import.included": "mais {count} incluídos",
+  "import.nothingToImport": "Nada a importar destes ficheiros.",
+  "import.copyKeys":
+    "Copiar as chaves privadas que estes anfitriões referenciam",
+  "import.copyKeysDesc":
+    "Cada IdentityFile é lido para o porta-chaves e cifrado com o cofre do " +
+    "sistema. Sem isto, os anfitriões importados ficam a usar o seu agente SSH.",
+  "import.importing": "A importar…",
+  "import.importSelected": "Importar {count} selecionados",
+  "import.nothingSelected": "Nada selecionado",
+  "import.imported": "Importado: {what}",
+  "import.nothingNew": "Nada de novo para importar",
+  "import.failed": "A importação falhou: {reason}",
+  "import.hostKeyCount_one": "{count} chave de anfitrião",
+  "import.hostKeyCount_other": "{count} chaves de anfitrião",
+  "import.report":
+    "Importados {hosts} anfitriões, {keys} chaves, {hostKeys} chaves de anfitrião.",
+  "import.reportSkipped": "{count} já existiam.",
+  "import.reportRelayed":
+    "{count} ficaram a ligar através de um anfitrião de salto.",
+  "import.skipHashed": "{count} com hash",
+  "import.skipPatterns": "{count} com caracteres universais",
+  "import.skipMarkers": "{count} de certificado ou revogados",
+  "import.skipMalformed": "{count} ilegíveis",
+  "import.skipped": "{what} ignorados",
 
-    /* ---- Import from other apps ---- */
-    'appImport.title': 'De outras aplicações',
-    'appImport.desc': 'Anfitriões, encaminhamentos de portas, pastas e definições de série ou de '
-        + 'ambiente de trabalho vêm todos. As palavras-passe ficam para trás; cada aplicação '
-        + 'guarda-as cifradas à sua maneira.',
-    'appImport.checking': 'A verificar…',
-    'appImport.notFound': 'Não encontrado',
-    'appImport.sessionCount_one': '{count} sessão guardada',
-    'appImport.sessionCount_other': '{count} sessões guardadas',
-    'appImport.import': 'Importar',
-    'appImport.chooseFile': 'Escolher um ficheiro do MobaXterm…',
-    'appImport.choosePortable': 'Instalação portátil? Escolha um ficheiro do MobaXterm…',
-    'appImport.chooseFileHint': 'Um MobaXterm.ini portátil, ou uma exportação .mxtsessions',
-    'appImport.chooseFileTitle': 'Escolher um ficheiro MobaXterm.ini ou .mxtsessions',
-    'appImport.fileKind': 'Sessões do MobaXterm',
-    'appImport.scanFailed': 'Não foi possível ler as sessões do {source}: {reason}',
-    'appImport.sessionsOf': 'Sessões do {app}',
-    'appImport.nothingIn': 'Nada importável no {app}.',
-    'appImport.inFolder': 'em {folder}',
-    'appImport.keyEncrypted': 'protegida por frase-passe',
-    'appImport.keyNeedsConversion': 'precisa de conversão',
-    'appImport.keyUnreadable': 'ilegível',
-    'appImport.copyKeysDesc': 'Cada ficheiro de chave é lido para o porta-chaves e cifrado com o '
-        + 'cofre do sistema. Sem isto, os anfitriões importados ficam a usar o seu agente SSH.',
-    'appImport.chooseNextsshTitle': 'Escolher um ficheiro de cópia de segurança do NextSSH',
-    'appImport.copyNextsshKeysDesc': 'As chaves privadas da cópia de segurança vão para o porta-chaves e são cifradas '
-        + 'com o cofre do sistema. Sem isto, os anfitriões com palavra-passe usam essa palavra-passe; os restantes usam o seu agente SSH.',
-    'appImport.nextsshFileKind': 'Cópia de segurança do NextSSH',
-    'appImport.nextsshHint': 'Escolher um ficheiro de cópia de segurança',
-    'appImport.report': 'Importados {hosts} anfitriões',
+  /* ---- Import from other apps ---- */
+  "appImport.title": "De outras aplicações",
+  "appImport.desc":
+    "Anfitriões, encaminhamentos de portas, pastas e definições de série ou de " +
+    "ambiente de trabalho vêm todos. As palavras-passe ficam para trás; cada aplicação " +
+    "guarda-as cifradas à sua maneira.",
+  "appImport.checking": "A verificar…",
+  "appImport.notFound": "Não encontrado",
+  "appImport.sessionCount_one": "{count} sessão guardada",
+  "appImport.sessionCount_other": "{count} sessões guardadas",
+  "appImport.import": "Importar",
+  "appImport.chooseFile": "Escolher um ficheiro do MobaXterm…",
+  "appImport.choosePortable":
+    "Instalação portátil? Escolha um ficheiro do MobaXterm…",
+  "appImport.chooseFileHint":
+    "Um MobaXterm.ini portátil, ou uma exportação .mxtsessions",
+  "appImport.chooseFileTitle":
+    "Escolher um ficheiro MobaXterm.ini ou .mxtsessions",
+  "appImport.fileKind": "Sessões do MobaXterm",
+  "appImport.scanFailed":
+    "Não foi possível ler as sessões do {source}: {reason}",
+  "appImport.sessionsOf": "Sessões do {app}",
+  "appImport.nothingIn": "Nada importável no {app}.",
+  "appImport.inFolder": "em {folder}",
+  "appImport.keyEncrypted": "protegida por frase-passe",
+  "appImport.keyNeedsConversion": "precisa de conversão",
+  "appImport.keyUnreadable": "ilegível",
+  "appImport.copyKeysDesc":
+    "Cada ficheiro de chave é lido para o porta-chaves e cifrado com o " +
+    "cofre do sistema. Sem isto, os anfitriões importados ficam a usar o seu agente SSH.",
+  "appImport.chooseNextsshTitle":
+    "Escolher um ficheiro de cópia de segurança do NextSSH",
+  "appImport.copyNextsshKeysDesc":
+    "As chaves privadas da cópia de segurança vão para o porta-chaves e são cifradas " +
+    "com o cofre do sistema. Sem isto, os anfitriões com palavra-passe usam essa palavra-passe; os restantes usam o seu agente SSH.",
+  "appImport.nextsshFileKind": "Cópia de segurança do NextSSH",
+  "appImport.nextsshHint": "Escolher um ficheiro de cópia de segurança",
+  "appImport.report": "Importados {hosts} anfitriões",
 
-    /* ---- Settings navigation ---- */
-    'settings.nav.aria': 'Categorias de definições',
-    'settings.nav.general': 'Geral',
-    'settings.nav.appearance': 'Aspeto',
-    'settings.nav.terminal': 'Terminal',
-    'settings.nav.assistant': 'Assistente',
-    'settings.nav.monitoring': 'Monitorização',
-    'settings.nav.logging': 'Registo',
-    'settings.nav.security': 'Segurança',
-    'settings.nav.account': 'Conta',
-    'settings.nav.backup': 'Cópia de segurança',
-    'settings.nav.about': 'Acerca',
+  /* ---- Settings navigation ---- */
+  "settings.nav.aria": "Categorias de definições",
+  "settings.nav.general": "Geral",
+  "settings.nav.appearance": "Aspeto",
+  "settings.nav.terminal": "Terminal",
+  "settings.nav.assistant": "Agente de IA",
+  "settings.nav.monitoring": "Monitorização",
+  "settings.nav.logging": "Registo",
+  "settings.nav.security": "Segurança",
+  "settings.nav.account": "Conta",
+  "settings.nav.backup": "Cópia de segurança",
+  "settings.nav.about": "Acerca",
 
-    /* ---- Settings: General ---- */
-    'settings.general.title': 'Geral',
-    'settings.general.desc': 'Como a aplicação se comporta ao arrancar.',
-    'settings.general.language': 'Idioma',
-    'settings.general.languageDesc': 'O idioma em que é mostrado o texto da própria aplicação. O '
-        + 'que o terminal e os seus servidores escrevem fica exatamente como chega.',
-    'settings.general.languageChanged': 'Idioma alterado para {language}',
-    'settings.general.startup': 'Iniciar com a sessão',
-    'settings.general.startupDesc': 'Abrir o CloudTerm automaticamente quando inicia sessão neste '
-        + 'computador',
-    'settings.general.startupOn': 'O CloudTerm abrirá quando iniciar sessão',
-    'settings.general.startupOff': 'O CloudTerm deixará de abrir quando iniciar sessão',
-    'settings.general.startupFailed': 'Não foi possível alterar isso',
-    'settings.general.startupUnknown': 'Não foi possível saber se a aplicação arranca com o sistema',
-    'settings.general.restore': 'Restaurar sessões',
-    'settings.general.restoreDesc': 'Voltar a abrir os separadores que estavam abertos quando a '
-        + 'aplicação fechou e ligar de novo aos respetivos anfitriões',
+  /* ---- Settings: General ---- */
+  "settings.general.title": "Geral",
+  "settings.general.desc": "Como a aplicação se comporta ao arrancar.",
+  "settings.general.language": "Idioma",
+  "settings.general.languageDesc":
+    "O idioma em que é mostrado o texto da própria aplicação. O " +
+    "que o terminal e os seus servidores escrevem fica exatamente como chega.",
+  "settings.general.languageChanged": "Idioma alterado para {language}",
+  "settings.general.startup": "Iniciar com a sessão",
+  "settings.general.startupDesc":
+    "Abrir o CloudTerm automaticamente quando inicia sessão neste " +
+    "computador",
+  "settings.general.startupOn": "O CloudTerm abrirá quando iniciar sessão",
+  "settings.general.startupOff":
+    "O CloudTerm deixará de abrir quando iniciar sessão",
+  "settings.general.startupFailed": "Não foi possível alterar isso",
+  "settings.general.startupUnknown":
+    "Não foi possível saber se a aplicação arranca com o sistema",
+  "settings.general.restore": "Restaurar sessões",
+  "settings.general.restoreDesc":
+    "Voltar a abrir os separadores que estavam abertos quando a " +
+    "aplicação fechou e ligar de novo aos respetivos anfitriões",
 
-    /* ---- Settings: Appearance ---- */
-    'settings.appearance.title': 'Aspeto',
-    'settings.appearance.desc': 'O aspeto da própria aplicação.',
-    'settings.appearance.theme': 'Tema',
-    'settings.appearance.themeDesc': 'Escolha o tema de interface que prefere',
-    'settings.appearance.themeCustomDesc': 'A aplicação está a usar a sua própria paleta. Escolha '
-        + 'uma abaixo como ponto de partida, ou defina cada cor à mão.',
-    'settings.appearance.theme.light': 'Claro',
-    'settings.appearance.theme.dark': 'Escuro',
-    'settings.appearance.theme.system': 'Sistema',
-    'settings.appearance.theme.custom': 'Personalizado',
-    'settings.appearance.themeToast.light': 'modo claro',
-    'settings.appearance.themeToast.dark': 'modo escuro',
-    'settings.appearance.themeToast.system': 'Sistema',
-    'settings.appearance.themeToast.custom': 'Personalizado',
-    'settings.appearance.themeChanged': 'Tema alterado para {theme}',
-    'settings.appearance.appColors': 'Cores da aplicação',
-    'settings.appearance.appColorsDesc': 'Uma paleta de partida. Todas as superfícies da aplicação '
-        + 'saem dela.',
-    'settings.appearance.appColorsChanged': 'Cores da aplicação alteradas para {palette}',
-    'settings.appearance.yours': 'As suas',
-    'settings.appearance.customColors': 'Cores personalizadas',
-    'settings.appearance.customColorsDesc': 'Defina à mão as cores da janela, dos painéis, dos '
-        + 'controlos e do texto',
-    'settings.appearance.editColors': 'Editar cores',
-    'settings.appearance.colorsApplied': 'Cores da aplicação aplicadas',
-    'settings.appearance.showLogo': 'Mostrar o logótipo',
-    'settings.appearance.showLogoDesc': 'A marca na barra de título. Desligá-la dá esse espaço à '
-        + 'fila de separadores.',
-    'settings.appearance.showLogoAria': 'Mostrar o logótipo na barra de título',
-    'settings.appearance.logoShown': 'Logótipo visível',
-    'settings.appearance.logoHidden': 'Logótipo escondido',
-    'settings.appearance.customLogo': 'Logótipo personalizado',
-    'settings.appearance.customLogoSet': 'A sua imagem, no lugar da marca CloudBlast.',
-    'settings.appearance.customLogoDesc': 'Use a sua imagem em vez da marca CloudBlast. PNG, JPG, '
-        + 'GIF, WebP, SVG, BMP ou ICO, até 512 KB.',
-    'settings.appearance.choosing': 'A escolher…',
-    'settings.appearance.chooseImage': 'Escolher imagem',
-    'settings.appearance.logoUnreadable': 'Não foi possível ler essa imagem',
-    'settings.appearance.logoSet': 'Logótipo definido para {name}',
-    'settings.appearance.logoCleared': 'De volta à marca CloudBlast',
-    'settings.appearance.position': 'Posição',
-    'settings.appearance.positionDesc': 'Em que extremo da barra de título fica a marca: junto ao '
-        + 'botão de menu, ou do lado dos botões da janela.',
-    'settings.appearance.positionAria': 'Posição do logótipo',
-    'settings.appearance.logoMovedLeft': 'Logótipo movido para a esquerda',
-    'settings.appearance.logoMovedRight': 'Logótipo movido para a direita',
+  /* ---- Settings: Appearance ---- */
+  "settings.appearance.title": "Aspeto",
+  "settings.appearance.desc": "O aspeto da própria aplicação.",
+  "settings.appearance.theme": "Tema",
+  "settings.appearance.themeDesc": "Escolha o tema de interface que prefere",
+  "settings.appearance.themeCustomDesc":
+    "A aplicação está a usar a sua própria paleta. Escolha " +
+    "uma abaixo como ponto de partida, ou defina cada cor à mão.",
+  "settings.appearance.theme.light": "Claro",
+  "settings.appearance.theme.dark": "Escuro",
+  "settings.appearance.theme.system": "Sistema",
+  "settings.appearance.theme.custom": "Personalizado",
+  "settings.appearance.themeToast.light": "modo claro",
+  "settings.appearance.themeToast.dark": "modo escuro",
+  "settings.appearance.themeToast.system": "Sistema",
+  "settings.appearance.themeToast.custom": "Personalizado",
+  "settings.appearance.themeChanged": "Tema alterado para {theme}",
+  "settings.appearance.appColors": "Cores da aplicação",
+  "settings.appearance.appColorsDesc":
+    "Uma paleta de partida. Todas as superfícies da aplicação " + "saem dela.",
+  "settings.appearance.appColorsChanged":
+    "Cores da aplicação alteradas para {palette}",
+  "settings.appearance.yours": "As suas",
+  "settings.appearance.customColors": "Cores personalizadas",
+  "settings.appearance.customColorsDesc":
+    "Defina à mão as cores da janela, dos painéis, dos " +
+    "controlos e do texto",
+  "settings.appearance.editColors": "Editar cores",
+  "settings.appearance.colorsApplied": "Cores da aplicação aplicadas",
+  "settings.appearance.showLogo": "Mostrar o logótipo",
+  "settings.appearance.showLogoDesc":
+    "A marca na barra de título. Desligá-la dá esse espaço à " +
+    "fila de separadores.",
+  "settings.appearance.showLogoAria": "Mostrar o logótipo na barra de título",
+  "settings.appearance.logoShown": "Logótipo visível",
+  "settings.appearance.logoHidden": "Logótipo escondido",
+  "settings.appearance.customLogo": "Logótipo personalizado",
+  "settings.appearance.customLogoSet":
+    "A sua imagem, no lugar da marca CloudBlast.",
+  "settings.appearance.customLogoDesc":
+    "Use a sua imagem em vez da marca CloudBlast. PNG, JPG, " +
+    "GIF, WebP, SVG, BMP ou ICO, até 512 KB.",
+  "settings.appearance.choosing": "A escolher…",
+  "settings.appearance.chooseImage": "Escolher imagem",
+  "settings.appearance.logoUnreadable": "Não foi possível ler essa imagem",
+  "settings.appearance.logoSet": "Logótipo definido para {name}",
+  "settings.appearance.logoCleared": "De volta à marca CloudBlast",
+  "settings.appearance.position": "Posição",
+  "settings.appearance.positionDesc":
+    "Em que extremo da barra de título fica a marca: junto ao " +
+    "botão de menu, ou do lado dos botões da janela.",
+  "settings.appearance.positionAria": "Posição do logótipo",
+  "settings.appearance.logoMovedLeft": "Logótipo movido para a esquerda",
+  "settings.appearance.logoMovedRight": "Logótipo movido para a direita",
 
-    /* ---- Settings: Terminal ---- */
-    'settings.terminal.title': 'Terminal',
-    'settings.terminal.desc': 'O aspeto da shell dentro de uma sessão, e o que dela fica guardado.',
-    'settings.terminal.font': 'Tipo de letra',
-    'settings.terminal.fontAria': 'Tipo de letra do terminal',
-    'settings.terminal.fontDesc': 'Só são listados os tipos de letra que esta máquina tem mesmo. O '
-        + 'JetBrains Mono vem com a aplicação.',
-    'settings.terminal.fontMissing': 'Este tipo de letra já não está instalado nesta máquina, por '
-        + 'isso o terminal voltou ao JetBrains Mono.',
-    'settings.terminal.fontBundled': 'incluído',
-    'settings.terminal.fontNotInstalled': 'não instalado',
-    'settings.terminal.size': 'Tamanho',
-    'settings.terminal.sizeAria': 'Tamanho da letra',
-    'settings.terminal.sizeDesc': 'Aplica-se a todas as sessões abertas. Cada uma ajusta-se e '
-        + 'comunica ao servidor remoto o novo tamanho da janela.',
-    'settings.terminal.weight': 'Espessura',
-    'settings.terminal.weightAria': 'Espessura da letra',
-    'settings.terminal.weightDesc': 'O negrito mantém o contraste: é desenhado 300 acima do que '
-        + 'estiver definido aqui.',
-    'settings.terminal.lineHeight': 'Altura da linha',
-    'settings.terminal.lineHeightAria': 'Altura da linha',
-    'settings.terminal.lineHeightDesc': 'Um múltiplo do tamanho da letra. Linhas mais altas custam '
-        + 'linhas de ecrã, e o servidor remoto é informado disso.',
-    'settings.terminal.letterSpacing': 'Espaçamento entre letras',
-    'settings.terminal.letterSpacingAria': 'Espaçamento entre letras',
-    'settings.terminal.letterSpacingDesc': 'Somado a cada célula. Um valor negativo aperta um tipo '
-        + 'de letra demasiado solto para um terminal.',
-    'settings.terminal.ligatures': 'Ligaduras',
-    'settings.terminal.ligaturesDesc': 'Desenha pares como -> e != como um só glifo. Desliga a '
-        + 'composição por GPU, que não os consegue desenhar, por isso uma sessão muito ocupada '
-        + 'pode deslizar de forma menos suave.',
-    'settings.terminal.ligaturesNone': '{font} não tem ligaduras, por isso isto não muda nada. O '
-        + 'JetBrains Mono, o Cascadia Code e o Fira Code têm.',
-    'settings.terminal.thisFont': 'Este tipo de letra',
-    'settings.terminal.cursor': 'Cursor',
-    'settings.terminal.cursorAria': 'Estilo do cursor',
-    'settings.terminal.cursorDesc': 'O aspeto do cursor onde a shell está à espera.',
-    'settings.terminal.cursor.bar': 'Barra',
-    'settings.terminal.cursor.block': 'Bloco',
-    'settings.terminal.cursor.underline': 'Sublinhado',
-    'settings.terminal.blink': 'Piscar o cursor',
-    'settings.terminal.scrollback': 'Histórico de deslocamento',
-    'settings.terminal.scrollbackAria': 'Linhas de histórico',
-    'settings.terminal.scrollbackDesc': 'Linhas guardadas acima do topo da janela, por sessão. A '
-        + 'procura no histórico percorre-as todas, e cada linha custa memória nesta janela e não '
-        + 'no servidor.',
-    'settings.terminal.smoothScroll': 'Deslocamento suave',
-    'settings.terminal.smoothScrollAria': 'Duração do deslocamento suave',
-    'settings.terminal.smoothScrollDesc': 'Quanto tempo o deslocamento demora a estabilizar depois '
-        + 'de usar a roda do rato ou o trackpad. Desligue para que responda de imediato.',
-    'settings.terminal.smoothScrollMs': '{value} ms',
-    'settings.terminal.links': 'Abrir ligações',
-    'settings.terminal.linksDesc': 'Um URL escrito na sessão é clicável e abre no seu navegador. '
-        + 'Exigir também {modifier} é o que os editores fazem: impede que um clique destinado ao '
-        + 'texto por baixo de um URL atire um navegador para o ecrã a meio da sessão.',
-    'settings.terminal.link.click': 'Clique',
-    'settings.terminal.link.modifier': '{modifier} + clique',
-    'settings.terminal.reset': 'Voltar às predefinições',
-    'settings.terminal.resetAlready': 'Tudo acima já está no valor predefinido.',
-    'settings.terminal.resetDesc': 'Repõe o tipo de letra, o espaçamento, o cursor, o histórico, o '
-        + 'deslocamento suave e o clique em ligações. Deixa o esquema de cores como está.',
-    'settings.terminal.resetDone': 'Composição do terminal reposta',
-    'settings.terminal.colors': 'Cores do terminal',
-    'settings.terminal.colorsDesc': 'Escolha um esquema de cores para o terminal, ou faça o seu',
-    'settings.terminal.custom': 'Personalizado',
-    'settings.terminal.customTheme': 'Tema personalizado',
-    'settings.terminal.customThemeDesc': 'Defina o seu fundo, texto, cursor e cores ANSI',
-    'settings.terminal.themeChanged': 'Tema do terminal alterado para {theme}',
-    'settings.terminal.customApplied': 'Tema de terminal personalizado aplicado',
+  /* ---- Settings: Terminal ---- */
+  "settings.terminal.title": "Terminal",
+  "settings.terminal.desc":
+    "O aspeto da shell dentro de uma sessão, e o que dela fica guardado.",
+  "settings.terminal.font": "Tipo de letra",
+  "settings.terminal.fontAria": "Tipo de letra do terminal",
+  "settings.terminal.fontDesc":
+    "Só são listados os tipos de letra que esta máquina tem mesmo. O " +
+    "JetBrains Mono vem com a aplicação.",
+  "settings.terminal.fontMissing":
+    "Este tipo de letra já não está instalado nesta máquina, por " +
+    "isso o terminal voltou ao JetBrains Mono.",
+  "settings.terminal.fontBundled": "incluído",
+  "settings.terminal.fontNotInstalled": "não instalado",
+  "settings.terminal.size": "Tamanho",
+  "settings.terminal.sizeAria": "Tamanho da letra",
+  "settings.terminal.sizeDesc":
+    "Aplica-se a todas as sessões abertas. Cada uma ajusta-se e " +
+    "comunica ao servidor remoto o novo tamanho da janela.",
+  "settings.terminal.weight": "Espessura",
+  "settings.terminal.weightAria": "Espessura da letra",
+  "settings.terminal.weightDesc":
+    "O negrito mantém o contraste: é desenhado 300 acima do que " +
+    "estiver definido aqui.",
+  "settings.terminal.lineHeight": "Altura da linha",
+  "settings.terminal.lineHeightAria": "Altura da linha",
+  "settings.terminal.lineHeightDesc":
+    "Um múltiplo do tamanho da letra. Linhas mais altas custam " +
+    "linhas de ecrã, e o servidor remoto é informado disso.",
+  "settings.terminal.letterSpacing": "Espaçamento entre letras",
+  "settings.terminal.letterSpacingAria": "Espaçamento entre letras",
+  "settings.terminal.letterSpacingDesc":
+    "Somado a cada célula. Um valor negativo aperta um tipo " +
+    "de letra demasiado solto para um terminal.",
+  "settings.terminal.ligatures": "Ligaduras",
+  "settings.terminal.ligaturesDesc":
+    "Desenha pares como -> e != como um só glifo. Desliga a " +
+    "composição por GPU, que não os consegue desenhar, por isso uma sessão muito ocupada " +
+    "pode deslizar de forma menos suave.",
+  "settings.terminal.ligaturesNone":
+    "{font} não tem ligaduras, por isso isto não muda nada. O " +
+    "JetBrains Mono, o Cascadia Code e o Fira Code têm.",
+  "settings.terminal.thisFont": "Este tipo de letra",
+  "settings.terminal.cursor": "Cursor",
+  "settings.terminal.cursorAria": "Estilo do cursor",
+  "settings.terminal.cursorDesc":
+    "O aspeto do cursor onde a shell está à espera.",
+  "settings.terminal.cursor.bar": "Barra",
+  "settings.terminal.cursor.block": "Bloco",
+  "settings.terminal.cursor.underline": "Sublinhado",
+  "settings.terminal.blink": "Piscar o cursor",
+  "settings.terminal.scrollback": "Histórico de deslocamento",
+  "settings.terminal.scrollbackAria": "Linhas de histórico",
+  "settings.terminal.scrollbackDesc":
+    "Linhas guardadas acima do topo da janela, por sessão. A " +
+    "procura no histórico percorre-as todas, e cada linha custa memória nesta janela e não " +
+    "no servidor.",
+  "settings.terminal.smoothScroll": "Deslocamento suave",
+  "settings.terminal.smoothScrollAria": "Duração do deslocamento suave",
+  "settings.terminal.smoothScrollDesc":
+    "Quanto tempo o deslocamento demora a estabilizar depois " +
+    "de usar a roda do rato ou o trackpad. Desligue para que responda de imediato.",
+  "settings.terminal.smoothScrollMs": "{value} ms",
+  "settings.terminal.links": "Abrir ligações",
+  "settings.terminal.linksDesc":
+    "Um URL escrito na sessão é clicável e abre no seu navegador. " +
+    "Exigir também {modifier} é o que os editores fazem: impede que um clique destinado ao " +
+    "texto por baixo de um URL atire um navegador para o ecrã a meio da sessão.",
+  "settings.terminal.link.click": "Clique",
+  "settings.terminal.link.modifier": "{modifier} + clique",
+  "settings.terminal.reset": "Voltar às predefinições",
+  "settings.terminal.resetAlready": "Tudo acima já está no valor predefinido.",
+  "settings.terminal.resetDesc":
+    "Repõe o tipo de letra, o espaçamento, o cursor, o histórico, o " +
+    "deslocamento suave e o clique em ligações. Deixa o esquema de cores como está.",
+  "settings.terminal.resetDone": "Composição do terminal reposta",
+  "settings.terminal.colors": "Cores do terminal",
+  "settings.terminal.colorsDesc":
+    "Escolha um esquema de cores para o terminal, ou faça o seu",
+  "settings.terminal.custom": "Personalizado",
+  "settings.terminal.customTheme": "Tema personalizado",
+  "settings.terminal.customThemeDesc":
+    "Defina o seu fundo, texto, cursor e cores ANSI",
+  "settings.terminal.themeChanged": "Tema do terminal alterado para {theme}",
+  "settings.terminal.customApplied": "Tema de terminal personalizado aplicado",
 
-    /* ---- Settings: Assistant ---- */
-    'settings.assistant.title': 'Assistente',
-    'settings.assistant.desc': 'O assistente lê os seus terminais e trabalha nos seus servidores '
-        + 'através das ligações que já abriu. Nunca vê uma palavra-passe ou chave guardada.',
-    'settings.assistant.loading': 'A carregar as definições do assistente…',
-    'settings.assistant.agent': 'Agente',
-    'settings.assistant.agentDesc': 'Que agente de programação responde, usando a cópia já '
-        + 'instalada nesta máquina. Mudar de agente começa uma conversa nova.',
-    'settings.assistant.provider.claudeCode': 'Usa o Claude Code já instalado e com sessão iniciada '
-        + 'nesta máquina.',
-    'settings.assistant.provider.codex': 'Usa a CLI do Codex instalada nesta máquina.',
-    'settings.assistant.provider.opencode': 'Usa a CLI do OpenCode e os fornecedores configurados '
-        + 'nesta máquina.',
-    'settings.assistant.provider.relayName': 'Relay',
-    'settings.assistant.provider.relay': 'Usa um relay compatível com OpenAI. Não é preciso instalar Claude Code, Codex ou OpenCode.',
-    'settings.assistant.provider.unavailable': 'Ainda não disponível nesta versão.',
-    'settings.assistant.relayBaseUrl': 'URL do relay',
-    'settings.assistant.relayModel': 'Modelo predefinido',
-    'settings.assistant.relayModelManual': 'Escrever o nome do modelo…',
-    'settings.assistant.relayNote': 'Indique um endpoint compatível com OpenAI, p. ex. https://example.com/v1. Não é preciso CLI local.',
-    'settings.assistant.relayModelsFetch': 'Obter modelos',
-    'settings.assistant.relayModelsFetching': 'A obter…',
-    'settings.assistant.relayModelsLoaded': 'Carregados {count} modelos',
-    'settings.assistant.relayModelsEmpty': 'O relay não devolveu modelos. Pode escrever o nome manualmente.',
-    'settings.assistant.relayModelsFailed': 'Não foi possível obter os modelos. Verifique o URL e a chave.',
-    'settings.assistant.accountRelay': 'Fala com o modelo através de um relay. Indique o URL e a chave de API. Não é preciso um agente local.',
-    'settings.assistant.commandMode': 'Onde correm os comandos',
-    'settings.assistant.commandMode.terminal': 'No meu terminal',
-    'settings.assistant.commandMode.background': 'Fora da vista',
-    'settings.assistant.commandMode.terminal.note': 'Os comandos são escritos na sessão que está a '
-        + 'ver, por isso vê-os a correr e o resultado fica no seu histórico. Entram no histórico '
-        + 'dessa shell, e o assistente lê o resultado do ecrã em vez de receber um código de saída.',
-    'settings.assistant.commandMode.background.note': 'Os comandos correm num canal separado que '
-        + 'não vê. Fica mais limpo, e o assistente recebe um código de saída verdadeiro e um '
-        + 'resultado sem ruído, mas fica a acreditar no que ele diz que aconteceu.',
-    'settings.assistant.approval': 'Perguntar antes de correr',
-    'settings.assistant.approval.always': 'Todas as ações',
-    'settings.assistant.approval.writes': 'Só alterações',
-    'settings.assistant.approval.never': 'Nunca',
-    'settings.assistant.approval.always.note': 'Todas as chamadas a ferramentas esperam por si, '
-        + 'incluindo ler um ficheiro ou o terminal. É minucioso, mas uma investigação longa '
-        + 'transforma-se em muitos cliques.',
-    'settings.assistant.approval.writes.note': 'A leitura corre à vontade. Tudo o que altere um '
-        + 'sistema para e mostra-lhe o comando exato e o anfitrião onde correria.',
-    'settings.assistant.approval.never.note': 'Nada para à espera de aprovação, incluindo comandos '
-        + 'que apagam dados ou reiniciam serviços. Só faz sentido para anfitriões que pode dar-se '
-        + 'ao luxo de estragar.',
-    'settings.assistant.localTools': 'Permitir ferramentas neste computador',
-    'settings.assistant.localToolsDesc': 'Deixa o assistente ler e escrever ficheiros locais e '
-        + 'correr comandos locais. Desligado por predefinição: o painel serve para gerir '
-        + 'servidores, e a sua própria máquina é uma superfície muito maior do que isso exige.',
-    'settings.assistant.allowList': 'Comandos que nunca precisam de aprovação',
-    'settings.assistant.allowListDesc': 'Um por linha, comparados pelas primeiras palavras '
-        + 'inteiras. Um comando com um pipe, um redirecionamento, um ponto e vírgula, uma '
-        + 'substituição ou uma segunda linha é sempre perguntado, comece por onde começar.',
-    'settings.assistant.allowListNote': 'Só se aplica enquanto as aprovações estiverem em “{mode}”.',
-    'settings.assistant.blockList': 'Comandos que nunca pode correr',
-    'settings.assistant.blockListDesc': 'Um por linha. Estes são recusados em vez de perguntados, '
-        + 'em todos os modos de aprovação incluindo “Nunca”, quer o assistente os corra no seu '
-        + 'próprio canal quer os escreva no seu terminal. As opções contam: “rm -rf” também trava '
-        + '“rm -fr”, “rm -r -f” e “sudo /bin/rm --recursive --force”.',
-    'settings.assistant.blockListEmpty': 'Limpe a caixa para não bloquear nada.',
-    'settings.assistant.blockListWarning': 'Uma proteção contra enganos, não um controlo de '
-        + 'segurança. Uma shell tem demasiadas formas de escrever o mesmo comando para qualquer '
-        + 'lista as apanhar todas, por isso mantenha as aprovações ligadas para o que importa.',
-    'settings.assistant.saveList': 'Guardar lista',
-    'settings.assistant.restoreDefaults': 'Repor predefinições',
-    'settings.assistant.quickPrompts': 'Perguntas rápidas',
-    'settings.assistant.quickPromptsDesc': 'Perguntas que o painel oferece como botões de um clique '
-        + 'quando a conversa está vazia. Uma por linha. Não vem nada preparado, porque as que valem '
-        + 'a pena são as que dá por si a fazer às suas máquinas todas as semanas.',
-    'settings.assistant.quickPromptsPlaceholder': 'O que está a encher o disco?\n'
-        + 'Porque falhou a última implantação?',
-    'settings.assistant.quickPromptsNote': 'Até 12. Clicar numa põe-na na caixa em vez de a enviar, '
-        + 'para poder acrescentar algo primeiro.',
-    'settings.assistant.savePrompts': 'Guardar perguntas',
-    'settings.assistant.steps': 'Passos por turno',
-    'settings.assistant.stepsDesc': 'Quantas chamadas a ferramentas uma pergunta pode levar antes '
-        + 'de o assistente parar e dar conta do trabalho. Uma execução que não está a convergir '
-        + 'acaba sozinha em vez de acabar quando reparar nela.',
-    'settings.assistant.lines': 'Linhas de terminal que pode ler',
-    'settings.assistant.linesDesc': 'Quanto do resultado recente de uma sessão devolve cada '
-        + 'leitura. Mais dá-lhe mais contexto para trabalhar e gasta mais do orçamento da conversa.',
-    'settings.assistant.signIn': 'Início de sessão',
-    'settings.assistant.theAgent': 'o agente',
-    'settings.assistant.accountOpencode': 'O OpenCode usa os fornecedores e credenciais já '
-        + 'configurados na sua CLI. Trate deles com “opencode auth login”; as chaves guardadas no '
-        + 'CloudBlast não são passadas ao OpenCode.',
-    'settings.assistant.accountPlan': 'Com sessão iniciada através do {agent} nesta máquina, num '
-        + 'plano {plan}. A utilização sai desse plano, por isso não é precisa nenhuma chave aqui.',
-    'settings.assistant.accountProvider': 'O {agent} nesta máquina está configurado com {provider}, '
-        + 'que trata das suas próprias credenciais. Não é preciso nada aqui.',
-    'settings.assistant.accountAgentKey': 'O {agent} nesta máquina está a usar uma chave de API, '
-        + 'por isso a utilização é cobrada por token.',
-    'settings.assistant.accountStoredKey': 'Está aqui guardada uma chave e será usada. Limpe a '
-        + 'caixa e guarde para a remover e voltar ao início de sessão do {agent}.',
-    'settings.assistant.accountNone': 'Não é preciso fazer nada se já tem sessão iniciada no '
-        + '{agent} nesta máquina, que é o caso habitual. Só é precisa uma chave quando não tem.',
-    'settings.assistant.apiKey': 'Chave de API',
-    'settings.assistant.keyStored': 'Há uma chave guardada',
-    'settings.assistant.keySaved': 'Chave guardada.',
-    'settings.assistant.keyRemoved': 'Chave removida.',
-    'settings.assistant.keyFailed': 'Não foi possível guardar essa chave.',
-    'settings.assistant.noSecureStore': 'Este sistema não tem nenhum cofre seguro disponível, por '
-        + 'isso não é possível guardar aqui uma chave.',
-    'settings.assistant.tools': 'O que pode fazer',
-    'settings.assistant.toolsDesc': '{count} ferramentas, das quais {readOnly} apenas leem. As '
-        + 'restantes estão sujeitas à definição de aprovação acima.',
+  /* ---- Settings: Assistant ---- */
+  "settings.assistant.title": "Agente de IA",
+  "settings.assistant.desc":
+    "O agente lê os seus terminais e trabalha nos seus servidores " +
+    "através das ligações que já abriu. Nunca vê uma palavra-passe ou chave guardada.",
+  "settings.assistant.loading": "A carregar as definições do agente…",
+  "settings.assistant.agent": "Agente",
+  "settings.assistant.agentDesc":
+    "Que agente de programação responde: um instalado nesta " +
+    "máquina, um relay, ou um modelo que você mesmo está a servir. Mudar de agente começa uma " +
+    "conversa nova.",
+  "settings.assistant.provider.claudeCode":
+    "O agente da Anthropic, na sua conta.",
+  "settings.assistant.provider.codex": "O agente da OpenAI, na sua conta.",
+  "settings.assistant.provider.opencode":
+    "Código aberto, nos fornecedores que definir.",
+  "settings.assistant.provider.relayName": "Relay",
+  "settings.assistant.provider.relay":
+    "Usa um relay compatível com OpenAI. Não é preciso instalar Claude Code, Codex ou OpenCode.",
+  "settings.assistant.provider.grok": "O agente da xAI, na sua conta.",
+  "settings.assistant.provider.local": "O seu modelo: LM Studio, Ollama, vLLM.",
+  "settings.assistant.provider.unavailable":
+    "Ainda não disponível nesta versão.",
+  "settings.assistant.relayBaseUrl": "URL do relay",
+  "settings.assistant.relayModel": "Modelo predefinido",
+  "settings.assistant.relayModelManual": "Escrever o nome do modelo…",
+  "settings.assistant.relayNote":
+    "Indique um endpoint compatível com OpenAI, p. ex. https://example.com/v1. Não é preciso CLI local.",
+  "settings.assistant.relayModelsFetch": "Obter modelos",
+  "settings.assistant.relayModelsFetching": "A obter…",
+  "settings.assistant.relayModelsLoaded": "Carregados {count} modelos",
+  "settings.assistant.relayModelsEmpty":
+    "O relay não devolveu modelos. Pode escrever o nome manualmente.",
+  "settings.assistant.relayModelsFailed":
+    "Não foi possível obter os modelos. Verifique o URL e a chave.",
+  "settings.assistant.accountRelay":
+    "Fala com o modelo através de um relay. Indique o URL e a chave de API. Não é preciso um agente local.",
+  "settings.assistant.endpoint": "Endereço do servidor",
+  "settings.assistant.endpointDesc":
+    "Onde o servidor de modelos local está à escuta. Serve " +
+    "qualquer servidor que fale a API da OpenAI.",
+  "settings.assistant.endpointNote":
+    "LM Studio: http://localhost:1234/v1. Ollama: " +
+    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
+  "settings.assistant.endpointChecking":
+    "A perguntar a esse endereço o que tem...",
+  "settings.assistant.endpointFound_one": "Respondeu, com 1 modelo à escolha.",
+  "settings.assistant.endpointFound_other":
+    "Respondeu, com {count} modelos à escolha.",
+  "settings.assistant.endpointNone":
+    "Nada respondeu nesse endereço. Verifique se o servidor " +
+    "está a correr e se a API dele está ligada.",
+  "settings.assistant.commandMode": "Onde correm os comandos",
+  "settings.assistant.commandMode.terminal": "No meu terminal",
+  "settings.assistant.commandMode.background": "Fora da vista",
+  "settings.assistant.commandMode.terminal.note":
+    "Os comandos são escritos na sessão que está a " +
+    "ver, por isso vê-os a correr e o resultado fica no seu histórico. Entram no histórico " +
+    "dessa shell, e o assistente lê o resultado do ecrã em vez de receber um código de saída.",
+  "settings.assistant.commandMode.background.note":
+    "Os comandos correm num canal separado que " +
+    "não vê. Fica mais limpo, e o assistente recebe um código de saída verdadeiro e um " +
+    "resultado sem ruído, mas fica a acreditar no que ele diz que aconteceu.",
+  "settings.assistant.approval": "Perguntar antes de correr",
+  "settings.assistant.approval.always": "Todas as ações",
+  "settings.assistant.approval.writes": "Só alterações",
+  "settings.assistant.approval.never": "Nunca",
+  "settings.assistant.approval.always.note":
+    "Todas as chamadas a ferramentas esperam por si, " +
+    "incluindo ler um ficheiro ou o terminal. É minucioso, mas uma investigação longa " +
+    "transforma-se em muitos cliques.",
+  "settings.assistant.approval.writes.note":
+    "A leitura corre à vontade. Tudo o que altere um " +
+    "sistema para e mostra-lhe o comando exato e o anfitrião onde correria.",
+  "settings.assistant.approval.never.note":
+    "Nada para à espera de aprovação, incluindo comandos " +
+    "que apagam dados ou reiniciam serviços. Só faz sentido para anfitriões que pode dar-se " +
+    "ao luxo de estragar.",
+  "settings.assistant.localTools": "Permitir ferramentas neste computador",
+  "settings.assistant.localToolsDesc":
+    "Deixa o assistente ler e escrever ficheiros locais e " +
+    "correr comandos locais. Desligado por predefinição: o painel serve para gerir " +
+    "servidores, e a sua própria máquina é uma superfície muito maior do que isso exige.",
+  "settings.assistant.allowList": "Comandos que nunca precisam de aprovação",
+  "settings.assistant.allowListDesc":
+    "Um por linha, comparados pelas primeiras palavras " +
+    "inteiras. Um comando com um pipe, um redirecionamento, um ponto e vírgula, uma " +
+    "substituição ou uma segunda linha é sempre perguntado, comece por onde começar.",
+  "settings.assistant.allowListNote":
+    "Só se aplica enquanto as aprovações estiverem em “{mode}”.",
+  "settings.assistant.blockList": "Comandos que nunca pode correr",
+  "settings.assistant.blockListDesc":
+    "Um por linha. Estes são recusados em vez de perguntados, " +
+    "em todos os modos de aprovação incluindo “Nunca”, quer o assistente os corra no seu " +
+    "próprio canal quer os escreva no seu terminal. As opções contam: “rm -rf” também trava " +
+    "“rm -fr”, “rm -r -f” e “sudo /bin/rm --recursive --force”.",
+  "settings.assistant.blockListEmpty": "Limpe a caixa para não bloquear nada.",
+  "settings.assistant.blockListWarning":
+    "Uma proteção contra enganos, não um controlo de " +
+    "segurança. Uma shell tem demasiadas formas de escrever o mesmo comando para qualquer " +
+    "lista as apanhar todas, por isso mantenha as aprovações ligadas para o que importa.",
+  "settings.assistant.saveList": "Guardar lista",
+  "settings.assistant.restoreDefaults": "Repor predefinições",
+  "settings.assistant.quickPrompts": "Perguntas rápidas",
+  "settings.assistant.quickPromptsDesc":
+    "Perguntas que o painel oferece como botões de um clique " +
+    "quando a conversa está vazia. Uma por linha. Não vem nada preparado, porque as que valem " +
+    "a pena são as que dá por si a fazer às suas máquinas todas as semanas.",
+  "settings.assistant.quickPromptsPlaceholder":
+    "O que está a encher o disco?\n" + "Porque falhou a última implantação?",
+  "settings.assistant.quickPromptsNote":
+    "Até 12. Clicar numa põe-na na caixa em vez de a enviar, " +
+    "para poder acrescentar algo primeiro.",
+  "settings.assistant.savePrompts": "Guardar perguntas",
+  "settings.assistant.steps": "Passos por turno",
+  "settings.assistant.stepsDesc":
+    "Quantas chamadas a ferramentas uma pergunta pode levar antes " +
+    "de o assistente parar e dar conta do trabalho. Uma execução que não está a convergir " +
+    "acaba sozinha em vez de acabar quando reparar nela.",
+  "settings.assistant.lines": "Linhas de terminal que pode ler",
+  "settings.assistant.linesDesc":
+    "Quanto do resultado recente de uma sessão devolve cada " +
+    "leitura. Mais dá-lhe mais contexto para trabalhar e gasta mais do orçamento da conversa.",
+  "settings.assistant.signIn": "Início de sessão",
+  "settings.assistant.theAgent": "o agente",
+  "settings.assistant.accountOpencode":
+    "O OpenCode usa os fornecedores e credenciais já " +
+    "configurados na sua CLI. Trate deles com “opencode auth login”; as chaves guardadas " +
+    "aqui não são passadas ao OpenCode.",
+  "settings.assistant.accountGrokApi":
+    "O Grok Build não está instalado nesta máquina, por isso o " +
+    "NoxSSH fala diretamente com a API da xAI usando a chave guardada aqui, e o uso é " +
+    "cobrado por token. Instale a CLI e inicie sessão para usar o seu próprio plano.",
+  "settings.assistant.accountLocal":
+    "Não há sessão para iniciar. O modelo corre neste " +
+    "computador, por isso não há conta nem cobrança por token. Só precisa de uma chave se foi " +
+    "você a pôr uma no servidor.",
+  "settings.assistant.accountPlan":
+    "Com sessão iniciada através do {agent} nesta máquina, num " +
+    "plano {plan}. A utilização sai desse plano, por isso não é precisa nenhuma chave aqui.",
+  "settings.assistant.accountProvider":
+    "O {agent} nesta máquina está configurado com {provider}, " +
+    "que trata das suas próprias credenciais. Não é preciso nada aqui.",
+  "settings.assistant.accountAgentKey":
+    "O {agent} nesta máquina está a usar uma chave de API, " +
+    "por isso a utilização é cobrada por token.",
+  "settings.assistant.accountStoredKey":
+    "Está aqui guardada uma chave e será usada. Limpe a " +
+    "caixa e guarde para a remover e voltar ao início de sessão do {agent}.",
+  "settings.assistant.accountNone":
+    "Não é preciso fazer nada se já tem sessão iniciada no " +
+    "{agent} nesta máquina, que é o caso habitual. Só é precisa uma chave quando não tem.",
+  "settings.assistant.apiKey": "Chave de API",
+  "settings.assistant.keyStored": "Há uma chave guardada",
+  "settings.assistant.keyOptional": "Só se o seu servidor pedir uma",
+  "settings.assistant.keySaved": "Chave guardada.",
+  "settings.assistant.keyRemoved": "Chave removida.",
+  "settings.assistant.keyFailed": "Não foi possível guardar essa chave.",
+  "settings.assistant.noSecureStore":
+    "Este sistema não tem nenhum cofre seguro disponível, por " +
+    "isso não é possível guardar aqui uma chave.",
+  "settings.assistant.tools": "O que pode fazer",
+  "settings.assistant.toolsDesc":
+    "{count} ferramentas, das quais {readOnly} apenas leem. As " +
+    "restantes estão sujeitas à definição de aprovação acima.",
 
-    /* ---- Settings: Monitoring ---- */
-    'settings.monitoring.title': 'Monitorização',
-    'settings.monitoring.desc': 'Verifique se os anfitriões continuam acessíveis enquanto a '
-        + 'aplicação está aberta, e receba uma notificação quando um deixar de responder. São '
-        + 'precisos dois interruptores: esta página liga a funcionalidade, e cada anfitrião que '
-        + 'quiser vigiar é ligado no seu próprio editor.',
-    'settings.monitoring.unreadable': 'Não foi possível ler a monitorização a partir da aplicação. '
-        + 'Reinicie o CloudTerm e abra esta página outra vez.',
-    'settings.monitoring.saveFailed': 'Não foi possível guardar essa definição',
-    'settings.monitoring.checkFailed': 'Não foi possível verificar os anfitriões',
-    'settings.monitoring.master': 'Vigiar quedas dos anfitriões',
-    'settings.monitoring.masterDesc': 'O interruptor principal. Os anfitriões são vigiados um a um '
-        + 'e não todos de uma vez, por isso isto sozinho não verifica nada: cada anfitrião que '
-        + 'quiser vigiar é ligado no seu próprio editor, em Monitorização.',
-    'settings.monitoring.interval': 'Com que frequência',
-    'settings.monitoring.intervalDesc': 'Cada anfitrião vigiado é verificado neste intervalo. Uma '
-        + 'verificação é uma única ligação que é fechada assim que abre, por isso fica barata '
-        + 'mesmo com uma lista longa.',
-    'settings.monitoring.timeout': 'Quanto tempo esperar',
-    'settings.monitoring.timeoutDesc': 'Um anfitrião que não aceite a ligação dentro deste tempo '
-        + 'falhou a verificação. Vale a pena aumentar para algo do outro lado de uma VPN.',
-    'settings.monitoring.failures': 'Antes de o dar como em baixo',
-    'settings.monitoring.failuresDesc': 'Quantas verificações seguidas têm de falhar. Em wifi, '
-        + 'deixe isto em duas ou mais: um pacote perdido não é um servidor a cair, e ser avisado '
-        + 'disso uma vez por minuto é como uma notificação deixa de ser lida.',
-    'settings.monitoring.notify': 'Avisar-me quando um anfitrião cair',
-    'settings.monitoring.notifyDesc': 'Uma notificação no ambiente de trabalho, uma vez, quando um '
-        + 'anfitrião passa de responder a não responder. Desligue isto para manter os estados nos '
-        + 'cartões e no sino sem ser interrompido por eles.',
-    'settings.monitoring.notifyBack': 'E quando voltar',
-    'settings.monitoring.notifyBackDesc': 'Uma segunda notificação quando um anfitrião que estava '
-        + 'em baixo volta a responder, dizendo quanto tempo esteve ausente.',
-    'settings.monitoring.list': 'O que está a ser vigiado',
-    'settings.monitoring.checkNow': 'Verificar agora',
-    'settings.monitoring.checking': 'A verificar…',
-    'settings.monitoring.noneWatched': 'A vigilância liga-se por anfitrião, no editor do anfitrião.',
-    'settings.monitoring.watched_one': '{count} anfitrião.',
-    'settings.monitoring.watched_other': '{count} anfitriões.',
-    'settings.monitoring.watchedButOff_one': '{count} anfitrião configurado, e nada a verificá-lo '
-        + 'enquanto o interruptor acima estiver desligado.',
-    'settings.monitoring.watchedButOff_other': '{count} anfitriões configurados, e nada a '
-        + 'verificá-los enquanto o interruptor acima estiver desligado.',
-    'settings.monitoring.watchedWithOffline_one': '{count} anfitrião, {offline} sem responder.',
-    'settings.monitoring.watchedWithOffline_other': '{count} anfitriões, {offline} sem responder.',
-    'settings.monitoring.emptyList': 'Ainda não há anfitriões a ser vigiados.',
-    'settings.monitoring.emptyListHow': 'Abra um anfitrião na página Anfitriões, encontre '
-        + 'Monitorização em Opcional, e ligue “Vigiar este anfitrião”.',
-    'settings.monitoring.noNetwork': 'Esta máquina não tem ligação de rede, por isso nada está a '
-        + 'ser verificado e nada foi dado como em baixo.',
-    'settings.monitoring.allFailed': 'Todos os anfitriões falharam a última verificação ao mesmo '
-        + 'tempo, o que normalmente é esta máquina e não todos eles. Esses resultados foram '
-        + 'descartados e nada foi comunicado.',
-    'settings.monitoring.lastChecked': 'Última verificação {when}.',
+  /* ---- Settings: Monitoring ---- */
+  "settings.monitoring.title": "Monitorização",
+  "settings.monitoring.desc":
+    "Verifique se os anfitriões continuam acessíveis enquanto a " +
+    "aplicação está aberta, e receba uma notificação quando um deixar de responder. São " +
+    "precisos dois interruptores: esta página liga a funcionalidade, e cada anfitrião que " +
+    "quiser vigiar é ligado no seu próprio editor.",
+  "settings.monitoring.unreadable":
+    "Não foi possível ler a monitorização a partir da aplicação. " +
+    "Reinicie o CloudTerm e abra esta página outra vez.",
+  "settings.monitoring.saveFailed": "Não foi possível guardar essa definição",
+  "settings.monitoring.checkFailed": "Não foi possível verificar os anfitriões",
+  "settings.monitoring.master": "Vigiar quedas dos anfitriões",
+  "settings.monitoring.masterDesc":
+    "O interruptor principal. Os anfitriões são vigiados um a um " +
+    "e não todos de uma vez, por isso isto sozinho não verifica nada: cada anfitrião que " +
+    "quiser vigiar é ligado no seu próprio editor, em Monitorização.",
+  "settings.monitoring.interval": "Com que frequência",
+  "settings.monitoring.intervalDesc":
+    "Cada anfitrião vigiado é verificado neste intervalo. Uma " +
+    "verificação é uma única ligação que é fechada assim que abre, por isso fica barata " +
+    "mesmo com uma lista longa.",
+  "settings.monitoring.timeout": "Quanto tempo esperar",
+  "settings.monitoring.timeoutDesc":
+    "Um anfitrião que não aceite a ligação dentro deste tempo " +
+    "falhou a verificação. Vale a pena aumentar para algo do outro lado de uma VPN.",
+  "settings.monitoring.failures": "Antes de o dar como em baixo",
+  "settings.monitoring.failuresDesc":
+    "Quantas verificações seguidas têm de falhar. Em wifi, " +
+    "deixe isto em duas ou mais: um pacote perdido não é um servidor a cair, e ser avisado " +
+    "disso uma vez por minuto é como uma notificação deixa de ser lida.",
+  "settings.monitoring.notify": "Avisar-me quando um anfitrião cair",
+  "settings.monitoring.notifyDesc":
+    "Uma notificação no ambiente de trabalho, uma vez, quando um " +
+    "anfitrião passa de responder a não responder. Desligue isto para manter os estados nos " +
+    "cartões e no sino sem ser interrompido por eles.",
+  "settings.monitoring.notifyBack": "E quando voltar",
+  "settings.monitoring.notifyBackDesc":
+    "Uma segunda notificação quando um anfitrião que estava " +
+    "em baixo volta a responder, dizendo quanto tempo esteve ausente.",
+  "settings.monitoring.list": "O que está a ser vigiado",
+  "settings.monitoring.checkNow": "Verificar agora",
+  "settings.monitoring.checking": "A verificar…",
+  "settings.monitoring.noneWatched":
+    "A vigilância liga-se por anfitrião, no editor do anfitrião.",
+  "settings.monitoring.watched_one": "{count} anfitrião.",
+  "settings.monitoring.watched_other": "{count} anfitriões.",
+  "settings.monitoring.watchedButOff_one":
+    "{count} anfitrião configurado, e nada a verificá-lo " +
+    "enquanto o interruptor acima estiver desligado.",
+  "settings.monitoring.watchedButOff_other":
+    "{count} anfitriões configurados, e nada a " +
+    "verificá-los enquanto o interruptor acima estiver desligado.",
+  "settings.monitoring.watchedWithOffline_one":
+    "{count} anfitrião, {offline} sem responder.",
+  "settings.monitoring.watchedWithOffline_other":
+    "{count} anfitriões, {offline} sem responder.",
+  "settings.monitoring.emptyList": "Ainda não há anfitriões a ser vigiados.",
+  "settings.monitoring.emptyListHow":
+    "Abra um anfitrião na página Anfitriões, encontre " +
+    "Monitorização em Opcional, e ligue “Vigiar este anfitrião”.",
+  "settings.monitoring.noNetwork":
+    "Esta máquina não tem ligação de rede, por isso nada está a " +
+    "ser verificado e nada foi dado como em baixo.",
+  "settings.monitoring.allFailed":
+    "Todos os anfitriões falharam a última verificação ao mesmo " +
+    "tempo, o que normalmente é esta máquina e não todos eles. Esses resultados foram " +
+    "descartados e nada foi comunicado.",
+  "settings.monitoring.lastChecked": "Última verificação {when}.",
 
-    /* ---- Settings: Logging ---- */
-    'settings.logging.title': 'Registo',
-    'settings.logging.desc': 'Escreva num ficheiro o que cada sessão mostrou, e decida que sessões '
-        + 'são registadas e durante quanto tempo os ficheiros são guardados.',
-    'settings.logging.saveFailed': 'Não foi possível guardar essa definição',
-    'settings.logging.folderFailed': 'Não foi possível usar essa pasta',
-    'settings.logging.folderChanged': 'Os registos de sessão passam a ir para ali',
-    'settings.logging.openFailed': 'Não foi possível abrir essa pasta',
-    'settings.logging.revealFailed': 'Não foi possível encontrar esse registo',
-    'settings.logging.recordAll': 'Registar todas as sessões',
-    'settings.logging.recordAllDesc': 'Escreve num ficheiro o que o servidor imprime, para cada '
-        + 'sessão à medida que abre. Uma sessão isolada pode sempre ser registada a partir do seu '
-        + 'próprio cabeçalho, sem ligar isto.',
-    'settings.logging.whichSessions': 'Que sessões',
-    'settings.logging.whichSessionsDesc': 'Que tipos de sessão o interruptor acima regista. '
-        + 'Registar uma sessão a partir do seu próprio cabeçalho ignora esta lista.',
-    'settings.logging.format': 'O que escrever',
-    'settings.logging.formatDesc': '“Legível” retira os códigos de cor e de cursor, que é o que '
-        + 'torna um registo pesquisável com grep. “Literal” guarda cada byte, para o reproduzir '
-        + 'num terminal mais tarde.',
-    'settings.logging.formatPlain': 'Legível',
-    'settings.logging.formatRaw': 'Literal',
-    'settings.logging.timestamps': 'Marcar cada linha com a hora',
-    'settings.logging.timestampsDesc': 'Antecede cada linha com a hora local em que chegou.',
-    'settings.logging.timestampsUnavailable': 'Não está disponível para registos literais: uma '
-        + 'marca de hora no meio de uma sequência de escape corrompia-a.',
-    'settings.logging.retention': 'Durante quanto tempo guardá-los',
-    'settings.logging.retentionDesc': 'As transcrições mais antigas são apagadas, no arranque e à '
-        + 'medida que as sessões abrem. Uma que ainda esteja a ser escrita nunca é tocada, seja '
-        + 'qual for a sua idade.',
-    'settings.logging.forever': 'Para sempre',
-    'settings.logging.days_one': '{count} dia',
-    'settings.logging.days_other': '{count} dias',
-    'settings.logging.cap': 'Limitar o tamanho da pasta',
-    'settings.logging.capDesc': 'Assim que a pasta passar disto, as transcrições mais antigas são '
-        + 'apagadas primeiro até voltar a caber.',
-    'settings.logging.noCap': 'Sem limite',
-    'settings.logging.folder': 'Para onde vão',
-    'settings.logging.folderDesc': 'Os registos guardam tudo o que esteve no ecrã, o que para uma '
-        + 'sessão que correu um gestor de palavras-passe ou imprimiu um token é tão sensível como '
-        + 'as próprias credenciais. Guarde-os onde guardaria essas.',
-    'settings.logging.openFolder': 'Abrir a pasta',
-    'settings.logging.defaultFolder': 'Voltar à pasta predefinida',
-    'settings.logging.showInFolder': 'Mostrar na pasta',
+  /* ---- Settings: Logging ---- */
+  "settings.logging.title": "Registo",
+  "settings.logging.desc":
+    "Escreva num ficheiro o que cada sessão mostrou, e decida que sessões " +
+    "são registadas e durante quanto tempo os ficheiros são guardados.",
+  "settings.logging.saveFailed": "Não foi possível guardar essa definição",
+  "settings.logging.folderFailed": "Não foi possível usar essa pasta",
+  "settings.logging.folderChanged":
+    "Os registos de sessão passam a ir para ali",
+  "settings.logging.openFailed": "Não foi possível abrir essa pasta",
+  "settings.logging.revealFailed": "Não foi possível encontrar esse registo",
+  "settings.logging.recordAll": "Registar todas as sessões",
+  "settings.logging.recordAllDesc":
+    "Escreve num ficheiro o que o servidor imprime, para cada " +
+    "sessão à medida que abre. Uma sessão isolada pode sempre ser registada a partir do seu " +
+    "próprio cabeçalho, sem ligar isto.",
+  "settings.logging.whichSessions": "Que sessões",
+  "settings.logging.whichSessionsDesc":
+    "Que tipos de sessão o interruptor acima regista. " +
+    "Registar uma sessão a partir do seu próprio cabeçalho ignora esta lista.",
+  "settings.logging.format": "O que escrever",
+  "settings.logging.formatDesc":
+    "“Legível” retira os códigos de cor e de cursor, que é o que " +
+    "torna um registo pesquisável com grep. “Literal” guarda cada byte, para o reproduzir " +
+    "num terminal mais tarde.",
+  "settings.logging.formatPlain": "Legível",
+  "settings.logging.formatRaw": "Literal",
+  "settings.logging.timestamps": "Marcar cada linha com a hora",
+  "settings.logging.timestampsDesc":
+    "Antecede cada linha com a hora local em que chegou.",
+  "settings.logging.timestampsUnavailable":
+    "Não está disponível para registos literais: uma " +
+    "marca de hora no meio de uma sequência de escape corrompia-a.",
+  "settings.logging.retention": "Durante quanto tempo guardá-los",
+  "settings.logging.retentionDesc":
+    "As transcrições mais antigas são apagadas, no arranque e à " +
+    "medida que as sessões abrem. Uma que ainda esteja a ser escrita nunca é tocada, seja " +
+    "qual for a sua idade.",
+  "settings.logging.forever": "Para sempre",
+  "settings.logging.days_one": "{count} dia",
+  "settings.logging.days_other": "{count} dias",
+  "settings.logging.cap": "Limitar o tamanho da pasta",
+  "settings.logging.capDesc":
+    "Assim que a pasta passar disto, as transcrições mais antigas são " +
+    "apagadas primeiro até voltar a caber.",
+  "settings.logging.noCap": "Sem limite",
+  "settings.logging.folder": "Para onde vão",
+  "settings.logging.folderDesc":
+    "Os registos guardam tudo o que esteve no ecrã, o que para uma " +
+    "sessão que correu um gestor de palavras-passe ou imprimiu um token é tão sensível como " +
+    "as próprias credenciais. Guarde-os onde guardaria essas.",
+  "settings.logging.openFolder": "Abrir a pasta",
+  "settings.logging.defaultFolder": "Voltar à pasta predefinida",
+  "settings.logging.showInFolder": "Mostrar na pasta",
 
-    /* ---- Settings: Security ---- */
-    'settings.security.title': 'Segurança',
-    'settings.security.desc': 'Quem pode abrir esta aplicação, e em que servidores ela confia.',
+  /* ---- Settings: Security ---- */
+  "settings.security.title": "Segurança",
+  "settings.security.desc":
+    "Quem pode abrir esta aplicação, e em que servidores ela confia.",
 
-    'settings.lock.title': 'Palavra-passe de abertura',
-    'settings.lock.badgeOn': 'ligada',
-    'settings.lock.descOn': 'Pedida sempre que a aplicação abre. As suas palavras-passe, chaves e '
-        + 'frases-passe guardadas são cifradas com ela, por isso o ficheiro guardado é ilegível '
-        + 'sem ela.',
-    'settings.lock.descOff': 'Exigir uma palavra-passe para abrir a aplicação, e cifrar com ela as '
-        + 'suas palavras-passe, chaves e frases-passe guardadas.',
-    'settings.lock.warnOn': 'Não há recuperação possível. Se esquecer esta palavra-passe, as '
-        + 'credenciais guardadas não voltam a poder ser lidas.',
-    'settings.lock.warnOff': 'Sem ela, as credenciais estão protegidas apenas pelo cofre do '
-        + 'sistema, o que significa que qualquer pessoa com sessão iniciada como si as pode ler.',
-    'settings.lock.lockNow': 'Bloquear agora',
-    'settings.lock.setPassword': 'Definir palavra-passe',
-    'settings.lock.changePassword': 'Alterar palavra-passe',
-    'settings.lock.removePassword': 'Remover palavra-passe',
-    'settings.lock.currentPassword': 'Palavra-passe atual',
-    'settings.lock.password': 'Palavra-passe',
-    'settings.lock.newPassword': 'Nova palavra-passe',
-    'settings.lock.confirmPassword': 'Confirmar palavra-passe',
-    'settings.lock.mismatch': 'As duas palavras-passe não coincidem',
-    'settings.lock.failed': 'Isso não funcionou',
-    'settings.lock.passwordSet': 'Palavra-passe de abertura definida',
-    'settings.lock.passwordChanged': 'Palavra-passe alterada',
-    'settings.lock.passwordRemoved': 'Palavra-passe de abertura removida',
-    'settings.lock.acknowledge': 'Compreendo que esta palavra-passe não pode ser recuperada',
-    'settings.lock.acknowledgeDesc': 'As suas palavras-passe, chaves e frases-passe guardadas são '
-        + 'cifradas com ela. Esqueça-a e não voltam a poder ser lidas, nem por esta aplicação nem '
-        + 'por mais nada.',
-    'settings.lock.confirmTitle': 'Bloquear a aplicação agora?',
-    'settings.lock.confirmMessage': 'Todas as sessões abertas serão desligadas, e será precisa a '
-        + 'palavra-passe para voltar a entrar.',
-    'settings.lock.confirmAction': 'Bloquear',
+  "settings.lock.title": "Palavra-passe de abertura",
+  "settings.lock.badgeOn": "ligada",
+  "settings.lock.descOn":
+    "Pedida sempre que a aplicação abre. As suas palavras-passe, chaves e " +
+    "frases-passe guardadas são cifradas com ela, por isso o ficheiro guardado é ilegível " +
+    "sem ela.",
+  "settings.lock.descOff":
+    "Exigir uma palavra-passe para abrir a aplicação, e cifrar com ela as " +
+    "suas palavras-passe, chaves e frases-passe guardadas.",
+  "settings.lock.warnOn":
+    "Não há recuperação possível. Se esquecer esta palavra-passe, as " +
+    "credenciais guardadas não voltam a poder ser lidas.",
+  "settings.lock.warnOff":
+    "Sem ela, as credenciais estão protegidas apenas pelo cofre do " +
+    "sistema, o que significa que qualquer pessoa com sessão iniciada como si as pode ler.",
+  "settings.lock.lockNow": "Bloquear agora",
+  "settings.lock.setPassword": "Definir palavra-passe",
+  "settings.lock.changePassword": "Alterar palavra-passe",
+  "settings.lock.removePassword": "Remover palavra-passe",
+  "settings.lock.currentPassword": "Palavra-passe atual",
+  "settings.lock.password": "Palavra-passe",
+  "settings.lock.newPassword": "Nova palavra-passe",
+  "settings.lock.confirmPassword": "Confirmar palavra-passe",
+  "settings.lock.mismatch": "As duas palavras-passe não coincidem",
+  "settings.lock.failed": "Isso não funcionou",
+  "settings.lock.passwordSet": "Palavra-passe de abertura definida",
+  "settings.lock.passwordChanged": "Palavra-passe alterada",
+  "settings.lock.passwordRemoved": "Palavra-passe de abertura removida",
+  "settings.lock.acknowledge":
+    "Compreendo que esta palavra-passe não pode ser recuperada",
+  "settings.lock.acknowledgeDesc":
+    "As suas palavras-passe, chaves e frases-passe guardadas são " +
+    "cifradas com ela. Esqueça-a e não voltam a poder ser lidas, nem por esta aplicação nem " +
+    "por mais nada.",
+  "settings.lock.confirmTitle": "Bloquear a aplicação agora?",
+  "settings.lock.confirmMessage":
+    "Todas as sessões abertas serão desligadas, e será precisa a " +
+    "palavra-passe para voltar a entrar.",
+  "settings.lock.confirmAction": "Bloquear",
 
-    'settings.knownHosts.title': 'Anfitriões conhecidos',
-    'settings.knownHosts.desc': 'Chaves de servidor em que confiou. Esqueça uma para voltar a ser '
-        + 'perguntado sobre ela, o que é preciso se um servidor foi mesmo reconstruído.',
-    'settings.knownHosts.unknownType': 'desconhecido',
-    'settings.knownHosts.copy': 'Copiar impressão digital',
-    'settings.knownHosts.copied': 'Impressão digital copiada',
-    'settings.knownHosts.forget': 'Esquecer',
-    'settings.knownHosts.forgetKey': 'Esquecer esta chave',
-    'settings.knownHosts.keyCount_one': '{count} chave',
-    'settings.knownHosts.keyCount_other': '{count} chaves',
-    'settings.knownHosts.empty': 'Ainda sem chaves de anfitrião de confiança',
-    'settings.knownHosts.emptyNote': 'Na primeira vez que ligar a um servidor, a chave dele será '
-        + 'registada aqui.',
-    'settings.knownHosts.confirmTitle': 'Esquecer esta chave de anfitrião?',
-    'settings.knownHosts.confirmMessage': '{host} será tratado como um anfitrião novo da próxima '
-        + 'vez que ligar, e ser-lhe-á pedido que confirme a chave outra vez.',
-    'settings.knownHosts.forgotHost': '{host} esquecido',
-    'settings.knownHosts.forgotKey': 'Esquecida a chave {type} de {host}',
+  "settings.knownHosts.title": "Anfitriões conhecidos",
+  "settings.knownHosts.desc":
+    "Chaves de servidor em que confiou. Esqueça uma para voltar a ser " +
+    "perguntado sobre ela, o que é preciso se um servidor foi mesmo reconstruído.",
+  "settings.knownHosts.unknownType": "desconhecido",
+  "settings.knownHosts.copy": "Copiar impressão digital",
+  "settings.knownHosts.copied": "Impressão digital copiada",
+  "settings.knownHosts.forget": "Esquecer",
+  "settings.knownHosts.forgetKey": "Esquecer esta chave",
+  "settings.knownHosts.keyCount_one": "{count} chave",
+  "settings.knownHosts.keyCount_other": "{count} chaves",
+  "settings.knownHosts.empty": "Ainda sem chaves de anfitrião de confiança",
+  "settings.knownHosts.emptyNote":
+    "Na primeira vez que ligar a um servidor, a chave dele será " +
+    "registada aqui.",
+  "settings.knownHosts.confirmTitle": "Esquecer esta chave de anfitrião?",
+  "settings.knownHosts.confirmMessage":
+    "{host} será tratado como um anfitrião novo da próxima " +
+    "vez que ligar, e ser-lhe-á pedido que confirme a chave outra vez.",
+  "settings.knownHosts.forgotHost": "{host} esquecido",
+  "settings.knownHosts.forgotKey": "Esquecida a chave {type} de {host}",
 
-    /* ---- Settings: Account ---- */
-    'settings.account.fallbackName': 'Conta CloudBlast',
-    'settings.account.yourAccount': 'a sua conta CloudBlast',
-    'settings.account.connectedAs': 'Ligado como {account}',
-    'settings.account.disconnect': 'Desligar',
-    'settings.account.disconnecting': 'A desligar…',
-    'settings.account.disconnected': 'Conta desligada',
-    'settings.account.disconnectedLocally': 'Sessão terminada neste dispositivo, mas não foi '
-        + 'possível contactar a consola para revogar o acesso. Remova o dispositivo em '
-        + 'Definições → API.',
-    'settings.account.connect': 'Ligue a sua conta',
-    'settings.account.connectAction': 'Ligar',
-    'settings.account.connectDesc': 'Sincronize os seus servidores e faça cópia da sua configuração.',
-    'settings.account.unlockFirst': 'Desbloqueie a aplicação primeiro.',
-    'settings.account.waitingForBrowser': 'A aguardar o navegador…',
-    'settings.account.syncServers': 'Sincronizar os meus servidores',
-    'settings.account.syncServersDesc': 'Os seus servidores CloudBlast aparecem em Anfitriões, '
-        + 'prontos a ligar.',
-    'settings.account.syncOn': 'Sincronização WebDAV ativada',
-    'settings.account.syncOff': 'Sincronização WebDAV desativada',
-    'settings.account.syncNow': 'Sincronizar agora',
-    'settings.account.syncing': 'A sincronizar…',
-    'settings.account.syncedAgo': 'Sincronizado {when}',
-    'settings.account.notSyncedYet': 'Ainda não sincronizado',
-    'settings.account.serverCount_one': '{count} servidor',
-    'settings.account.serverCount_other': '{count} servidores',
-    'settings.account.serversSynced_one': '{count} servidor sincronizado',
-    'settings.account.serversSynced_other': '{count} servidores sincronizados',
-    'settings.account.noServers': 'Esta conta ainda não tem servidores',
-    'settings.account.cloudBackup': 'Cópia na nuvem',
-    'settings.account.cloudBackupDesc': 'Os seus anfitriões, pastas, chaves e definições, guardados '
-        + 'na sua conta para os seus outros dispositivos.',
-    'settings.account.backupOn': 'A cópia na nuvem está ligada',
-    'settings.account.backupOff': 'A cópia na nuvem está desligada. O que já está guardado fica até '
-        + 'que o substitua.',
-    'settings.account.backedUp': 'Guardado na sua conta CloudBlast',
-    'settings.account.saveNow': 'Guardar agora',
-    'settings.account.saving': 'A guardar…',
-    'settings.account.savedAgo': 'Guardado {when}',
-    'settings.account.notSavedYet': 'Ainda não guardado',
-    'settings.account.justNow': 'agora mesmo',
-    'settings.account.minutesAgo': 'há {count} min',
-    'settings.account.hoursAgo': 'há {count} h',
-    'settings.account.daysAgo': 'há {count} d',
-    'settings.account.title': 'Sincronização',
-    'settings.account.webdavUrl': 'URL WebDAV',
-    'settings.account.webdavUrlHint': 'Basta o endereço do servidor. O caminho noxssh/snapshot.json é acrescentado automaticamente.',
-    'settings.account.username': 'Nome de utilizador',
-    'settings.account.webdavPassword': 'Palavra-passe WebDAV',
-    'settings.account.webdavPasswordHint': 'Palavra-passe HTTP Basic do servidor WebDAV (guardada em segurança).',
-    'settings.account.syncPassphrase': 'Frase-passe de sincronização',
-    'settings.account.syncPassphraseHint': 'Encripta o instantâneo antes de o enviar. Precisa dela noutro dispositivo para restaurar.',
-    'settings.account.saveUrlUser': 'Guardar URL e nome',
-    'settings.account.saveSecrets': 'Guardar palavras-passe',
-    'settings.account.test': 'Testar ligação',
-    'settings.account.testing': 'A testar…',
-    'settings.account.testOk': 'Ligação bem-sucedida',
-    'settings.account.enableSync': 'Ativar sincronização WebDAV',
-    'settings.account.enableSyncDesc': 'Enviar e receber automaticamente anfitriões, chaves e definições encriptados.',
-    'settings.account.configSaved': 'Definições guardadas',
-    'settings.account.secretsSaved': 'Credenciais atualizadas',
-    'settings.account.restoreNow': 'Restaurar agora',
-    'settings.account.restoring': 'A restaurar…',
-    'settings.account.restored': 'Restaurado a partir do WebDAV',
-    'settings.account.notRestoredYet': 'Ainda não restaurado',
-    'settings.account.restoredAgo': 'Restaurado {when}',
-    'settings.account.webdavPrivacyNote': 'Os dados são encriptados neste dispositivo com a frase-passe de sincronização antes de saírem. A palavra-passe WebDAV serve só para autenticação.',
-    'settings.account.backupSection': 'Cópias históricas',
-    'settings.account.backupEnabled': 'Ativar cópias históricas',
-    'settings.account.backupEnabledDesc': 'Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados do instantâneo em direto.',
-    'settings.account.backupFrequency': 'Frequência das cópias',
-    'settings.account.backupFrequencyManual': 'Só manual',
-    'settings.account.backupFrequencyHourly': 'De hora a hora',
-    'settings.account.backupFrequencyDaily': 'Diária',
-    'settings.account.backupFrequencyWeekly': 'Semanal',
-    'settings.account.maxBackups': 'Manter no máximo',
-    'settings.account.maxBackupsSuffix': '',
-    'settings.account.backupNow': 'Fazer cópia agora',
-    'settings.account.backingUp': 'A criar cópia…',
-    'settings.account.backupsTitle': 'Versões disponíveis',
-    'settings.account.noBackups': 'Ainda não há cópias históricas',
-    'settings.account.restoreVersion': 'Restaurar esta versão',
-    'settings.account.restoringVersion': 'A restaurar…',
-    'settings.account.backupCreated': 'Cópia criada',
-    'settings.account.backupRestored': 'Restaurado a partir da cópia histórica',
-    'settings.account.lastBackup': 'Última cópia',
-    'settings.account.backupOnNow': 'Cópias históricas ativadas',
-    'settings.account.backupOffNow': 'Cópias históricas desativadas',
-    'settings.account.revision': 'Revisão',
+  /* ---- Settings: Account ---- */
+  "settings.account.fallbackName": "Conta CloudBlast",
+  "settings.account.yourAccount": "a sua conta CloudBlast",
+  "settings.account.connectedAs": "Ligado como {account}",
+  "settings.account.disconnect": "Desligar",
+  "settings.account.disconnecting": "A desligar…",
+  "settings.account.disconnected": "Conta desligada",
+  "settings.account.disconnectedLocally":
+    "Sessão terminada neste dispositivo, mas não foi " +
+    "possível contactar a consola para revogar o acesso. Remova o dispositivo em " +
+    "Definições → API.",
+  "settings.account.connect": "Ligue a sua conta",
+  "settings.account.connectAction": "Ligar",
+  "settings.account.connectDesc":
+    "Sincronize os seus servidores e faça cópia da sua configuração.",
+  "settings.account.unlockFirst": "Desbloqueie a aplicação primeiro.",
+  "settings.account.waitingForBrowser": "A aguardar o navegador…",
+  "settings.account.syncServers": "Sincronizar os meus servidores",
+  "settings.account.syncServersDesc":
+    "Os seus servidores CloudBlast aparecem em Anfitriões, " +
+    "prontos a ligar.",
+  "settings.account.syncOn": "Sincronização WebDAV ativada",
+  "settings.account.syncOff": "Sincronização WebDAV desativada",
+  "settings.account.syncNow": "Sincronizar agora",
+  "settings.account.syncing": "A sincronizar…",
+  "settings.account.syncedAgo": "Sincronizado {when}",
+  "settings.account.notSyncedYet": "Ainda não sincronizado",
+  "settings.account.serverCount_one": "{count} servidor",
+  "settings.account.serverCount_other": "{count} servidores",
+  "settings.account.serversSynced_one": "{count} servidor sincronizado",
+  "settings.account.serversSynced_other": "{count} servidores sincronizados",
+  "settings.account.noServers": "Esta conta ainda não tem servidores",
+  "settings.account.cloudBackup": "Cópia na nuvem",
+  "settings.account.cloudBackupDesc":
+    "Os seus anfitriões, pastas, chaves e definições, guardados " +
+    "na sua conta para os seus outros dispositivos.",
+  "settings.account.backupOn": "A cópia na nuvem está ligada",
+  "settings.account.backupOff":
+    "A cópia na nuvem está desligada. O que já está guardado fica até " +
+    "que o substitua.",
+  "settings.account.backedUp": "Guardado na sua conta CloudBlast",
+  "settings.account.saveNow": "Guardar agora",
+  "settings.account.saving": "A guardar…",
+  "settings.account.savedAgo": "Guardado {when}",
+  "settings.account.notSavedYet": "Ainda não guardado",
+  "settings.account.justNow": "agora mesmo",
+  "settings.account.minutesAgo": "há {count} min",
+  "settings.account.hoursAgo": "há {count} h",
+  "settings.account.daysAgo": "há {count} d",
+  "settings.account.title": "Sincronização",
+  "settings.account.webdavUrl": "URL WebDAV",
+  "settings.account.webdavUrlHint":
+    "Basta o endereço do servidor. O caminho noxssh/snapshot.json é acrescentado automaticamente.",
+  "settings.account.username": "Nome de utilizador",
+  "settings.account.webdavPassword": "Palavra-passe WebDAV",
+  "settings.account.webdavPasswordHint":
+    "Palavra-passe HTTP Basic do servidor WebDAV (guardada em segurança).",
+  "settings.account.syncPassphrase": "Frase-passe de sincronização",
+  "settings.account.syncPassphraseHint":
+    "Encripta o instantâneo antes de o enviar. Precisa dela noutro dispositivo para restaurar.",
+  "settings.account.saveUrlUser": "Guardar URL e nome",
+  "settings.account.saveSecrets": "Guardar palavras-passe",
+  "settings.account.test": "Testar ligação",
+  "settings.account.testing": "A testar…",
+  "settings.account.testOk": "Ligação bem-sucedida",
+  "settings.account.enableSync": "Ativar sincronização WebDAV",
+  "settings.account.enableSyncDesc":
+    "Enviar e receber automaticamente anfitriões, chaves e definições encriptados.",
+  "settings.account.configSaved": "Definições guardadas",
+  "settings.account.secretsSaved": "Credenciais atualizadas",
+  "settings.account.restoreNow": "Restaurar agora",
+  "settings.account.restoring": "A restaurar…",
+  "settings.account.restored": "Restaurado a partir do WebDAV",
+  "settings.account.notRestoredYet": "Ainda não restaurado",
+  "settings.account.restoredAgo": "Restaurado {when}",
+  "settings.account.webdavPrivacyNote":
+    "Os dados são encriptados neste dispositivo com a frase-passe de sincronização antes de saírem. A palavra-passe WebDAV serve só para autenticação.",
+  "settings.account.backupSection": "Cópias históricas",
+  "settings.account.backupEnabled": "Ativar cópias históricas",
+  "settings.account.backupEnabledDesc":
+    "Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados do instantâneo em direto.",
+  "settings.account.backupFrequency": "Frequência das cópias",
+  "settings.account.backupFrequencyManual": "Só manual",
+  "settings.account.backupFrequencyHourly": "De hora a hora",
+  "settings.account.backupFrequencyDaily": "Diária",
+  "settings.account.backupFrequencyWeekly": "Semanal",
+  "settings.account.maxBackups": "Manter no máximo",
+  "settings.account.maxBackupsSuffix": "",
+  "settings.account.backupNow": "Fazer cópia agora",
+  "settings.account.backingUp": "A criar cópia…",
+  "settings.account.backupsTitle": "Versões disponíveis",
+  "settings.account.noBackups": "Ainda não há cópias históricas",
+  "settings.account.restoreVersion": "Restaurar esta versão",
+  "settings.account.restoringVersion": "A restaurar…",
+  "settings.account.backupCreated": "Cópia criada",
+  "settings.account.backupRestored": "Restaurado a partir da cópia histórica",
+  "settings.account.lastBackup": "Última cópia",
+  "settings.account.backupOnNow": "Cópias históricas ativadas",
+  "settings.account.backupOffNow": "Cópias históricas desativadas",
+  "settings.account.revision": "Revisão",
 
-    /* ---- Settings: Backup ---- */
-    'settings.backup.title': 'Cópia de segurança',
-    'settings.backup.desc': 'Traga uma configuração existente, ou leve uma cópia consigo.',
-    'settings.backup.exportTitle': 'Exportar uma cópia',
-    'settings.backup.exportDesc': 'Escreve todos os anfitriões, pastas, chaves SSH, excertos, '
-        + 'encaminhamentos de portas e chaves de anfitrião de confiança num único ficheiro '
-        + 'cifrado, protegido por uma frase-passe que escolhe aqui.',
-    'settings.backup.exportNote': 'A frase-passe é independente da sua palavra-passe de abertura, '
-        + 'por isso o ficheiro abre numa máquina que nunca viu esta.',
-    'settings.backup.create': 'Criar cópia',
-    'settings.backup.passphrase': 'Frase-passe da cópia',
-    'settings.backup.confirmPassphrase': 'Confirmar frase-passe',
-    'settings.backup.tooShort': 'Use pelo menos {count} caracteres',
-    'settings.backup.mismatch': 'As duas frases-passe não coincidem',
-    'settings.backup.acknowledge': 'Compreendo que este ficheiro contém as minhas credenciais '
-        + 'guardadas',
-    'settings.backup.acknowledgeDesc': 'Quem tiver o ficheiro e esta frase-passe consegue ler todas '
-        + 'as palavras-passe, chaves privadas e frases-passe lá guardadas. Guarde-o onde guardaria '
-        + 'as próprias credenciais.',
-    'settings.backup.chooseLocation': 'Escolher local…',
-    'settings.backup.exportFailed': 'Não foi possível escrever a cópia',
-    'settings.backup.exported': 'Cópia guardada: {hosts}, {keys}, {snippets}',
-    'settings.backup.restoreTitle': 'Restaurar uma cópia',
-    'settings.backup.restoreDesc': 'Lê um ficheiro .cbbackup e adiciona o que ele contém. Vê o que '
-        + 'lá está antes de alguma coisa mudar.',
-    'settings.backup.restoreNote': 'O que já cá está fica intocado por predefinição, por isso '
-        + 'restaurar duas vezes é seguro.',
-    'settings.backup.chooseFile': 'Escolher ficheiro…',
-    'settings.backup.openTitle': 'Abrir cópia cifrada',
-    'settings.backup.fileKind': 'Cópia CloudBlast',
-    'settings.backup.pickerFailed': 'Não foi possível abrir o seletor de ficheiros',
-    'settings.backup.file': 'Ficheiro',
-    'settings.backup.open': 'Abrir cópia',
-    'settings.backup.opening': 'A abrir…',
-    'settings.backup.openFailed': 'Não foi possível abrir essa cópia',
-    'settings.backup.from': 'Cópia de {when}',
-    'settings.backup.unknownDate': 'uma data desconhecida',
-    'settings.backup.appVersion': 'aplicação {version}',
-    'settings.backup.emptyFile': 'Esta cópia está vazia.',
-    'settings.backup.folders': 'Pastas',
-    'settings.backup.keys': 'Chaves SSH',
-    'settings.backup.newCount': '{count} novos',
-    'settings.backup.existingReplaced': '{count} já cá estão, serão substituídos',
-    'settings.backup.existingSkipped': '{count} já cá estão, serão ignorados',
-    'settings.backup.trustedKeys': 'Chaves de confiança',
-    'settings.backup.hostWord_one': 'anfitrião',
-    'settings.backup.hostWord_other': 'anfitriões',
-    'settings.backup.overwrite': 'Substituir os itens que já cá estão',
-    'settings.backup.overwriteDesc': 'Compara pelo id do registo, não pelo nome. Deixe isto '
-        + 'desligado para acrescentar só o que falta; ligue-o para pôr esta máquina igual à cópia, '
-        + 'descartando as alterações locais nesses registos.',
-    'settings.backup.overwriteWarning': 'As alterações locais nos registos correspondentes '
-        + 'perder-se-ão.',
-    'settings.backup.restore': 'Restaurar',
-    'settings.backup.restoring': 'A restaurar…',
-    'settings.backup.restoreFailed': 'O restauro não terminou',
-    'settings.backup.restored_one': 'Restaurado {count} item novo',
-    'settings.backup.restored_other': 'Restaurados {count} itens novos',
-    'settings.backup.restoredAndReplaced_one': 'Restaurado {count} item novo, substituídos {replaced}',
-    'settings.backup.restoredAndReplaced_other': 'Restaurados {count} itens novos, substituídos '
-        + '{replaced}',
-    'settings.backup.duplicateKeys_one': '{count} anfitrião passou a confiar em mais do que uma '
-        + 'chave do mesmo tipo. Veja Segurança e depois Anfitriões conhecidos.',
-    'settings.backup.duplicateKeys_other': '{count} anfitriões passaram a confiar em mais do que '
-        + 'uma chave do mesmo tipo. Veja Segurança e depois Anfitriões conhecidos.',
+  /* ---- Settings: Backup ---- */
+  "settings.backup.title": "Cópia de segurança",
+  "settings.backup.desc":
+    "Traga uma configuração existente, ou leve uma cópia consigo.",
+  "settings.backup.exportTitle": "Exportar uma cópia",
+  "settings.backup.exportDesc":
+    "Escreve todos os anfitriões, pastas, chaves SSH, excertos, " +
+    "encaminhamentos de portas e chaves de anfitrião de confiança num único ficheiro " +
+    "cifrado, protegido por uma frase-passe que escolhe aqui.",
+  "settings.backup.exportNote":
+    "A frase-passe é independente da sua palavra-passe de abertura, " +
+    "por isso o ficheiro abre numa máquina que nunca viu esta.",
+  "settings.backup.create": "Criar cópia",
+  "settings.backup.passphrase": "Frase-passe da cópia",
+  "settings.backup.confirmPassphrase": "Confirmar frase-passe",
+  "settings.backup.tooShort": "Use pelo menos {count} caracteres",
+  "settings.backup.mismatch": "As duas frases-passe não coincidem",
+  "settings.backup.acknowledge":
+    "Compreendo que este ficheiro contém as minhas credenciais " + "guardadas",
+  "settings.backup.acknowledgeDesc":
+    "Quem tiver o ficheiro e esta frase-passe consegue ler todas " +
+    "as palavras-passe, chaves privadas e frases-passe lá guardadas. Guarde-o onde guardaria " +
+    "as próprias credenciais.",
+  "settings.backup.chooseLocation": "Escolher local…",
+  "settings.backup.exportFailed": "Não foi possível escrever a cópia",
+  "settings.backup.exported": "Cópia guardada: {hosts}, {keys}, {snippets}",
+  "settings.backup.restoreTitle": "Restaurar uma cópia",
+  "settings.backup.restoreDesc":
+    "Lê um ficheiro .cbbackup e adiciona o que ele contém. Vê o que " +
+    "lá está antes de alguma coisa mudar.",
+  "settings.backup.restoreNote":
+    "O que já cá está fica intocado por predefinição, por isso " +
+    "restaurar duas vezes é seguro.",
+  "settings.backup.chooseFile": "Escolher ficheiro…",
+  "settings.backup.openTitle": "Abrir cópia cifrada",
+  "settings.backup.fileKind": "Cópia CloudBlast",
+  "settings.backup.pickerFailed":
+    "Não foi possível abrir o seletor de ficheiros",
+  "settings.backup.file": "Ficheiro",
+  "settings.backup.open": "Abrir cópia",
+  "settings.backup.opening": "A abrir…",
+  "settings.backup.openFailed": "Não foi possível abrir essa cópia",
+  "settings.backup.from": "Cópia de {when}",
+  "settings.backup.unknownDate": "uma data desconhecida",
+  "settings.backup.appVersion": "aplicação {version}",
+  "settings.backup.emptyFile": "Esta cópia está vazia.",
+  "settings.backup.folders": "Pastas",
+  "settings.backup.keys": "Chaves SSH",
+  "settings.backup.newCount": "{count} novos",
+  "settings.backup.existingReplaced": "{count} já cá estão, serão substituídos",
+  "settings.backup.existingSkipped": "{count} já cá estão, serão ignorados",
+  "settings.backup.trustedKeys": "Chaves de confiança",
+  "settings.backup.hostWord_one": "anfitrião",
+  "settings.backup.hostWord_other": "anfitriões",
+  "settings.backup.overwrite": "Substituir os itens que já cá estão",
+  "settings.backup.overwriteDesc":
+    "Compara pelo id do registo, não pelo nome. Deixe isto " +
+    "desligado para acrescentar só o que falta; ligue-o para pôr esta máquina igual à cópia, " +
+    "descartando as alterações locais nesses registos.",
+  "settings.backup.overwriteWarning":
+    "As alterações locais nos registos correspondentes " + "perder-se-ão.",
+  "settings.backup.restore": "Restaurar",
+  "settings.backup.restoring": "A restaurar…",
+  "settings.backup.restoreFailed": "O restauro não terminou",
+  "settings.backup.restored_one": "Restaurado {count} item novo",
+  "settings.backup.restored_other": "Restaurados {count} itens novos",
+  "settings.backup.restoredAndReplaced_one":
+    "Restaurado {count} item novo, substituídos {replaced}",
+  "settings.backup.restoredAndReplaced_other":
+    "Restaurados {count} itens novos, substituídos " + "{replaced}",
+  "settings.backup.duplicateKeys_one":
+    "{count} anfitrião passou a confiar em mais do que uma " +
+    "chave do mesmo tipo. Veja Segurança e depois Anfitriões conhecidos.",
+  "settings.backup.duplicateKeys_other":
+    "{count} anfitriões passaram a confiar em mais do que " +
+    "uma chave do mesmo tipo. Veja Segurança e depois Anfitriões conhecidos.",
 
-    /* ---- Settings: About ---- */
-    'settings.about.title': 'Acerca',
-    'settings.about.version': 'Versão {version}',
-    'settings.about.updates': 'Atualizações',
-    'settings.about.checking': 'A procurar atualizações…',
-    'settings.about.checkingShort': 'A verificar…',
-    'settings.about.checkNow': 'Procurar atualizações',
-    'settings.about.disabled': 'A procura de atualizações está desligada nesta instalação.',
-    'settings.about.ready': 'A versão {version} está pronta a instalar. Reinicie para terminar.',
-    'settings.about.downloading': 'A transferir a atualização…',
-    'settings.about.downloadingVersion': 'A transferir a versão {version}…',
-    'settings.about.available': 'A versão {version} está disponível.',
-    'settings.about.availableToDownload': 'A versão {version} está disponível para transferir.',
-    'settings.about.upToDate': 'Atualizado. Última verificação {when}.',
-    'settings.about.neverChecked': 'Ainda não verificado.',
-    'settings.about.restartToUpdate': 'Reiniciar para atualizar',
-    'settings.about.download': 'Transferir {version}',
-    'settings.about.noChecksLeft': 'Não restam verificações nesta hora.',
-    'settings.about.noChecksUntil': 'Não restam verificações nesta hora, até {when}.',
-    'settings.about.checksLeft_one': 'Resta {count} de {limit} verificações nesta hora.',
-    'settings.about.checksLeft_other': 'Restam {count} de {limit} verificações nesta hora.',
-    'settings.about.noteInstall': 'As atualizações são transferidas em segundo plano e instaladas '
-        + 'quando sai. Verificar pergunta ao GitHub qual a versão mais recente e não envia nada '
-        + 'sobre si ou sobre a sua máquina.',
-    'settings.about.noteNotify': 'As atualizações não são instaladas automaticamente. A '
-        + 'transferência abre no seu navegador, onde o sistema a pode verificar. Verificar '
-        + 'pergunta ao GitHub qual a versão mais recente e não envia nada sobre si ou sobre a sua '
-        + 'máquina.',
+  /* ---- Settings: About ---- */
+  "settings.about.title": "Acerca",
+  "settings.about.version": "Versão {version}",
+  "settings.about.updates": "Atualizações",
+  "settings.about.checking": "A procurar atualizações…",
+  "settings.about.checkingShort": "A verificar…",
+  "settings.about.checkNow": "Procurar atualizações",
+  "settings.about.disabled":
+    "A procura de atualizações está desligada nesta instalação.",
+  "settings.about.ready":
+    "A versão {version} está pronta a instalar. Reinicie para terminar.",
+  "settings.about.downloading": "A transferir a atualização…",
+  "settings.about.downloadingVersion": "A transferir a versão {version}…",
+  "settings.about.available": "A versão {version} está disponível.",
+  "settings.about.availableToDownload":
+    "A versão {version} está disponível para transferir.",
+  "settings.about.upToDate": "Atualizado. Última verificação {when}.",
+  "settings.about.neverChecked": "Ainda não verificado.",
+  "settings.about.restartToUpdate": "Reiniciar para atualizar",
+  "settings.about.download": "Transferir {version}",
+  "settings.about.noChecksLeft": "Não restam verificações nesta hora.",
+  "settings.about.noChecksUntil":
+    "Não restam verificações nesta hora, até {when}.",
+  "settings.about.checksLeft_one":
+    "Resta {count} de {limit} verificações nesta hora.",
+  "settings.about.checksLeft_other":
+    "Restam {count} de {limit} verificações nesta hora.",
+  "settings.about.noteInstall":
+    "As atualizações são transferidas em segundo plano e instaladas " +
+    "quando sai. Verificar pergunta ao GitHub qual a versão mais recente e não envia nada " +
+    "sobre si ou sobre a sua máquina.",
+  "settings.about.noteNotify":
+    "As atualizações não são instaladas automaticamente. A " +
+    "transferência abre no seu navegador, onde o sistema a pode verificar. Verificar " +
+    "pergunta ao GitHub qual a versão mais recente e não envia nada sobre si ou sobre a sua " +
+    "máquina.",
 
-    /* ---- More shared words ---- */
-    'common.add': 'Adicionar',
-    'common.copy': 'Copiar',
-    'common.delete': 'Eliminar',
-    'common.deleteNamed': 'Eliminar {name}',
-    'common.edit': 'Editar',
-    'common.rename': 'Mudar o nome',
+  /* ---- More shared words ---- */
+  "common.add": "Adicionar",
+  "common.copy": "Copiar",
+  "common.delete": "Eliminar",
+  "common.deleteNamed": "Eliminar {name}",
+  "common.edit": "Editar",
+  "common.rename": "Mudar o nome",
 
-    /* ---- Hosts ---- */
-    'hosts.rootLabel': 'Todos os anfitriões',
-    'hosts.unnamed': 'Anfitrião sem nome',
-    'hosts.noPort': 'Sem porta',
-    'hosts.connected': 'Ligado',
-    'hosts.viaProxy': 'via proxy',
-    'hosts.tunnelCount_one': '{count} túnel',
-    'hosts.tunnelCount_other': '{count} túneis',
-    'hosts.itemCount_one': '{count} item',
-    'hosts.itemCount_other': '{count} itens',
-    'hosts.selectedCount': '{count} selecionados',
-    'hosts.folderEmpty': 'Vazia',
-    'hosts.folderActions': 'Ações da pasta',
-    'hosts.syncedBadge': 'Sincronizada',
-    'hosts.syncedAccount': 'Sincronizada da sua conta CloudBlast',
-    'hosts.syncedProject': 'Um projeto na sua conta CloudBlast. A sincronização mantém o nome e o '
-        + 'lugar dele',
-    'hosts.upOneLevel': 'Subir um nível',
-    'hosts.dragHint': 'Arraste um cartão para uma pasta para o arquivar · Arraste uma caixa para '
-        + 'escolher vários',
-    'hosts.dragHintFiltered': 'Arraste uma caixa sobre os cartões para escolher vários',
+  /* ---- Hosts ---- */
+  "hosts.rootLabel": "Todos os anfitriões",
+  "hosts.unnamed": "Anfitrião sem nome",
+  "hosts.noPort": "Sem porta",
+  "hosts.connected": "Ligado",
+  "hosts.viaProxy": "via proxy",
+  "hosts.tunnelCount_one": "{count} túnel",
+  "hosts.tunnelCount_other": "{count} túneis",
+  "hosts.itemCount_one": "{count} item",
+  "hosts.itemCount_other": "{count} itens",
+  "hosts.selectedCount": "{count} selecionados",
+  "hosts.folderEmpty": "Vazia",
+  "hosts.folderActions": "Ações da pasta",
+  "hosts.syncedBadge": "Sincronizada",
+  "hosts.syncedAccount": "Sincronizada da sua conta CloudBlast",
+  "hosts.syncedProject":
+    "Um projeto na sua conta CloudBlast. A sincronização mantém o nome e o " +
+    "lugar dele",
+  "hosts.upOneLevel": "Subir um nível",
+  "hosts.dragHint":
+    "Arraste um cartão para uma pasta para o arquivar · Arraste uma caixa para " +
+    "escolher vários",
+  "hosts.dragHintFiltered":
+    "Arraste uma caixa sobre os cartões para escolher vários",
 
-    'hosts.open': 'Abrir',
-    'hosts.editHost': 'Editar anfitrião',
-    'hosts.connectVia': 'Ligar via {protocol}',
-    'hosts.openIpmi': 'Abrir o IPMI',
-    'hosts.notSetUp': 'não configurado',
-    'hosts.moveToFolder': 'Mover para pasta…',
-    'hosts.keepsContents': 'mantém o conteúdo',
-    'hosts.move': 'Mover',
-    'hosts.tag': 'Etiquetar',
-    'hosts.tags': 'Etiquetas…',
-    'hosts.moveMany': 'Mover {what}…',
-    'hosts.groupIntoFolder': 'Agrupar numa pasta…',
-    'hosts.clearSelection': 'Limpar seleção',
+  "hosts.open": "Abrir",
+  "hosts.editHost": "Editar anfitrião",
+  "hosts.connectVia": "Ligar via {protocol}",
+  "hosts.openIpmi": "Abrir o IPMI",
+  "hosts.notSetUp": "não configurado",
+  "hosts.moveToFolder": "Mover para pasta…",
+  "hosts.keepsContents": "mantém o conteúdo",
+  "hosts.move": "Mover",
+  "hosts.tag": "Etiquetar",
+  "hosts.tags": "Etiquetas…",
+  "hosts.moveMany": "Mover {what}…",
+  "hosts.groupIntoFolder": "Agrupar numa pasta…",
+  "hosts.clearSelection": "Limpar seleção",
 
-    'hosts.deleteHostTitle': 'Eliminar este anfitrião?',
-    'hosts.deleteHostMessage': '“{name}” e as credenciais guardadas dele serão removidos. Qualquer '
-        + 'sessão já aberta continua ligada.',
-    'hosts.deleteHost': 'Eliminar anfitrião',
-    'hosts.deleteFolderTitle': 'Eliminar esta pasta?',
-    'hosts.deleteFolderMessage': '“{name}” será removida. Tudo o que está dentro sobe um nível em '
-        + 'vez de ser eliminado.',
-    'hosts.deleteFolder': 'Eliminar pasta',
-    'hosts.deleted': '“{name}” eliminado',
-    'hosts.deleteManyTitle': 'Eliminar {what}?',
-    'hosts.deleteMany': 'Eliminar {what}',
-    'hosts.deletedMany': '{what} eliminados',
-    'hosts.deleteManyHostsNote': 'Os anfitriões são removidos com as credenciais guardadas, e '
-        + 'qualquer sessão já aberta continua ligada.',
-    'hosts.deleteManyFoldersNote': 'As pastas são removidas, mas tudo o que está dentro sobe um '
-        + 'nível em vez de ser eliminado.',
-    'hosts.deleteFailed': 'Não foi possível eliminar: {reason}',
+  "hosts.deleteHostTitle": "Eliminar este anfitrião?",
+  "hosts.deleteHostMessage":
+    "“{name}” e as credenciais guardadas dele serão removidos. Qualquer " +
+    "sessão já aberta continua ligada.",
+  "hosts.deleteHost": "Eliminar anfitrião",
+  "hosts.deleteFolderTitle": "Eliminar esta pasta?",
+  "hosts.deleteFolderMessage":
+    "“{name}” será removida. Tudo o que está dentro sobe um nível em " +
+    "vez de ser eliminado.",
+  "hosts.deleteFolder": "Eliminar pasta",
+  "hosts.deleted": "“{name}” eliminado",
+  "hosts.deleteManyTitle": "Eliminar {what}?",
+  "hosts.deleteMany": "Eliminar {what}",
+  "hosts.deletedMany": "{what} eliminados",
+  "hosts.deleteManyHostsNote":
+    "Os anfitriões são removidos com as credenciais guardadas, e " +
+    "qualquer sessão já aberta continua ligada.",
+  "hosts.deleteManyFoldersNote":
+    "As pastas são removidas, mas tudo o que está dentro sobe um " +
+    "nível em vez de ser eliminado.",
+  "hosts.deleteFailed": "Não foi possível eliminar: {reason}",
 
-    'hosts.moved': '{what} movidos',
-    'hosts.movedSome': 'Movidos {count} de {of}; os restantes não podiam ir para ali',
-    'hosts.movedTo': '{what} movidos para {where}',
-    'hosts.movedSomeTo': 'Movidos {count} de {of} para {where}',
-    'hosts.movedInto': '{what} movidos para dentro de “{name}”',
-    'hosts.nothingToMove': 'Nada para mover: já está tudo ali',
-    'hosts.folderInsideItself': 'Uma pasta não pode ser movida para dentro de si própria.',
-    'hosts.moveTitle': 'Mover {count} itens',
-    'hosts.moveSubtitle': 'Escolha a pasta para onde devem ir.',
-    'hosts.findFolder': 'Encontrar uma pasta…',
-    'hosts.noFolderMatches': 'Nenhuma pasta corresponde a “{query}”.',
-    'hosts.alreadyHere': 'já está aqui',
-    'hosts.insideSelection': 'dentro da seleção',
+  "hosts.moved": "{what} movidos",
+  "hosts.movedSome":
+    "Movidos {count} de {of}; os restantes não podiam ir para ali",
+  "hosts.movedTo": "{what} movidos para {where}",
+  "hosts.movedSomeTo": "Movidos {count} de {of} para {where}",
+  "hosts.movedInto": "{what} movidos para dentro de “{name}”",
+  "hosts.nothingToMove": "Nada para mover: já está tudo ali",
+  "hosts.folderInsideItself":
+    "Uma pasta não pode ser movida para dentro de si própria.",
+  "hosts.moveTitle": "Mover {count} itens",
+  "hosts.moveSubtitle": "Escolha a pasta para onde devem ir.",
+  "hosts.findFolder": "Encontrar uma pasta…",
+  "hosts.noFolderMatches": "Nenhuma pasta corresponde a “{query}”.",
+  "hosts.alreadyHere": "já está aqui",
+  "hosts.insideSelection": "dentro da seleção",
 
-    'hosts.editFolder': 'Editar pasta',
-    'hosts.saveFolder': 'Guardar pasta',
-    'hosts.createFolder': 'Criar pasta',
-    'hosts.creating': 'A criar…',
-    'hosts.folderName': 'Nome da pasta',
-    'hosts.folderNamePlaceholder': 'ex. Servidores AWS',
-    'hosts.folderSubtitle': 'As pastas agrupam anfitriões. Eliminar uma mantém o que estava lá '
-        + 'dentro.',
-    'hosts.folderCreateFailed': 'Não foi possível criar essa pasta',
-    'hosts.folderCreateFailedWhy': 'Não foi possível criar essa pasta: {reason}',
-    'hosts.groupTitle': 'Nova pasta a partir da seleção',
-    'hosts.groupSubtitle': '{what} serão movidos para lá, dentro de {parent}.',
+  "hosts.editFolder": "Editar pasta",
+  "hosts.saveFolder": "Guardar pasta",
+  "hosts.createFolder": "Criar pasta",
+  "hosts.creating": "A criar…",
+  "hosts.folderName": "Nome da pasta",
+  "hosts.folderNamePlaceholder": "ex. Servidores AWS",
+  "hosts.folderSubtitle":
+    "As pastas agrupam anfitriões. Eliminar uma mantém o que estava lá " +
+    "dentro.",
+  "hosts.folderCreateFailed": "Não foi possível criar essa pasta",
+  "hosts.folderCreateFailedWhy": "Não foi possível criar essa pasta: {reason}",
+  "hosts.groupTitle": "Nova pasta a partir da seleção",
+  "hosts.groupSubtitle": "{what} serão movidos para lá, dentro de {parent}.",
 
-    'hosts.sort': 'Ordenar',
-    'hosts.sortLabel': 'Ordenar: {sort}',
-    'hosts.sortNameAsc': 'Nome A-Z',
-    'hosts.sortNameDesc': 'Nome Z-A',
-    'hosts.sortRecent': 'Usados recentemente',
-    'hosts.sortManual': 'Manual',
-    'hosts.filterByTag': 'Filtrar por etiqueta',
-    'hosts.filteredByTags_one': 'filtrado por {count} etiqueta',
-    'hosts.filteredByTags_other': 'filtrado por {count} etiquetas',
-    'hosts.filterBy': 'Filtrar por “{tag}”',
-    'hosts.stopFilteringBy': 'Parar de filtrar por “{tag}”',
-    'hosts.searchTags': 'Procurar etiquetas',
-    'hosts.searchTagsPlaceholder': 'Procurar em {count} etiquetas…',
-    'hosts.noTagMatches': 'Nenhuma etiqueta corresponde a “{query}”',
-    'hosts.tagMode.all': 'todas',
-    'hosts.tagMode.any': 'qualquer',
-    'hosts.tagModeAllHint': 'Anfitriões com todas as etiquetas escolhidas',
-    'hosts.tagModeAnyHint': 'Anfitriões com pelo menos uma etiqueta escolhida',
+  "hosts.sort": "Ordenar",
+  "hosts.sortLabel": "Ordenar: {sort}",
+  "hosts.sortNameAsc": "Nome A-Z",
+  "hosts.sortNameDesc": "Nome Z-A",
+  "hosts.sortRecent": "Usados recentemente",
+  "hosts.sortManual": "Manual",
+  "hosts.filterByTag": "Filtrar por etiqueta",
+  "hosts.filteredByTags_one": "filtrado por {count} etiqueta",
+  "hosts.filteredByTags_other": "filtrado por {count} etiquetas",
+  "hosts.filterBy": "Filtrar por “{tag}”",
+  "hosts.stopFilteringBy": "Parar de filtrar por “{tag}”",
+  "hosts.searchTags": "Procurar etiquetas",
+  "hosts.searchTagsPlaceholder": "Procurar em {count} etiquetas…",
+  "hosts.noTagMatches": "Nenhuma etiqueta corresponde a “{query}”",
+  "hosts.tagMode.all": "todas",
+  "hosts.tagMode.any": "qualquer",
+  "hosts.tagModeAllHint": "Anfitriões com todas as etiquetas escolhidas",
+  "hosts.tagModeAnyHint": "Anfitriões com pelo menos uma etiqueta escolhida",
 
-    'hosts.tagTitle': 'Etiquetar anfitriões',
-    'hosts.tagSubtitle': '{what} selecionados. As etiquetas meio marcadas estão em alguns deles, e '
-        + 'ficam assim a não ser que lhes toque.',
-    'hosts.applying': 'A aplicar…',
-    'hosts.newTag': 'Nova etiqueta',
-    'hosts.newTagPlaceholder': 'Nova etiqueta…',
-    'hosts.noTagsYet': 'Ainda sem etiquetas. Escreva uma acima para começar.',
-    'hosts.tagWillAdd': 'será adicionada',
-    'hosts.tagWillRemove': 'será removida',
-    'hosts.tagOnAll': 'em todos',
-    'hosts.tagOnSome': 'em {on} de {total}',
+  "hosts.tagTitle": "Etiquetar anfitriões",
+  "hosts.tagSubtitle":
+    "{what} selecionados. As etiquetas meio marcadas estão em alguns deles, e " +
+    "ficam assim a não ser que lhes toque.",
+  "hosts.applying": "A aplicar…",
+  "hosts.newTag": "Nova etiqueta",
+  "hosts.newTagPlaceholder": "Nova etiqueta…",
+  "hosts.noTagsYet": "Ainda sem etiquetas. Escreva uma acima para começar.",
+  "hosts.tagWillAdd": "será adicionada",
+  "hosts.tagWillRemove": "será removida",
+  "hosts.tagOnAll": "em todos",
+  "hosts.tagOnSome": "em {on} de {total}",
 
-    /* ---- Protocols ---- */
-    'protocol.serial': 'Série',
-    'protocol.desktop': 'Ambiente de trabalho',
-    'protocol.ssh.summary': 'Shell cifrada, e tudo o que assenta nela',
-    'protocol.ssh.detail': 'Ficheiros, encaminhamento de portas e um ambiente de trabalho remoto '
-        + 'são todos canais de uma ligação SSH, por isso só são oferecidos aqui.',
-    'protocol.telnet.summary': 'Um socket simples para um aparelho sem SSH',
-    'protocol.telnet.detail': 'Envia tudo, palavras-passe incluídas, em claro. Para um servidor de '
-        + 'consola, um PDU ou um switch que nunca teve um daemon SSH.',
-    'protocol.serial.summary': 'Um cabo de consola nesta máquina',
-    'protocol.serial.detail': 'Sem rede nenhuma. As definições têm de coincidir exatamente com o '
-        + 'aparelho: uma velocidade errada imprime lixo em vez de dar erro.',
-    'protocol.desktop.summary': 'RDP ou VNC, sem shell por trás',
-    'protocol.desktop.detail': 'Abre diretamente no ambiente de trabalho remoto e nunca liga por '
-        + 'SSH. Para uma máquina Windows, que normalmente não tem servidor SSH.',
-    'protocol.ipmi.summary': 'Um processador de serviço, e nada por trás',
-    'protocol.ipmi.detail': 'Abre diretamente na interface web do próprio BMC e nunca liga à '
-        + 'máquina. Para uma placa iDRAC, iLO ou Supermicro à frente de um anfitrião onde esta '
-        + 'aplicação não tem sessão.',
+  /* ---- Protocols ---- */
+  "protocol.serial": "Série",
+  "protocol.desktop": "Ambiente de trabalho",
+  "protocol.ssh.summary": "Shell cifrada, e tudo o que assenta nela",
+  "protocol.ssh.detail":
+    "Ficheiros, encaminhamento de portas e um ambiente de trabalho remoto " +
+    "são todos canais de uma ligação SSH, por isso só são oferecidos aqui.",
+  "protocol.telnet.summary": "Um socket simples para um aparelho sem SSH",
+  "protocol.telnet.detail":
+    "Envia tudo, palavras-passe incluídas, em claro. Para um servidor de " +
+    "consola, um PDU ou um switch que nunca teve um daemon SSH.",
+  "protocol.serial.summary": "Um cabo de consola nesta máquina",
+  "protocol.serial.detail":
+    "Sem rede nenhuma. As definições têm de coincidir exatamente com o " +
+    "aparelho: uma velocidade errada imprime lixo em vez de dar erro.",
+  "protocol.desktop.summary": "RDP ou VNC, sem shell por trás",
+  "protocol.desktop.detail":
+    "Abre diretamente no ambiente de trabalho remoto e nunca liga por " +
+    "SSH. Para uma máquina Windows, que normalmente não tem servidor SSH.",
+  "protocol.ipmi.summary": "Um processador de serviço, e nada por trás",
+  "protocol.ipmi.detail":
+    "Abre diretamente na interface web do próprio BMC e nunca liga à " +
+    "máquina. Para uma placa iDRAC, iLO ou Supermicro à frente de um anfitrião onde esta " +
+    "aplicação não tem sessão.",
 
-    /* ---- Serial ---- */
-    'serial.port': 'Porta série',
-    'serial.selectPort': 'Escolher uma porta…',
-    'serial.rescan': 'Procurar portas outra vez',
-    'serial.noPorts': 'Nenhuma porta série encontrada. Ligue o adaptador e procure outra vez.',
-    'serial.portMissing': '{path} não está ligada neste momento. Fica guardada no anfitrião e '
-        + 'voltará a funcionar quando o cabo estiver de volta.',
-    'serial.baudRate': 'Velocidade',
-    'serial.dataBits': 'Bits de dados',
-    'serial.stopBits': 'Bits de paragem',
-    'serial.parity': 'Paridade',
-    'serial.parityNone': 'Nenhuma',
-    'serial.parityEven': 'Par',
-    'serial.parityOdd': 'Ímpar',
-    'serial.parityMark': 'Mark',
-    'serial.paritySpace': 'Space',
-    'serial.flowControl': 'Controlo de fluxo',
-    'serial.flowNone': 'Nenhum',
-    'serial.flowHardware': 'Hardware (RTS/CTS)',
-    'serial.flowSoftware': 'Software (XON/XOFF)',
-    'serial.enterSends': 'Enter envia',
-    'serial.enterSendsHint': 'Nenhum protocolo responde a isto. Um aparelho com o valor errado '
-        + 'parece morto: a linha de comandos simplesmente nunca volta.',
-    'serial.newlineCrHint': 'Equipamento de rede, a maioria das consolas',
-    'serial.newlineLfHint': 'Uma getty de Linux',
-    'serial.newlineCrLfHint': 'Alguns monitores embebidos',
-    'serial.localEcho': 'Mostrar o que escrevo',
-    'serial.localEchoHint': 'Ligue para um aparelho que não devolve o eco. Sem isto o painel fica '
-        + 'em branco enquanto escreve, o que parece uma porta morta e não uma porta calada.',
-    'serial.dtr': 'Ativar DTR ao abrir',
-    'serial.dtrHint': 'Ligado por predefinição, que é o que a maioria dos aparelhos espera. '
-        + 'Desligue-o para uma placa ligada para reiniciar com o DTR, que de outro modo reiniciaria '
-        + 'sempre que esta porta é aberta.',
-    'serial.rts': 'Ativar RTS ao abrir',
-    'serial.rtsHint': 'Ligado por predefinição. Alguns adaptadores ligam o RTS a um pino de reset '
-        + 'ou de arranque.',
-    'serial.rtsIgnored': 'Ignorado enquanto o controlo de fluxo por hardware estiver ligado: aí o '
-        + 'RTS pertence ao controlador.',
-    'serial.noWindowSize': 'Uma linha série não transporta o tamanho da janela nem o tipo de '
-        + 'terminal, por isso o aparelho assume 80×24 por maior que o painel seja.',
+  /* ---- Serial ---- */
+  "serial.port": "Porta série",
+  "serial.selectPort": "Escolher uma porta…",
+  "serial.rescan": "Procurar portas outra vez",
+  "serial.noPorts":
+    "Nenhuma porta série encontrada. Ligue o adaptador e procure outra vez.",
+  "serial.portMissing":
+    "{path} não está ligada neste momento. Fica guardada no anfitrião e " +
+    "voltará a funcionar quando o cabo estiver de volta.",
+  "serial.baudRate": "Velocidade",
+  "serial.dataBits": "Bits de dados",
+  "serial.stopBits": "Bits de paragem",
+  "serial.parity": "Paridade",
+  "serial.parityNone": "Nenhuma",
+  "serial.parityEven": "Par",
+  "serial.parityOdd": "Ímpar",
+  "serial.parityMark": "Mark",
+  "serial.paritySpace": "Space",
+  "serial.flowControl": "Controlo de fluxo",
+  "serial.flowNone": "Nenhum",
+  "serial.flowHardware": "Hardware (RTS/CTS)",
+  "serial.flowSoftware": "Software (XON/XOFF)",
+  "serial.enterSends": "Enter envia",
+  "serial.enterSendsHint":
+    "Nenhum protocolo responde a isto. Um aparelho com o valor errado " +
+    "parece morto: a linha de comandos simplesmente nunca volta.",
+  "serial.newlineCrHint": "Equipamento de rede, a maioria das consolas",
+  "serial.newlineLfHint": "Uma getty de Linux",
+  "serial.newlineCrLfHint": "Alguns monitores embebidos",
+  "serial.localEcho": "Mostrar o que escrevo",
+  "serial.localEchoHint":
+    "Ligue para um aparelho que não devolve o eco. Sem isto o painel fica " +
+    "em branco enquanto escreve, o que parece uma porta morta e não uma porta calada.",
+  "serial.dtr": "Ativar DTR ao abrir",
+  "serial.dtrHint":
+    "Ligado por predefinição, que é o que a maioria dos aparelhos espera. " +
+    "Desligue-o para uma placa ligada para reiniciar com o DTR, que de outro modo reiniciaria " +
+    "sempre que esta porta é aberta.",
+  "serial.rts": "Ativar RTS ao abrir",
+  "serial.rtsHint":
+    "Ligado por predefinição. Alguns adaptadores ligam o RTS a um pino de reset " +
+    "ou de arranque.",
+  "serial.rtsIgnored":
+    "Ignorado enquanto o controlo de fluxo por hardware estiver ligado: aí o " +
+    "RTS pertence ao controlador.",
+  "serial.noWindowSize":
+    "Uma linha série não transporta o tamanho da janela nem o tipo de " +
+    "terminal, por isso o aparelho assume 80×24 por maior que o painel seja.",
 
-    /* ---- Port forwarding ---- */
-    'tunnel.heading': 'Encaminhamento de portas',
-    'tunnel.headingNote': 'Os túneis correm sobre a ligação desta sessão e param quando ela fecha.',
-    'tunnel.local': 'Local',
-    'tunnel.remote': 'Remoto',
-    'tunnel.dynamic': 'Dinâmico',
-    'tunnel.local.summary': 'Alcançar um serviço remoto a partir desta máquina',
-    'tunnel.local.detail': 'Abre uma porta aqui. Tudo o que se liga a ela sai no servidor, que '
-        + 'depois liga ao destino.',
-    'tunnel.remote.summary': 'Expor um serviço local no servidor',
-    'tunnel.remote.detail': 'Abre uma porta no servidor. As ligações que ela aceita são feitas a '
-        + 'partir desta máquina.',
-    'tunnel.dynamic.summary': 'Um proxy SOCKS5 através do servidor',
-    'tunnel.dynamic.detail': 'Abre um proxy SOCKS5 aqui. Cada ligação indica o seu próprio '
-        + 'destino, ao qual o servidor liga.',
-    'tunnel.newTitle': 'Novo encaminhamento de porta',
-    'tunnel.editTitle': 'Editar encaminhamento de porta',
-    'tunnel.add': 'Adicionar encaminhamento',
-    'tunnel.added': 'Encaminhamento adicionado',
-    'tunnel.updated': 'Encaminhamento atualizado',
-    'tunnel.removed': 'Encaminhamento removido',
-    'tunnel.removeTitle': 'Remover este encaminhamento de porta?',
-    'tunnel.removeMessage': '{tunnel} será parado e removido de {host}.',
-    'tunnel.label': 'Etiqueta',
-    'tunnel.labelHint': 'Opcional, mostrada em vez dos endereços',
-    'tunnel.labelPlaceholder': 'ex. Base de dados de produção',
-    'tunnel.listenAddress': 'Endereço de escuta',
-    'tunnel.listenPort': 'Porta de escuta',
-    'tunnel.bindAddress': 'Endereço de ligação no servidor',
-    'tunnel.bindAddressHint': 'Precisa de "GatewayPorts yes" para tudo o que não seja loopback',
-    'tunnel.remotePort': 'Porta remota',
-    'tunnel.autoPort': '0 = automática',
-    'tunnel.destHost': 'Anfitrião de destino',
-    'tunnel.destHostLocalHint': 'Resolvido a partir desta máquina',
-    'tunnel.destHostRemoteHint': 'Resolvido a partir do servidor, por isso os nomes privados dele '
-        + 'funcionam',
-    'tunnel.destPort': 'Porta de destino',
-    'tunnel.autoStart': 'Iniciar com a ligação',
-    'tunnel.autoStartHint': 'Levantado sempre que este anfitrião liga, incluindo depois de voltar '
-        + 'a ligar.',
-    'tunnel.autoBadge': 'auto',
-    'tunnel.exposedWarning': 'Qualquer pessoa que alcance esta máquina na rede poderá usar este '
-        + 'encaminhamento. Use 127.0.0.1 a não ser que queira mesmo partilhá-lo.',
-    'tunnel.badRemotePort': 'A porta remota tem de estar entre 0 e 65535',
-    'tunnel.badListenPort': 'A porta de escuta tem de estar entre 1 e 65535',
-    'tunnel.destHostRequired': 'O anfitrião de destino é obrigatório',
-    'tunnel.badDestPort': 'A porta de destino tem de estar entre 1 e 65535',
-    'tunnel.anywhere': 'qualquer lado',
-    'tunnel.serverWord': 'servidor',
-    'tunnel.usageLocal': 'Ligue a {where}',
-    'tunnel.usageRemote': 'No servidor: {where}',
-    'tunnel.usageDynamic': 'Proxy SOCKS5 em {where}',
-    'tunnel.stateActive': 'Ativo',
-    'tunnel.stateStarting': 'A iniciar…',
-    'tunnel.stateStopped': 'Parado',
-    'tunnel.stateFailed': 'Falhou',
-    'tunnel.start': 'Iniciar',
-    'tunnel.stop': 'Parar',
-    'tunnel.startAll': 'Iniciar tudo',
-    'tunnel.stopAll': 'Parar tudo',
-    'tunnel.connections': 'lig.',
-    'tunnel.copyAddress': 'Copiar endereço',
-    'tunnel.addressCopied': 'Endereço copiado',
-    'tunnel.lastError': 'último erro: {error}',
-    'tunnel.sessionDown': 'A sessão não está ligada. Os encaminhamentos voltam a iniciar quando ela '
-        + 'voltar a ligar.',
-    'tunnel.empty': 'Ainda sem encaminhamentos de porta',
-    'tunnel.emptyNote': 'Encaminhe uma porta para alcançar uma base de dados ou um painel interno '
-        + 'através deste servidor, ou abra um proxy SOCKS para navegar a partir dele.',
-    'tunnel.editorEmpty': 'Encaminhe uma porta para alcançar uma base de dados ou um serviço '
-        + 'interno através deste anfitrião, ou abra um proxy SOCKS para navegar a partir dele.',
+  /* ---- Port forwarding ---- */
+  "tunnel.heading": "Encaminhamento de portas",
+  "tunnel.headingNote":
+    "Os túneis correm sobre a ligação desta sessão e param quando ela fecha.",
+  "tunnel.local": "Local",
+  "tunnel.remote": "Remoto",
+  "tunnel.dynamic": "Dinâmico",
+  "tunnel.local.summary": "Alcançar um serviço remoto a partir desta máquina",
+  "tunnel.local.detail":
+    "Abre uma porta aqui. Tudo o que se liga a ela sai no servidor, que " +
+    "depois liga ao destino.",
+  "tunnel.remote.summary": "Expor um serviço local no servidor",
+  "tunnel.remote.detail":
+    "Abre uma porta no servidor. As ligações que ela aceita são feitas a " +
+    "partir desta máquina.",
+  "tunnel.dynamic.summary": "Um proxy SOCKS5 através do servidor",
+  "tunnel.dynamic.detail":
+    "Abre um proxy SOCKS5 aqui. Cada ligação indica o seu próprio " +
+    "destino, ao qual o servidor liga.",
+  "tunnel.newTitle": "Novo encaminhamento de porta",
+  "tunnel.editTitle": "Editar encaminhamento de porta",
+  "tunnel.add": "Adicionar encaminhamento",
+  "tunnel.added": "Encaminhamento adicionado",
+  "tunnel.updated": "Encaminhamento atualizado",
+  "tunnel.removed": "Encaminhamento removido",
+  "tunnel.removeTitle": "Remover este encaminhamento de porta?",
+  "tunnel.removeMessage": "{tunnel} será parado e removido de {host}.",
+  "tunnel.label": "Etiqueta",
+  "tunnel.labelHint": "Opcional, mostrada em vez dos endereços",
+  "tunnel.labelPlaceholder": "ex. Base de dados de produção",
+  "tunnel.listenAddress": "Endereço de escuta",
+  "tunnel.listenPort": "Porta de escuta",
+  "tunnel.bindAddress": "Endereço de ligação no servidor",
+  "tunnel.bindAddressHint":
+    'Precisa de "GatewayPorts yes" para tudo o que não seja loopback',
+  "tunnel.remotePort": "Porta remota",
+  "tunnel.autoPort": "0 = automática",
+  "tunnel.destHost": "Anfitrião de destino",
+  "tunnel.destHostLocalHint": "Resolvido a partir desta máquina",
+  "tunnel.destHostRemoteHint":
+    "Resolvido a partir do servidor, por isso os nomes privados dele " +
+    "funcionam",
+  "tunnel.destPort": "Porta de destino",
+  "tunnel.autoStart": "Iniciar com a ligação",
+  "tunnel.autoStartHint":
+    "Levantado sempre que este anfitrião liga, incluindo depois de voltar " +
+    "a ligar.",
+  "tunnel.autoBadge": "auto",
+  "tunnel.exposedWarning":
+    "Qualquer pessoa que alcance esta máquina na rede poderá usar este " +
+    "encaminhamento. Use 127.0.0.1 a não ser que queira mesmo partilhá-lo.",
+  "tunnel.badRemotePort": "A porta remota tem de estar entre 0 e 65535",
+  "tunnel.badListenPort": "A porta de escuta tem de estar entre 1 e 65535",
+  "tunnel.destHostRequired": "O anfitrião de destino é obrigatório",
+  "tunnel.badDestPort": "A porta de destino tem de estar entre 1 e 65535",
+  "tunnel.anywhere": "qualquer lado",
+  "tunnel.serverWord": "servidor",
+  "tunnel.usageLocal": "Ligue a {where}",
+  "tunnel.usageRemote": "No servidor: {where}",
+  "tunnel.usageDynamic": "Proxy SOCKS5 em {where}",
+  "tunnel.stateActive": "Ativo",
+  "tunnel.stateStarting": "A iniciar…",
+  "tunnel.stateStopped": "Parado",
+  "tunnel.stateFailed": "Falhou",
+  "tunnel.start": "Iniciar",
+  "tunnel.stop": "Parar",
+  "tunnel.startAll": "Iniciar tudo",
+  "tunnel.stopAll": "Parar tudo",
+  "tunnel.connections": "lig.",
+  "tunnel.copyAddress": "Copiar endereço",
+  "tunnel.addressCopied": "Endereço copiado",
+  "tunnel.lastError": "último erro: {error}",
+  "tunnel.sessionDown":
+    "A sessão não está ligada. Os encaminhamentos voltam a iniciar quando ela " +
+    "voltar a ligar.",
+  "tunnel.empty": "Ainda sem encaminhamentos de porta",
+  "tunnel.emptyNote":
+    "Encaminhe uma porta para alcançar uma base de dados ou um painel interno " +
+    "através deste servidor, ou abra um proxy SOCKS para navegar a partir dele.",
+  "tunnel.editorEmpty":
+    "Encaminhe uma porta para alcançar uma base de dados ou um serviço " +
+    "interno através deste anfitrião, ou abra um proxy SOCKS para navegar a partir dele.",
 
-    /* ---- Assistant panel ---- */
-    'assistant.title': 'Agente de IA',
-    'assistant.welcome': 'Vamos trabalhar nos seus servidores',
-    'assistant.welcomeNote': 'Lê este terminal, corre comandos no canal deles, e pode trabalhar em '
-        + 'todos os anfitriões que tem guardados.',
-    'assistant.createQuickPrompts': 'Criar perguntas rápidas',
-    'assistant.newConversation': 'Nova conversa',
-    'assistant.chats': 'Conversas',
-    'assistant.chatHistory': 'Histórico de conversas',
-    'assistant.working': 'A trabalhar',
-    'assistant.send': 'Enviar',
-    'assistant.stop': 'Parar',
-    'assistant.askAbout': 'Pergunte sobre {about}',
-    'assistant.costHint': 'Custo estimado desta conversa, cobrado por token',
+  /* ---- Assistant panel ---- */
+  "assistant.title": "Agente de IA",
+  "assistant.welcome": "Vamos trabalhar nos seus servidores",
+  "assistant.welcomeNote":
+    "Lê este terminal, corre comandos no canal deles, e pode trabalhar em " +
+    "todos os anfitriões que tem guardados.",
+  "assistant.createQuickPrompts": "Criar perguntas rápidas",
+  "assistant.newConversation": "Nova conversa",
+  "assistant.chats": "Conversas",
+  "assistant.chatHistory": "Histórico de conversas",
+  "assistant.working": "A trabalhar",
+  "assistant.send": "Enviar",
+  "assistant.stop": "Parar",
+  "assistant.askAbout": "Pergunte sobre {about}",
+  "assistant.costHint": "Custo estimado desta conversa, cobrado por token",
 
-    'assistant.currentSession': 'Sessão atual',
-    'assistant.nothingConnected': 'Nada ligado',
-    'assistant.noSessionOpen': 'Nenhuma sessão aberta',
-    'assistant.yourServers': 'os seus servidores',
-    'assistant.anyHost': 'qualquer anfitrião',
-    'assistant.closedSession': 'uma sessão fechada',
-    'assistant.savedHost': 'um anfitrião guardado',
-    'assistant.savedHosts': 'Anfitriões guardados',
-    'assistant.openSessions': 'Sessões abertas',
-    'assistant.allHostsHint': 'Todos os anfitriões guardados e as sessões abertas',
-    'assistant.serverCount': '{count} servidores',
-    'assistant.sessionsOpen_one': '{count} sessão aberta',
-    'assistant.sessionsOpen_other': '{count} sessões abertas',
-    'assistant.notConnected': 'Não ligado',
-    'assistant.searchScope': 'Procurar servidores',
-    'assistant.searchScopeAria': 'Procurar sessões e anfitriões',
+  "assistant.currentSession": "Sessão atual",
+  "assistant.nothingConnected": "Nada ligado",
+  "assistant.noSessionOpen": "Nenhuma sessão aberta",
+  "assistant.yourServers": "os seus servidores",
+  "assistant.anyHost": "qualquer anfitrião",
+  "assistant.closedSession": "uma sessão fechada",
+  "assistant.savedHost": "um anfitrião guardado",
+  "assistant.savedHosts": "Anfitriões guardados",
+  "assistant.openSessions": "Sessões abertas",
+  "assistant.allHostsHint":
+    "Todos os anfitriões guardados e as sessões abertas",
+  "assistant.serverCount": "{count} servidores",
+  "assistant.sessionsOpen_one": "{count} sessão aberta",
+  "assistant.sessionsOpen_other": "{count} sessões abertas",
+  "assistant.notConnected": "Não ligado",
+  "assistant.searchScope": "Procurar servidores",
+  "assistant.searchScopeAria": "Procurar sessões e anfitriões",
 
-    'assistant.model': 'Modelo',
-    'assistant.modelAndEffort': 'Modelo e esforço',
-    'assistant.readingModels': 'A ler a lista de modelos...',
-    'assistant.noModels': 'Nenhum modelo comunicado. Tente outra vez',
-    'assistant.notInRuntimeList': 'Não está na lista deste runtime',
-    'assistant.agentDefault': 'Predefinição do {agent}',
-    'assistant.agentDefaultHint': 'O que quer que o {agent} instalado use',
-    'assistant.effort': 'Esforço',
-    'assistant.effortLow': 'Baixo',
-    'assistant.effortMedium': 'Médio',
-    'assistant.effortHigh': 'Alto',
-    'assistant.effortXHigh': 'Muito alto',
-    'assistant.effortMax': 'Máximo',
-    'assistant.effortUltra': 'Ultra',
+  "assistant.model": "Modelo",
+  "assistant.modelAndEffort": "Modelo e esforço",
+  "assistant.readingModels": "A ler a lista de modelos...",
+  "assistant.noModels": "Nenhum modelo comunicado. Tente outra vez",
+  "assistant.notInRuntimeList": "Não está na lista deste runtime",
+  "assistant.agentDefault": "Predefinição do {agent}",
+  "assistant.agentDefaultHint": "O que quer que o {agent} instalado use",
+  "assistant.effort": "Esforço",
+  "assistant.effortLow": "Baixo",
+  "assistant.effortMedium": "Médio",
+  "assistant.effortHigh": "Alto",
+  "assistant.effortXHigh": "Muito alto",
+  "assistant.effortMax": "Máximo",
+  "assistant.effortUltra": "Ultra",
 
-    'assistant.approvalsLabel': 'Aprovações: {mode}',
-    'assistant.approvalAlways': 'Perguntar sempre',
-    'assistant.approvalAlwaysHint': 'Todas as chamadas a ferramentas esperam por si',
-    'assistant.approvalWrites': 'Perguntar antes de alterar',
-    'assistant.approvalWritesHint': 'A leitura corre à vontade',
-    'assistant.approvalNever': 'Modo Yolo',
-    'assistant.approvalNeverHint': 'Nada para, incluindo o que apaga',
+  "assistant.approvalsLabel": "Aprovações: {mode}",
+  "assistant.approvalAlways": "Perguntar sempre",
+  "assistant.approvalAlwaysHint":
+    "Todas as chamadas a ferramentas esperam por si",
+  "assistant.approvalWrites": "Perguntar antes de alterar",
+  "assistant.approvalWritesHint": "A leitura corre à vontade",
+  "assistant.approvalNever": "Modo Yolo",
+  "assistant.approvalNeverHint": "Nada para, incluindo o que apaga",
 
-    'assistant.didListHosts': 'Listou os anfitriões',
-    'assistant.didListSessions': 'Listou as sessões',
-    'assistant.didReadTerminal': 'Leu o terminal',
-    'assistant.didRun': 'Correu',
-    'assistant.didType': 'Escreveu',
-    'assistant.didList': 'Listou',
-    'assistant.didRead': 'Leu',
-    'assistant.didWrite': 'Escreveu',
-    'assistant.didConnect': 'Ligou a',
-    'assistant.didDisconnect': 'Fechou a sessão',
-    'assistant.lastLines': 'últimas {count} linhas',
-    'assistant.recentOutput': 'resultado recente',
-    'assistant.matching': 'que corresponde a "{query}"',
+  "assistant.didListHosts": "Listou os anfitriões",
+  "assistant.didListSessions": "Listou as sessões",
+  "assistant.didReadTerminal": "Leu o terminal",
+  "assistant.didRun": "Correu",
+  "assistant.didType": "Escreveu",
+  "assistant.didList": "Listou",
+  "assistant.didRead": "Leu",
+  "assistant.didWrite": "Escreveu",
+  "assistant.didConnect": "Ligou a",
+  "assistant.didDisconnect": "Fechou a sessão",
+  "assistant.lastLines": "últimas {count} linhas",
+  "assistant.recentOutput": "resultado recente",
+  "assistant.matching": 'que corresponde a "{query}"',
 
-    'assistant.askRunCommand': 'Correr um comando',
-    'assistant.askSendInput': 'Escrever no terminal',
-    'assistant.askWriteFile': 'Substituir um ficheiro',
-    'assistant.askConnectHost': 'Abrir uma ligação',
-    'assistant.askDisconnect': 'Fechar uma sessão',
-    'assistant.askReadTerminal': 'Ler o terminal',
-    'assistant.askReadFile': 'Ler um ficheiro',
-    'assistant.askListDirectory': 'Listar uma pasta',
-    'assistant.askListHosts': 'Listar os anfitriões guardados',
-    'assistant.askListSessions': 'Listar as sessões abertas',
-    'assistant.askRunLocally': 'Correr {tool} localmente',
-    'assistant.onHost': 'em {host}',
-    'assistant.allow': 'Permitir',
-    'assistant.decline': 'Recusar',
-    'assistant.somethingElse': 'Outra coisa...',
-    'assistant.insteadPlaceholder': 'O que deve fazer em vez disso?',
-    'assistant.copyCommand': 'Copiar comando',
-    'assistant.localWarning': 'Isto corre no seu próprio computador, não num servidor.',
-    'assistant.allowed': 'Permitido',
-    'assistant.declined': 'Recusado',
-    'assistant.timedOut': 'Expirou',
+  "assistant.askRunCommand": "Correr um comando",
+  "assistant.askSendInput": "Escrever no terminal",
+  "assistant.askWriteFile": "Substituir um ficheiro",
+  "assistant.askConnectHost": "Abrir uma ligação",
+  "assistant.askDisconnect": "Fechar uma sessão",
+  "assistant.askReadTerminal": "Ler o terminal",
+  "assistant.askReadFile": "Ler um ficheiro",
+  "assistant.askListDirectory": "Listar uma pasta",
+  "assistant.askListHosts": "Listar os anfitriões guardados",
+  "assistant.askListSessions": "Listar as sessões abertas",
+  "assistant.askRunLocally": "Correr {tool} localmente",
+  "assistant.onHost": "em {host}",
+  "assistant.allow": "Permitir",
+  "assistant.decline": "Recusar",
+  "assistant.somethingElse": "Outra coisa...",
+  "assistant.insteadPlaceholder": "O que deve fazer em vez disso?",
+  "assistant.copyCommand": "Copiar comando",
+  "assistant.localWarning":
+    "Isto corre no seu próprio computador, não num servidor.",
+  "assistant.allowed": "Permitido",
+  "assistant.declined": "Recusado",
+  "assistant.timedOut": "Expirou",
 
-    /* ---------------------------------------------------------------- *
-     * Connection overlay (host key, extra auth, retry)
-     * ---------------------------------------------------------------- */
-    'session.additionalAuth': 'Autenticação adicional',
-    'session.closePane': 'Fechar painel',
-    'session.connectingTo': 'A ligar a {title}',
-    'session.continue': 'Continuar',
-    'session.copied': 'Copiado',
-    'session.copyFingerprint': 'Copiar impressão digital',
-    'session.couldNotConnect': 'Não foi possível ligar',
-    'session.disconnect': 'Desligar',
-    'session.hostKeyChanged': 'A chave do anfitrião mudou',
-    'session.hostKeyChangedDesc': 'A chave que este servidor apresentou não é a que confiava para este '
-        + 'endereço.',
-    'session.hostKeyChangedWarn': 'Um servidor reinstalado ou com chave nova parece exactamente isto. Um '
-        + 'intermediário também. Não continue sem saber qual dos dois é.',
-    'session.hostKeyUnknown': 'Chave do anfitrião desconhecida',
-    'session.hostKeyUnknownDesc': 'Este servidor ainda não foi visto. Confirme a impressão digital com uma que tenha '
-        + 'obtido do próprio servidor, não através desta ligação.',
-    'session.replaceStoredKey': 'Substituir a chave guardada',
-    'session.response': 'Resposta',
-    'session.retryAttempt': '(tentativa {attempt} de {max})',
-    'session.retryIn': 'A tentar de novo em {seconds}s',
-    'session.retryNow': 'Tentar agora',
-    'session.statusConnected': 'Ligado',
-    'session.statusConnecting': 'A ligar…',
-    'session.statusDisconnected': 'Desligado',
-    'session.statusFailed': 'Desligado, não foi possível religar',
-    'session.statusFailedShort': 'Não foi possível religar',
-    'session.statusReconnecting': 'A religar…',
-    'session.statusRetrying': 'A religar em {seconds}s (tentativa {attempt} de {max})',
-    'session.statusRetryingShort': 'A tentar de novo em {seconds}s',
-    'session.trustAndConnect': 'Confiar e ligar',
-    'session.tryAgain': 'Tentar de novo',
-    'session.unknownKeyType': 'desconhecido',
+  /* ---------------------------------------------------------------- *
+   * Connection overlay (host key, extra auth, retry)
+   * ---------------------------------------------------------------- */
+  "session.additionalAuth": "Autenticação adicional",
+  "session.closePane": "Fechar painel",
+  "session.connectingTo": "A ligar a {title}",
+  "session.continue": "Continuar",
+  "session.copied": "Copiado",
+  "session.copyFingerprint": "Copiar impressão digital",
+  "session.couldNotConnect": "Não foi possível ligar",
+  "session.disconnect": "Desligar",
+  "session.hostKeyChanged": "A chave do anfitrião mudou",
+  "session.hostKeyChangedDesc":
+    "A chave que este servidor apresentou não é a que confiava para este " +
+    "endereço.",
+  "session.hostKeyChangedWarn":
+    "Um servidor reinstalado ou com chave nova parece exactamente isto. Um " +
+    "intermediário também. Não continue sem saber qual dos dois é.",
+  "session.hostKeyUnknown": "Chave do anfitrião desconhecida",
+  "session.hostKeyUnknownDesc":
+    "Este servidor ainda não foi visto. Confirme a impressão digital com uma que tenha " +
+    "obtido do próprio servidor, não através desta ligação.",
+  "session.replaceStoredKey": "Substituir a chave guardada",
+  "session.response": "Resposta",
+  "session.retryAttempt": "(tentativa {attempt} de {max})",
+  "session.retryIn": "A tentar de novo em {seconds}s",
+  "session.retryNow": "Tentar agora",
+  "session.statusConnected": "Ligado",
+  "session.statusConnecting": "A ligar…",
+  "session.statusDisconnected": "Desligado",
+  "session.statusFailed": "Desligado, não foi possível religar",
+  "session.statusFailedShort": "Não foi possível religar",
+  "session.statusReconnecting": "A religar…",
+  "session.statusRetrying":
+    "A religar em {seconds}s (tentativa {attempt} de {max})",
+  "session.statusRetryingShort": "A tentar de novo em {seconds}s",
+  "session.trustAndConnect": "Confiar e ligar",
+  "session.tryAgain": "Tentar de novo",
+  "session.unknownKeyType": "desconhecido",
 };

@@ -16,7 +16,7 @@
  * row: whatever Claude Code is already set to use.
  */
 
-import { translate } from '../i18n';
+import { translate } from "../i18n";
 
 /**
  * The scale itself, low to high.
@@ -30,25 +30,27 @@ import { translate } from '../i18n';
  * Which of them are offered is never decided here. That comes from the model.
  */
 export const EFFORTS = [
-    { value: 'low', labelKey: 'assistant.effortLow' },
-    { value: 'medium', labelKey: 'assistant.effortMedium' },
-    { value: 'high', labelKey: 'assistant.effortHigh' },
-    { value: 'xhigh', labelKey: 'assistant.effortXHigh' },
-    { value: 'max', labelKey: 'assistant.effortMax' },
-    // Codex only, and only on its newest models. It appears when a model says
-    // it has it, which is the same rule every other stop follows.
-    { value: 'ultra', labelKey: 'assistant.effortUltra' },
+  { value: "low", labelKey: "assistant.effortLow" },
+  { value: "medium", labelKey: "assistant.effortMedium" },
+  { value: "high", labelKey: "assistant.effortHigh" },
+  { value: "xhigh", labelKey: "assistant.effortXHigh" },
+  { value: "max", labelKey: "assistant.effortMax" },
+  // Codex only, and only on its newest models. It appears when a model says
+  // it has it, which is the same rule every other stop follows.
+  { value: "ultra", labelKey: "assistant.effortUltra" },
 ];
 
 /** An effort stop with its name filled in, for the two places that draw one. */
-export const effortLabel = (stop) => (stop ? translate(stop.labelKey) : '');
+export const effortLabel = (stop) => (stop ? translate(stop.labelKey) : "");
 
 /** What each agent is called, for the one row that has to name it. */
 export const PROVIDER_NAMES = {
-    'claude-code': 'Claude Code',
-    codex: 'Codex',
-    opencode: 'OpenCode',
-    relay: '中转站',
+  "claude-code": "Claude Code",
+  codex: "Codex",
+  opencode: "OpenCode",
+  relay: "中转站",
+  grok: "Grok Build",
+  local: "Local model",
 };
 
 /**
@@ -58,14 +60,15 @@ export const PROVIDER_NAMES = {
  * already made there.
  */
 function inheritRow(provider) {
-    const name = PROVIDER_NAMES[provider] || translate('settings.assistant.theAgent');
-    return {
-        value: '',
-        short: name,
-        label: translate('assistant.agentDefault', { agent: name }),
-        hint: translate('assistant.agentDefaultHint', { agent: name }),
-        effort: null,
-    };
+  const name =
+    PROVIDER_NAMES[provider] || translate("settings.assistant.theAgent");
+  return {
+    value: "",
+    short: name,
+    label: translate("assistant.agentDefault", { agent: name }),
+    hint: translate("assistant.agentDefaultHint", { agent: name }),
+    effort: null,
+  };
 }
 
 /**
@@ -82,39 +85,41 @@ function inheritRow(provider) {
  * than dropped: a menu that silently loses the setting it is displaying is
  * worse than one showing a row it cannot explain.
  */
-export function modelRows(catalog, selected = '', provider = 'claude-code') {
-    const known = Array.isArray(catalog) && catalog.length > 0;
+export function modelRows(catalog, selected = "", provider = "claude-code") {
+  const known = Array.isArray(catalog) && catalog.length > 0;
 
-    const rows = (known ? catalog : []).map(row => ({
-        value: row.value,
-        resolved: row.resolved || row.value,
-        short: row.short || row.label || row.value,
-        label: row.label || row.value,
-        hint: row.hint || row.description || '',
-        effort: Array.isArray(row.effort) ? row.effort : null,
-        preferred: Boolean(row.preferred),
-    }));
+  const rows = (known ? catalog : []).map((row) => ({
+    value: row.value,
+    resolved: row.resolved || row.value,
+    short: row.short || row.label || row.value,
+    label: row.label || row.value,
+    hint: row.hint || row.description || "",
+    effort: Array.isArray(row.effort) ? row.effort : null,
+    preferred: Boolean(row.preferred),
+  }));
 
-    if (selected && !rows.some(row => covers(row, selected))) {
-        rows.push({
-            value: selected,
-            resolved: selected,
-            short: selected,
-            label: selected,
-            hint: known ? translate('assistant.notInRuntimeList') : '',
-            effort: null,
-        });
-    }
+  if (selected && !rows.some((row) => covers(row, selected))) {
+    rows.push({
+      value: selected,
+      resolved: selected,
+      short: selected,
+      label: selected,
+      hint: known ? translate("assistant.notInRuntimeList") : "",
+      effort: null,
+    });
+  }
 
-    // An agent that names its own default does not need a row saying "use the
-    // default": that row is in the list already, under the name of the model
-    // it actually is. Only agents that keep their choice to themselves get the
-    // inherit row, where it is the one honest thing to offer.
-    return rows.some(row => row.preferred) ? rows : [inheritRow(provider), ...rows];
+  // An agent that names its own default does not need a row saying "use the
+  // default": that row is in the list already, under the name of the model
+  // it actually is. Only agents that keep their choice to themselves get the
+  // inherit row, where it is the one honest thing to offer.
+  return rows.some((row) => row.preferred)
+    ? rows
+    : [inheritRow(provider), ...rows];
 }
 
 /** An alias with its context window dropped: `opus[1m]` is `opus`. */
-const bare = (id) => String(id || '').replace(/\[[^\]]*\]/g, '');
+const bare = (id) => String(id || "").replace(/\[[^\]]*\]/g, "");
 
 /**
  * Whether a row is the one a saved model id names.
@@ -125,16 +130,16 @@ const bare = (id) => String(id || '').replace(/\[[^\]]*\]/g, '');
  * `claude-haiku-4-5-20251001`, which is the same model as `claude-haiku-4-5`.
  */
 function covers(row, value) {
-    if (row.value === value) return true;
-    const target = bare(value);
-    if (!target) return false;
-    const resolved = bare(row.resolved);
-    return resolved === target || resolved.startsWith(`${target}-`);
+  if (row.value === value) return true;
+  const target = bare(value);
+  if (!target) return false;
+  const resolved = bare(row.resolved);
+  return resolved === target || resolved.startsWith(`${target}-`);
 }
 
 /** Whether the runtime has told us anything yet. */
 export function isDiscovered(catalog) {
-    return Array.isArray(catalog) && catalog.length > 0;
+  return Array.isArray(catalog) && catalog.length > 0;
 }
 
 /**
@@ -146,13 +151,15 @@ export function isDiscovered(catalog) {
  * the user picks something, and until then it works exactly as it did.
  */
 export function modelRow(rows, value) {
-    // Nothing pinned means the agent's own default, which is a named row when
-    // the agent was willing to say which one it is.
-    if (!value) return rows.find(row => row.preferred) || rows[0];
-    return rows.find(row => row.value === value)
-        || rows.find(row => covers(row, value))
-        || rows.find(row => row.preferred)
-        || rows[0];
+  // Nothing pinned means the agent's own default, which is a named row when
+  // the agent was willing to say which one it is.
+  if (!value) return rows.find((row) => row.preferred) || rows[0];
+  return (
+    rows.find((row) => row.value === value) ||
+    rows.find((row) => covers(row, value)) ||
+    rows.find((row) => row.preferred) ||
+    rows[0]
+  );
 }
 
 /**
@@ -162,8 +169,8 @@ export function modelRow(rows, value) {
  * should leave the control out rather than draw a dial that does nothing.
  */
 export function effortStops(model) {
-    if (!model || !Array.isArray(model.effort)) return EFFORTS;
-    return EFFORTS.filter(option => model.effort.includes(option.value));
+  if (!model || !Array.isArray(model.effort)) return EFFORTS;
+  return EFFORTS.filter((option) => model.effort.includes(option.value));
 }
 
 /**
@@ -175,16 +182,19 @@ export function effortStops(model) {
  * shows the choice again rather than the compromise.
  */
 export function nearestEffort(stops, value) {
-    if (stops.length === 0) return value;
-    if (stops.some(option => option.value === value)) return value;
+  if (stops.length === 0) return value;
+  if (stops.some((option) => option.value === value)) return value;
 
-    const wanted = EFFORTS.findIndex(option => option.value === value);
-    const target = wanted < 0 ? EFFORTS.length - 1 : wanted;
+  const wanted = EFFORTS.findIndex((option) => option.value === value);
+  const target = wanted < 0 ? EFFORTS.length - 1 : wanted;
 
-    for (let index = stops.length - 1; index >= 0; index -= 1) {
-        if (EFFORTS.findIndex(option => option.value === stops[index].value) <= target) {
-            return stops[index].value;
-        }
+  for (let index = stops.length - 1; index >= 0; index -= 1) {
+    if (
+      EFFORTS.findIndex((option) => option.value === stops[index].value) <=
+      target
+    ) {
+      return stops[index].value;
     }
-    return stops[0].value;
+  }
+  return stops[0].value;
 }

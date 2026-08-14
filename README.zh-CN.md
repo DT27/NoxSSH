@@ -124,11 +124,17 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
   <img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/logos/local-model.svg" alt="本地模型" title="本地模型" height="34">
   <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b></sub>
+  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
+  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>本地模型</b></sub>
 </p>
 
-- **使用本机已有的 Claude Code、Codex 或 OpenCode**，沿用你自己的账号和配置
+- **使用本机已有的 Claude Code、Codex、OpenCode 或 Grok Build**，沿用你自己的账号和配置
+- **也可以用本地模型**：LM Studio、Ollama、llama.cpp、vLLM 等，无需账号和密钥，任何内容都不会离开这台电脑
 - **读取当前会话并操作远程服务器**，执行更改前会先征求你的同意
 - **每个对话可单独选择模型和推理强度**，并在运行时显示用量
 

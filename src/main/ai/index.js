@@ -1,9 +1,9 @@
-const settings = require('./settings');
-const prompt = require('./prompt');
-const catalog = require('./tools');
-const archive = require('./archive');
-const transcript = require('../transcript');
-const activity = require('../activity');
+const settings = require("./settings");
+const prompt = require("./prompt");
+const catalog = require("./tools");
+const archive = require("./archive");
+const transcript = require("../transcript");
+const activity = require("../activity");
 
 /**
  * The assistant, from the app's point of view.
@@ -25,10 +25,12 @@ const activity = require('../activity');
  */
 
 const PROVIDERS = {
-    'claude-code': require('./providers/claude-code'),
-    codex: require('./providers/codex'),
-    opencode: require('./providers/opencode'),
-    relay: require('./providers/relay'),
+  "claude-code": require("./providers/claude-code"),
+  codex: require("./providers/codex"),
+  opencode: require("./providers/opencode"),
+  relay: require("./providers/relay"),
+  grok: require("./providers/grok"),
+  local: require("./providers/local"),
 };
 
 /** Kept per conversation, so a long session cannot grow without bound. */
@@ -88,12 +90,12 @@ const modelCatalogs = new Map();
 let modelsPending = null;
 
 function setNotifier(fn) {
-    notify = fn;
+  notify = fn;
 }
 
 function nextId(prefix) {
-    counter += 1;
-    return `${prefix}-${Date.now().toString(36)}-${counter}`;
+  counter += 1;
+  return `${prefix}-${Date.now().toString(36)}-${counter}`;
 }
 
 /* ------------------------------------------------------------------ *
@@ -110,22 +112,22 @@ function nextId(prefix) {
 let hydrated = false;
 
 function hydrate() {
-    if (hydrated) return;
-    hydrated = true;
+  if (hydrated) return;
+  hydrated = true;
 
-    // Writing is safe again from here: this is the moment the map holds the
-    // conversations rather than nothing. A shutdown stopped it precisely
-    // because an empty map is not an empty history, and this is the other end
-    // of that. See `shutdown`.
-    archive.resume();
+  // Writing is safe again from here: this is the moment the map holds the
+  // conversations rather than nothing. A shutdown stopped it precisely
+  // because an empty map is not an empty history, and this is the other end
+  // of that. See `shutdown`.
+  archive.resume();
 
-    const provider = settings.get().provider;
-    for (const record of archive.read()) {
-        const conversation = archive.unpack(record, provider);
-        if (conversation && !conversations.has(conversation.id)) {
-            conversations.set(conversation.id, conversation);
-        }
+  const provider = settings.get().provider;
+  for (const record of archive.read()) {
+    const conversation = archive.unpack(record, provider);
+    if (conversation && !conversations.has(conversation.id)) {
+      conversations.set(conversation.id, conversation);
     }
+  }
 }
 
 /**
@@ -133,11 +135,15 @@ function hydrate() {
  * them. A panel opens a conversation the moment it is mounted, so without the
  * title check the history menu would fill up with blank entries nobody started.
  */
-archive.setSource(() => [...conversations.values()]
-    .filter(conversation => conversation.title || conversation.events.length > 0)
+archive.setSource(() =>
+  [...conversations.values()]
+    .filter(
+      (conversation) => conversation.title || conversation.events.length > 0
+    )
     .sort((a, b) => b.updatedAt - a.updatedAt)
     .slice(0, archive.MAX_CONVERSATIONS)
-    .map(archive.pack));
+    .map(archive.pack)
+);
 
 /**
  * Which servers a conversation is about, in the one shape the rest of this
@@ -159,64 +165,73 @@ archive.setSource(() => [...conversations.values()]
  * of two servers "restart nginx" meant is the failure the set exists to
  * prevent, so with two the tools ask for a name instead.
  */
-function normalizeScope({ scope, sessionId = '', sessionIds = [], hostIds = [] } = {}) {
-    const sessions = Array.isArray(sessionIds) ? sessionIds.filter(Boolean).map(String) : [];
-    const hosts = Array.isArray(hostIds) ? hostIds.filter(Boolean).map(String) : [];
+function normalizeScope({
+  scope,
+  sessionId = "",
+  sessionIds = [],
+  hostIds = [],
+} = {}) {
+  const sessions = Array.isArray(sessionIds)
+    ? sessionIds.filter(Boolean).map(String)
+    : [];
+  const hosts = Array.isArray(hostIds)
+    ? hostIds.filter(Boolean).map(String)
+    : [];
 
-    if (scope === 'global') {
-        return { scope: 'global', boundSessionId: '', sessionIds: [], hostIds: [] };
-    }
+  if (scope === "global") {
+    return { scope: "global", boundSessionId: "", sessionIds: [], hostIds: [] };
+  }
 
-    // An empty set is not a fence around nothing, it is someone who unpinned
-    // the last row. It falls back to following, which is where the panel puts
-    // itself in the same situation.
-    if (scope === 'targets' && sessions.length + hosts.length > 0) {
-        return {
-            scope: 'targets',
-            boundSessionId: sessions.length === 1 ? sessions[0] : '',
-            sessionIds: sessions,
-            hostIds: hosts,
-        };
-    }
-
+  // An empty set is not a fence around nothing, it is someone who unpinned
+  // the last row. It falls back to following, which is where the panel puts
+  // itself in the same situation.
+  if (scope === "targets" && sessions.length + hosts.length > 0) {
     return {
-        scope: 'session',
-        boundSessionId: String(sessionId || ''),
-        sessionIds: [],
-        hostIds: [],
+      scope: "targets",
+      boundSessionId: sessions.length === 1 ? sessions[0] : "",
+      sessionIds: sessions,
+      hostIds: hosts,
     };
+  }
+
+  return {
+    scope: "session",
+    boundSessionId: String(sessionId || ""),
+    sessionIds: [],
+    hostIds: [],
+  };
 }
 
 function create(target = {}) {
-    hydrate();
+  hydrate();
 
-    const id = nextId('conv');
-    const scope = normalizeScope(target);
-    conversations.set(id, {
-        id,
-        ...scope,
-        session: null,
-        starting: null,
-        events: [],
-        busy: false,
-        lastContext: '',
-        providerSessionId: '',
-        // Which agent owns `providerSessionId`, set when a query actually
-        // starts. Kept because an id from one agent means nothing to another,
-        // and after a restart the selected agent may not be the one that
-        // held this conversation.
-        provider: '',
-        needsRestart: false,
-        costUsd: 0,
-        // Taken from the first thing the user says, which is what the history
-        // menu has to label the entry with. Nothing else here knows what a
-        // conversation was about.
-        title: '',
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-    });
-    trim();
-    return { conversationId: id, ...scope };
+  const id = nextId("conv");
+  const scope = normalizeScope(target);
+  conversations.set(id, {
+    id,
+    ...scope,
+    session: null,
+    starting: null,
+    events: [],
+    busy: false,
+    lastContext: "",
+    providerSessionId: "",
+    // Which agent owns `providerSessionId`, set when a query actually
+    // starts. Kept because an id from one agent means nothing to another,
+    // and after a restart the selected agent may not be the one that
+    // held this conversation.
+    provider: "",
+    needsRestart: false,
+    costUsd: 0,
+    // Taken from the first thing the user says, which is what the history
+    // menu has to label the entry with. Nothing else here knows what a
+    // conversation was about.
+    title: "",
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  });
+  trim();
+  return { conversationId: id, ...scope };
 }
 
 /**
@@ -226,28 +241,33 @@ function create(target = {}) {
  * running query, or one waiting on an approval, is in use whatever its age.
  */
 function trim() {
-    let excess = conversations.size - MAX_CONVERSATIONS;
-    if (excess <= 0) return;
+  let excess = conversations.size - MAX_CONVERSATIONS;
+  if (excess <= 0) return;
 
-    const parked = [...conversations.values()]
-        .filter(conversation => !conversation.session && !conversation.starting && !conversation.busy)
-        // Untitled first, then oldest. Nothing was ever said in an untitled
-        // one: the panel opens a conversation the moment it is mounted, and a
-        // scratch conversation nobody typed into should not be able to push a
-        // week of real history off the end of the list.
-        .sort((a, b) => (
-            Number(Boolean(a.title)) - Number(Boolean(b.title)) || a.updatedAt - b.updatedAt
-        ));
+  const parked = [...conversations.values()]
+    .filter(
+      (conversation) =>
+        !conversation.session && !conversation.starting && !conversation.busy
+    )
+    // Untitled first, then oldest. Nothing was ever said in an untitled
+    // one: the panel opens a conversation the moment it is mounted, and a
+    // scratch conversation nobody typed into should not be able to push a
+    // week of real history off the end of the list.
+    .sort(
+      (a, b) =>
+        Number(Boolean(a.title)) - Number(Boolean(b.title)) ||
+        a.updatedAt - b.updatedAt
+    );
 
-    for (const conversation of parked) {
-        if (excess <= 0) break;
-        conversations.delete(conversation.id);
-        excess -= 1;
-    }
+  for (const conversation of parked) {
+    if (excess <= 0) break;
+    conversations.delete(conversation.id);
+    excess -= 1;
+  }
 }
 
 function get(conversationId) {
-    return conversations.get(conversationId);
+  return conversations.get(conversationId);
 }
 
 /**
@@ -258,41 +278,42 @@ function get(conversationId) {
  * what a panel that stayed open received.
  */
 function emit(conversation, event) {
-    const stamped = { ...event, at: Date.now() };
-    conversation.updatedAt = stamped.at;
-    conversation.events.push(stamped);
-    if (conversation.events.length > MAX_EVENTS) {
-        conversation.events.splice(0, conversation.events.length - MAX_EVENTS);
-    }
-    notify('ai-event', { conversationId: conversation.id, event: stamped });
+  const stamped = { ...event, at: Date.now() };
+  conversation.updatedAt = stamped.at;
+  conversation.events.push(stamped);
+  if (conversation.events.length > MAX_EVENTS) {
+    conversation.events.splice(0, conversation.events.length - MAX_EVENTS);
+  }
+  notify("ai-event", { conversationId: conversation.id, event: stamped });
 
-    // A stream preview is not worth a write of its own: the finished block that
-    // replaces it is an event in its own right, and that one schedules one.
-    if (!archive.isTransient(stamped.type)) archive.save();
+  // A stream preview is not worth a write of its own: the finished block that
+  // replaces it is an event in its own right, and that one schedules one.
+  if (!archive.isTransient(stamped.type)) archive.save();
 }
 
 /** Point an existing conversation at a different session, set, or all of them. */
 function setScope(conversationId, target) {
-    hydrate();
+  hydrate();
 
-    const conversation = conversations.get(conversationId);
-    if (!conversation) return { success: false, message: 'That conversation is gone' };
+  const conversation = conversations.get(conversationId);
+  if (!conversation)
+    return { success: false, message: "That conversation is gone" };
 
-    const scope = normalizeScope(target);
-    Object.assign(conversation, scope);
-    archive.save();
-    return { success: true, ...scope };
+  const scope = normalizeScope(target);
+  Object.assign(conversation, scope);
+  archive.save();
+  return { success: true, ...scope };
 }
 
 function resolved() {
-    return { ...settings.get(), apiKey: settings.readApiKey() };
+  return { ...settings.get(), apiKey: settings.readApiKey() };
 }
 
 /**
  * Settings the SDK bakes into a running query and cannot be told about later.
  * Changing one of these means the query has to be started again.
  */
-const RESTART_ON = ['provider', 'maxTurns', 'allowLocalTools'];
+const RESTART_ON = ["provider", "maxTurns", "allowLocalTools"];
 
 /**
  * Note that the configuration moved.
@@ -307,52 +328,61 @@ const RESTART_ON = ['provider', 'maxTurns', 'allowLocalTools'];
  * watching it run.
  */
 function reconfigure(before, after) {
-    // The account describes a runtime rather than the app, so it does not
-    // survive a change of agent. The model catalog needs no clearing: it is
-    // keyed by provider, so the one held for the agent just left simply stops
-    // matching, and switching back finds it still there.
-    //
-    // What is sent is the new agent's catalog if it has already been read, and
-    // otherwise nothing, so a panel drops the old list at once rather than
-    // showing it until the first ask comes back.
-    if (before.provider !== after.provider) {
-        lastAccount = null;
-        notify('ai-models', {
-            provider: after.provider,
-            models: modelCatalogs.get(after.provider) ?? null,
-        });
-    }
+  // The account describes a runtime rather than the app, so it does not
+  // survive a change of agent. The model catalog needs no clearing: it is
+  // keyed by provider, so the one held for the agent just left simply stops
+  // matching, and switching back finds it still there.
+  //
+  // What is sent is the new agent's catalog if it has already been read, and
+  // otherwise nothing, so a panel drops the old list at once rather than
+  // showing it until the first ask comes back.
+  // A different address is a different machine with different models on it,
+  // so what was read from the last one is not an answer about this one. The
+  // list is dropped rather than refreshed here: reading it means a request,
+  // and someone typing an address has not finished typing it.
+  if (before.localBaseUrl !== after.localBaseUrl) modelCatalogs.delete("local");
 
-    for (const conversation of conversations.values()) {
-        const session = conversation.session;
-        if (session) {
-            if (before.model !== after.model) session.setModel?.(after.model);
-            if (before.effort !== after.effort) session.setEffort?.(after.effort);
-        }
-        if (RESTART_ON.some(field => before[field] !== after[field])) {
-            if (session || conversation.starting) conversation.needsRestart = true;
-        }
+  if (
+    before.provider !== after.provider ||
+    before.localBaseUrl !== after.localBaseUrl
+  ) {
+    if (before.provider !== after.provider) lastAccount = null;
+    notify("ai-models", {
+      provider: after.provider,
+      models: modelCatalogs.get(after.provider) ?? null,
+    });
+  }
+
+  for (const conversation of conversations.values()) {
+    const session = conversation.session;
+    if (session) {
+      if (before.model !== after.model) session.setModel?.(after.model);
+      if (before.effort !== after.effort) session.setEffort?.(after.effort);
     }
+    if (RESTART_ON.some((field) => before[field] !== after[field])) {
+      if (session || conversation.starting) conversation.needsRestart = true;
+    }
+  }
 }
 
 /** Drop the running query, keeping the id that lets the next one resume it. */
 async function restart(conversation) {
-    // A query that is still coming up is waited for rather than ignored.
-    // Otherwise it finishes after this returns, hands itself to a conversation
-    // nobody is looking at any more, and stays open until the app quits.
-    if (conversation.starting) await conversation.starting.catch(() => {});
+  // A query that is still coming up is waited for rather than ignored.
+  // Otherwise it finishes after this returns, hands itself to a conversation
+  // nobody is looking at any more, and stays open until the app quits.
+  if (conversation.starting) await conversation.starting.catch(() => {});
 
-    const session = conversation.session;
-    conversation.session = null;
-    conversation.needsRestart = false;
-    // The situational block goes again with the first message on the new
-    // query, which has never been told where the user is.
-    conversation.lastContext = '';
-    try {
-        await session?.close();
-    } catch {
-        // Already gone.
-    }
+  const session = conversation.session;
+  conversation.session = null;
+  conversation.needsRestart = false;
+  // The situational block goes again with the first message on the new
+  // query, which has never been told where the user is.
+  conversation.lastContext = "";
+  try {
+    await session?.close();
+  } catch {
+    // Already gone.
+  }
 }
 
 /**
@@ -363,44 +393,54 @@ async function restart(conversation) {
  * no, not an exception somewhere up the stack.
  */
 function requestApproval(conversation, { toolName, name, input, local }) {
-    return new Promise((resolve) => {
-        const definition = catalog.BY_NAME.get(name);
-        const requestId = nextId('approve');
+  return new Promise((resolve) => {
+    const definition = catalog.BY_NAME.get(name);
+    const requestId = nextId("approve");
 
-        const settle = (verdict, status) => {
-            const entry = pendingApprovals.get(requestId);
-            if (!entry) return;
-            clearTimeout(entry.timer);
-            pendingApprovals.delete(requestId);
-            // Recorded, not just sent. The request itself is in the event log,
-            // so without this a window that reloads after answering replays the
-            // card as though it were still waiting, and clicking it does
-            // nothing because the id it names is long gone.
-            emit(conversation, { type: 'approval-settled', requestId, status });
-            resolve(verdict);
-        };
+    const settle = (verdict, status) => {
+      const entry = pendingApprovals.get(requestId);
+      if (!entry) return;
+      clearTimeout(entry.timer);
+      pendingApprovals.delete(requestId);
+      // Recorded, not just sent. The request itself is in the event log,
+      // so without this a window that reloads after answering replays the
+      // card as though it were still waiting, and clicking it does
+      // nothing because the id it names is long gone.
+      emit(conversation, { type: "approval-settled", requestId, status });
+      resolve(verdict);
+    };
 
-        const timer = setTimeout(() => {
-            settle({ approved: false, message: 'That request timed out waiting for an answer.' }, 'expired');
-        }, APPROVAL_TIMEOUT);
+    const timer = setTimeout(() => {
+      settle(
+        {
+          approved: false,
+          message: "That request timed out waiting for an answer.",
+        },
+        "expired"
+      );
+    }, APPROVAL_TIMEOUT);
 
-        pendingApprovals.set(requestId, { resolve: settle, timer, conversationId: conversation.id });
-
-        const target = input?.session || conversation.boundSessionId || '';
-        const info = target ? transcript.info(target) : null;
-
-        emit(conversation, {
-            type: 'approval-request',
-            requestId,
-            name,
-            rawName: toolName,
-            title: definition?.title || (local ? `Local: ${toolName}` : toolName),
-            local: Boolean(local),
-            readOnly: Boolean(definition?.readOnly),
-            input,
-            host: info ? (info.hostName || info.address) : '',
-        });
+    pendingApprovals.set(requestId, {
+      resolve: settle,
+      timer,
+      conversationId: conversation.id,
     });
+
+    const target = input?.session || conversation.boundSessionId || "";
+    const info = target ? transcript.info(target) : null;
+
+    emit(conversation, {
+      type: "approval-request",
+      requestId,
+      name,
+      rawName: toolName,
+      title: definition?.title || (local ? `Local: ${toolName}` : toolName),
+      local: Boolean(local),
+      readOnly: Boolean(definition?.readOnly),
+      input,
+      host: info ? info.hostName || info.address : "",
+    });
+  });
 }
 
 /**
@@ -411,182 +451,202 @@ function requestApproval(conversation, { toolName, name, input, local }) {
  * host key, and waits for the window to report back.
  */
 function requestAction(conversation, payload) {
-    return new Promise((resolve) => {
-        const requestId = nextId('action');
+  return new Promise((resolve) => {
+    const requestId = nextId("action");
 
-        const settle = (result) => {
-            const entry = pendingActions.get(requestId);
-            if (!entry) return;
-            clearTimeout(entry.timer);
-            pendingActions.delete(requestId);
-            resolve(result);
-        };
+    const settle = (result) => {
+      const entry = pendingActions.get(requestId);
+      if (!entry) return;
+      clearTimeout(entry.timer);
+      pendingActions.delete(requestId);
+      resolve(result);
+    };
 
-        const timer = setTimeout(() => {
-            settle({ success: false, message: 'The app did not finish that in time.' });
-        }, ACTION_TIMEOUT);
+    const timer = setTimeout(() => {
+      settle({
+        success: false,
+        message: "The app did not finish that in time.",
+      });
+    }, ACTION_TIMEOUT);
 
-        pendingActions.set(requestId, { resolve: settle, timer });
-        notify('ai-action', { conversationId: conversation.id, requestId, ...payload });
+    pendingActions.set(requestId, { resolve: settle, timer });
+    notify("ai-action", {
+      conversationId: conversation.id,
+      requestId,
+      ...payload,
     });
+  });
 }
 
 function respondToApproval({ requestId, approved, message }) {
-    const entry = pendingApprovals.get(requestId);
-    if (!entry) return false;
-    entry.resolve(
-        { approved: Boolean(approved), message: message || '' },
-        approved ? 'approved' : 'denied'
-    );
-    return true;
+  const entry = pendingApprovals.get(requestId);
+  if (!entry) return false;
+  entry.resolve(
+    { approved: Boolean(approved), message: message || "" },
+    approved ? "approved" : "denied"
+  );
+  return true;
 }
 
 function respondToAction({ requestId, success, sessionId, message }) {
-    const entry = pendingActions.get(requestId);
-    if (!entry) return false;
-    entry.resolve({ success: Boolean(success), sessionId: sessionId || '', message: message || '' });
-    return true;
+  const entry = pendingActions.get(requestId);
+  if (!entry) return false;
+  entry.resolve({
+    success: Boolean(success),
+    sessionId: sessionId || "",
+    message: message || "",
+  });
+  return true;
 }
 
 /** Start the provider for a conversation, once, on the first message. */
 function ensureProvider(conversation) {
-    if (conversation.session) return Promise.resolve(conversation.session);
-    if (conversation.starting) return conversation.starting;
+  if (conversation.session) return Promise.resolve(conversation.session);
+  if (conversation.starting) return conversation.starting;
 
-    const current = resolved();
-    const provider = PROVIDERS[current.provider];
-    if (!provider) {
-        return Promise.reject(new Error(`No provider named "${current.provider}" is available`));
-    }
+  const current = resolved();
+  const provider = PROVIDERS[current.provider];
+  if (!provider) {
+    return Promise.reject(
+      new Error(`No provider named "${current.provider}" is available`)
+    );
+  }
 
-    const context = () => ({
+  const context = () => ({
+    scope: conversation.scope,
+    boundSessionId: conversation.boundSessionId,
+    sessionIds: conversation.sessionIds,
+    hostIds: conversation.hostIds,
+    commandMode: resolved().commandMode,
+    blockedCommands: resolved().blockedCommands,
+  });
+
+  // A session id belongs to the agent that issued it. Switching agents
+  // mid-conversation, or coming back to a stored one after the setting
+  // changed, leaves an id that the new agent would either refuse or, worse,
+  // resolve to something else entirely. So it is dropped, and the transcript
+  // is what carries on rather than the model's memory of it.
+  if (conversation.provider && conversation.provider !== current.provider) {
+    conversation.providerSessionId = "";
+  }
+
+  // Whose session id the conversation is about to be holding. Recorded before
+  // the start rather than after it, because a query that fails on the way up
+  // can still have announced a session first.
+  conversation.provider = current.provider;
+
+  conversation.starting = provider
+    .start({
+      settings: current,
+      // Read again on every tool call, so tightening the approval policy
+      // mid-run takes effect on the next call rather than the next
+      // conversation. The snapshot above is only for the options the SDK
+      // fixes when the query starts.
+      getSettings: resolved,
+      systemPrompt: prompt.build(context()),
+      toolContext: () => ({
         scope: conversation.scope,
         boundSessionId: conversation.boundSessionId,
+        // Read fresh on every call, like the settings above, so unticking a
+        // server mid-run takes it out of reach on the next tool call rather
+        // than the next conversation.
         sessionIds: conversation.sessionIds,
         hostIds: conversation.hostIds,
-        commandMode: resolved().commandMode,
-        blockedCommands: resolved().blockedCommands,
+        settings: resolved(),
+        sessionAction: (payload) => requestAction(conversation, payload),
+      }),
+      requestApproval: (request) => requestApproval(conversation, request),
+      onEvent: (event) => handleProviderEvent(conversation, event),
+      // Continues the same SDK session after a restart, which is what lets
+      // the model be switched without losing the conversation.
+      resumeSessionId: conversation.providerSessionId,
+    })
+    .then((session) => {
+      conversation.session = session;
+      conversation.starting = null;
+      return session;
+    })
+    .catch((error) => {
+      conversation.starting = null;
+      throw error;
     });
 
-    // A session id belongs to the agent that issued it. Switching agents
-    // mid-conversation, or coming back to a stored one after the setting
-    // changed, leaves an id that the new agent would either refuse or, worse,
-    // resolve to something else entirely. So it is dropped, and the transcript
-    // is what carries on rather than the model's memory of it.
-    if (conversation.provider && conversation.provider !== current.provider) {
-        conversation.providerSessionId = '';
-    }
-
-    // Whose session id the conversation is about to be holding. Recorded before
-    // the start rather than after it, because a query that fails on the way up
-    // can still have announced a session first.
-    conversation.provider = current.provider;
-
-    conversation.starting = provider.start({
-        settings: current,
-        // Read again on every tool call, so tightening the approval policy
-        // mid-run takes effect on the next call rather than the next
-        // conversation. The snapshot above is only for the options the SDK
-        // fixes when the query starts.
-        getSettings: resolved,
-        systemPrompt: prompt.build(context()),
-        toolContext: () => ({
-            scope: conversation.scope,
-            boundSessionId: conversation.boundSessionId,
-            // Read fresh on every call, like the settings above, so unticking a
-            // server mid-run takes it out of reach on the next tool call rather
-            // than the next conversation.
-            sessionIds: conversation.sessionIds,
-            hostIds: conversation.hostIds,
-            settings: resolved(),
-            sessionAction: (payload) => requestAction(conversation, payload),
-        }),
-        requestApproval: (request) => requestApproval(conversation, request),
-        onEvent: (event) => handleProviderEvent(conversation, event),
-        // Continues the same SDK session after a restart, which is what lets
-        // the model be switched without losing the conversation.
-        resumeSessionId: conversation.providerSessionId,
-    }).then((session) => {
-        conversation.session = session;
-        conversation.starting = null;
-        return session;
-    }).catch((error) => {
-        conversation.starting = null;
-        throw error;
-    });
-
-    return conversation.starting;
+  return conversation.starting;
 }
 
 function handleProviderEvent(conversation, event) {
-    // Not a transcript item: it says what this machine can run, not what
-    // happened in this chat. Held here and pushed on its own channel rather
-    // than emitted, so it is not replayed into a panel as a message and does
-    // not spend a slot in the conversation's event log.
-    if (event.type === 'models') {
-        if (event.models?.length) {
-            const provider = resolved().provider;
-            modelCatalogs.set(provider, event.models);
-            notify('ai-models', { provider, models: event.models });
-        }
-        return;
+  // Not a transcript item: it says what this machine can run, not what
+  // happened in this chat. Held here and pushed on its own channel rather
+  // than emitted, so it is not replayed into a panel as a message and does
+  // not spend a slot in the conversation's event log.
+  if (event.type === "models") {
+    if (event.models?.length) {
+      const provider = resolved().provider;
+      modelCatalogs.set(provider, event.models);
+      notify("ai-models", { provider, models: event.models });
     }
+    return;
+  }
 
-    // A refusal belongs in the audit trail rather than in the chat. The model
-    // is told why in the tool result and will say so in its reply, so putting
-    // it in the transcript as well would be the same sentence twice; what is
-    // actually worth keeping is the record that something tried, next to the
-    // commands that did run.
-    if (event.type === 'tool-blocked') {
-        const target = conversation.boundSessionId || '';
-        const info = target ? transcript.info(target) : null;
-        activity.record({
-            category: 'security',
-            action: 'assistant.blocked',
-            outcome: 'warning',
-            target: info?.hostName || '',
-            subject: info?.address || '',
-            detail: `The assistant tried to run a command matching the blocked rule "${event.rule}"`,
-            hostId: info?.hostId || '',
-            hostName: info?.hostName || '',
-        });
-        return;
-    }
+  // A refusal belongs in the audit trail rather than in the chat. The model
+  // is told why in the tool result and will say so in its reply, so putting
+  // it in the transcript as well would be the same sentence twice; what is
+  // actually worth keeping is the record that something tried, next to the
+  // commands that did run.
+  if (event.type === "tool-blocked") {
+    const target = conversation.boundSessionId || "";
+    const info = target ? transcript.info(target) : null;
+    activity.record({
+      category: "security",
+      action: "assistant.blocked",
+      outcome: "warning",
+      target: info?.hostName || "",
+      subject: info?.address || "",
+      detail: `The assistant tried to run a command matching the blocked rule "${event.rule}"`,
+      hostId: info?.hostId || "",
+      hostName: info?.hostName || "",
+    });
+    return;
+  }
 
-    if (event.type === 'session') {
-        conversation.providerSessionId = event.sessionId;
-    }
-    // Held so a panel can be told how this conversation is being paid for
-    // without waiting for the next turn to say so again.
-    if (event.type === 'account') {
-        conversation.account = event;
-        lastAccount = event;
-    }
-    if (event.type === 'rate-limit') conversation.rateLimit = event;
-    if (event.type === 'result') {
-        conversation.busy = false;
-        conversation.costUsd += event.costUsd || 0;
-    }
-    if (event.type === 'error' || event.type === 'closed') {
-        conversation.busy = false;
-    }
-    if (event.type === 'tool-call' && !event.local) {
-        recordToolActivity(conversation, event);
-    }
-    emit(conversation, event);
+  if (event.type === "session") {
+    conversation.providerSessionId = event.sessionId;
+  }
+  // Held so a panel can be told how this conversation is being paid for
+  // without waiting for the next turn to say so again.
+  if (event.type === "account") {
+    conversation.account = event;
+    lastAccount = event;
+  }
+  if (event.type === "rate-limit") conversation.rateLimit = event;
+  if (event.type === "result") {
+    conversation.busy = false;
+    conversation.costUsd += event.costUsd || 0;
+  }
+  if (event.type === "error" || event.type === "closed") {
+    conversation.busy = false;
+  }
+  if (event.type === "tool-call" && !event.local) {
+    recordToolActivity(conversation, event);
+  }
+  emit(conversation, event);
 
-    // For the relay provider we drive a simple turn-based loop ourselves.
-    // When a tool result arrives, feed it back to the relay so it can continue.
-    if (event.type === 'tool-result' && conversation.provider === 'relay') {
-        // Fire-and-forget; the relay provider will continue the turn.
-        Promise.resolve().then(() => {
-            try {
-                conversation.session?.sendToolResult?.(event.id, event.text || '', !!event.isError);
-            } catch {
-                // ignore
-            }
-        });
-    }
+  // For the relay provider we drive a simple turn-based loop ourselves.
+  // When a tool result arrives, feed it back to the relay so it can continue.
+  if (event.type === "tool-result" && conversation.provider === "relay") {
+    // Fire-and-forget; the relay provider will continue the turn.
+    Promise.resolve().then(() => {
+      try {
+        conversation.session?.sendToolResult?.(
+          event.id,
+          event.text || "",
+          !!event.isError
+        );
+      } catch {
+        // ignore
+      }
+    });
+  }
 }
 
 /**
@@ -598,34 +658,35 @@ function handleProviderEvent(conversation, event) {
  * happened on.
  */
 function recordToolActivity(conversation, event) {
-    const definition = catalog.BY_NAME.get(event.name);
-    if (!definition || definition.readOnly) return;
+  const definition = catalog.BY_NAME.get(event.name);
+  if (!definition || definition.readOnly) return;
 
-    const target = event.input?.session || conversation.boundSessionId || '';
-    const info = target ? transcript.info(target) : null;
-    const summary = event.name === 'run_command'
-        ? String(event.input?.command || '').slice(0, 300)
-        : summarise(event.input);
+  const target = event.input?.session || conversation.boundSessionId || "";
+  const info = target ? transcript.info(target) : null;
+  const summary =
+    event.name === "run_command"
+      ? String(event.input?.command || "").slice(0, 300)
+      : summarise(event.input);
 
-    activity.record({
-        category: 'connection',
-        action: `assistant.${event.name}`,
-        outcome: 'info',
-        target: info?.hostName || '',
-        subject: info?.address || '',
-        detail: summary,
-        hostId: info?.hostId || '',
-        hostName: info?.hostName || '',
-    });
+  activity.record({
+    category: "connection",
+    action: `assistant.${event.name}`,
+    outcome: "info",
+    target: info?.hostName || "",
+    subject: info?.address || "",
+    detail: summary,
+    hostId: info?.hostId || "",
+    hostName: info?.hostName || "",
+  });
 }
 
 function summarise(input) {
-    if (!input || typeof input !== 'object') return '';
-    return Object.entries(input)
-        .filter(([key]) => key !== 'session')
-        .map(([key, value]) => `${key}: ${String(value).slice(0, 120)}`)
-        .join(', ')
-        .slice(0, 300);
+  if (!input || typeof input !== "object") return "";
+  return Object.entries(input)
+    .filter(([key]) => key !== "session")
+    .map(([key, value]) => `${key}: ${String(value).slice(0, 120)}`)
+    .join(", ")
+    .slice(0, 300);
 }
 
 /**
@@ -638,67 +699,72 @@ function summarise(input) {
  * change keeps the cached prefix intact for the turns where nothing moved.
  */
 async function send(conversationId, text) {
-    hydrate();
+  hydrate();
 
-    const conversation = conversations.get(conversationId);
-    if (!conversation) return { success: false, message: 'That conversation is gone' };
+  const conversation = conversations.get(conversationId);
+  if (!conversation)
+    return { success: false, message: "That conversation is gone" };
 
-    const body = String(text || '').trim();
-    if (!body) return { success: false, message: 'Nothing to send' };
+  const body = String(text || "").trim();
+  if (!body) return { success: false, message: "Nothing to send" };
 
-    if (!conversation.title) conversation.title = body.replace(/\s+/g, ' ').slice(0, 80);
+  if (!conversation.title)
+    conversation.title = body.replace(/\s+/g, " ").slice(0, 80);
 
-    emit(conversation, { type: 'user-message', text: body });
-    conversation.busy = true;
+  emit(conversation, { type: "user-message", text: body });
+  conversation.busy = true;
 
-    try {
-        // A model or effort change since the last message. Restarting here,
-        // rather than when the setting changed, means it lands between turns
-        // instead of on top of one.
-        if (conversation.needsRestart) await restart(conversation);
+  try {
+    // A model or effort change since the last message. Restarting here,
+    // rather than when the setting changed, means it lands between turns
+    // instead of on top of one.
+    if (conversation.needsRestart) await restart(conversation);
 
-        const session = await ensureProvider(conversation);
+    const session = await ensureProvider(conversation);
 
-        const context = prompt.situation({
-            scope: conversation.scope,
-            boundSessionId: conversation.boundSessionId,
-            sessionIds: conversation.sessionIds,
-            hostIds: conversation.hostIds,
-            commandMode: resolved().commandMode,
-        });
+    const context = prompt.situation({
+      scope: conversation.scope,
+      boundSessionId: conversation.boundSessionId,
+      sessionIds: conversation.sessionIds,
+      hostIds: conversation.hostIds,
+      commandMode: resolved().commandMode,
+    });
 
-        let payload = body;
-        if (context !== conversation.lastContext) {
-            conversation.lastContext = context;
-            payload = `<app-context>\n${context}\n</app-context>\n\n${body}`;
-        }
-
-        session.send(payload);
-        return { success: true };
-    } catch (error) {
-        conversation.busy = false;
-        emit(conversation, { type: 'error', message: error.message });
-        return { success: false, message: error.message };
+    let payload = body;
+    if (context !== conversation.lastContext) {
+      conversation.lastContext = context;
+      payload = `<app-context>\n${context}\n</app-context>\n\n${body}`;
     }
+
+    session.send(payload);
+    return { success: true };
+  } catch (error) {
+    conversation.busy = false;
+    emit(conversation, { type: "error", message: error.message });
+    return { success: false, message: error.message };
+  }
 }
 
 async function interrupt(conversationId) {
-    const conversation = conversations.get(conversationId);
-    if (!conversation?.session) return { success: false };
+  const conversation = conversations.get(conversationId);
+  if (!conversation?.session) return { success: false };
 
-    // Anything this conversation is waiting on a person for is refused first.
-    // Otherwise "stop" leaves a card on screen whose approval would start work
-    // the user just cancelled. Scoped by conversation: a second panel's pending
-    // question is not this one's to answer.
-    for (const entry of [...pendingApprovals.values()]) {
-        if (entry.conversationId !== conversationId) continue;
-        entry.resolve({ approved: false, message: 'The user stopped the run.' }, 'denied');
-    }
+  // Anything this conversation is waiting on a person for is refused first.
+  // Otherwise "stop" leaves a card on screen whose approval would start work
+  // the user just cancelled. Scoped by conversation: a second panel's pending
+  // question is not this one's to answer.
+  for (const entry of [...pendingApprovals.values()]) {
+    if (entry.conversationId !== conversationId) continue;
+    entry.resolve(
+      { approved: false, message: "The user stopped the run." },
+      "denied"
+    );
+  }
 
-    await conversation.session.interrupt();
-    conversation.busy = false;
-    emit(conversation, { type: 'interrupted' });
-    return { success: true };
+  await conversation.session.interrupt();
+  conversation.busy = false;
+  emit(conversation, { type: "interrupted" });
+  return { success: true };
 }
 
 /**
@@ -712,57 +778,58 @@ async function interrupt(conversationId) {
  * already passes that id back as `resumeSessionId`.
  */
 async function park(conversationId) {
-    hydrate();
+  hydrate();
 
-    const conversation = conversations.get(conversationId);
-    if (!conversation) return { success: true };
+  const conversation = conversations.get(conversationId);
+  if (!conversation) return { success: true };
 
-    // A turn still running is stopped first, and anything it has left waiting
-    // for an answer is refused. Walking away from a question is a no.
-    if (conversation.busy && conversation.session) await interrupt(conversationId);
+  // A turn still running is stopped first, and anything it has left waiting
+  // for an answer is refused. Walking away from a question is a no.
+  if (conversation.busy && conversation.session)
+    await interrupt(conversationId);
 
-    await restart(conversation);
-    return { success: true };
+  await restart(conversation);
+  return { success: true };
 }
 
 async function close(conversationId) {
-    hydrate();
+  hydrate();
 
-    const conversation = conversations.get(conversationId);
-    if (!conversation) return { success: true };
-    conversations.delete(conversationId);
-    // Thrown away for good, so it goes from the file too. Suspended during a
-    // shutdown, which closes every conversation without meaning to forget any
-    // of them.
-    archive.save();
-    try {
-        // As in `restart`: a query still coming up has to be waited for, or it
-        // outlives the conversation it belonged to.
-        if (conversation.starting) await conversation.starting.catch(() => {});
-        await conversation.session?.close();
-    } catch {
-        // Already gone.
-    }
-    return { success: true };
+  const conversation = conversations.get(conversationId);
+  if (!conversation) return { success: true };
+  conversations.delete(conversationId);
+  // Thrown away for good, so it goes from the file too. Suspended during a
+  // shutdown, which closes every conversation without meaning to forget any
+  // of them.
+  archive.save();
+  try {
+    // As in `restart`: a query still coming up has to be waited for, or it
+    // outlives the conversation it belonged to.
+    if (conversation.starting) await conversation.starting.catch(() => {});
+    await conversation.session?.close();
+  } catch {
+    // Already gone.
+  }
+  return { success: true };
 }
 
 /** Everything a panel needs to rebuild itself after a window reload. */
 function history(conversationId) {
-    hydrate();
+  hydrate();
 
-    const conversation = conversations.get(conversationId);
-    if (!conversation) return { found: false, events: [] };
-    return {
-        found: true,
-        events: conversation.events,
-        scope: conversation.scope,
-        sessionId: conversation.boundSessionId,
-        sessionIds: conversation.sessionIds,
-        hostIds: conversation.hostIds,
-        busy: conversation.busy,
-        costUsd: conversation.costUsd,
-        title: conversation.title,
-    };
+  const conversation = conversations.get(conversationId);
+  if (!conversation) return { found: false, events: [] };
+  return {
+    found: true,
+    events: conversation.events,
+    scope: conversation.scope,
+    sessionId: conversation.boundSessionId,
+    sessionIds: conversation.sessionIds,
+    hostIds: conversation.hostIds,
+    busy: conversation.busy,
+    costUsd: conversation.costUsd,
+    title: conversation.title,
+  };
 }
 
 /**
@@ -774,21 +841,23 @@ function history(conversationId) {
  * sending into it starts anything.
  */
 function list() {
-    hydrate();
+  hydrate();
 
-    return [...conversations.values()]
-        .map(conversation => ({
-            conversationId: conversation.id,
-            title: conversation.title,
-            scope: conversation.scope,
-            sessionId: conversation.boundSessionId,
-            busy: conversation.busy,
-            live: Boolean(conversation.session || conversation.starting),
-            createdAt: conversation.createdAt,
-            updatedAt: conversation.updatedAt,
-            messages: conversation.events.filter(event => event.type === 'user-message').length,
-        }))
-        .sort((a, b) => b.updatedAt - a.updatedAt);
+  return [...conversations.values()]
+    .map((conversation) => ({
+      conversationId: conversation.id,
+      title: conversation.title,
+      scope: conversation.scope,
+      sessionId: conversation.boundSessionId,
+      busy: conversation.busy,
+      live: Boolean(conversation.session || conversation.starting),
+      createdAt: conversation.createdAt,
+      updatedAt: conversation.updatedAt,
+      messages: conversation.events.filter(
+        (event) => event.type === "user-message"
+      ).length,
+    }))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
 }
 
 /**
@@ -799,65 +868,71 @@ function list() {
  * if someone changes their agent's own setup while the app is open.
  */
 function models({ refresh = false } = {}) {
-    const asked = resolved().provider;
+  const asked = resolved().provider;
 
-    // A forced ask drops what is held for this agent and starts again. The
-    // menu offers it when a read came back with nothing, which is usually a
-    // runtime that was not up yet rather than an agent with no models.
-    if (refresh) modelCatalogs.delete(asked);
+  // A forced ask drops what is held for this agent and starts again. The
+  // menu offers it when a read came back with nothing, which is usually a
+  // runtime that was not up yet rather than an agent with no models.
+  if (refresh) modelCatalogs.delete(asked);
 
-    if (modelCatalogs.has(asked)) return Promise.resolve(modelCatalogs.get(asked));
-    if (modelsPending?.provider === asked && !refresh) return modelsPending.promise;
+  if (modelCatalogs.has(asked))
+    return Promise.resolve(modelCatalogs.get(asked));
+  if (modelsPending?.provider === asked && !refresh)
+    return modelsPending.promise;
 
-    const provider = PROVIDERS[asked];
-    if (!provider?.listModels) return Promise.resolve(null);
+  const provider = PROVIDERS[asked];
+  if (!provider?.listModels) return Promise.resolve(null);
 
-    const promise = provider.listModels({ settings: resolved() })
-        .then((rows) => {
-            const list = rows?.length ? rows : null;
-            // Stored against the agent that answered, whether or not that is
-            // still the one selected. A later ask for a different agent reads
-            // its own entry, and a switch back does not have to ask again.
-            modelCatalogs.set(asked, list);
-            notify('ai-models', { provider: asked, models: list });
-            return list;
-        })
-        .catch((error) => {
-            // Said out loud rather than swallowed: an empty model menu with no
-            // reason anywhere is the kind of thing that gets blamed on the
-            // menu. Not cached either, so the next ask tries again rather than
-            // inheriting one bad start for the life of the app.
-            console.error(`Could not read the model list from ${asked}:`, error.message);
-            return null;
-        })
-        .finally(() => {
-            if (modelsPending?.promise === promise) modelsPending = null;
-        });
+  const promise = provider
+    .listModels({ settings: resolved() })
+    .then((rows) => {
+      const list = rows?.length ? rows : null;
+      // Stored against the agent that answered, whether or not that is
+      // still the one selected. A later ask for a different agent reads
+      // its own entry, and a switch back does not have to ask again.
+      modelCatalogs.set(asked, list);
+      notify("ai-models", { provider: asked, models: list });
+      return list;
+    })
+    .catch((error) => {
+      // Said out loud rather than swallowed: an empty model menu with no
+      // reason anywhere is the kind of thing that gets blamed on the
+      // menu. Not cached either, so the next ask tries again rather than
+      // inheriting one bad start for the life of the app.
+      console.error(
+        `Could not read the model list from ${asked}:`,
+        error.message
+      );
+      return null;
+    })
+    .finally(() => {
+      if (modelsPending?.promise === promise) modelsPending = null;
+    });
 
-    modelsPending = { provider: asked, promise };
-    return promise;
+  modelsPending = { provider: asked, promise };
+  return promise;
 }
 
 function status() {
-    const current = settings.get();
-    return {
-        ready: Boolean(PROVIDERS[current.provider]),
-        provider: current.provider,
-        providers: Object.keys(PROVIDERS),
-        settings: current,
-        // Null until a conversation has run once. The settings page says so
-        // rather than guessing, because "no plan found" and "not asked yet"
-        // are different answers.
-        account: lastAccount,
-        // Only if it belongs to the agent currently selected. Null otherwise,
-        // which reads as "not asked yet" and is exactly what it is.
-        models: modelCatalogs.get(current.provider) ?? null,
-        tools: catalog.TOOLS.map(tool => ({
-            name: tool.name,
-            title: tool.title,
-            readOnly: tool.readOnly,
-        })),
-    };
+  const current = settings.get();
+  return {
+    ready: Boolean(PROVIDERS[current.provider]),
+    provider: current.provider,
+    providers: Object.keys(PROVIDERS),
+    settings: current,
+    // Null until a conversation has run once. The settings page says so
+    // rather than guessing, because "no plan found" and "not asked yet"
+    // are different answers.
+    account: lastAccount,
+    // Only if it belongs to the agent currently selected. Null otherwise,
+    // which reads as "not asked yet" and is exactly what it is.
+    models: modelCatalogs.get(current.provider) ?? null,
+    tools: catalog.TOOLS.map((tool) => ({
+      name: tool.name,
+      title: tool.title,
+      readOnly: tool.readOnly,
+    })),
+  };
 }
 
 /**
@@ -871,42 +946,48 @@ function status() {
  * the only honest answer is the one already on disk.
  */
 async function shutdown() {
-    archive.flush();
-    archive.suspend();
+  archive.flush();
+  archive.suspend();
 
-    const ids = [...conversations.keys()];
-    await Promise.all(ids.map(id => close(id)));
-    for (const entry of [...pendingApprovals.values()]) {
-        entry.resolve({ approved: false, message: 'The app closed the conversation.' }, 'denied');
-    }
-    for (const [requestId, entry] of [...pendingActions]) {
-        entry.resolve({ success: false, message: 'The app closed the conversation.' });
-        pendingActions.delete(requestId);
-    }
+  const ids = [...conversations.keys()];
+  await Promise.all(ids.map((id) => close(id)));
+  for (const entry of [...pendingApprovals.values()]) {
+    entry.resolve(
+      { approved: false, message: "The app closed the conversation." },
+      "denied"
+    );
+  }
+  for (const [requestId, entry] of [...pendingActions]) {
+    entry.resolve({
+      success: false,
+      message: "The app closed the conversation.",
+    });
+    pendingActions.delete(requestId);
+  }
 
-    // Nothing is held in memory any more, so the next window reads the file
-    // again, and turns writing back on when it does. That is not only the next
-    // launch: on macOS the window closes through here and the app stays running
-    // to be reopened from the dock.
-    hydrated = false;
+  // Nothing is held in memory any more, so the next window reads the file
+  // again, and turns writing back on when it does. That is not only the next
+  // launch: on macOS the window closes through here and the app stays running
+  // to be reopened from the dock.
+  hydrated = false;
 }
 
 module.exports = {
-    setNotifier,
-    reconfigure,
-    create,
-    get,
-    send,
-    interrupt,
-    park,
-    close,
-    setScope,
-    history,
-    list,
-    status,
-    models,
-    shutdown,
-    respondToApproval,
-    respondToAction,
-    settings,
+  setNotifier,
+  reconfigure,
+  create,
+  get,
+  send,
+  interrupt,
+  park,
+  close,
+  setScope,
+  history,
+  list,
+  status,
+  models,
+  shutdown,
+  respondToApproval,
+  respondToAction,
+  settings,
 };
