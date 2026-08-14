@@ -704,18 +704,18 @@ export default {
   "settings.assistant.loading": "正在加载助手设置…",
   "settings.assistant.agent": "代理程序",
   "settings.assistant.agentDesc":
-    "由哪个编码代理来作答：本机已安装的那一份、API Gateway，或你自己运行的模型。切换会开始一次全新的对话。",
+    "由哪个编码代理来作答：本机已安装的那一份、API中转站，或你自己运行的模型。切换会开始一次全新的对话。",
   "settings.assistant.provider.claudeCode": "来自 Anthropic，用你自己的账号。",
   "settings.assistant.provider.codex": "来自 OpenAI，用你自己的账号。",
   "settings.assistant.provider.opencode": "开源，用你配置的服务商。",
-  "settings.assistant.provider.relayName": "API Gateway",
+  "settings.assistant.provider.relayName": "API中转站",
   "settings.assistant.provider.relay":
-    "使用 OpenAI 兼容的 API Gateway，无需安装 Claude Code / Codex / OpenCode。",
+    "使用 OpenAI 兼容的 API中转站，无需安装 Claude Code / Codex / OpenCode。",
   "settings.assistant.provider.grok": "来自 xAI，用你自己的账号。",
   "settings.assistant.provider.local":
     "你自己的模型：LM Studio、Ollama、vLLM。",
   "settings.assistant.provider.unavailable": "此版本尚未提供。",
-  "settings.assistant.relayBaseUrl": "API Gateway 地址",
+  "settings.assistant.relayBaseUrl": "API中转站地址",
   "settings.assistant.relayModel": "默认模型",
   "settings.assistant.relayModelManual": "手动填写…",
   "settings.assistant.relayNote":
@@ -724,10 +724,10 @@ export default {
   "settings.assistant.relayModelsFetching": "正在拉取…",
   "settings.assistant.relayModelsLoaded": "已拉取 {count} 个模型",
   "settings.assistant.relayModelsEmpty":
-    "API Gateway 未返回模型列表，可手动填写模型名。",
+    "API中转站未返回模型列表，可手动填写模型名。",
   "settings.assistant.relayModelsFailed": "拉取模型失败，请检查地址和密钥。",
   "settings.assistant.accountRelay":
-    "通过 API Gateway 调用模型。填写地址和 API 密钥后即可使用，无需安装本地代理。",
+    "通过 API中转站调用模型。填写地址和 API 密钥后即可使用，无需安装本地代理。",
   "settings.assistant.endpoint": "服务器地址",
   "settings.assistant.endpointDesc":
     "本地模型服务器监听的地址。任何讲 OpenAI API 的服务器都可以。",

@@ -39,7 +39,7 @@ RDP/VNC 和助手都还在，主要更改了数据同步方式。
 
 - **用你自己的 WebDAV，而不是 CloudBlast 账户。** 主机、文件夹、密钥、代码片段、代理、已知主机、助手设置和终端设置数据先在本机加密，再上传到你指定的 WebDAV。任何标准 WebDAV 都可以。
 - **带版本的历史备份**，保存到 WebDAV 上，可按计划定期或手动备份。恢复或删除某一个版本，不影响当前同步数据。
-- **API Gateway**，AI 助手可以使用 API Gateway，不依赖本机安装 Claude、Codex 或 OpenCode CLI。
+- **API中转站**，AI 助手可以使用 API中转站，不依赖本机安装 Claude、Codex 或 OpenCode CLI。
 - **导入 NextSSH 备份**，与 PuTTY、KiTTY、MobaXterm、OpenSSH 并列。
 - **无遥测连网** 启动时不会访问 `console.cloudblast.io`。更新检查指向 GitHub 上的 [本仓库](https://github.com/DT27/NoxSSH/releases)。
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">

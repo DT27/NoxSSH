@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { PROVIDER_NAMES } from "../../lib/ai-catalog";
+import { providerName } from "../../lib/ai-catalog";
 import ProviderPicker from "./ProviderPicker";
 import SettingCard from "./ui/SettingCard";
 import SettingRow, { DIVIDED } from "./ui/SettingRow";
@@ -66,7 +66,7 @@ const COMMAND_MODES = ["terminal", "background"];
  * a subscription ends up reading that they are being charged per token.
  */
 function describeAccount(t, account, hasApiKey, provider) {
-  const agent = PROVIDER_NAMES[provider] || t("settings.assistant.theAgent");
+  const agent = providerName(provider);
   if (provider === "relay") return t("settings.assistant.accountRelay");
   if (provider === "opencode") return t("settings.assistant.accountOpencode");
   // Nothing is signed in to and nothing is charged. The only credential a

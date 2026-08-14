@@ -765,22 +765,22 @@ export default {
   "settings.assistant.agent": "Tác nhân",
   "settings.assistant.agentDesc":
     "Tác nhân lập trình nào sẽ trả lời: một bản đã cài trên máy " +
-    "này, một API Gateway, hoặc một mô hình do chính bạn chạy. Đổi tác nhân sẽ bắt đầu một cuộc trò chuyện mới.",
+    "này, một cổng API, hoặc một mô hình do chính bạn chạy. Đổi tác nhân sẽ bắt đầu một cuộc trò chuyện mới.",
   "settings.assistant.provider.claudeCode":
     "Tác nhân của Anthropic, bằng tài khoản của bạn.",
   "settings.assistant.provider.codex":
     "Tác nhân của OpenAI, bằng tài khoản của bạn.",
   "settings.assistant.provider.opencode":
     "Mã nguồn mở, với nhà cung cấp bạn cấu hình.",
-  "settings.assistant.provider.relayName": "API Gateway",
+  "settings.assistant.provider.relayName": "Cổng API",
   "settings.assistant.provider.relay":
-    "Dùng API Gateway tương thích OpenAI. Không cần cài Claude Code, Codex hay OpenCode.",
+    "Dùng cổng API tương thích OpenAI. Không cần cài Claude Code, Codex hay OpenCode.",
   "settings.assistant.provider.grok":
     "Tác nhân của xAI, bằng tài khoản của bạn.",
   "settings.assistant.provider.local":
     "Mô hình của bạn: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "Bản dựng này chưa có.",
-  "settings.assistant.relayBaseUrl": "Địa chỉ API Gateway",
+  "settings.assistant.relayBaseUrl": "Địa chỉ cổng API",
   "settings.assistant.relayModel": "Mô hình mặc định",
   "settings.assistant.relayModelManual": "Nhập tên mô hình…",
   "settings.assistant.relayNote":
@@ -789,11 +789,11 @@ export default {
   "settings.assistant.relayModelsFetching": "Đang tải…",
   "settings.assistant.relayModelsLoaded": "Đã tải {count} mô hình",
   "settings.assistant.relayModelsEmpty":
-    "API Gateway không trả về danh sách mô hình. Bạn có thể nhập tên thủ công.",
+    "Cổng API không trả về danh sách mô hình. Bạn có thể nhập tên thủ công.",
   "settings.assistant.relayModelsFailed":
     "Không tải được mô hình. Hãy kiểm tra địa chỉ và khoá.",
   "settings.assistant.accountRelay":
-    "Gọi mô hình qua API Gateway. Điền địa chỉ và khoá API. Không cần tác nhân cục bộ.",
+    "Gọi mô hình qua cổng API. Điền địa chỉ và khoá API. Không cần tác nhân cục bộ.",
   "settings.assistant.endpoint": "Địa chỉ máy chủ",
   "settings.assistant.endpointDesc":
     "Nơi máy chủ mô hình cục bộ đang lắng nghe. Bất kỳ máy chủ " +

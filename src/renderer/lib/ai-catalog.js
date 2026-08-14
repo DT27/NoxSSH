@@ -48,10 +48,14 @@ export const PROVIDER_NAMES = {
   "claude-code": "Claude Code",
   codex: "Codex",
   opencode: "OpenCode",
-  relay: "API Gateway",
   grok: "Grok Build",
   local: "Local model",
 };
+
+export function providerName(provider) {
+  if (provider === "relay") return translate("settings.assistant.provider.relayName");
+  return PROVIDER_NAMES[provider] || translate("settings.assistant.theAgent");
+}
 
 /**
  * Inheriting is not a model, so no runtime lists it. It is always the first
@@ -60,8 +64,7 @@ export const PROVIDER_NAMES = {
  * already made there.
  */
 function inheritRow(provider) {
-  const name =
-    PROVIDER_NAMES[provider] || translate("settings.assistant.theAgent");
+  const name = providerName(provider);
   return {
     value: "",
     short: name,
