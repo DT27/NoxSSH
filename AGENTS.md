@@ -97,12 +97,12 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 
 ## 主机连接界面本地化
 
-连接覆盖层原先写死英文。现已走 `session.*` 词条，语言跟随设置（en / zh / pt / ru / vi）：
+连接覆盖层原先写死英文。现已走 `session.*` 词条，语言跟随设置（en / zh / ja / ko / pt / ru / vi）：
 
 - [`ConnectingSplash.jsx`](src/renderer/components/ui/ConnectingSplash.jsx)：`正在连接到 {title}`，主机名仍加粗
 - [`SessionScreen.jsx`](src/renderer/components/ui/SessionScreen.jsx)：未知 / 已更改主机密钥、额外认证、连接失败与倒计时重试
 - [`TerminalView.jsx`](src/renderer/components/TerminalView.jsx)：窗格状态条、断开连接 / 关闭窗格
 
-词条在各语言文件末尾的 `session.*`。取消按钮复用 `common.cancel`。
+词条在各语言文件末尾的 `session.*`（en / zh / ja / ko / pt / ru / vi）。取消按钮复用 `common.cancel`。
 
 未改：写入 xterm 缓冲的 `Reconnected` / `Disconnected` / `Connection failed`，以及活动日志、RDP/VNC 状态点等其它英文。

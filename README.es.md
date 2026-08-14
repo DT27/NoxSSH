@@ -2,7 +2,7 @@
   <img src="cloudterm.png" alt="CloudTerm" width="128">
 </p>
 
-<h1 align="center">CloudTerm</h1>
+<h1 align="center">NoxSSH</h1>
 
 <p align="center">
   <strong>SSH, SFTP, Telnet y Windows RDP, todo en un solo terminal</strong>
@@ -14,58 +14,47 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Descargar-Última%20versión-success?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Descargar-Última%20versión-success?style=for-the-badge&logo=github"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Plataforma-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/Licencia-fair--code-green?style=for-the-badge"></a>
-  &nbsp;
-  <a href="https://discord.gg/7M84Xp8QBr"><img alt="Discord" src="https://img.shields.io/badge/Discord-Unirse-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
 <p align="center">
   <a href="./README.md">English</a> ·
   <a href="./README.zh-CN.md">简体中文</a> ·
+  <a href="./README.ja.md">日本語</a> ·
+  <a href="./README.ko.md">한국어</a> ·
   <strong>Español</strong> ·
   <a href="./README.ru.md">Русский</a>
 </p>
 
 ---
 
-CloudTerm reúne en una sola ventana todas las formas de llegar a un servidor.
-Abre una sesión SSH, mueve archivos por SFTP, reenvía un puerto y toma un
-escritorio de Windows, todo sobre la misma conexión y la misma barra de
-pestañas. Sin una segunda aplicación y sin un segundo inicio de sesión.
+NoxSSH es un fork de [CloudTerm](https://github.com/BradPerbs/cloudterm). Conserva
+el mismo terminal, SFTP, RDP/VNC y asistente. El cambio principal es cómo se
+sincronizan los datos.
 
-Se conecta a lo que sea: la consola serie de tu portátil, un switch que solo
-habla telnet, una máquina Windows por RDP o un servidor en el proveedor que
-prefieras. CloudTerm está hecho por [CloudBlast](https://cloudblast.io), una
-empresa de hosting VPS. Es gratuito para todo el mundo y todo el código está aquí
-para leerlo y modificarlo.
+## Qué cambió
 
-<img src="Main%20Image.png" alt="CloudTerm" width="100%">
+- **Tu propio WebDAV, no una cuenta de CloudBlast.** Hosts, carpetas, claves, fragmentos, proxies, hosts conocidos, ajustes del asistente y del terminal se cifran en este dispositivo y se suben al WebDAV que elijas. Cualquier WebDAV estándar vale.
+- **Copias de seguridad con versiones** en ese WebDAV, por calendario o a mano. Restaura o borra una versión sin tocar la copia de sincronización actual.
+- **API de reenvío.** El asistente puede usar un reenvío compatible con OpenAI y no necesita un CLI local de Claude, Codex u OpenCode.
+- **Importar copias de NextSSH**, junto a PuTTY, KiTTY, MobaXterm y OpenSSH.
+- **Sin telemetría.** La aplicación no contacta con `console.cloudblast.io` al arrancar. Las actualizaciones se comprueban en [este repositorio](https://github.com/DT27/NoxSSH/releases) de GitHub.
+  <img src="NoxSSH_WebDAV.png" alt="Sincronización WebDAV de NoxSSH" width="100%">
+  <img src="NoxSSH_WebDAV_backup.png" alt="Copias WebDAV de NoxSSH" width="100%">
+  <img src="NoxSSH_AI_APIRelay.png" alt="Reenvío de IA de NoxSSH" width="100%">
 
----
-
-<h2 align="center">☁️ Sincroniza con tu propio WebDAV</h2>
-
-<p align="center">
-  <strong>La misma configuración en todos tus equipos.</strong><br/>
-  Hosts, carpetas, claves, fragmentos, proxies, claves de host de confianza, ajustes del asistente<br/>
-  y del terminal se cifran en este dispositivo con tu frase de sincronización y se suben al WebDAV que elijas.
-</p>
-
-<p align="center">
-  Las copias históricas se pueden restaurar o borrar una a una. Vaciar los datos locales<br/>
-  restablece la configuración WebDAV de este equipo y no toca los archivos que ya están en el servidor.
-</p>
+<img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
 ---
 
 ## Contenido
 
 - [Descargas](#download)
-- [Qué es CloudTerm](#what-is-cloudterm)
+- [Qué es](#what-it-is)
 - [Características](#features)
 - [Capturas](#screenshots)
 - [Primeros pasos](#getting-started)
@@ -76,9 +65,9 @@ para leerlo y modificarlo.
 
 ---
 
-<a name="what-is-cloudterm"></a>
+<a name="what-it-is"></a>
 
-## Qué es CloudTerm
+## Qué es
 
 - **Un terminal** para SSH, telnet y consolas serie, con pestañas, paneles
   divididos y renderizado acelerado por GPU.
@@ -271,31 +260,25 @@ barra de título.
 
 Descarga la última versión para tu plataforma:
 
-| SO      | Descarga                                                                                                                                                                                                                      |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS   | [Apple silicon (M1 y posteriores)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)          |
-| Windows | [Instalador, x64 (recomendado)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [Portable, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux   | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                                    |
+| SO      | Descarga                                                                                                                                                                                                         |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | [Apple silicon (M1 y posteriores)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-arm64.dmg) · [Intel](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.dmg)                   |
+| Windows | [Instalador, x64 (recomendado)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-Setup-x64.exe) · [Portable, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.exe)         |
+| Linux   | [AppImage, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x86_64.AppImage)                                                                                                                  |
 
-En Windows también puedes instalarlo y actualizarlo desde una terminal:
-
-```powershell
-winget install CloudBlast.CloudTerm
-```
-
-También puedes consultar [todas las versiones en GitHub](https://github.com/BradPerbs/cloudterm/releases).
+También puedes consultar [todas las versiones en GitHub](https://github.com/DT27/NoxSSH/releases).
 
 ### Compilar desde el código fuente
 
 ```bash
-git clone https://github.com/BradPerbs/cloudterm.git
-cd cloudterm
+git clone https://github.com/DT27/NoxSSH.git
+cd NoxSSH/noxssh
 npm install
 npm run dev
 ```
 
 Para usar el agente de IA con OpenCode, instala la CLI `opencode` y configura
-al menos un proveedor de modelos con `opencode auth login`. CloudTerm utiliza
+al menos un proveedor de modelos con `opencode auth login`. NoxSSH utiliza
 los proveedores y credenciales existentes de OpenCode; no los copia ni almacena.
 
 Compila un ejecutable portable en `dist/`:
@@ -331,7 +314,7 @@ Las issues y los pull requests son bienvenidos aquí en GitHub.
 
 ## Colaboradores
 
-Gracias a todas las personas que han aportado su trabajo a CloudTerm.
+Gracias a todas las personas que han aportado su trabajo a CloudTerm, y a quienes lo siguen aquí.
 
 <a href="https://github.com/BradPerbs/cloudterm/graphs/contributors">
   <img alt="Colaboradores" src="https://contrib.rocks/image?repo=BradPerbs/cloudterm" />
@@ -352,9 +335,19 @@ estado y `lib/` para funciones puras.
 
 ## Licencia
 
-CloudTerm es [fair-code](https://faircode.io) bajo la
-[Licencia CloudTerm](LICENSE): el código está abierto y el software se puede
-usar, modificar y compartir libremente, en el trabajo o donde sea. Venderlo, o
-meter cualquier parte de su código en algo por lo que cobres, requiere una
-licencia comercial de [CloudBlast](https://cloudblast.io), que normalmente basta
-con pedir.
+**NoxSSH** es un fork de [CloudTerm](https://github.com/BradPerbs/cloudterm).
+
+Este proyecto se distribuye bajo la [Licencia CloudTerm](LICENSE) original (fair-code).
+
+- El código es abierto y se puede leer.
+- El software se puede usar, modificar y compartir (incluidos forks), de forma personal o en el trabajo.
+- Venderlo, incluir cualquier parte en un producto o servicio de pago, o distribuirlo comercialmente **requiere una licencia comercial aparte** de CloudBlast.
+
+Debes conservar la licencia y el aviso de copyright originales en cualquier copia o parte sustancial que distribuyas.
+
+Puedes decir con exactitud que este trabajo deriva de CloudTerm.
+No puedes llamar a este proyecto «CloudTerm» ni presentarlo como si viniera de CloudBlast.
+
+Texto completo: [LICENSE](LICENSE) | https://faircode.io
+
+Proyecto original: https://github.com/BradPerbs/cloudterm (CloudBlast)

@@ -7,7 +7,7 @@
  * suffixed variants is used as-is, which is right whenever the sentence does
  * not inflect.
  *
- * When adding a string: add it here first, then to the other four. A key
+ * When adding a string: add it here first, then to the other locales. A key
  * missing from a translation falls back to this file rather than showing the
  * raw key, so a partly translated locale is still a working app.
  */
