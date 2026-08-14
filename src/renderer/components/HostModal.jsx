@@ -232,7 +232,6 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
      * sections open themselves, so the two can never disagree.
      */
     const summaries = useMemo(() => {
-        const tagCount = formData.tags?.length || 0;
         const tunnelCount = formData.tunnels?.length || 0;
         const desktop = formData.desktop || {};
         const jump = hosts.find(candidate => candidate.id === formData.jumpHostId);
@@ -240,10 +239,6 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
         const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
 
         return {
-            naming: [
-                formData.name.trim(),
-                tagCount ? plural(tagCount, 'tag') : '',
-            ].filter(Boolean).join(', '),
             jump: jump ? (jump.name || jump.host || '') : '',
             proxy: via ? nameProxy(via) : '',
             initCommand: (formData.initCommand || '').split('\n')[0].trim(),
@@ -400,9 +395,43 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                 onSubmit={(event) => { event.preventDefault(); submit(close); }}
                 className="flex flex-col gap-5"
             >
-                {/* What kind of host this is. First, because every field below
-                    it depends on the answer: a serial console has no address, a
-                    telnet device has no key, and a desktop has no shell.
+                <div className="grid grid-cols-2 gap-4">
+                    <Field
+                        label={t('hosts.editor.displayName')}
+                        hint={t('hosts.editor.displayNameHint')}
+                    >
+                        <input
+                            type="text"
+                            value={formData.name}
+                            onChange={(e) => handleChange('name', e.target.value)}
+                            className={FIELD_CLASS}
+                            placeholder={t('hosts.editor.displayNamePlaceholder')}
+                        />
+                    </Field>
+
+                    <div className="flex flex-col gap-1.5 min-w-0">
+                        <label
+                            htmlFor="host-tags"
+                            className="text-xs font-semibold text-gray-700 dark:text-gray-300"
+                        >
+                            {t('hosts.editor.tags')}
+                        </label>
+                        <TagInput
+                            id="host-tags"
+                            value={formData.tags}
+                            suggestions={allTags}
+                            onChange={(tags) => handleChange('tags', tags)}
+                        />
+                        <span className="text-[11px] text-gray-500 dark:text-neutral-500">
+                            {t('hosts.editor.tagsHint')}
+                        </span>
+                    </div>
+                </div>
+
+                {/* What kind of host this is. First among the connection
+                    fields, because every field below it depends on the answer:
+                    a serial console has no address, a telnet device has no
+                    key, and a desktop has no shell.
 
                     All four live in one row even though only three of them are
                     session protocols, because "what kind of host is this" is one
@@ -722,51 +751,6 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                 {/* Tighter than the form's own spacing: these are bordered rows
                     and read as one list rather than as separate fields. */}
                 <div className="flex flex-col gap-2">
-                    {/* Always closed, unlike the rest. A name is fully said by
-                        the summary, so opening it on every edit would expand a
-                        section to show what the closed row already showed. */}
-                    <Disclosure title={t('hosts.editor.disclosure.nameAndTags')} summary={summaries.naming}>
-                        <Field
-                            label={t('hosts.editor.displayName')}
-                            hint={t('hosts.editor.displayNameHint', { address: (isSerial ? formData.serial?.path : formData.host) || t('hosts.editor.displayNamePlaceholder') })}
-                        >
-                            <input
-                                type="text"
-                                value={formData.name}
-                                onChange={(e) => handleChange('name', e.target.value)}
-                                className={FIELD_CLASS}
-                                placeholder={t('hosts.editor.displayNamePlaceholder')}
-                            />
-                        </Field>
-
-                        {/* Beside the name, because that is what a tag is:
-                            another way of naming this host, one it can share
-                            with others. Not a `Field`, which is a `<label>`, and
-                            a label wrapping a row of buttons is a label that
-                            forwards clicks it should not.
-
-                            The tags already in use are offered underneath, so a
-                            collection ends up with one "staging" rather than a
-                            "staging", a "stage" and a "stg". */}
-                        <div className="flex flex-col gap-1.5">
-                            <label
-                                htmlFor="host-tags"
-                                className="text-xs font-semibold text-gray-700 dark:text-gray-300"
-                            >
-                                {t('hosts.editor.tags')}
-                            </label>
-                            <TagInput
-                                id="host-tags"
-                                value={formData.tags}
-                                suggestions={allTags}
-                                onChange={(tags) => handleChange('tags', tags)}
-                            />
-                            <span className="text-[11px] text-gray-500 dark:text-neutral-500">
-                                {t('hosts.editor.tagsHint')}
-                            </span>
-                        </div>
-                    </Disclosure>
-
                     {/* How this host is reached rather than what it is. Another
                         saved host, by reference, not an address typed here: that
                         is what makes the hop dial with its own key, its own

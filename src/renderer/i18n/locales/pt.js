@@ -107,7 +107,7 @@ export default {
   "hosts.editor.disclosure.nameAndTags": "Nome e etiquetas",
   "hosts.editor.displayName": "Nome a mostrar",
   "hosts.editor.displayNameHint":
-    "Se ficar em branco, este anfitrião aparece como {address}.",
+    "Se ficar em branco, este anfitrião aparece como o nome / IP.",
   "hosts.editor.displayNamePlaceholder": "p. ex. Servidor de produção",
   "hosts.editor.tags": "Etiquetas",
   "hosts.editor.tagsHint":
@@ -1175,11 +1175,11 @@ export default {
   "settings.account.backupOff":
     "A cópia na nuvem está desligada. O que já está guardado fica até " +
     "que o substitua.",
-  "settings.account.backedUp": "Guardado na sua conta CloudBlast",
-  "settings.account.saveNow": "Guardar agora",
-  "settings.account.saving": "A guardar…",
-  "settings.account.savedAgo": "Guardado {when}",
-  "settings.account.notSavedYet": "Ainda não guardado",
+  "settings.account.backedUp": "Enviado para o WebDAV",
+  "settings.account.saveNow": "Enviar agora",
+  "settings.account.saving": "A enviar…",
+  "settings.account.savedAgo": "Enviado {when}",
+  "settings.account.notSavedYet": "Ainda não enviado",
   "settings.account.justNow": "agora mesmo",
   "settings.account.minutesAgo": "há {count} min",
   "settings.account.hoursAgo": "há {count} h",
@@ -1189,14 +1189,14 @@ export default {
   "settings.account.title": "Sincronização WebDAV",
   "settings.account.webdavUrl": "URL WebDAV",
   "settings.account.webdavUrlHint":
-    "Basta o endereço do servidor. O caminho noxssh/snapshot.json é acrescentado automaticamente.",
+    "Basta o endereço do servidor, p. ex. https://dav.jianguoyun.com/dav/. A pasta NoxSSH/ é acrescentada automaticamente.",
   "settings.account.username": "Nome de utilizador",
   "settings.account.webdavPassword": "Palavra-passe WebDAV",
   "settings.account.webdavPasswordHint":
     "Palavra-passe HTTP Basic do servidor WebDAV (guardada em segurança).",
   "settings.account.syncPassphrase": "Frase-passe de sincronização",
   "settings.account.syncPassphraseHint":
-    "Encripta o instantâneo antes de o enviar. Precisa dela noutro dispositivo para restaurar.",
+    "Encripta os dados de sincronização antes de os enviar. Precisa dela noutro dispositivo para restaurar.",
   "settings.account.saveUrlUser": "Guardar URL e nome",
   "settings.account.saveSecrets": "Guardar palavras-passe",
   "settings.account.test": "Testar ligação",
@@ -1204,20 +1204,24 @@ export default {
   "settings.account.testOk": "Ligação bem-sucedida",
   "settings.account.enableSync": "Ativar sincronização WebDAV",
   "settings.account.enableSyncDesc":
-    "Enviar e receber automaticamente anfitriões, chaves e definições encriptados.",
+    "Quando está ligado, as alterações locais são enviadas ao fim de cerca de 8 segundos. O servidor é verificado a cada 5 minutos e de novo ao desbloquear ou acordar o computador. Se a cópia no servidor estiver à frente, é fundida antes do envio.",
+  "settings.account.saveNowHint":
+    "Enviar já os dados atuais deste computador, sem esperar pelo envio automático.",
+  "settings.account.restoreNowHint":
+    "Descarregar já a cópia do servidor e substituir os dados neste computador, sem esperar pela próxima verificação.",
   "settings.account.configSaved": "Definições guardadas",
   "settings.account.secretsSaved": "Credenciais atualizadas",
-  "settings.account.restoreNow": "Restaurar agora",
-  "settings.account.restoring": "A restaurar…",
-  "settings.account.restored": "Restaurado a partir do WebDAV",
-  "settings.account.notRestoredYet": "Ainda não restaurado",
-  "settings.account.restoredAgo": "Restaurado {when}",
+  "settings.account.restoreNow": "Descarregar agora",
+  "settings.account.restoring": "A descarregar…",
+  "settings.account.restored": "Descarregado do WebDAV",
+  "settings.account.notRestoredYet": "Ainda não descarregado",
+  "settings.account.restoredAgo": "Descarregado {when}",
   "settings.account.webdavPrivacyNote":
     "Os dados são encriptados neste dispositivo com a frase-passe de sincronização antes de saírem. A palavra-passe WebDAV serve só para autenticação.",
   "settings.account.backupSection": "Cópias históricas",
   "settings.account.backupEnabled": "Ativar cópias históricas",
   "settings.account.backupEnabledDesc":
-    "Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados do instantâneo em direto.",
+    "Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados dos dados de sincronização atuais.",
   "settings.account.backupFrequency": "Frequência das cópias",
   "settings.account.backupFrequencyManual": "Só manual",
   "settings.account.backupFrequencyHourly": "De hora a hora",
@@ -1237,7 +1241,7 @@ export default {
   "settings.account.backupDeleted": "Cópia eliminada",
   "settings.account.resetLocalTitle": "Repor este dispositivo",
   "settings.account.resetLocalDesc":
-    "Remove anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e a configuração WebDAV neste computador. Os instantâneos e as cópias históricas já no servidor ficam intactos.",
+    "Remove anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e a configuração WebDAV neste computador. Os dados de sincronização e as cópias históricas já no servidor ficam intactos.",
   "settings.account.resetLocal": "Limpar dados locais",
   "settings.account.resettingLocal": "A limpar…",
   "settings.account.resetLocalConfirmTitle": "Limpar os dados locais?",
@@ -1378,6 +1382,7 @@ export default {
   "hosts.noPort": "Sem porta",
   "hosts.connected": "Ligado",
   "hosts.viaProxy": "via proxy",
+  "hosts.lastConnected": "{when}",
   "hosts.tunnelCount_one": "{count} túnel",
   "hosts.tunnelCount_other": "{count} túneis",
   "hosts.itemCount_one": "{count} item",

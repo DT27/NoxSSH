@@ -103,7 +103,7 @@ export default {
   "hosts.editor.disclosure.nameAndTags": "Tên và thẻ",
   "hosts.editor.displayName": "Tên hiển thị",
   "hosts.editor.displayNameHint":
-    "Để trống thì máy chủ này được liệt kê là {address}.",
+    "Để trống thì máy chủ này được liệt kê là tên máy chủ / IP.",
   "hosts.editor.displayNamePlaceholder": "vd. Máy chủ sản xuất",
   "hosts.editor.tags": "Thẻ",
   "hosts.editor.tagsHint":
@@ -1144,11 +1144,11 @@ export default {
   "settings.account.backupOff":
     "Sao lưu đám mây đang tắt. Những gì đã lưu vẫn còn cho tới khi " +
     "bạn thay thế nó.",
-  "settings.account.backedUp": "Đã sao lưu vào tài khoản CloudBlast của bạn",
-  "settings.account.saveNow": "Lưu ngay",
-  "settings.account.saving": "Đang lưu…",
-  "settings.account.savedAgo": "Đã lưu {when}",
-  "settings.account.notSavedYet": "Chưa lưu",
+  "settings.account.backedUp": "Đã tải lên WebDAV",
+  "settings.account.saveNow": "Tải lên ngay",
+  "settings.account.saving": "Đang tải lên…",
+  "settings.account.savedAgo": "Đã tải lên {when}",
+  "settings.account.notSavedYet": "Chưa tải lên",
   "settings.account.justNow": "vừa xong",
   "settings.account.minutesAgo": "{count} phút trước",
   "settings.account.hoursAgo": "{count} giờ trước",
@@ -1157,7 +1157,7 @@ export default {
   "settings.account.title": "Đồng bộ WebDAV",
   "settings.account.webdavUrl": "Địa chỉ WebDAV",
   "settings.account.webdavUrlHint":
-    "Chỉ cần địa chỉ máy chủ. Đường dẫn noxssh/snapshot.json sẽ được thêm tự động.",
+    "Chỉ cần địa chỉ máy chủ, vd. https://dav.jianguoyun.com/dav/. Thư mục NoxSSH/ sẽ được thêm tự động.",
   "settings.account.username": "Tên người dùng",
   "settings.account.webdavPassword": "Mật khẩu WebDAV",
   "settings.account.webdavPasswordHint":
@@ -1172,20 +1172,24 @@ export default {
   "settings.account.testOk": "Kết nối thành công",
   "settings.account.enableSync": "Bật đồng bộ WebDAV",
   "settings.account.enableSyncDesc":
-    "Tự động đẩy và kéo máy chủ, khoá và cài đặt đã mã hoá.",
+    "Khi bật, thay đổi trên máy này được tải lên sau khoảng 8 giây. Máy chủ được kiểm tra mỗi 5 phút, và khi bạn mở khoá hoặc đánh thức máy. Nếu bản trên máy chủ mới hơn, sẽ được gộp vào trước khi tải lên.",
+  "settings.account.saveNowHint":
+    "Tải lên ngay dữ liệu hiện tại của máy này, không cần chờ lần tự động.",
+  "settings.account.restoreNowHint":
+    "Tải xuống ngay bản trên máy chủ và thay dữ liệu trên máy này, không cần chờ lần kiểm tra tiếp theo.",
   "settings.account.configSaved": "Đã lưu cài đặt",
   "settings.account.secretsSaved": "Đã cập nhật thông tin đăng nhập",
-  "settings.account.restoreNow": "Khôi phục ngay",
-  "settings.account.restoring": "Đang khôi phục…",
-  "settings.account.restored": "Đã khôi phục từ WebDAV",
-  "settings.account.notRestoredYet": "Chưa khôi phục",
-  "settings.account.restoredAgo": "Đã khôi phục {when}",
+  "settings.account.restoreNow": "Tải xuống ngay",
+  "settings.account.restoring": "Đang tải xuống…",
+  "settings.account.restored": "Đã tải xuống từ WebDAV",
+  "settings.account.notRestoredYet": "Chưa tải xuống",
+  "settings.account.restoredAgo": "Đã tải xuống {when}",
   "settings.account.webdavPrivacyNote":
     "Dữ liệu được mã hoá trên thiết bị này bằng cụm mật khẩu đồng bộ trước khi rời máy. Mật khẩu WebDAV chỉ dùng để xác thực.",
   "settings.account.backupSection": "Bản sao lịch sử",
   "settings.account.backupEnabled": "Bật sao lưu lịch sử",
   "settings.account.backupEnabledDesc":
-    "Theo lịch tạo các tệp mã hoá có dấu thời gian trên máy chủ, tách khỏi bản sao trực tiếp.",
+    "Theo lịch tạo các tệp mã hoá có dấu thời gian trên máy chủ, tách khỏi dữ liệu đồng bộ hiện tại.",
   "settings.account.backupFrequency": "Tần suất sao lưu",
   "settings.account.backupFrequencyManual": "Chỉ thủ công",
   "settings.account.backupFrequencyHourly": "Mỗi giờ",
@@ -1205,7 +1209,7 @@ export default {
   "settings.account.backupDeleted": "Đã xoá bản sao",
   "settings.account.resetLocalTitle": "Đặt lại thiết bị này",
   "settings.account.resetLocalDesc":
-    "Xoá máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý và cấu hình đồng bộ WebDAV trên máy này. Ảnh chụp và bản sao lịch sử đã có trên máy chủ được giữ nguyên.",
+    "Xoá máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý và cấu hình đồng bộ WebDAV trên máy này. Dữ liệu đồng bộ và bản sao lịch sử đã có trên máy chủ được giữ nguyên.",
   "settings.account.resetLocal": "Xoá dữ liệu cục bộ",
   "settings.account.resettingLocal": "Đang xoá…",
   "settings.account.resetLocalConfirmTitle": "Xoá dữ liệu cục bộ?",
@@ -1342,6 +1346,7 @@ export default {
   "hosts.noPort": "Không có cổng",
   "hosts.connected": "Đã kết nối",
   "hosts.viaProxy": "qua proxy",
+  "hosts.lastConnected": "{when}",
   "hosts.tunnelCount_other": "{count} đường hầm",
   "hosts.itemCount_other": "{count} mục",
   "hosts.selectedCount": "Đã chọn {count}",

@@ -111,7 +111,7 @@ export default {
   "hosts.editor.disclosure.nameAndTags": "Имя и метки",
   "hosts.editor.displayName": "Отображаемое имя",
   "hosts.editor.displayNameHint":
-    "Если пусто, хост показывается как {address}.",
+    "Если пусто, хост показывается как имя хоста / IP.",
   "hosts.editor.displayNamePlaceholder": "например, Production Server",
   "hosts.editor.tags": "Метки",
   "hosts.editor.tagsHint":
@@ -1207,11 +1207,11 @@ export default {
   "settings.account.backupOff":
     "Резервное копирование в облако выключено. То, что уже сохранено, " +
     "останется, пока вы это не замените.",
-  "settings.account.backedUp": "Сохранено в вашей учётной записи CloudBlast",
-  "settings.account.saveNow": "Сохранить сейчас",
-  "settings.account.saving": "Сохранение…",
-  "settings.account.savedAgo": "Сохранено {when}",
-  "settings.account.notSavedYet": "Ещё не сохранено",
+  "settings.account.backedUp": "Загружено в WebDAV",
+  "settings.account.saveNow": "Загрузить сейчас",
+  "settings.account.saving": "Загрузка…",
+  "settings.account.savedAgo": "Загружено {when}",
+  "settings.account.notSavedYet": "Ещё не загружено",
   "settings.account.justNow": "только что",
   "settings.account.minutesAgo": "{count} мин назад",
   "settings.account.hoursAgo": "{count} ч назад",
@@ -1223,14 +1223,14 @@ export default {
   "settings.account.title": "Синхронизация WebDAV",
   "settings.account.webdavUrl": "Адрес WebDAV",
   "settings.account.webdavUrlHint":
-    "Достаточно адреса сервера. Путь noxssh/snapshot.json добавляется автоматически.",
+    "Достаточно адреса сервера, например https://dav.jianguoyun.com/dav/. Каталог NoxSSH/ добавляется автоматически.",
   "settings.account.username": "Имя пользователя",
   "settings.account.webdavPassword": "Пароль WebDAV",
   "settings.account.webdavPasswordHint":
     "Пароль HTTP Basic для вашего WebDAV-сервера (хранится безопасно).",
   "settings.account.syncPassphrase": "Фраза синхронизации",
   "settings.account.syncPassphraseHint":
-    "Шифрует снимок перед загрузкой. Она понадобится на других устройствах для восстановления.",
+    "Шифрует данные синхронизации перед загрузкой. Она понадобится на других устройствах для восстановления.",
   "settings.account.saveUrlUser": "Сохранить адрес и имя",
   "settings.account.saveSecrets": "Сохранить пароли",
   "settings.account.test": "Проверить соединение",
@@ -1238,20 +1238,24 @@ export default {
   "settings.account.testOk": "Соединение успешно",
   "settings.account.enableSync": "Включить синхронизацию WebDAV",
   "settings.account.enableSyncDesc":
-    "Автоматически отправлять и получать зашифрованные хосты, ключи и настройки.",
+    "При включении локальные изменения загружаются примерно через 8 секунд. Сервер проверяется каждые 5 минут, а также при разблокировке или пробуждении. Если на сервере более новая копия, она сначала объединяется, затем отправляется.",
+  "settings.account.saveNowHint":
+    "Сразу загрузить текущие данные этого компьютера, не дожидаясь автоматической отправки.",
+  "settings.account.restoreNowHint":
+    "Сразу скачать копию с сервера и заменить данные на этом компьютере, не дожидаясь следующей проверки.",
   "settings.account.configSaved": "Настройки сохранены",
   "settings.account.secretsSaved": "Учётные данные обновлены",
-  "settings.account.restoreNow": "Восстановить сейчас",
-  "settings.account.restoring": "Восстановление…",
-  "settings.account.restored": "Восстановлено из WebDAV",
-  "settings.account.notRestoredYet": "Ещё не восстанавливалось",
-  "settings.account.restoredAgo": "Восстановлено {when}",
+  "settings.account.restoreNow": "Скачать сейчас",
+  "settings.account.restoring": "Скачивание…",
+  "settings.account.restored": "Скачано из WebDAV",
+  "settings.account.notRestoredYet": "Ещё не скачивалось",
+  "settings.account.restoredAgo": "Скачано {when}",
   "settings.account.webdavPrivacyNote":
     "Данные шифруются на этом устройстве фразой синхронизации до отправки. Пароль WebDAV нужен только для входа.",
   "settings.account.backupSection": "Исторические копии",
   "settings.account.backupEnabled": "Включить исторические копии",
   "settings.account.backupEnabledDesc":
-    "По расписанию создавать на сервере отдельные зашифрованные файлы с меткой времени, отдельно от живого снимка.",
+    "По расписанию создавать на сервере отдельные зашифрованные файлы с меткой времени, отдельно от текущих данных синхронизации.",
   "settings.account.backupFrequency": "Частота копий",
   "settings.account.backupFrequencyManual": "Только вручную",
   "settings.account.backupFrequencyHourly": "Каждый час",
@@ -1271,7 +1275,7 @@ export default {
   "settings.account.backupDeleted": "Копия удалена",
   "settings.account.resetLocalTitle": "Сбросить это устройство",
   "settings.account.resetLocalDesc":
-    "Удаляет хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента и локальную конфигурацию WebDAV. Снимки и исторические копии уже на сервере не затрагиваются.",
+    "Удаляет хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента и локальную конфигурацию WebDAV. Данные синхронизации и исторические копии уже на сервере не затрагиваются.",
   "settings.account.resetLocal": "Очистить локальные данные",
   "settings.account.resettingLocal": "Очистка…",
   "settings.account.resetLocalConfirmTitle": "Очистить локальные данные?",
@@ -1428,6 +1432,7 @@ export default {
   "hosts.noPort": "Нет порта",
   "hosts.connected": "Подключено",
   "hosts.viaProxy": "через прокси",
+  "hosts.lastConnected": "{when}",
   "hosts.tunnelCount_one": "{count} туннель",
   "hosts.tunnelCount_few": "{count} туннеля",
   "hosts.tunnelCount_many": "{count} туннелей",
