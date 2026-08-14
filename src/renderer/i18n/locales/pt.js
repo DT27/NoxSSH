@@ -786,21 +786,21 @@ export default {
   "settings.assistant.agent": "Agente",
   "settings.assistant.agentDesc":
     "Que agente de programação responde: um instalado nesta " +
-    "máquina, um relay, ou um modelo que você mesmo está a servir. Mudar de agente começa uma " +
+    "máquina, um API Gateway, ou um modelo que você mesmo está a servir. Mudar de agente começa uma " +
     "conversa nova.",
   "settings.assistant.provider.claudeCode":
     "O agente da Anthropic, na sua conta.",
   "settings.assistant.provider.codex": "O agente da OpenAI, na sua conta.",
   "settings.assistant.provider.opencode":
     "Código aberto, nos fornecedores que definir.",
-  "settings.assistant.provider.relayName": "Relay",
+  "settings.assistant.provider.relayName": "API Gateway",
   "settings.assistant.provider.relay":
-    "Usa um relay compatível com OpenAI. Não é preciso instalar Claude Code, Codex ou OpenCode.",
+    "Usa um API Gateway compatível com OpenAI. Não é preciso instalar Claude Code, Codex ou OpenCode.",
   "settings.assistant.provider.grok": "O agente da xAI, na sua conta.",
   "settings.assistant.provider.local": "O seu modelo: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable":
     "Ainda não disponível nesta versão.",
-  "settings.assistant.relayBaseUrl": "URL do relay",
+  "settings.assistant.relayBaseUrl": "URL do API Gateway",
   "settings.assistant.relayModel": "Modelo predefinido",
   "settings.assistant.relayModelManual": "Escrever o nome do modelo…",
   "settings.assistant.relayNote":
@@ -809,11 +809,11 @@ export default {
   "settings.assistant.relayModelsFetching": "A obter…",
   "settings.assistant.relayModelsLoaded": "Carregados {count} modelos",
   "settings.assistant.relayModelsEmpty":
-    "O relay não devolveu modelos. Pode escrever o nome manualmente.",
+    "O API Gateway não devolveu modelos. Pode escrever o nome manualmente.",
   "settings.assistant.relayModelsFailed":
     "Não foi possível obter os modelos. Verifique o URL e a chave.",
   "settings.assistant.accountRelay":
-    "Fala com o modelo através de um relay. Indique o URL e a chave de API. Não é preciso um agente local.",
+    "Fala com o modelo através de um API Gateway. Indique o URL e a chave de API. Não é preciso um agente local.",
   "settings.assistant.endpoint": "Endereço do servidor",
   "settings.assistant.endpointDesc":
     "Onde o servidor de modelos local está à escuta. Serve " +

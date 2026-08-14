@@ -799,7 +799,7 @@ export default {
   "settings.assistant.loading": "Загрузка настроек ассистента…",
   "settings.assistant.agent": "Агент",
   "settings.assistant.agentDesc":
-    "Какой агент отвечает: установленный на этой машине, релей " +
+    "Какой агент отвечает: установленный на этой машине, API Gateway " +
     "или модель, которую вы запустили сами. Смена агента начинает новый разговор.",
   "settings.assistant.provider.claudeCode":
     "Агент Anthropic, под вашей учётной записью.",
@@ -807,13 +807,13 @@ export default {
     "Агент OpenAI, под вашей учётной записью.",
   "settings.assistant.provider.opencode":
     "Открытый код, с вашими провайдерами.",
-  "settings.assistant.provider.relayName": "Релей",
+  "settings.assistant.provider.relayName": "API Gateway",
   "settings.assistant.provider.relay":
-    "OpenAI-совместимый релей. Claude Code, Codex и OpenCode устанавливать не нужно.",
+    "OpenAI-совместимый API Gateway. Claude Code, Codex и OpenCode устанавливать не нужно.",
   "settings.assistant.provider.grok": "Агент xAI, под вашей учётной записью.",
   "settings.assistant.provider.local": "Ваша модель: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "В этой сборке пока недоступно.",
-  "settings.assistant.relayBaseUrl": "Адрес релея",
+  "settings.assistant.relayBaseUrl": "Адрес API Gateway",
   "settings.assistant.relayModel": "Модель по умолчанию",
   "settings.assistant.relayModelManual": "Ввести имя модели…",
   "settings.assistant.relayNote":
@@ -822,11 +822,11 @@ export default {
   "settings.assistant.relayModelsFetching": "Загрузка…",
   "settings.assistant.relayModelsLoaded": "Загружено моделей: {count}",
   "settings.assistant.relayModelsEmpty":
-    "Релей не вернул список моделей. Можно ввести имя вручную.",
+    "API Gateway не вернул список моделей. Можно ввести имя вручную.",
   "settings.assistant.relayModelsFailed":
     "Не удалось загрузить модели. Проверьте адрес и ключ.",
   "settings.assistant.accountRelay":
-    "Модель вызывается через релей. Укажите адрес и API-ключ. Локальный агент не нужен.",
+    "Модель вызывается через API Gateway. Укажите адрес и API-ключ. Локальный агент не нужен.",
   "settings.assistant.endpoint": "Адрес сервера",
   "settings.assistant.endpointDesc":
     "Где слушает локальный сервер моделей. Подойдёт любой " +

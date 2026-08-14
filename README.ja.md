@@ -39,7 +39,7 @@ RDP/VNC、アシスタントはそのままに、データの同期方法を主�
 
 - **CloudBlast アカウントではなく、自分の WebDAV。** ホスト、フォルダー、鍵、スニペット、プロキシ、既知のホスト、アシスタント設定、ターミナル設定は、この端末で暗号化してから指定した WebDAV にアップロードします。標準の WebDAV ならどれでも使えます。
 - **バージョン付き履歴バックアップ**を WebDAV に保存。スケジュールまたは手動。あるバージョンを復元・削除しても、現在の同期データには影響しません。
-- **中継 API。** AI アシスタントは OpenAI 互換の中継を使え、このマシンに Claude、Codex、OpenCode CLI を入れる必要はありません。
+- **API Gateway。** AI アシスタントは OpenAI 互換の API Gateway を使え、このマシンに Claude、Codex、OpenCode CLI を入れる必要はありません。
 - **NextSSH バックアップのインポート。** PuTTY、KiTTY、MobaXterm、OpenSSH と同じ並びです。
 - **テレメトリなし。** 起動時に `console.cloudblast.io` へアクセスしません。更新確認は GitHub の [このリポジトリ](https://github.com/DT27/NoxSSH/releases) を見ます。
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">

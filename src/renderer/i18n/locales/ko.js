@@ -704,18 +704,18 @@ export default {
   "settings.assistant.loading": "도우미 설정을 불러오는 중…",
   "settings.assistant.agent": "에이전트",
   "settings.assistant.agentDesc":
-    "어떤 코딩 에이전트가 답할지: 이 컴퓨터에 설치된 것, 중계, 또는 직접 돌리는 모델. 바꾸면 새 대화가 시작됩니다.",
+    "어떤 코딩 에이전트가 답할지: 이 컴퓨터에 설치된 것, API Gateway, 또는 직접 돌리는 모델. 바꾸면 새 대화가 시작됩니다.",
   "settings.assistant.provider.claudeCode": "Anthropic, 내 계정 사용.",
   "settings.assistant.provider.codex": "OpenAI, 내 계정 사용.",
   "settings.assistant.provider.opencode": "오픈 소스, 설정한 제공자 사용.",
-  "settings.assistant.provider.relayName": "중계",
+  "settings.assistant.provider.relayName": "API Gateway",
   "settings.assistant.provider.relay":
-    "OpenAI 호환 중계를 사용합니다. Claude Code / Codex / OpenCode를 설치할 필요가 없습니다.",
+    "OpenAI 호환 API Gateway를 사용합니다. Claude Code / Codex / OpenCode를 설치할 필요가 없습니다.",
   "settings.assistant.provider.grok": "xAI, 내 계정 사용.",
   "settings.assistant.provider.local":
     "내 모델: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "이 빌드에서는 아직 제공되지 않습니다.",
-  "settings.assistant.relayBaseUrl": "중계 주소",
+  "settings.assistant.relayBaseUrl": "API Gateway 주소",
   "settings.assistant.relayModel": "기본 모델",
   "settings.assistant.relayModelManual": "직접 입력…",
   "settings.assistant.relayNote":
@@ -724,10 +724,10 @@ export default {
   "settings.assistant.relayModelsFetching": "가져오는 중…",
   "settings.assistant.relayModelsLoaded": "모델 {count}개를 가져왔습니다",
   "settings.assistant.relayModelsEmpty":
-    "중계가 모델 목록을 반환하지 않았습니다. 모델 이름을 직접 입력할 수 있습니다.",
+    "API Gateway가 모델 목록을 반환하지 않았습니다. 모델 이름을 직접 입력할 수 있습니다.",
   "settings.assistant.relayModelsFailed": "모델을 가져오지 못했습니다. 주소와 키를 확인하세요.",
   "settings.assistant.accountRelay":
-    "중계를 통해 모델을 호출합니다. 주소와 API 키를 넣으면 되며, 로컬 에이전트는 필요 없습니다.",
+    "API Gateway를 통해 모델을 호출합니다. 주소와 API 키를 넣으면 되며, 로컬 에이전트는 필요 없습니다.",
   "settings.assistant.endpoint": "서버 주소",
   "settings.assistant.endpointDesc":
     "로컬 모델 서버가 수신하는 주소입니다. OpenAI API를 말하는 서버면 됩니다.",

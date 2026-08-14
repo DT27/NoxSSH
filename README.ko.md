@@ -39,7 +39,7 @@ RDP/VNC, 도우미는 그대로 두고, 주로 데이터 동기화 방식을 바
 
 - **CloudBlast 계정이 아니라 내 WebDAV.** 호스트, 폴더, 키, 스니펫, 프록시, 알려진 호스트, 도우미 설정, 터미널 설정은 이 기기에서 암호화한 뒤 지정한 WebDAV로 올립니다. 표준 WebDAV면 됩니다.
 - **버전 있는 기록 백업**을 WebDAV에 저장합니다. 일정 또는 수동. 한 버전을 복원하거나 삭제해도 현재 동기화 데이터는 건드리지 않습니다.
-- **중계 API.** AI 도우미는 OpenAI 호환 중계를 쓸 수 있어, 이 컴퓨터에 Claude, Codex, OpenCode CLI를 설치할 필요가 없습니다.
+- **API Gateway.** AI 도우미는 OpenAI 호환 API Gateway를 쓸 수 있어, 이 컴퓨터에 Claude, Codex, OpenCode CLI를 설치할 필요가 없습니다.
 - **NextSSH 백업 가져오기.** PuTTY, KiTTY, MobaXterm, OpenSSH와 나란히.
 - **텔레메트리 없음.** 시작할 때 `console.cloudblast.io`에 접속하지 않습니다. 업데이트 확인은 GitHub의 [이 저장소](https://github.com/DT27/NoxSSH/releases)를 봅니다.
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">

@@ -704,18 +704,18 @@ export default {
   "settings.assistant.loading": "アシスタント設定を読み込んでいます…",
   "settings.assistant.agent": "エージェント",
   "settings.assistant.agentDesc":
-    "どのコーディングエージェントが答えるかです。このマシンに入っているもの、中継、または自分で動かしているモデルです。切り替えると新しい会話が始まります。",
+    "どのコーディングエージェントが答えるかです。このマシンに入っているもの、API Gateway、または自分で動かしているモデルです。切り替えると新しい会話が始まります。",
   "settings.assistant.provider.claudeCode": "Anthropic 製。自分のアカウントを使います。",
   "settings.assistant.provider.codex": "OpenAI 製。自分のアカウントを使います。",
   "settings.assistant.provider.opencode": "オープンソース。設定したプロバイダーを使います。",
-  "settings.assistant.provider.relayName": "中継",
+  "settings.assistant.provider.relayName": "API Gateway",
   "settings.assistant.provider.relay":
-    "OpenAI 互換の中継を使います。Claude Code / Codex / OpenCode のインストールは不要です。",
+    "OpenAI 互換の API Gateway を使います。Claude Code / Codex / OpenCode のインストールは不要です。",
   "settings.assistant.provider.grok": "xAI 製。自分のアカウントを使います。",
   "settings.assistant.provider.local":
     "自分のモデル：LM Studio、Ollama、vLLM。",
   "settings.assistant.provider.unavailable": "このバージョンではまだ使えません。",
-  "settings.assistant.relayBaseUrl": "中継のアドレス",
+  "settings.assistant.relayBaseUrl": "API Gateway のアドレス",
   "settings.assistant.relayModel": "既定のモデル",
   "settings.assistant.relayModelManual": "手入力…",
   "settings.assistant.relayNote":
@@ -724,10 +724,10 @@ export default {
   "settings.assistant.relayModelsFetching": "取得中…",
   "settings.assistant.relayModelsLoaded": "{count} 個のモデルを取得しました",
   "settings.assistant.relayModelsEmpty":
-    "中継はモデル一覧を返しませんでした。モデル名を手入力できます。",
+    "API Gateway はモデル一覧を返しませんでした。モデル名を手入力できます。",
   "settings.assistant.relayModelsFailed": "モデルの取得に失敗しました。アドレスと鍵を確認してください。",
   "settings.assistant.accountRelay":
-    "中継経由でモデルを呼び出します。アドレスと API キーを入れれば使えます。ローカルエージェントのインストールは不要です。",
+    "API Gateway 経由でモデルを呼び出します。アドレスと API キーを入れれば使えます。ローカルエージェントのインストールは不要です。",
   "settings.assistant.endpoint": "サーバーアドレス",
   "settings.assistant.endpointDesc":
     "ローカルモデルサーバーが待ち受けているアドレスです。OpenAI API を話すサーバーならどれでも構いません。",

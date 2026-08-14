@@ -40,12 +40,12 @@ synced.
 
 - **Your own WebDAV, not a CloudBlast account.** Hosts, folders, keys, snippets, proxies, known hosts, assistant settings and terminal settings are encrypted on this device, then uploaded to a WebDAV you choose. Any standard WebDAV works.
 - **Versioned backups** stored on that WebDAV, on a schedule or by hand. Restore or delete one version without touching the live sync copy.
-- **Relay API.** The assistant can use an OpenAI-compatible relay and does not need a local Claude, Codex or OpenCode CLI.
+- **API Gateway.** The assistant can use an OpenAI-compatible API Gateway and does not need a local Claude, Codex or OpenCode CLI.
 - **Import NextSSH backups**, next to PuTTY, KiTTY, MobaXterm and OpenSSH.
 - **No telemetry.** The app does not contact `console.cloudblast.io` on launch. Updates are checked against [this repository](https://github.com/DT27/NoxSSH/releases) on GitHub.
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH WebDAV sync" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH WebDAV backups" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="NoxSSH AI relay" width="100%">
+  <img src="NoxSSH_AI_APIRelay.png" alt="NoxSSH AI API Gateway" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -99,7 +99,7 @@ synced.
 Pick the agent you already have. NoxSSH drives the CLI on your machine under
 your own account, so there is nothing to paste and nothing extra to subscribe
 to. Or point it at a model running on your own computer, and nothing leaves the
-machine at all. A relay URL works too, if you would rather not install a CLI.
+machine at all. An API Gateway URL works too, if you would rather not install a CLI.
 
 <table align="center">
   <tr>

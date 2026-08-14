@@ -810,21 +810,21 @@ export default {
   "settings.assistant.loading": "Loading the agent settings...",
   "settings.assistant.agent": "Agent",
   "settings.assistant.agentDesc":
-    "Which coding agent answers: one installed on this machine, a " +
-    "relay, or a model you are serving yourself. Switching starts a fresh conversation.",
+    "Which coding agent answers: one installed on this machine, an " +
+    "API Gateway, or a model you are serving yourself. Switching starts a fresh conversation.",
   "settings.assistant.provider.claudeCode":
     "Anthropic’s agent, on your own account.",
   "settings.assistant.provider.codex": "OpenAI’s agent, on your own account.",
   "settings.assistant.provider.opencode":
     "Open source, on the providers you set up.",
-  "settings.assistant.provider.relayName": "Relay",
+  "settings.assistant.provider.relayName": "API Gateway",
   "settings.assistant.provider.relay":
-    "Uses an OpenAI-compatible relay. No local Claude Code, Codex or OpenCode install required.",
+    "Uses an OpenAI-compatible API Gateway. No local Claude Code, Codex or OpenCode install required.",
   "settings.assistant.provider.grok": "xAI’s agent, on your own account.",
   "settings.assistant.provider.local":
     "Your own model: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "Not available in this build yet.",
-  "settings.assistant.relayBaseUrl": "Relay base URL",
+  "settings.assistant.relayBaseUrl": "API Gateway base URL",
   "settings.assistant.relayModel": "Default model",
   "settings.assistant.relayModelManual": "Type a model name…",
   "settings.assistant.relayNote":
@@ -833,11 +833,11 @@ export default {
   "settings.assistant.relayModelsFetching": "Fetching…",
   "settings.assistant.relayModelsLoaded": "Loaded {count} models",
   "settings.assistant.relayModelsEmpty":
-    "The relay returned no models. You can type a model name instead.",
+    "The API Gateway returned no models. You can type a model name instead.",
   "settings.assistant.relayModelsFailed":
     "Could not fetch models. Check the URL and API key.",
   "settings.assistant.accountRelay":
-    "Talks to the model through a relay. Enter a base URL and API key. No local agent is required.",
+    "Talks to the model through an API Gateway. Enter a base URL and API key. No local agent is required.",
   "settings.assistant.endpoint": "Server address",
   "settings.assistant.endpointDesc":
     "Where the local model server is listening. Any server that " +

@@ -40,7 +40,7 @@ sincronizan los datos.
 
 - **Tu propio WebDAV, no una cuenta de CloudBlast.** Hosts, carpetas, claves, fragmentos, proxies, hosts conocidos, ajustes del asistente y del terminal se cifran en este dispositivo y se suben al WebDAV que elijas. Cualquier WebDAV estándar vale.
 - **Copias de seguridad con versiones** en ese WebDAV, por calendario o a mano. Restaura o borra una versión sin tocar la copia de sincronización actual.
-- **API de reenvío.** El asistente puede usar un reenvío compatible con OpenAI y no necesita un CLI local de Claude, Codex u OpenCode.
+- **API Gateway.** El asistente puede usar un API Gateway compatible con OpenAI y no necesita un CLI local de Claude, Codex u OpenCode.
 - **Importar copias de NextSSH**, junto a PuTTY, KiTTY, MobaXterm y OpenSSH.
 - **Sin telemetría.** La aplicación no contacta con `console.cloudblast.io` al arrancar. Las actualizaciones se comprueban en [este repositorio](https://github.com/DT27/NoxSSH/releases) de GitHub.
   <img src="NoxSSH_WebDAV.png" alt="Sincronización WebDAV de NoxSSH" width="100%">
