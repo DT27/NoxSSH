@@ -1,6 +1,6 @@
 {
   "name": "noxssh",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "NoxSSH - Modern SSH Client built with Electron, React and xterm.js",
   "main": "src/main/main.js",
   "scripts": {
