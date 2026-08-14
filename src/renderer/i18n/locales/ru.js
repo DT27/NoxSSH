@@ -621,8 +621,8 @@ export default {
   "settings.nav.monitoring": "Мониторинг",
   "settings.nav.logging": "Журналирование",
   "settings.nav.security": "Безопасность",
-  "settings.nav.account": "Учётная запись",
-  "settings.nav.backup": "Резервные копии",
+  "settings.nav.account": "Синхронизация WebDAV",
+  "settings.nav.backup": "Копии / импорт",
   "settings.nav.about": "О программе",
 
   /* ---- Settings: General ---- */
@@ -1216,7 +1216,11 @@ export default {
   "settings.account.minutesAgo": "{count} мин назад",
   "settings.account.hoursAgo": "{count} ч назад",
   "settings.account.daysAgo": "{count} дн назад",
-  "settings.account.title": "Синхронизация",
+  "settings.account.proxyCount_one": "{count} прокси",
+  "settings.account.proxyCount_few": "{count} прокси",
+  "settings.account.proxyCount_many": "{count} прокси",
+  "settings.account.proxyCount_other": "{count} прокси",
+  "settings.account.title": "Синхронизация WebDAV",
   "settings.account.webdavUrl": "Адрес WebDAV",
   "settings.account.webdavUrlHint":
     "Достаточно адреса сервера. Путь noxssh/snapshot.json добавляется автоматически.",
@@ -1263,13 +1267,25 @@ export default {
   "settings.account.restoringVersion": "Восстановление…",
   "settings.account.backupCreated": "Копия создана",
   "settings.account.backupRestored": "Восстановлено из исторической копии",
+  "settings.account.deletingVersion": "Удаление…",
+  "settings.account.backupDeleted": "Копия удалена",
+  "settings.account.resetLocalTitle": "Сбросить это устройство",
+  "settings.account.resetLocalDesc":
+    "Удаляет хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента и локальную конфигурацию WebDAV. Снимки и исторические копии уже на сервере не затрагиваются.",
+  "settings.account.resetLocal": "Очистить локальные данные",
+  "settings.account.resettingLocal": "Очистка…",
+  "settings.account.resetLocalConfirmTitle": "Очистить локальные данные?",
+  "settings.account.resetLocalConfirmMessage":
+    "Хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента, а также URL, учётная запись и парольная фраза WebDAV на этом компьютере будут удалены. Файлы на сервере не изменятся.",
+  "settings.account.resetLocalConfirm": "Очистить это устройство",
+  "settings.account.localResetDone": "Локальные данные очищены",
   "settings.account.lastBackup": "Последняя копия",
   "settings.account.backupOnNow": "Исторические копии включены",
   "settings.account.backupOffNow": "Исторические копии выключены",
   "settings.account.revision": "Ревизия",
 
   /* ---- Settings: Backup ---- */
-  "settings.backup.title": "Резервные копии",
+  "settings.backup.title": "Копии / импорт",
   "settings.backup.desc":
     "Перенесите готовую конфигурацию сюда или заберите копию с собой.",
   "settings.backup.exportTitle": "Создать резервную копию",

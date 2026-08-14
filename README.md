@@ -13,9 +13,9 @@
   AI agent · Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
 </p>
 
-> **NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm), modified and renamed.  
+> **NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm), modified and renamed.
 >
-> The source is open; you may use, study, modify and share it for free.  
+> The source is open; you may use, study, modify and share it for free.
 >
 > Original project: CloudTerm by CloudBlast. NoxSSH is an independent fork.
 
@@ -61,25 +61,17 @@ source remains available to read and change under the original license.
 
 ---
 
-<h2 align="center">☁️ Free cloud sync, for everyone</h2>
+<h2 align="center">☁️ Sync over your own WebDAV</h2>
 
 <p align="center">
-  <strong>Your setup on every machine you use, at no charge.</strong><br/>
-  Hosts, folders, keys, snippets, trusted host keys and terminal settings, encrypted<br/>
-  on your machine before it ever leaves and restored the moment you sign in somewhere else.
+  <strong>The same setup on every machine you use.</strong><br/>
+  Hosts, folders, keys, snippets, proxies, trusted host keys, assistant settings and<br/>
+  terminal settings are encrypted on this device with your sync passphrase, then uploaded to the WebDAV you choose.
 </p>
 
 <p align="center">
-  Free with a <a href="https://cloudblast.io"><strong>CloudBlast</strong></a> account,
-  whether or not you host a single server with us.
-</p>
-
-<p align="center">
-  <a href="https://cloudblast.io"><img alt="Get a free account" src="https://img.shields.io/badge/Get%20a%20free%20account-cloudblast.io-0aa2c0?style=for-the-badge"></a>
-</p>
-
-<p align="center">
-  <sub>Already a CloudBlast customer? Your servers appear in the host list on their own, ready to connect.</sub>
+  Historical backups can be restored or deleted one by one. Clearing local data<br/>
+  resets the WebDAV settings on this computer and leaves files already on the server alone.
 </p>
 
 ---
@@ -99,26 +91,32 @@ source remains available to read and change under the original license.
 ---
 
 <a name="what-is-cloudterm"></a>
+
 ## What is CloudTerm
 
 - **A terminal** for SSH, telnet and serial consoles, with tabs, split panes and
 
   GPU-accelerated rendering.
+
 - **An SFTP client** on the connection you already have open, with recursive
 
   transfers and drag and drop.
+
 - **An RDP and VNC viewer**, so a Windows box and a Linux box live side by side
 
   in the same app.
+
 - **A place to keep servers**: folders, tags, a key vault and snippets, all
 
   encrypted and all searchable.
+
 - **An AI agent** in a panel beside the terminal, which reads the session you
 
   are looking at and works on the server through it, asking before it changes
   anything.
 
 <a name="features"></a>
+
 ## Features
 
 ### AI agent
@@ -164,21 +162,27 @@ Whichever you choose, the agent:
 - **Reads the session you are watching**, so the error on your screen is the
 
   one it answers, without you pasting anything
+
 - **Works in the terminal you can see**: commands are typed into the pane and
 
   the output stays in your scrollback, or run on a hidden channel if you prefer
+
 - **Asks before it changes anything**, with an allow list for the commands that
 
   only look, and a stricter or looser mode when you want one
+
 - **Pointed where you like**: the session in front, one you pin, or every host
 
   you have saved
+
 - **Tools instead of guesses**: connect a saved host, read and write files,
 
   answer a prompt that is already waiting, read the scrollback
+
 - **Leaves your own machine alone** unless you say otherwise, and stops on its
 
   own rather than looping
+
 - **Model and reasoning effort per conversation**, with what it is costing, or
 
   how much of your plan it has used, shown as it works
@@ -274,19 +278,20 @@ hostnames.
 
 - **Encrypted vault** for every credential, behind an optional opening password
 - **Host key verification** on every connection and every hop
-- **Free cloud sync**, encrypted on your machine before it is uploaded
+- **WebDAV sync**, encrypted on your machine with a sync passphrase before it is uploaded; historical backups can be restored or deleted one by one
 - **Encrypted backups** that move your whole setup to another machine
 - **Activity log** of every connection made and every change
 
 ---
 
 <a name="screenshots"></a>
+
 ## Screenshots
 
 ### Hosts and keychain
 
-Every server in folders, with tags, search and the protocol on the card. Sign in
-to CloudBlast and your servers appear here on their own.
+Every server in folders, with tags, search and the protocol on the card. Set up
+WebDAV sync and the same hosts come back on another machine.
 
 <img src="hostscloudterm.png" alt="Hosts and keychain" width="100%">
 
@@ -313,9 +318,11 @@ Terminal themes, app colours, fonts and even the logo in the title bar.
 ---
 
 <a name="getting-started"></a>
+
 ## Getting started
 
 <a name="download"></a>
+
 ### Download
 
 Download the latest release for your platform:
@@ -370,6 +377,7 @@ npm run build
 | `Ctrl+Shift+A`       | AI agent           | `Alt+Arrows`   | Move between panes |
 
 <a name="community"></a>
+
 ## Community
 
 Questions, bugs, feature requests, or just want to see what is coming next?
@@ -381,6 +389,7 @@ Questions, bugs, feature requests, or just want to see what is coming next?
 Issues and pull requests are welcome here on GitHub.
 
 <a name="contributors"></a>
+
 ## Contributors
 
 Thanks to everyone who has put work into CloudTerm.
@@ -390,6 +399,7 @@ Thanks to everyone who has put work into CloudTerm.
 </a>
 
 <a name="tech-stack"></a>
+
 ## Tech stack
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
@@ -400,6 +410,7 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 `lib/` for pure functions.
 
 <a name="license"></a>
+
 ## License
 
 **NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm).

@@ -1,7 +1,5 @@
 # NoxSSH 开发指南
 
-
-
 ## 语言设置
 
 ### 与项目所有者的交流语言：中文
@@ -28,18 +26,33 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 
 已移除对 CloudBlast 云同步的依赖，改为基于 WebDAV 的自定义同步：
 
-- 新模块：`src/main/webdav-sync.js`
+- 新模块：[`src/main/webdav-sync.js`](src/main/webdav-sync.js)
   - 配置：URL、用户名、密码、同步口令（均在主进程保存，渲染进程不可见）
   - 加密：使用 `backup.seal/unseal`（AES-256-GCM + scrypt），口令在设备端加密后再上传
   - 冲突处理：上传前先拉取远端并合并，再以更高 revision 推送
   - 触发：保存时防抖推送、定时轮询、锁屏解锁/系统唤醒时拉取
+- 快照内容：
+  - 主机、文件夹、密钥、代码片段、代理、已知主机、终端设置
+  - 助手设置与各提供商密钥（解密后再封入快照；本机 `local` 模型地址/密钥不同步）
+- 历史备份：独立文件 `{base}/noxssh/backups/YYYY-MM-DDTHH-MM-SSZ.json`
+  - 明文 `counts` 字段仅统计数量，旧备份没有该字段时列表不展示数量
+  - 列表可单条删除（WebDAV `DELETE`）；删除不影响当前快照
+- 清空本机数据（设置 → WebDAV 同步）：
+  - 需确认后执行
+  - 清除本机主机/密钥/片段/代理/已知主机/助手设置与对话/活动日志
+  - 同时复位本机 WebDAV 配置（地址、账号、密码、同步口令）并停止轮询
+  - **不删除**服务器上已有的快照和历史备份
+  - 清空过程中禁止自动推送，避免把空数据写到远端
 - IPC 通道（`webdav-sync-*`）：
   - `status / configure / test`
   - `setEnabled / push / pull`
+  - `list-backups / create-backup / restore-backup / delete-backup`
+  - `reset-local`
   - `reportSettings`（终端设置从渲染进程交给主进程用于快照）
 - UI：
-  - `AccountPage.jsx` 重写为 WebDAV 设置页：地址、用户名、密码、同步口令、连接测试、启用开关、立即保存/恢复
-  - `SidebarAccount.jsx` 改为显示 WebDAV 同步状态
+  - [`AccountPage.jsx`](src/renderer/components/settings/pages/AccountPage.jsx) 为 WebDAV 设置页：地址、用户名、密码、同步口令、连接测试、启用开关、立即保存/恢复、历史备份、清空本机
+  - [`SidebarAccount.jsx`](src/renderer/components/SidebarAccount.jsx) 显示 WebDAV 同步状态
+  - 设置导航：`WebDAV同步` + `备份 / 导入`
   - 移除了 CloudBlast 账户登录、服务器同步（`server-sync`）等 UI 与文案
 - 预加载暴露：
   - `window.api.webdavSync.*`（取代了旧的 `account / serverSync / cloudSnapshot`）
@@ -51,6 +64,7 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 
 - 同步口令丢失将无法解密远端快照（与之前 CloudBlast 账户口令丢失的威胁模型一致）
 - WebDAV 密码仅用于认证；实际内容在设备端加密
+- 清空本机后若不再填写 WebDAV 配置，不会自动从远端拉回数据
 - 旧的 CloudBlast 相关模块文件（`account.js`、`server-sync.js`、`cloud-snapshot.js`）暂时保留在磁盘上，但运行时入口已不再引用，可在确认无误后删除
 
 ## 中国网络：Electron 二进制镜像

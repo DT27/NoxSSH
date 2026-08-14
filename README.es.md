@@ -47,25 +47,17 @@ para leerlo y modificarlo.
 
 ---
 
-<h2 align="center">☁️ Sincronización en la nube gratis, para todos</h2>
+<h2 align="center">☁️ Sincroniza con tu propio WebDAV</h2>
 
 <p align="center">
-  <strong>Tu configuración en todos tus equipos, sin coste alguno.</strong><br/>
-  Hosts, carpetas, claves, fragmentos, claves de host de confianza y ajustes del terminal,<br/>
-  cifrados en tu equipo antes de salir de él y restaurados en cuanto inicias sesión en otro sitio.
+  <strong>La misma configuración en todos tus equipos.</strong><br/>
+  Hosts, carpetas, claves, fragmentos, proxies, claves de host de confianza, ajustes del asistente<br/>
+  y del terminal se cifran en este dispositivo con tu frase de sincronización y se suben al WebDAV que elijas.
 </p>
 
 <p align="center">
-  Gratis con una cuenta de <a href="https://cloudblast.io"><strong>CloudBlast</strong></a>,
-  alojes o no un solo servidor con nosotros.
-</p>
-
-<p align="center">
-  <a href="https://cloudblast.io"><img alt="Crear una cuenta gratis" src="https://img.shields.io/badge/Crear%20una%20cuenta%20gratis-cloudblast.io-0aa2c0?style=for-the-badge"></a>
-</p>
-
-<p align="center">
-  <sub>¿Ya eres cliente de CloudBlast? Tus servidores aparecen solos en la lista de hosts, listos para conectar.</sub>
+  Las copias históricas se pueden restaurar o borrar una a una. Vaciar los datos locales<br/>
+  restablece la configuración WebDAV de este equipo y no toca los archivos que ya están en el servidor.
 </p>
 
 ---
@@ -85,6 +77,7 @@ para leerlo y modificarlo.
 ---
 
 <a name="what-is-cloudterm"></a>
+
 ## Qué es CloudTerm
 
 - **Un terminal** para SSH, telnet y consolas serie, con pestañas, paneles
@@ -100,6 +93,7 @@ para leerlo y modificarlo.
   de cambiar nada.
 
 <a name="features"></a>
+
 ## Características
 
 ### Agente de IA
@@ -227,19 +221,20 @@ de leer nombres.
 - **Almacén cifrado** para cada credencial, tras una contraseña de apertura
   opcional
 - **Verificación de claves de host** en cada conexión y en cada salto
-- **Sincronización en la nube gratuita**, cifrada en tu equipo antes de subirse
+- **Sincronización WebDAV**, cifrada en tu equipo con una frase de sincronización antes de subirse; las copias históricas se pueden restaurar o borrar una a una
 - **Copias de seguridad cifradas** que llevan toda tu configuración a otro equipo
 - **Registro de actividad** de cada conexión y cada cambio
 
 ---
 
 <a name="screenshots"></a>
+
 ## Capturas
 
 ### Hosts y llavero
 
 Cada servidor en carpetas, con etiquetas, búsqueda y el protocolo en la tarjeta.
-Inicia sesión en CloudBlast y tus servidores aparecen aquí solos.
+Configura la sincronización WebDAV y los mismos hosts vuelven en otro equipo.
 
 <img src="hostscloudterm.png" alt="Hosts y llavero" width="100%">
 
@@ -267,18 +262,20 @@ barra de título.
 ---
 
 <a name="getting-started"></a>
+
 ## Primeros pasos
 
 <a name="download"></a>
+
 ### Descargas
 
 Descarga la última versión para tu plataforma:
 
-| SO | Descarga |
-| --- | --- |
-| macOS | [Apple silicon (M1 y posteriores)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg) |
+| SO      | Descarga                                                                                                                                                                                                                      |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | [Apple silicon (M1 y posteriores)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)          |
 | Windows | [Instalador, x64 (recomendado)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [Portable, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage) |
+| Linux   | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                                    |
 
 En Windows también puedes instalarlo y actualizarlo desde una terminal:
 
@@ -309,15 +306,16 @@ npm run build
 
 ### Atajos
 
-| | | | |
-| --- | --- | --- | --- |
-| `Ctrl+Shift+F` | Buscar en el historial | `Alt+Shift+=` | Dividir a la derecha |
-| `Ctrl+Shift+K` | Paleta de fragmentos | `Alt+Shift+-` | Dividir abajo |
-| `Ctrl+Shift+B` | Entrada difundida | `Alt+Shift+Z` | Ampliar panel |
-| `Ctrl+Shift+C` / `V` | Copiar y pegar | `Ctrl+Shift+W` | Cerrar panel |
-| `Ctrl+Shift+A` | Agente de IA | `Alt+Flechas` | Moverse entre paneles |
+|                      |                        |                |                       |
+| -------------------- | ---------------------- | -------------- | --------------------- |
+| `Ctrl+Shift+F`       | Buscar en el historial | `Alt+Shift+=`  | Dividir a la derecha  |
+| `Ctrl+Shift+K`       | Paleta de fragmentos   | `Alt+Shift+-`  | Dividir abajo         |
+| `Ctrl+Shift+B`       | Entrada difundida      | `Alt+Shift+Z`  | Ampliar panel         |
+| `Ctrl+Shift+C` / `V` | Copiar y pegar         | `Ctrl+Shift+W` | Cerrar panel          |
+| `Ctrl+Shift+A`       | Agente de IA           | `Alt+Flechas`  | Moverse entre paneles |
 
 <a name="community"></a>
+
 ## Comunidad
 
 ¿Dudas, errores, ideas para nuevas funciones, o simplemente quieres ver qué
@@ -330,6 +328,7 @@ viene después?
 Las issues y los pull requests son bienvenidos aquí en GitHub.
 
 <a name="contributors"></a>
+
 ## Colaboradores
 
 Gracias a todas las personas que han aportado su trabajo a CloudTerm.
@@ -339,6 +338,7 @@ Gracias a todas las personas que han aportado su trabajo a CloudTerm.
 </a>
 
 <a name="tech-stack"></a>
+
 ## Tecnología
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
@@ -349,6 +349,7 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 estado y `lib/` para funciones puras.
 
 <a name="license"></a>
+
 ## Licencia
 
 CloudTerm es [fair-code](https://faircode.io) bajo la

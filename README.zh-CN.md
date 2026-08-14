@@ -13,8 +13,7 @@
   AI 助手 · 分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
 </p>
 
-> **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork，已改名并进行修改。  
->
+> **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork，已改名并进行修改。
 
 <p align="center">
   <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
@@ -38,6 +37,7 @@
 **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm)（由 [CloudBlast](https://cloudblast.io) 开发）的 fork，已改名并进行了修改。
 
 本项目遵循原 [CloudTerm 许可证](LICENSE)（fair-code 模式）分发：
+
 - 源码开放，可阅读。
 - 软件可免费使用、修改、分享（包括发布 fork），无论个人还是公司内部使用均可。
 - 出售本软件、将任何部分代码用于收费产品/服务、作为付费托管服务运行，或其他商业分发，**需要向 CloudBlast 单独申请商业授权**。
@@ -68,25 +68,17 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
 
 ---
 
-<h2 align="center">☁️ 免费云同步，人人可用</h2>
+<h2 align="center">☁️ 用你自己的 WebDAV 同步</h2>
 
 <p align="center">
-  <strong>在你用的每一台电脑上，都是同一套配置，完全免费。</strong><br/>
-  主机、文件夹、密钥、命令片段、已信任的主机密钥和终端设置，<br/>
-  先在本机加密再上传，换一台设备登录即刻还原。
+  <strong>在你用的每一台电脑上，都是同一套配置。</strong><br/>
+  主机、文件夹、密钥、命令片段、代理、已信任的主机密钥、助手设置和终端设置，<br/>
+  先在本机用同步口令加密，再上传到你指定的 WebDAV。
 </p>
 
 <p align="center">
-  只要有 <a href="https://cloudblast.io"><strong>CloudBlast</strong></a> 账号即可免费使用，
-  无论你是否在我们这里托管服务器。
-</p>
-
-<p align="center">
-  <a href="https://cloudblast.io"><img alt="Get a free account" src="https://img.shields.io/badge/%E5%85%8D%E8%B4%B9%E6%B3%A8%E5%86%8C-cloudblast.io-0aa2c0?style=for-the-badge"></a>
-</p>
-
-<p align="center">
-  <sub>已经是 CloudBlast 用户？你的服务器会自动出现在主机列表里，随时可以连接。</sub>
+  历史备份可单独恢复或删除。清空本机数据会复位本地 WebDAV 配置，<br/>
+  不会删除服务器上已有的快照和历史备份。
 </p>
 
 ---
@@ -106,6 +98,7 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
 ---
 
 <a name="what-is-cloudterm"></a>
+
 ## 什么是 CloudTerm
 
 - **一个终端**：SSH、telnet 和串口控制台，带标签页、分屏和 GPU 加速渲染。
@@ -114,6 +107,7 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
 - **一个存放服务器的地方**：文件夹、标签、密钥库和命令片段，全部加密、全部可搜索。
 
 <a name="features"></a>
+
 ## 功能
 
 ### AI 助手
@@ -219,19 +213,20 @@ Debian 和 Fedora 的机器，不用去读主机名。
 
 - **加密保险库**存放所有凭据，可选设置启动密码
 - **主机密钥校验**，每次连接、每一跳都验证
-- **免费云同步**，上传前先在本机加密
+- **WebDAV 同步**，上传前先在本机用同步口令加密；历史备份可单独恢复或删除
 - **加密备份**，把整套配置搬到另一台机器
 - **活动日志**记录每一次连接和每一次改动
 
 ---
 
 <a name="screenshots"></a>
+
 ## 界面截图
 
 ### 主机与密钥库
 
-所有服务器按文件夹整理，带标签、搜索，卡片上直接标明协议。登录 CloudBlast 之后，
-你的服务器会自动出现在这里。
+所有服务器按文件夹整理，带标签、搜索，卡片上直接标明协议。配置 WebDAV 同步后，
+换一台电脑也能拉回同一套主机。
 
 <img src="hostscloudterm.png" alt="主机与密钥库" width="100%">
 
@@ -258,18 +253,20 @@ Debian 和 Fedora 的机器，不用去读主机名。
 ---
 
 <a name="getting-started"></a>
+
 ## 快速开始
 
 <a name="download"></a>
+
 ### 下载
 
 下载适用于你平台的最新版本：
 
-| 操作系统    | 下载                                                                                                                                                                                                     |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| macOS   | [Apple 芯片（M1 及更新机型）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg) |
-| Windows | [安装版，x64（推荐）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [便携版，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe)  |
-| Linux   | [AppImage，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                              |
+| 操作系统 | 下载                                                                                                                                                                                                              |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS    | [Apple 芯片（M1 及更新机型）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)   |
+| Windows  | [安装版，x64（推荐）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [便携版，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
+| Linux    | [AppImage，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                        |
 
 在 Windows 上也可以直接从终端安装和更新：
 
@@ -300,14 +297,15 @@ npm run build
 
 ### 快捷键
 
-|                      |       |                |      |
-| -------------------- | ----- | -------------- | ---- |
+|                      |            |                |          |
+| -------------------- | ---------- | -------------- | -------- |
 | `Ctrl+Shift+F`       | 回滚区搜索 | `Alt+Shift+=`  | 向右分屏 |
-| `Ctrl+Shift+K`       | 片段面板  | `Alt+Shift+-`  | 向下分屏 |
-| `Ctrl+Shift+B`       | 广播输入  | `Alt+Shift+Z`  | 放大面板 |
+| `Ctrl+Shift+K`       | 片段面板   | `Alt+Shift+-`  | 向下分屏 |
+| `Ctrl+Shift+B`       | 广播输入   | `Alt+Shift+Z`  | 放大面板 |
 | `Ctrl+Shift+C` / `V` | 复制与粘贴 | `Ctrl+Shift+W` | 关闭面板 |
 
 <a name="community"></a>
+
 ## 社区
 
 有疑问、发现 bug、想提需求，或者只是想看看接下来会做什么？
@@ -319,6 +317,7 @@ npm run build
 也欢迎在 GitHub 上提交 issue 和 pull request。
 
 <a name="contributors"></a>
+
 ## 贡献者
 
 感谢每一位为 CloudTerm 付出努力的人。
@@ -328,6 +327,7 @@ npm run build
 </a>
 
 <a name="tech-stack"></a>
+
 ## 技术栈
 
 Electron · React · xterm.js · ssh2 · IronRDP（WebAssembly）· noVNC · Tailwind ·
@@ -338,6 +338,7 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 `lib/` 放纯函数。
 
 <a name="license"></a>
+
 ## 许可证
 
 **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork。

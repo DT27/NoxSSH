@@ -609,8 +609,8 @@ export default {
   "settings.nav.monitoring": "Monitorização",
   "settings.nav.logging": "Registo",
   "settings.nav.security": "Segurança",
-  "settings.nav.account": "Conta",
-  "settings.nav.backup": "Cópia de segurança",
+  "settings.nav.account": "Sincronização WebDAV",
+  "settings.nav.backup": "Cópia / Importação",
   "settings.nav.about": "Acerca",
 
   /* ---- Settings: General ---- */
@@ -1184,7 +1184,9 @@ export default {
   "settings.account.minutesAgo": "há {count} min",
   "settings.account.hoursAgo": "há {count} h",
   "settings.account.daysAgo": "há {count} d",
-  "settings.account.title": "Sincronização",
+  "settings.account.proxyCount_one": "{count} proxy",
+  "settings.account.proxyCount_other": "{count} proxies",
+  "settings.account.title": "Sincronização WebDAV",
   "settings.account.webdavUrl": "URL WebDAV",
   "settings.account.webdavUrlHint":
     "Basta o endereço do servidor. O caminho noxssh/snapshot.json é acrescentado automaticamente.",
@@ -1231,13 +1233,25 @@ export default {
   "settings.account.restoringVersion": "A restaurar…",
   "settings.account.backupCreated": "Cópia criada",
   "settings.account.backupRestored": "Restaurado a partir da cópia histórica",
+  "settings.account.deletingVersion": "A eliminar…",
+  "settings.account.backupDeleted": "Cópia eliminada",
+  "settings.account.resetLocalTitle": "Repor este dispositivo",
+  "settings.account.resetLocalDesc":
+    "Remove anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e a configuração WebDAV neste computador. Os instantâneos e as cópias históricas já no servidor ficam intactos.",
+  "settings.account.resetLocal": "Limpar dados locais",
+  "settings.account.resettingLocal": "A limpar…",
+  "settings.account.resetLocalConfirmTitle": "Limpar os dados locais?",
+  "settings.account.resetLocalConfirmMessage":
+    "Os anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e o URL, conta e frase-passe WebDAV neste computador serão apagados. Os ficheiros já no servidor não mudam.",
+  "settings.account.resetLocalConfirm": "Limpar este dispositivo",
+  "settings.account.localResetDone": "Dados locais limpos",
   "settings.account.lastBackup": "Última cópia",
   "settings.account.backupOnNow": "Cópias históricas ativadas",
   "settings.account.backupOffNow": "Cópias históricas desativadas",
   "settings.account.revision": "Revisão",
 
   /* ---- Settings: Backup ---- */
-  "settings.backup.title": "Cópia de segurança",
+  "settings.backup.title": "Cópia / Importação",
   "settings.backup.desc":
     "Traga uma configuração existente, ou leve uma cópia consigo.",
   "settings.backup.exportTitle": "Exportar uma cópia",

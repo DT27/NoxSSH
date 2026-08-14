@@ -972,6 +972,13 @@ async function shutdown() {
   hydrated = false;
 }
 
+/** Close every conversation and persist the empty history. */
+async function resetAll() {
+  hydrate();
+  const ids = [...conversations.keys()];
+  await Promise.all(ids.map((id) => close(id)));
+}
+
 module.exports = {
   setNotifier,
   reconfigure,
@@ -987,6 +994,7 @@ module.exports = {
   status,
   models,
   shutdown,
+  resetAll,
   respondToApproval,
   respondToAction,
   settings,

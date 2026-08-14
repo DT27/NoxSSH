@@ -553,8 +553,8 @@ export default {
   "settings.nav.monitoring": "监控",
   "settings.nav.logging": "日志记录",
   "settings.nav.security": "安全",
-  "settings.nav.account": "账户",
-  "settings.nav.backup": "备份",
+  "settings.nav.account": "WebDAV同步",
+  "settings.nav.backup": "备份 / 导入",
   "settings.nav.about": "关于",
 
   /* ---- Settings: General ---- */
@@ -988,7 +988,7 @@ export default {
   "settings.knownHosts.forgotKey": "已忘记 {host} 的 {type} 密钥",
 
   /* ---- Settings: Account (WebDAV 同步) ---- */
-  "settings.account.title": "同步",
+  "settings.account.title": "WebDAV同步",
   "settings.account.webdavUrl": "WebDAV 地址",
   "settings.account.webdavUrlHint":
     "仅填写服务器地址，系统会自动追加 noxssh/snapshot.json 作为备份文件路径。",
@@ -1000,7 +1000,7 @@ export default {
   "settings.account.syncPassphraseHint":
     "用于在上传前加密快照。在其他设备上恢复时需要输入相同的口令。",
   "settings.account.saveUrlUser": "保存地址和用户名",
-  "settings.account.saveSecrets": "保存密码",
+  "settings.account.saveSecrets": "保存口令",
   "settings.account.test": "测试连接",
   "settings.account.testing": "正在测试...",
   "settings.account.testOk": "连接成功",
@@ -1049,9 +1049,22 @@ export default {
   "settings.account.minutesAgo": "{count} 分钟前",
   "settings.account.hoursAgo": "{count} 小时前",
   "settings.account.daysAgo": "{count} 天前",
+  "settings.account.proxyCount_other": "{count} 个代理",
+  "settings.account.deletingVersion": "正在删除…",
+  "settings.account.backupDeleted": "备份已删除",
+  "settings.account.resetLocalTitle": "清空本机数据",
+  "settings.account.resetLocalDesc":
+    "删除本机上的主机、密钥、代码片段、代理、已知主机、助手设置和 WebDAV 同步配置，恢复为初始状态。不会改动服务器上已有的快照或历史备份。",
+  "settings.account.resetLocal": "清空本机数据",
+  "settings.account.resettingLocal": "正在清空…",
+  "settings.account.resetLocalConfirmTitle": "清空本机数据？",
+  "settings.account.resetLocalConfirmMessage":
+    "本机上的主机、密钥、代码片段、代理、已知主机、助手设置以及 WebDAV 地址、账号和口令将被删除。服务器上的快照和历史备份不受影响。",
+  "settings.account.resetLocalConfirm": "清空本机",
+  "settings.account.localResetDone": "本机数据已清空",
 
   /* ---- Settings: Backup ---- */
-  "settings.backup.title": "备份",
+  "settings.backup.title": "备份 / 导入",
   "settings.backup.desc": "导入已有的配置，或导出一份副本。",
   "settings.backup.exportTitle": "导出备份",
   "settings.backup.exportDesc":

@@ -593,8 +593,8 @@ export default {
   "settings.nav.monitoring": "Theo dõi",
   "settings.nav.logging": "Ghi nhật ký",
   "settings.nav.security": "Bảo mật",
-  "settings.nav.account": "Tài khoản",
-  "settings.nav.backup": "Sao lưu",
+  "settings.nav.account": "Đồng bộ WebDAV",
+  "settings.nav.backup": "Sao lưu / Nhập",
   "settings.nav.about": "Giới thiệu",
 
   /* ---- Settings: General ---- */
@@ -1153,7 +1153,8 @@ export default {
   "settings.account.minutesAgo": "{count} phút trước",
   "settings.account.hoursAgo": "{count} giờ trước",
   "settings.account.daysAgo": "{count} ngày trước",
-  "settings.account.title": "Đồng bộ",
+  "settings.account.proxyCount_other": "{count} proxy",
+  "settings.account.title": "Đồng bộ WebDAV",
   "settings.account.webdavUrl": "Địa chỉ WebDAV",
   "settings.account.webdavUrlHint":
     "Chỉ cần địa chỉ máy chủ. Đường dẫn noxssh/snapshot.json sẽ được thêm tự động.",
@@ -1200,13 +1201,25 @@ export default {
   "settings.account.restoringVersion": "Đang khôi phục…",
   "settings.account.backupCreated": "Đã tạo bản sao",
   "settings.account.backupRestored": "Đã khôi phục từ bản sao lịch sử",
+  "settings.account.deletingVersion": "Đang xoá…",
+  "settings.account.backupDeleted": "Đã xoá bản sao",
+  "settings.account.resetLocalTitle": "Đặt lại thiết bị này",
+  "settings.account.resetLocalDesc":
+    "Xoá máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý và cấu hình đồng bộ WebDAV trên máy này. Ảnh chụp và bản sao lịch sử đã có trên máy chủ được giữ nguyên.",
+  "settings.account.resetLocal": "Xoá dữ liệu cục bộ",
+  "settings.account.resettingLocal": "Đang xoá…",
+  "settings.account.resetLocalConfirmTitle": "Xoá dữ liệu cục bộ?",
+  "settings.account.resetLocalConfirmMessage":
+    "Máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý cùng URL, tài khoản và cụm mật khẩu WebDAV trên máy này sẽ bị xoá. Các tệp đã có trên máy chủ không đổi.",
+  "settings.account.resetLocalConfirm": "Xoá thiết bị này",
+  "settings.account.localResetDone": "Đã xoá dữ liệu cục bộ",
   "settings.account.lastBackup": "Lần sao lưu trước",
   "settings.account.backupOnNow": "Đã bật sao lưu lịch sử",
   "settings.account.backupOffNow": "Đã tắt sao lưu lịch sử",
   "settings.account.revision": "Phiên bản",
 
   /* ---- Settings: Backup ---- */
-  "settings.backup.title": "Sao lưu",
+  "settings.backup.title": "Sao lưu / Nhập",
   "settings.backup.desc":
     "Đưa một thiết lập sẵn có vào, hoặc lấy một bản sao ra.",
   "settings.backup.exportTitle": "Xuất một bản sao lưu",

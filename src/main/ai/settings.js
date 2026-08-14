@@ -300,9 +300,115 @@ function persist() {
       JSON.stringify({ version: CONFIG_VERSION, config, keys: secrets }),
       "utf8"
     );
+    for (const hook of changeHooks) {
+      try {
+        hook();
+      } catch (error) {
+        // A listener must never be able to fail the write that fired it.
+        console.error("Assistant settings change hook failed:", error.message);
+      }
+    }
   } catch (error) {
     console.error("Could not save the assistant settings:", error.message);
   }
+}
+
+/**
+ * Notified after every successful write. WebDAV uses this the same way the
+ * host store does: one hook on the write, rather than a reminder at every
+ * settings-page call site.
+ */
+const changeHooks = [];
+
+function onChanged(hook) {
+  changeHooks.push(hook);
+}
+
+/**
+ * Fields that belong to the machine, not the account.
+ *
+ * A local server address and the model sitting on it are whatever this
+ * computer happens to run. Copying them onto another device would point
+ * that device at a host that is not there, or at a GGUF it does not have.
+ */
+function stripMachineLocal(raw) {
+  if (!raw || typeof raw !== "object") return {};
+  const next = { ...raw };
+  delete next.localBaseUrl;
+  if (next.provider === "local") {
+    delete next.provider;
+    delete next.model;
+  }
+  return next;
+}
+
+/**
+ * Config plus decrypted keys, for a passphrase-sealed snapshot.
+ *
+ * The on-disk `keys` are OS-keystore ciphertext and would be useless on
+ * another machine. The snapshot envelope already encrypts under the sync
+ * passphrase, so the secrets travel in the clear *inside* it, the same
+ * way host passwords do. Local-model fields stay off the snapshot.
+ */
+function exportAll() {
+  load();
+  const keys = {};
+  for (const name of PROVIDERS) {
+    if (name === "local") continue;
+    const value = readApiKey(name);
+    if (value) keys[name] = value;
+  }
+  return {
+    config: stripMachineLocal(sanitize(config)),
+    keys,
+  };
+}
+
+/**
+ * Restore a snapshot's assistant block.
+ *
+ * Config is a singleton, so a present remote copy replaces the local one
+ * (unlike hosts, which merge by id). Keys are written through `setApiKey`
+ * so they land in this machine's keystore. A key that cannot be stored
+ * here is skipped rather than failing the rest of the restore. Local-model
+ * settings on this machine are left alone, including when an older snapshot
+ * still carries them.
+ */
+function importAll(payload) {
+  if (!payload || typeof payload !== "object") {
+    return { applied: false, keys: { restored: 0, skipped: 0 } };
+  }
+
+  const before = load();
+  if (payload.config && typeof payload.config === "object") {
+    const incomingConfig = stripMachineLocal(payload.config);
+    config = sanitize({
+      ...before,
+      ...incomingConfig,
+      localBaseUrl: before.localBaseUrl,
+    });
+    persist();
+  }
+
+  let restored = 0;
+  let skipped = 0;
+  const incoming =
+    payload.keys && typeof payload.keys === "object" ? payload.keys : {};
+  for (const [name, value] of Object.entries(incoming)) {
+    if (!PROVIDERS.has(name) || name === "local") continue;
+    const text = String(value ?? "").trim();
+    if (!text) continue;
+    const result = setApiKey(text, name);
+    if (result.success && result.hasApiKey) restored += 1;
+    else skipped += 1;
+  }
+
+  return {
+    applied: true,
+    before,
+    after: get(),
+    keys: { restored, skipped },
+  };
 }
 
 /**
@@ -331,6 +437,15 @@ function get() {
     relayBaseUrl: load().relayBaseUrl || "",
     relayModel: load().relayModel || "",
   };
+}
+
+/** Restore factory assistant settings and drop every stored provider key. */
+function resetAll() {
+  const before = load();
+  config = sanitize(null);
+  secrets = {};
+  persist();
+  return { before, after: get() };
 }
 
 function set(patch) {
@@ -409,6 +524,10 @@ module.exports = {
   setApiKey,
   readApiKey,
   isEncryptionAvailable,
+  exportAll,
+  importAll,
+  resetAll,
+  onChanged,
   DEFAULTS,
   APPROVALS,
   COMMAND_MODES,

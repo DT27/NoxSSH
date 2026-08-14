@@ -629,8 +629,8 @@ export default {
   "settings.nav.monitoring": "Monitoring",
   "settings.nav.logging": "Logging",
   "settings.nav.security": "Security",
-  "settings.nav.account": "Account",
-  "settings.nav.backup": "Backup",
+  "settings.nav.account": "WebDAV Sync",
+  "settings.nav.backup": "Backup / Import",
   "settings.nav.about": "About",
 
   /* ---------------------------------------------------------------- *
@@ -1161,7 +1161,7 @@ export default {
   /* ---------------------------------------------------------------- *
    * Settings: Account
    * ---------------------------------------------------------------- */
-  "settings.account.title": "Sync",
+  "settings.account.title": "WebDAV Sync",
   "settings.account.webdavUrl": "WebDAV URL",
   "settings.account.webdavUrlHint":
     'Enter only the server base address. "noxssh/snapshot.json" is appended automatically.',
@@ -1223,11 +1223,25 @@ export default {
   "settings.account.minutesAgo": "{count}m ago",
   "settings.account.hoursAgo": "{count}h ago",
   "settings.account.daysAgo": "{count}d ago",
+  "settings.account.proxyCount_one": "{count} proxy",
+  "settings.account.proxyCount_other": "{count} proxies",
+  "settings.account.deletingVersion": "Deleting…",
+  "settings.account.backupDeleted": "Backup deleted",
+  "settings.account.resetLocalTitle": "Reset this device",
+  "settings.account.resetLocalDesc":
+    "Removes hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV sync setup on this computer. Snapshots and historical backups already on the server are left alone.",
+  "settings.account.resetLocal": "Clear local data",
+  "settings.account.resettingLocal": "Clearing…",
+  "settings.account.resetLocalConfirmTitle": "Clear local data?",
+  "settings.account.resetLocalConfirmMessage":
+    "Hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV URL, account and passphrase on this computer will be deleted. Files already on the server are left alone.",
+  "settings.account.resetLocalConfirm": "Clear this device",
+  "settings.account.localResetDone": "Local data cleared",
 
   /* ---------------------------------------------------------------- *
    * Settings: Backup
    * ---------------------------------------------------------------- */
-  "settings.backup.title": "Backup",
+  "settings.backup.title": "Backup / Import",
   "settings.backup.desc": "Bring an existing setup in, or take a copy out.",
   "settings.backup.exportTitle": "Export a backup",
   "settings.backup.exportDesc":

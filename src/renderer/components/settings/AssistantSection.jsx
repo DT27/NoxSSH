@@ -348,6 +348,167 @@ export default function AssistantSection() {
 
       <SettingCard>
         <SettingRow
+          title={t("settings.assistant.signIn")}
+          description={describeAccount(
+            t,
+            account,
+            settings.hasApiKey,
+            settings.provider
+          )}
+        >
+          {settings.provider === "opencode" ? (
+            <code
+              className="inline-flex px-3 py-2 rounded-xl text-xs font-jetbrains
+                            bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-300"
+            >
+              opencode auth login
+            </code>
+          ) : settings.provider === "relay" ? (
+            <div className="space-y-3 w-full">
+              <div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  {t("settings.assistant.relayBaseUrl") || "Relay Base URL"}
+                </div>
+                <input
+                  type="text"
+                  className={`${FIELD_CLASS} font-jetbrains text-xs`}
+                  placeholder="https://your-relay.example.com/v1"
+                  value={settings.relayBaseUrl || ""}
+                  onChange={async (e) => {
+                    const v = e.target.value;
+                    const next = await update({ relayBaseUrl: v });
+                    setSettings(next);
+                  }}
+                />
+              </div>
+              <div className="flex gap-3">
+                <input
+                  type="password"
+                  aria-label={t("settings.assistant.apiKey")}
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder={
+                    settings.hasApiKey
+                      ? t("settings.assistant.keyStored")
+                      : KEY_HINTS.relay
+                  }
+                  className={`${FIELD_CLASS} flex-1 font-jetbrains text-xs`}
+                  value={keyValue}
+                  onChange={(event) => {
+                    setKeyValue(event.target.value);
+                    setKeyState("");
+                  }}
+                />
+                <Button size="md" variant="secondary" onClick={saveKey}>
+                  {t("common.save")}
+                </Button>
+              </div>
+              {keyState && (
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {keyState}
+                </p>
+              )}
+              {!settings.encryptionAvailable && (
+                <p className="text-xs text-amber-600 dark:text-amber-400">
+                  {t("settings.assistant.noSecureStore")}
+                </p>
+              )}
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("settings.assistant.relayNote") ||
+                  "Uses an OpenAI-compatible relay. No local Claude Code / Codex / OpenCode required."}
+              </p>
+              <div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  {t("settings.assistant.relayModel")}
+                </div>
+                {relayModels.length > 0 ? (
+                  <select
+                    className={`${FIELD_CLASS} font-jetbrains text-xs`}
+                    value={settings.relayModel || settings.model || ""}
+                    onChange={async (e) => {
+                      const v = e.target.value;
+                      const next = await update({ relayModel: v, model: v });
+                      setSettings(next);
+                    }}
+                  >
+                    <option value="">
+                      {t("settings.assistant.relayModelManual")}
+                    </option>
+                    {relayModels.map((row) => (
+                      <option key={row.value} value={row.value}>
+                        {row.label || row.value}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    className={`${FIELD_CLASS} font-jetbrains text-xs`}
+                    placeholder="gpt-4o"
+                    value={settings.relayModel || ""}
+                    onChange={async (e) => {
+                      const v = e.target.value;
+                      const next = await update({ relayModel: v, model: v });
+                      setSettings(next);
+                    }}
+                  />
+                )}
+              </div>
+              <div className="flex items-center gap-3">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={fetchRelayModels}
+                  disabled={fetchingModels || !settings.relayBaseUrl}
+                >
+                  {fetchingModels
+                    ? t("settings.assistant.relayModelsFetching")
+                    : t("settings.assistant.relayModelsFetch")}
+                </Button>
+                {relayModelsState && (
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {relayModelsState}
+                  </span>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <input
+                  type="password"
+                  aria-label={t("settings.assistant.apiKey")}
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder={keyPlaceholder(t, settings)}
+                  className={`${FIELD_CLASS} flex-1 font-jetbrains text-xs`}
+                  value={keyValue}
+                  onChange={(event) => {
+                    setKeyValue(event.target.value);
+                    setKeyState("");
+                  }}
+                />
+                <Button size="md" variant="secondary" onClick={saveKey}>
+                  {t("common.save")}
+                </Button>
+              </div>
+              {keyState && (
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {keyState}
+                </p>
+              )}
+              {!settings.encryptionAvailable && (
+                <p className="text-xs text-amber-600 dark:text-amber-400">
+                  {t("settings.assistant.noSecureStore")}
+                </p>
+              )}
+            </div>
+          )}
+        </SettingRow>
+      </SettingCard>
+
+      <SettingCard>
+        <SettingRow
           title={t("settings.assistant.commandMode")}
           description={t(
             `settings.assistant.commandMode.${settings.commandMode}.note`
@@ -531,167 +692,6 @@ export default function AssistantSection() {
             />
           }
         />
-      </SettingCard>
-
-      <SettingCard>
-        <SettingRow
-          title={t("settings.assistant.signIn")}
-          description={describeAccount(
-            t,
-            account,
-            settings.hasApiKey,
-            settings.provider
-          )}
-        >
-          {settings.provider === "opencode" ? (
-            <code
-              className="inline-flex px-3 py-2 rounded-xl text-xs font-jetbrains
-                            bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-gray-300"
-            >
-              opencode auth login
-            </code>
-          ) : settings.provider === "relay" ? (
-            <div className="space-y-3 w-full">
-              <div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                  {t("settings.assistant.relayBaseUrl") || "Relay Base URL"}
-                </div>
-                <input
-                  type="text"
-                  className={`${FIELD_CLASS} font-jetbrains text-xs`}
-                  placeholder="https://your-relay.example.com/v1"
-                  value={settings.relayBaseUrl || ""}
-                  onChange={async (e) => {
-                    const v = e.target.value;
-                    const next = await update({ relayBaseUrl: v });
-                    setSettings(next);
-                  }}
-                />
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                  {t("settings.assistant.relayModel")}
-                </div>
-                {relayModels.length > 0 ? (
-                  <select
-                    className={`${FIELD_CLASS} font-jetbrains text-xs`}
-                    value={settings.relayModel || settings.model || ""}
-                    onChange={async (e) => {
-                      const v = e.target.value;
-                      const next = await update({ relayModel: v, model: v });
-                      setSettings(next);
-                    }}
-                  >
-                    <option value="">
-                      {t("settings.assistant.relayModelManual")}
-                    </option>
-                    {relayModels.map((row) => (
-                      <option key={row.value} value={row.value}>
-                        {row.label || row.value}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    type="text"
-                    className={`${FIELD_CLASS} font-jetbrains text-xs`}
-                    placeholder="gpt-4o"
-                    value={settings.relayModel || ""}
-                    onChange={async (e) => {
-                      const v = e.target.value;
-                      const next = await update({ relayModel: v, model: v });
-                      setSettings(next);
-                    }}
-                  />
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={fetchRelayModels}
-                  disabled={fetchingModels || !settings.relayBaseUrl}
-                >
-                  {fetchingModels
-                    ? t("settings.assistant.relayModelsFetching")
-                    : t("settings.assistant.relayModelsFetch")}
-                </Button>
-                {relayModelsState && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {relayModelsState}
-                  </span>
-                )}
-              </div>
-              <div className="flex gap-3">
-                <input
-                  type="password"
-                  aria-label={t("settings.assistant.apiKey")}
-                  autoComplete="off"
-                  spellCheck={false}
-                  placeholder={
-                    settings.hasApiKey
-                      ? t("settings.assistant.keyStored")
-                      : "sk-..."
-                  }
-                  className={`${FIELD_CLASS} flex-1 font-jetbrains text-xs`}
-                  value={keyValue}
-                  onChange={(event) => {
-                    setKeyValue(event.target.value);
-                    setKeyState("");
-                  }}
-                />
-                <Button size="md" variant="secondary" onClick={saveKey}>
-                  {t("common.save")}
-                </Button>
-              </div>
-              {keyState && (
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {keyState}
-                </p>
-              )}
-              {!settings.encryptionAvailable && (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  {t("settings.assistant.noSecureStore")}
-                </p>
-              )}
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {t("settings.assistant.relayNote") ||
-                  "Uses an OpenAI-compatible relay. No local Claude Code / Codex / OpenCode required."}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <div className="flex gap-3">
-                <input
-                  type="password"
-                  aria-label={t("settings.assistant.apiKey")}
-                  autoComplete="off"
-                  spellCheck={false}
-                  placeholder={keyPlaceholder(t, settings)}
-                  className={`${FIELD_CLASS} flex-1 font-jetbrains text-xs`}
-                  value={keyValue}
-                  onChange={(event) => {
-                    setKeyValue(event.target.value);
-                    setKeyState("");
-                  }}
-                />
-                <Button size="md" variant="secondary" onClick={saveKey}>
-                  {t("common.save")}
-                </Button>
-              </div>
-              {keyState && (
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {keyState}
-                </p>
-              )}
-              {!settings.encryptionAvailable && (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  {t("settings.assistant.noSecureStore")}
-                </p>
-              )}
-            </div>
-          )}
-        </SettingRow>
       </SettingCard>
 
       <SettingCard>
