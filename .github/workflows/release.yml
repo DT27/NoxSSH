@@ -238,8 +238,8 @@ jobs:
           # the previous version cannot update to.
           gh release create "${GITHUB_REF_NAME}" \
             --repo "${GITHUB_REPOSITORY}" \
-            --title "${GITHUB_REF_NAME}" \
-            --generate-notes \
+            --title "${GITHUB_REF_NAME} — last release with the AI assistant" \
+            --notes-from-tag \
             *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
 
   winget:
