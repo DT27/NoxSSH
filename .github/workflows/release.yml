@@ -236,10 +236,11 @@ jobs:
           # The manifests and blockmaps go up with the installers. The app looks
           # for them by name on the release, so a release without them is one
           # the previous version cannot update to.
+          git fetch --force --tags origin "${GITHUB_REF_NAME}"
+          git tag -l --format='%(contents)' "${GITHUB_REF_NAME}" > release-notes.md
           gh release create "${GITHUB_REF_NAME}" \
-            --repo "${GITHUB_REPOSITORY}" \
             --title "${GITHUB_REF_NAME} — last release with the AI assistant" \
-            --notes-from-tag \
+            --notes-file release-notes.md \
             *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
 
   winget:
