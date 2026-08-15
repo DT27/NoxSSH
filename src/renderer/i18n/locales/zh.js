@@ -549,7 +549,6 @@ export default {
   "settings.nav.general": "通用",
   "settings.nav.appearance": "外观",
   "settings.nav.terminal": "终端",
-  "settings.nav.assistant": "AI 助手",
   "settings.nav.monitoring": "监控",
   "settings.nav.logging": "日志记录",
   "settings.nav.security": "安全",
@@ -695,151 +694,6 @@ export default {
   "settings.terminal.customThemeDesc": "自行设置背景、文字、光标和 ANSI 颜色",
   "settings.terminal.themeChanged": "终端主题已切换为 {theme}",
   "settings.terminal.customApplied": "已应用自定义终端主题",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "AI 助手",
-  "settings.assistant.desc":
-    "助手会读取你的终端，并通过你已经打开的连接在服务器上工作。" +
-    "它绝不会看到任何已保存的密码或密钥。",
-  "settings.assistant.loading": "正在加载助手设置…",
-  "settings.assistant.agent": "代理程序",
-  "settings.assistant.agentDesc":
-    "由哪个编码代理来作答：本机已安装的那一份、API中转站，或你自己运行的模型。切换会开始一次全新的对话。",
-  "settings.assistant.provider.claudeCode": "来自 Anthropic，用你自己的账号。",
-  "settings.assistant.provider.codex": "来自 OpenAI，用你自己的账号。",
-  "settings.assistant.provider.opencode": "开源，用你配置的服务商。",
-  "settings.assistant.provider.relayName": "API中转站",
-  "settings.assistant.provider.relay":
-    "使用 OpenAI 兼容的 API中转站，无需安装 Claude Code / Codex / OpenCode。",
-  "settings.assistant.provider.grok": "来自 xAI，用你自己的账号。",
-  "settings.assistant.provider.kimi": "来自月之暗面，用 Moonshot 密钥。",
-  "settings.assistant.provider.local":
-    "你自己的模型：LM Studio、Ollama、vLLM。",
-  "settings.assistant.provider.unavailable": "此版本尚未提供。",
-  "settings.assistant.relayBaseUrl": "API中转站地址",
-  "settings.assistant.relayModel": "默认模型",
-  "settings.assistant.relayModelManual": "手动填写…",
-  "settings.assistant.relayNote":
-    "填写 OpenAI 兼容接口地址即可，例如 https://example.com/v1。无需安装本地 CLI。",
-  "settings.assistant.relayModelsFetch": "拉取模型",
-  "settings.assistant.relayModelsFetching": "正在拉取…",
-  "settings.assistant.relayModelsLoaded": "已拉取 {count} 个模型",
-  "settings.assistant.relayModelsEmpty":
-    "API中转站未返回模型列表，可手动填写模型名。",
-  "settings.assistant.relayModelsFailed": "拉取模型失败，请检查地址和密钥。",
-  "settings.assistant.accountRelay":
-    "通过 API中转站调用模型。填写地址和 API 密钥后即可使用，无需安装本地代理。",
-  "settings.assistant.endpoint": "服务器地址",
-  "settings.assistant.endpointDesc":
-    "本地模型服务器监听的地址。任何讲 OpenAI API 的服务器都可以。",
-  "settings.assistant.endpointNote":
-    "LM Studio：http://localhost:1234/v1。Ollama：" +
-    "http://localhost:11434/v1。llama.cpp：http://localhost:8080/v1。",
-  "settings.assistant.endpointChecking": "正在向该地址询问有哪些模型...",
-  "settings.assistant.endpointFound_other": "有响应，可选 {count} 个模型。",
-  "settings.assistant.endpointNone":
-    "该地址没有任何响应。请检查服务器是否在运行，以及它的 API 是否已开启。",
-  "settings.assistant.commandMode": "命令在哪里运行",
-  "settings.assistant.commandMode.terminal": "在我的终端里",
-  "settings.assistant.commandMode.background": "在后台",
-  "settings.assistant.commandMode.terminal.note":
-    "命令会被输入到你正在查看的会话中，" +
-    "因此你能看着它们运行，输出也会留在回滚缓冲里。它们会进入该 shell 的历史记录，" +
-    "而助手是从屏幕上读取结果，而不是拿到退出码。",
-  "settings.assistant.commandMode.background.note":
-    "命令在你看不到的独立通道上运行。这样更整洁，" +
-    "助手能拿到真正的退出码和干净的输出，但发生了什么只能听它转述。",
-  "settings.assistant.approval": "运行前询问",
-  "settings.assistant.approval.always": "每一步操作",
-  "settings.assistant.approval.writes": "仅更改类操作",
-  "settings.assistant.approval.never": "从不",
-  "settings.assistant.approval.always.note":
-    "每一次工具调用都会等你确认，包括读取文件或终端。" +
-    "这样很稳妥，但一次长时间的排查会变成大量点击。",
-  "settings.assistant.approval.writes.note":
-    "读取操作自由进行。任何会改变系统的操作都会停下来，" +
-    "并向你展示确切的命令以及将要运行它的主机。",
-  "settings.assistant.approval.never.note":
-    "任何操作都不会停下来等待批准，包括删除数据或重启服务的命令。" +
-    "只有在你能承受把主机弄坏时才适合使用。",
-  "settings.assistant.localTools": "允许在这台电脑上使用工具",
-  "settings.assistant.localToolsDesc":
-    "允许助手读写本地文件并运行本地命令。默认关闭：" +
-    "这个面板是用来管理服务器的，而你自己的机器是比这大得多的一片范围。",
-  "settings.assistant.allowList": "无需批准即可运行的命令",
-  "settings.assistant.allowListDesc":
-    "每行一条，按开头的完整单词匹配。只要命令中含有管道、重定向、分号、" +
-    "替换或第二行，无论以什么开头都一定会询问。",
-  "settings.assistant.allowListNote": "仅当批准方式设为“{mode}”时才生效。",
-  "settings.assistant.blockList": "永不允许运行的命令",
-  "settings.assistant.blockListDesc":
-    "每行一条。这些命令会被直接拒绝而不是询问，在所有批准模式下都是如此，" +
-    "包括“从不”，无论助手是在自己的通道上运行它们还是输入到你的终端里。参数也算数：“rm -rf”同样会拦下 " +
-    "“rm -fr”、“rm -r -f”和“sudo /bin/rm --recursive --force”。",
-  "settings.assistant.blockListEmpty": "清空输入框即表示不拦截任何命令。",
-  "settings.assistant.blockListWarning":
-    "这是防止误操作的护栏，不是安全控制手段。" +
-    "shell 中同一条命令的写法太多，任何列表都不可能全部覆盖，所以重要的操作请保持开启批准。",
-  "settings.assistant.saveList": "保存列表",
-  "settings.assistant.restoreDefaults": "恢复默认",
-  "settings.assistant.quickPrompts": "快捷提问",
-  "settings.assistant.quickPromptsDesc":
-    "对话为空时，面板会把这些问题做成一键按钮。每行一条。" +
-    "默认不预设任何内容，因为真正好用的那些，是你每周都会问自己机器的问题。",
-  "settings.assistant.quickPromptsPlaceholder":
-    "磁盘被什么占满了？\n上次部署为什么失败？",
-  "settings.assistant.quickPromptsNote":
-    "最多 12 条。点击一条只会把它填入输入框而不会直接发送，" +
-    "因此你可以先补充内容。",
-  "settings.assistant.savePrompts": "保存提问",
-  "settings.assistant.steps": "每轮步数",
-  "settings.assistant.stepsDesc":
-    "一个问题最多可以进行多少次工具调用，之后助手就会停下来汇报。" +
-    "迟迟没有结果的运行会自行结束，而不是等到你注意到。",
-  "settings.assistant.lines": "可读取的终端行数",
-  "settings.assistant.linesDesc":
-    "一次读取会返回会话中多少最近的输出。调高可以提供更多上下文，" +
-    "同时也会占用更多对话预算。",
-  "settings.assistant.signIn": "登录方式",
-  "settings.assistant.theAgent": "该代理程序",
-  "settings.assistant.accountOpencode":
-    "OpenCode 使用其 CLI 中已配置的服务商和凭据。" +
-    "请用“opencode auth login”管理它们；保存在这里的密钥不会传给 OpenCode。",
-  "settings.assistant.accountGrokApi":
-    "本机没有安装 Grok Build，因此 NoxSSH 直接用这里保存的密钥调用 xAI API，" +
-    "按 token 计费。安装 CLI 并登录后即可改用你自己的套餐。",
-  "settings.assistant.accountKimi":
-    "无论本机是否安装了 CLI，Kimi Code 都使用这里保存的密钥，" +
-    "按 token 计费。NoxSSH 会用它自己的一份配置来驱动 CLI，" +
-    "因此本机上的 Kimi Code 登录不会被读取，也不会被改动。",
-  "settings.assistant.accountLocal":
-    "没有需要登录的账户。模型就跑在这台电脑上，" +
-    "因此既没有账户，也不按 token 计费。只有你自己在服务器上设置了密钥时才需要填。",
-  "settings.assistant.accountPlan":
-    "已在本机通过 {agent} 登录，使用的是 {plan} 套餐。" +
-    "用量从该套餐扣除，因此这里不需要填写密钥。",
-  "settings.assistant.accountProvider":
-    "本机的 {agent} 已配置为使用 {provider}，" +
-    "其凭据由该服务商自行管理。这里无需任何设置。",
-  "settings.assistant.accountAgentKey":
-    "本机的 {agent} 正在使用 API 密钥，因此按 token 计费。",
-  "settings.assistant.accountStoredKey":
-    "这里已保存一个密钥并会被使用。清空输入框并保存即可将其删除，" +
-    "并回退到 {agent} 的登录。",
-  "settings.assistant.accountNone":
-    "如果你已经在本机登录 {agent}（通常都是这样），那就无需任何操作。" +
-    "只有在没有登录时才需要密钥。",
-  "settings.assistant.apiKey": "API 密钥",
-  "settings.assistant.keyStored": "已保存一个密钥",
-  "settings.assistant.keyOptional": "只有服务器要求时才需要",
-  "settings.assistant.keySaved": "密钥已保存。",
-  "settings.assistant.keyRemoved": "密钥已删除。",
-  "settings.assistant.keyFailed": "无法保存该密钥。",
-  "settings.assistant.noSecureStore":
-    "本系统没有可用的安全存储，因此无法在此保存密钥。",
-  "settings.assistant.tools": "它能做什么",
-  "settings.assistant.toolsDesc":
-    "共 {count} 个工具，其中 {readOnly} 个只读。其余受上面的批准设置约束。",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "监控",
@@ -1064,12 +918,12 @@ export default {
   "settings.account.backupDeleted": "备份已删除",
   "settings.account.resetLocalTitle": "清空本机数据",
   "settings.account.resetLocalDesc":
-    "删除本机上的主机、密钥、代码片段、代理、已知主机、助手设置和 WebDAV 同步配置，恢复为初始状态。不会改动服务器上已有的同步数据或历史备份。",
+    "删除本机上的主机、密钥、代码片段、代理、已知主机和 WebDAV 同步配置，恢复为初始状态。不会改动服务器上已有的同步数据或历史备份。",
   "settings.account.resetLocal": "清空本机数据",
   "settings.account.resettingLocal": "正在清空…",
   "settings.account.resetLocalConfirmTitle": "清空本机数据？",
   "settings.account.resetLocalConfirmMessage":
-    "本机上的主机、密钥、代码片段、代理、已知主机、助手设置以及 WebDAV 地址、账号和口令将被删除。服务器上的同步数据和历史备份不受影响。",
+    "本机上的主机、密钥、代码片段、代理、已知主机以及 WebDAV 地址、账号和口令将被删除。服务器上的同步数据和历史备份不受影响。",
   "settings.account.resetLocalConfirm": "清空本机",
   "settings.account.localResetDone": "本机数据已清空",
 
@@ -1413,95 +1267,6 @@ export default {
     "也可以打开一个 SOCKS 代理，从它那里浏览网页。",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "AI 助手",
-  "assistant.welcome": "一起来打理你的服务器吧",
-  "assistant.welcomeNote":
-    "它会读取这个终端，在独立通道上运行命令，并且可以在你保存的所有主机上工作。",
-  "assistant.createQuickPrompts": "创建快捷提问",
-  "assistant.newConversation": "新对话",
-  "assistant.chats": "对话",
-  "assistant.chatHistory": "对话历史",
-  "assistant.working": "处理中",
-  "assistant.send": "发送",
-  "assistant.stop": "停止",
-  "assistant.askAbout": "询问关于{about}的问题",
-  "assistant.costHint": "本次对话的预估费用，按 token 计费",
-
-  "assistant.currentSession": "当前会话",
-  "assistant.nothingConnected": "没有已连接的会话",
-  "assistant.noSessionOpen": "没有打开的会话",
-  "assistant.yourServers": "你的服务器",
-  "assistant.anyHost": "任意主机",
-  "assistant.closedSession": "一个已关闭的会话",
-  "assistant.savedHost": "一台已保存的主机",
-  "assistant.savedHosts": "已保存的主机",
-  "assistant.openSessions": "打开的会话",
-  "assistant.allHostsHint": "所有已保存的主机和打开的会话",
-  "assistant.serverCount": "{count} 台服务器",
-  "assistant.sessionsOpen_other": "{count} 个会话已打开",
-  "assistant.notConnected": "未连接",
-  "assistant.searchScope": "搜索服务器",
-  "assistant.searchScopeAria": "搜索会话和主机",
-
-  "assistant.model": "模型",
-  "assistant.modelAndEffort": "模型与思考强度",
-  "assistant.readingModels": "正在读取模型列表…",
-  "assistant.noModels": "未报告任何模型。请重试",
-  "assistant.notInRuntimeList": "不在此运行时的列表中",
-  "assistant.agentDefault": "{agent} 默认",
-  "assistant.agentDefaultHint": "你安装的 {agent} 使用什么就用什么",
-  "assistant.effort": "思考强度",
-  "assistant.effortLow": "低",
-  "assistant.effortMedium": "中",
-  "assistant.effortHigh": "高",
-  "assistant.effortXHigh": "极高",
-  "assistant.effortMax": "最高",
-  "assistant.effortUltra": "超高",
-
-  "assistant.approvalsLabel": "批准方式：{mode}",
-  "assistant.approvalAlways": "每次都询问",
-  "assistant.approvalAlwaysHint": "每一次工具调用都会等你确认",
-  "assistant.approvalWrites": "更改前询问",
-  "assistant.approvalWritesHint": "读取操作自由进行",
-  "assistant.approvalNever": "放手模式",
-  "assistant.approvalNeverHint": "什么都不会停下，包括删除",
-
-  "assistant.didListHosts": "已列出主机",
-  "assistant.didListSessions": "已列出会话",
-  "assistant.didReadTerminal": "已读取终端",
-  "assistant.didRun": "已运行",
-  "assistant.didType": "已输入",
-  "assistant.didList": "已列出",
-  "assistant.didRead": "已读取",
-  "assistant.didWrite": "已写入",
-  "assistant.didConnect": "已连接到",
-  "assistant.didDisconnect": "已关闭会话",
-  "assistant.lastLines": "最后 {count} 行",
-  "assistant.recentOutput": "最近的输出",
-  "assistant.matching": '匹配 "{query}"',
-
-  "assistant.askRunCommand": "运行一条命令",
-  "assistant.askSendInput": "向终端输入内容",
-  "assistant.askWriteFile": "覆盖一个文件",
-  "assistant.askConnectHost": "建立一个连接",
-  "assistant.askDisconnect": "关闭一个会话",
-  "assistant.askReadTerminal": "读取终端",
-  "assistant.askReadFile": "读取一个文件",
-  "assistant.askListDirectory": "列出一个目录",
-  "assistant.askListHosts": "列出已保存的主机",
-  "assistant.askListSessions": "列出打开的会话",
-  "assistant.askRunLocally": "在本地运行 {tool}",
-  "assistant.onHost": "在 {host} 上",
-  "assistant.allow": "允许",
-  "assistant.decline": "拒绝",
-  "assistant.somethingElse": "换个做法…",
-  "assistant.insteadPlaceholder": "它应该改做什么？",
-  "assistant.copyCommand": "复制命令",
-  "assistant.localWarning": "这会在你自己的电脑上运行，而不是在服务器上。",
-  "assistant.allowed": "已允许",
-  "assistant.declined": "已拒绝",
-  "assistant.timedOut": "已超时",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

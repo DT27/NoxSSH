@@ -10,7 +10,7 @@
 
 <p align="center">
   Un espacio de trabajo de terminal moderno, hecho con Electron, React y xterm.js.<br/>
-  Agente de IA · Paneles divididos · Pestañas · Transferencia de archivos · Reenvío de puertos · Escritorios remotos · Fragmentos
+  Paneles divididos · Pestañas · Transferencia de archivos · Reenvío de puertos · Escritorios remotos · Fragmentos
 </p>
 
 <p align="center">
@@ -33,19 +33,17 @@
 ---
 
 NoxSSH es un fork de [CloudTerm](https://github.com/BradPerbs/cloudterm). Conserva
-el mismo terminal, SFTP, RDP/VNC y asistente. El cambio principal es cómo se
+el mismo terminal, SFTP y RDP/VNC. El cambio principal es cómo se
 sincronizan los datos.
 
 ## Qué cambió
 
-- **Tu propio WebDAV, no una cuenta de CloudBlast.** Hosts, carpetas, claves, fragmentos, proxies, hosts conocidos, ajustes del asistente y del terminal se cifran en este dispositivo y se suben al WebDAV que elijas. Cualquier WebDAV estándar vale.
+- **Tu propio WebDAV, no una cuenta de CloudBlast.** Hosts, carpetas, claves, fragmentos, proxies, hosts conocidos y ajustes del terminal se cifran en este dispositivo y se suben al WebDAV que elijas. Cualquier WebDAV estándar vale.
 - **Copias de seguridad con versiones** en ese WebDAV, por calendario o a mano. Restaura o borra una versión sin tocar la copia de sincronización actual.
-- **Pasarela API.** El asistente puede usar una pasarela API compatible con OpenAI y no necesita un CLI local de Claude, Codex u OpenCode.
 - **Importar copias de NextSSH**, junto a PuTTY, KiTTY, MobaXterm y OpenSSH.
 - **Sin telemetría.** La aplicación no contacta con `console.cloudblast.io` al arrancar. Las actualizaciones se comprueban en [este repositorio](https://github.com/DT27/NoxSSH/releases) de GitHub.
   <img src="NoxSSH_WebDAV.png" alt="Sincronización WebDAV de NoxSSH" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="Copias WebDAV de NoxSSH" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="Reenvío de IA de NoxSSH" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -77,54 +75,10 @@ sincronizan los datos.
   la misma aplicación.
 - **Un sitio donde guardar servidores**: carpetas, etiquetas, un almacén de
   claves y fragmentos, todo cifrado y todo buscable.
-- **Un agente de IA** en un panel junto al terminal, que lee la sesión que
-  tienes delante y trabaja en el servidor a través de ella, preguntando antes
-  de cambiar nada.
 
 <a name="features"></a>
 
 ## Características
-
-### Agente de IA
-
-<p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/claude-code-dark.svg"><img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/codex-dark.svg"><img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/opencode-dark.svg"><img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/grok-dark.svg"><img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/kimi-dark.svg"><img src="docs/logos/kimi.svg" alt="Kimi Code" title="Kimi Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/local-model-dark.svg"><img src="docs/logos/local-model.svg" alt="Modelo local" title="Modelo local" height="34"></picture>
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>Kimi Code</b>
-  &nbsp;·&nbsp; <b>Modelo local</b></sub>
-</p>
-
-- **Funciona con Claude Code, Codex, OpenCode o Grok Build que ya tienes** en tu
-  máquina, con tu propia cuenta: nada que pegar, ninguna suscripción adicional
-- **O con un modelo local** servido en tu propio ordenador (LM Studio, Ollama,
-  llama.cpp, vLLM): sin cuenta, sin clave y sin que nada salga de la máquina
-- **Lee la sesión que estás mirando**, así que responde al error que tienes en
-  pantalla sin que pegues nada
-- **Trabaja en el terminal que ves**: los comandos se escriben en el panel y la
-  salida se queda en tu historial, o se ejecutan en un canal oculto si lo
-  prefieres
-- **Pregunta antes de cambiar nada**, con una lista de comandos que solo miran
-  y un modo más estricto o más suelto cuando lo quieras
-- **Apuntado donde tú digas**: la sesión que tienes delante, una que fijes, o
-  todos los hosts que tengas guardados
-- **Herramientas en vez de suposiciones**: conectar un host guardado, leer y
-  escribir archivos, responder a una pregunta que ya está esperando, leer el
-  historial
-- **Deja en paz tu propia máquina** salvo que le digas lo contrario, y se
-  detiene solo en vez de dar vueltas
-- **Modelo y nivel de razonamiento por conversación**, y mientras trabaja
-  muestra lo que cuesta o cuánto de tu plan llevas usado
 
 ### Terminal
 
@@ -280,10 +234,6 @@ npm install
 npm run dev
 ```
 
-Para usar el agente de IA con OpenCode, instala la CLI `opencode` y configura
-al menos un proveedor de modelos con `opencode auth login`. NoxSSH utiliza
-los proveedores y credenciales existentes de OpenCode; no los copia ni almacena.
-
 Compila un ejecutable portable en `dist/`:
 
 ```bash
@@ -298,7 +248,7 @@ npm run build
 | `Ctrl+Shift+K`       | Paleta de fragmentos   | `Alt+Shift+-`  | Dividir abajo         |
 | `Ctrl+Shift+B`       | Entrada difundida      | `Alt+Shift+Z`  | Ampliar panel         |
 | `Ctrl+Shift+C` / `V` | Copiar y pegar         | `Ctrl+Shift+W` | Cerrar panel          |
-| `Ctrl+Shift+A`       | Agente de IA           | `Alt+Flechas`  | Moverse entre paneles |
+| `Alt+Flechas`        | Moverse entre paneles  |                |                       |
 
 <a name="community"></a>
 
@@ -328,7 +278,7 @@ Gracias a todas las personas que han aportado su trabajo a CloudTerm, y a quiene
 ## Tecnología
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` es el proceso principal de Electron, un módulo por función.
 `src/renderer/` es la interfaz React: `components/` por función, `hooks/` para el

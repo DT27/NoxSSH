@@ -10,7 +10,7 @@
 
 <p align="center">
   Electron、React、xterm.js で作られたモダンなターミナルワークスペース。<br/>
-  AI アシスタント · 分割ペイン · タブ · ファイル転送 · ポート転送 · リモートデスクトップ · スニペット
+  分割ペイン · タブ · ファイル転送 · ポート転送 · リモートデスクトップ · スニペット
 </p>
 
 <p align="center">
@@ -33,18 +33,16 @@
 ---
 
 NoxSSH は [CloudTerm](https://github.com/BradPerbs/cloudterm) のフォークです。ターミナル、SFTP、
-RDP/VNC、アシスタントはそのままに、データの同期方法を主に変更しています。
+RDP/VNC はそのままに、データの同期方法を主に変更しています。
 
 ## 主な変更点
 
-- **CloudBlast アカウントではなく、自分の WebDAV。** ホスト、フォルダー、鍵、スニペット、プロキシ、既知のホスト、アシスタント設定、ターミナル設定は、この端末で暗号化してから指定した WebDAV にアップロードします。標準の WebDAV ならどれでも使えます。
+- **CloudBlast アカウントではなく、自分の WebDAV。** ホスト、フォルダー、鍵、スニペット、プロキシ、既知のホスト、ターミナル設定は、この端末で暗号化してから指定した WebDAV にアップロードします。標準の WebDAV ならどれでも使えます。
 - **バージョン付き履歴バックアップ**を WebDAV に保存。スケジュールまたは手動。あるバージョンを復元・削除しても、現在の同期データには影響しません。
-- **APIゲートウェイ。** AI アシスタントは OpenAI 互換の APIゲートウェイを使え、このマシンに Claude、Codex、OpenCode CLI を入れる必要はありません。
 - **NextSSH バックアップのインポート。** PuTTY、KiTTY、MobaXterm、OpenSSH と同じ並びです。
 - **テレメトリなし。** 起動時に `console.cloudblast.io` へアクセスしません。更新確認は GitHub の [このリポジトリ](https://github.com/DT27/NoxSSH/releases) を見ます。
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="NoxSSH" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -76,28 +74,6 @@ RDP/VNC、アシスタントはそのままに、データの同期方法を主�
 <a name="features"></a>
 
 ## 機能
-
-### AI アシスタント
-
-<p align="center">
-  <img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/local-model.svg" alt="ローカルモデル" title="ローカルモデル" height="34">
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>ローカルモデル</b></sub>
-</p>
-
-- **すでに入っている Claude Code、Codex、OpenCode、Grok Build** を、自分のアカウントと設定のまま使う
-- **ローカルモデルも可**：LM Studio、Ollama、llama.cpp、vLLM など。アカウントも鍵も不要。何もこのパソコンから出ない
-- **今見ているセッションを読んでリモートサーバーを操作**。変更の前に確認する
-- **会話ごとにモデルと推論の強さを選べる**。実行中に使用量を表示
 
 ### ターミナル
 
@@ -246,10 +222,6 @@ npm install
 npm run dev
 ```
 
-OpenCode で AI アシスタントを使うには、`opencode` CLI を入れ、
-`opencode auth login` で少なくとも 1 つのモデルプロバイダーを設定してください。
-NoxSSH は OpenCode 既存のプロバイダーと資格情報だけを使い、複製も保存もしません。
-
 ポータブル実行ファイルは `dist/` に出力されます：
 
 ```bash
@@ -292,7 +264,7 @@ CloudTerm に力を貸したすべての人、そしてここで続けている�
 ## 技術スタック
 
 Electron · React · xterm.js · ssh2 · IronRDP（WebAssembly）· noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` は Electron メインプロセス。機能ごとに 1 モジュール。
 `src/renderer/` は React UI：`components/` は機能別、`hooks/` は状態、

@@ -6,7 +6,6 @@ const knownHosts = require("./known-hosts");
 const vault = require("./vault");
 const activity = require("./activity");
 const backup = require("./backup");
-const assistantSettings = require("./ai/settings");
 
 const SCHEMA_VERSION = 1;
 
@@ -408,10 +407,6 @@ function collect() {
     proxies: everything.proxies || [],
     knownHosts: knownHosts.exportAll() || {},
     settings: rendererSettings || null,
-    // Assistant config + decrypted provider keys. Older snapshots omit this
-    // field; older clients ignore it. History stays on the machine that
-    // produced it (see archive.js).
-    assistant: assistantSettings.exportAll(),
   };
 }
 
@@ -435,24 +430,6 @@ function apply(payload) {
 
   if (payload.settings) {
     notify("cloud-snapshot-settings", payload.settings);
-  }
-
-  if (payload.assistant) {
-    const assistant = assistantSettings.importAll(payload.assistant);
-    summary.assistant = assistant;
-    if (assistant.applied && assistant.before && assistant.after) {
-      const { before, after } = assistant;
-      try {
-        const runtime = require("./ai");
-        runtime.reconfigure(before, after);
-      } catch (error) {
-        console.error(
-          "Could not reconfigure the assistant after sync:",
-          error.message
-        );
-      }
-      notify("ai-settings", after);
-    }
   }
 
   return summary;
@@ -881,16 +858,6 @@ async function resetLocalData() {
   try {
     store.resetAll();
     knownHosts.resetAll();
-    const assistant = assistantSettings.resetAll();
-    try {
-      const runtime = require("./ai");
-      await runtime.resetAll();
-      if (assistant.before && assistant.after) {
-        runtime.reconfigure(assistant.before, assistant.after);
-      }
-    } catch (error) {
-      console.error("Could not reset the assistant:", error.message);
-    }
     activity.clear();
     state = emptyState();
     persist();
@@ -898,7 +865,6 @@ async function resetLocalData() {
     suppressPush = false;
   }
 
-  notify("ai-settings", assistantSettings.get());
   notify("webdav-sync-state", { ...status(), localReset: true });
   return { reset: true };
 }
@@ -1058,7 +1024,6 @@ function start(notifier) {
 
   store.onChanged?.(schedulePush);
   knownHosts.onChanged?.(schedulePush);
-  assistantSettings.onChanged?.(schedulePush);
 
   powerMonitor.on("resume", () => {
     if (!blocked()) pull();

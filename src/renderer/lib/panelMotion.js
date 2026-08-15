@@ -28,13 +28,8 @@ const EASE_REVEAL = cubicBezier(0.4, 0, 0.2, 1);
 
 /**
  * The sidebar is a place you go and stay, so it can afford the longer move.
- * The assistant is a panel you flick in and out of mid-sentence while reading
- * the terminal, and 300ms of that gets old fast: short enough to feel like the
- * column simply widened, long enough that the eye follows the edge rather than
- * being handed a new layout.
  */
 const SIDEBAR_MS = 300;
-const ASSISTANT_MS = 180;
 
 /** The sheet, which is put in front of you and then gets out of the way. */
 const SHEET_IN_MS = 380;
@@ -72,47 +67,6 @@ export function slideSidebar(node, open) {
         ease: EASE_REVEAL,
         overwrite: 'auto',
     });
-}
-
-/** The assistant's column at a width, with nothing to animate from. */
-export function setAssistantWidth(node, width) {
-    if (!node) return;
-    gsap.set(node, { width: width + APP_GUTTER });
-}
-
-/**
- * The assistant's column opening or shutting.
- *
- * Three movements on one timeline rather than three tweens that happen to be
- * the same length: the column widening, the rail button going, and the card
- * arriving are one gesture, and a timeline is a single thing to report the end
- * of. The old version had to guess that end with a timer set past the length of
- * the transition.
- *
- * Both fading elements are placed at the far end of their fade first, but only
- * if they have just arrived. The card is mounted for the slide that reveals it
- * and the rail is put back for the slide that hides it, and an element that has
- * just been built carries no opacity of its own, so it would be read as fully
- * on and have nothing to fade from. One that is already on screen is left
- * exactly where it is, which is what lets a panel flicked shut halfway open
- * carry on from the opacity it had reached rather than snapping back.
- *
- * `width` is the column's whole width, gutter included, so this does not have
- * to know which side of the rail the panel is on.
- */
-export function revealAssistant({ column, rail, card, width, open, onComplete }) {
-    const move = { duration: seconds(ASSISTANT_MS), ease: EASE_REVEAL, overwrite: 'auto' };
-
-    if (rail && !rail.style.opacity) gsap.set(rail, { opacity: open ? 1 : 0 });
-    if (card && !card.style.opacity) gsap.set(card, { opacity: open ? 0 : 1 });
-
-    const reveal = gsap.timeline({ onComplete });
-
-    reveal.to(column, { width: width + APP_GUTTER, ...move }, 0);
-    if (rail) reveal.to(rail, { opacity: open ? 0 : 1, ...move }, 0);
-    if (card) reveal.to(card, { opacity: open ? 1 : 0, ...move }, 0);
-
-    return reveal;
 }
 
 /** The sheet where it starts: off the bottom, with nothing over the page yet. */

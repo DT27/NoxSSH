@@ -23,7 +23,7 @@ import { slideCard } from '../lib/cardMotion';
  * ## Reflow
  *
  * A grid that takes its column count from its own width rewraps when the
- * assistant panel is dragged, and none of that goes through React: no state
+ * sidebar is opened or the window is resized, and none of that goes through React: no state
  * changes, so no layout effect runs, so the cards used to jump between layouts
  * with nothing in between. A ResizeObserver covers that case.
  *

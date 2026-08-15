@@ -10,7 +10,7 @@
 
 <p align="center">
   A modern terminal workspace built with Electron, React and xterm.js.<br/>
-  AI agent · Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
+  Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
 </p>
 
 <p align="center">
@@ -33,19 +33,17 @@
 ---
 
 NoxSSH is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm). It keeps
-the same terminal, SFTP, RDP/VNC and assistant. The main change is how data is
+the same terminal, SFTP, RDP/VNC. The main change is how data is
 synced.
 
 ## What changed
 
-- **Your own WebDAV, not a CloudBlast account.** Hosts, folders, keys, snippets, proxies, known hosts, assistant settings and terminal settings are encrypted on this device, then uploaded to a WebDAV you choose. Any standard WebDAV works.
+- **Your own WebDAV, not a CloudBlast account.** Hosts, folders, keys, snippets, proxies, known hosts and terminal settings are encrypted on this device, then uploaded to a WebDAV you choose. Any standard WebDAV works.
 - **Versioned backups** stored on that WebDAV, on a schedule or by hand. Restore or delete one version without touching the live sync copy.
-- **API Gateway.** The assistant can use an OpenAI-compatible API Gateway and does not need a local Claude, Codex or OpenCode CLI.
 - **Import NextSSH backups**, next to PuTTY, KiTTY, MobaXterm and OpenSSH.
 - **No telemetry.** The app does not contact `console.cloudblast.io` on launch. Updates are checked against [this repository](https://github.com/DT27/NoxSSH/releases) on GitHub.
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH WebDAV sync" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH WebDAV backups" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="NoxSSH AI API Gateway" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -85,94 +83,9 @@ synced.
 
   encrypted and all searchable.
 
-- **An AI agent** in a panel beside the terminal, which reads the session you
-
-  are looking at and works on the server through it, asking before it changes
-  anything.
-
 <a name="features"></a>
 
 ## Features
-
-### AI agent
-
-Pick the agent you already have. NoxSSH drives the CLI on your machine under
-your own account, so there is nothing to paste and nothing extra to subscribe
-to. Or point it at a model running on your own computer, and nothing leaves the
-machine at all. An API Gateway URL works too, if you would rather not install a CLI.
-
-<table align="center">
-  <tr>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/claude-code-dark.svg"><img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="32"></picture></td>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/codex-dark.svg"><img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="32"></picture></td>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/opencode-dark.svg"><img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="32"></picture></td>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/grok-dark.svg"><img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="32"></picture></td>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/kimi-dark.svg"><img src="docs/logos/kimi.svg" alt="Kimi Code" title="Kimi Code" height="32"></picture></td>
-    <td align="center" width="128"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/local-model-dark.svg"><img src="docs/logos/local-model.svg" alt="Local model" title="Local model" height="32"></picture></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Claude Code</b></td>
-    <td align="center"><b>Codex</b></td>
-    <td align="center"><b>OpenCode</b></td>
-    <td align="center"><b>Grok Build</b></td>
-    <td align="center"><b>Kimi Code</b></td>
-    <td align="center"><b>Local model</b></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Anthropic models</sub></td>
-    <td align="center"><sub>OpenAI models</sub></td>
-    <td align="center"><sub>Any provider you have set up</sub></td>
-    <td align="center"><sub>xAI models</sub></td>
-    <td align="center"><sub>Moonshot models</sub></td>
-    <td align="center"><sub>Whatever you have loaded</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Sign in with <code>claude</code>, then <code>/login</code></sub></td>
-    <td align="center"><sub>Sign in with the Codex app or CLI</sub></td>
-    <td align="center"><sub>Sign in with <code>opencode auth login</code></sub></td>
-    <td align="center"><sub>Sign in with <code>grok</code>, or paste an xAI key</sub></td>
-    <td align="center"><sub>Paste a Moonshot key</sub></td>
-    <td align="center"><sub>No account, no key, no internet</sub></td>
-  </tr>
-</table>
-
-Whichever you choose, the agent:
-
-- **Reads the session you are watching**, so the error on your screen is the
-
-  one it answers, without you pasting anything
-
-- **Works in the terminal you can see**: commands are typed into the pane and
-
-  the output stays in your scrollback, or run on a hidden channel if you prefer
-
-- **Asks before it changes anything**, with an allow list for the commands that
-
-  only look, and a stricter or looser mode when you want one
-
-- **Pointed where you like**: the session in front, one you pin, or every host
-
-  you have saved
-
-- **Tools instead of guesses**: connect a saved host, read and write files,
-
-  answer a prompt that is already waiting, read the scrollback
-
-- **Leaves your own machine alone** unless you say otherwise, and stops on its
-
-  own rather than looping
-
-- **Model and reasoning effort per conversation**, with what it is costing, or
-
-  how much of your plan it has used, shown as it works
-
-> Claude Code has to be the native install, the one that puts `claude` in
->
-> be started the way the agent runs it.
-
-> On Windows, install OpenCode natively with Chocolatey, Scoop, npm, or its
->
-> NoxSSH desktop app.
 
 ### Terminal
 
@@ -323,16 +236,6 @@ npm install
 npm run dev
 ```
 
-To use the AI agent with OpenCode, install the `opencode` CLI and configure at
-least one model provider with `opencode auth login`. NoxSSH uses OpenCode's
-existing providers and credentials; it does not copy or store them.
-
-To use a local model, start the server you already run and put its address in
-Settings, Assistant. LM Studio listens on `http://localhost:1234/v1`, Ollama on
-`http://localhost:11434/v1`, llama.cpp on `http://localhost:8080/v1`; anything
-that speaks the OpenAI API works. Pick a model with tool support, since the
-assistant works by calling tools rather than by writing text.
-
 Build a portable executable into `dist/`:
 
 ```bash
@@ -347,7 +250,7 @@ npm run build
 | `Ctrl+Shift+K`       | Snippet palette    | `Alt+Shift+-`  | Split down         |
 | `Ctrl+Shift+B`       | Broadcast input    | `Alt+Shift+Z`  | Zoom pane          |
 | `Ctrl+Shift+C` / `V` | Copy and paste     | `Ctrl+Shift+W` | Close pane         |
-| `Ctrl+Shift+A`       | AI agent           | `Alt+Arrows`   | Move between panes |
+| `Alt+Arrows`         | Move between panes |                |                    |
 
 <a name="community"></a>
 
@@ -377,7 +280,7 @@ continued it here.
 ## Tech stack
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` is the Electron main process, one module per feature.
 `src/renderer/` is the React UI: `components/` by feature, `hooks/` for state,

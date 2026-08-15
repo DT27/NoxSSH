@@ -549,7 +549,6 @@ export default {
   "settings.nav.general": "一般",
   "settings.nav.appearance": "外観",
   "settings.nav.terminal": "ターミナル",
-  "settings.nav.assistant": "AI アシスタント",
   "settings.nav.monitoring": "監視",
   "settings.nav.logging": "ログ記録",
   "settings.nav.security": "セキュリティ",
@@ -695,151 +694,6 @@ export default {
   "settings.terminal.customThemeDesc": "背景、文字、カーソル、ANSI 色を自分で設定する",
   "settings.terminal.themeChanged": "ターミナルテーマを {theme} に切り替えました",
   "settings.terminal.customApplied": "カスタムのターミナルテーマを適用しました",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "AI アシスタント",
-  "settings.assistant.desc":
-    "アシスタントはターミナルを読み、すでに開いている接続を通じてサーバー上で作業します。" +
-    "保存済みのパスワードや鍵は決して見えません。",
-  "settings.assistant.loading": "アシスタント設定を読み込んでいます…",
-  "settings.assistant.agent": "エージェント",
-  "settings.assistant.agentDesc":
-    "どのコーディングエージェントが答えるかです。このマシンに入っているもの、APIゲートウェイ、または自分で動かしているモデルです。切り替えると新しい会話が始まります。",
-  "settings.assistant.provider.claudeCode": "Anthropic 製。自分のアカウントを使います。",
-  "settings.assistant.provider.codex": "OpenAI 製。自分のアカウントを使います。",
-  "settings.assistant.provider.opencode": "オープンソース。設定したプロバイダーを使います。",
-  "settings.assistant.provider.relayName": "APIゲートウェイ",
-  "settings.assistant.provider.relay":
-    "OpenAI 互換の APIゲートウェイを使います。Claude Code / Codex / OpenCode のインストールは不要です。",
-  "settings.assistant.provider.grok": "xAI 製。自分のアカウントを使います。",
-  "settings.assistant.provider.kimi": "Moonshot 製。Moonshot の鍵を使います。",
-  "settings.assistant.provider.local":
-    "自分のモデル：LM Studio、Ollama、vLLM。",
-  "settings.assistant.provider.unavailable": "このバージョンではまだ使えません。",
-  "settings.assistant.relayBaseUrl": "APIゲートウェイのアドレス",
-  "settings.assistant.relayModel": "既定のモデル",
-  "settings.assistant.relayModelManual": "手入力…",
-  "settings.assistant.relayNote":
-    "OpenAI 互換の API アドレスを入れてください。例：https://example.com/v1。ローカル CLI のインストールは不要です。",
-  "settings.assistant.relayModelsFetch": "モデルを取得",
-  "settings.assistant.relayModelsFetching": "取得中…",
-  "settings.assistant.relayModelsLoaded": "{count} 個のモデルを取得しました",
-  "settings.assistant.relayModelsEmpty":
-    "APIゲートウェイはモデル一覧を返しませんでした。モデル名を手入力できます。",
-  "settings.assistant.relayModelsFailed": "モデルの取得に失敗しました。アドレスと鍵を確認してください。",
-  "settings.assistant.accountRelay":
-    "APIゲートウェイ経由でモデルを呼び出します。アドレスと API キーを入れれば使えます。ローカルエージェントのインストールは不要です。",
-  "settings.assistant.endpoint": "サーバーアドレス",
-  "settings.assistant.endpointDesc":
-    "ローカルモデルサーバーが待ち受けているアドレスです。OpenAI API を話すサーバーならどれでも構いません。",
-  "settings.assistant.endpointNote":
-    "LM Studio：http://localhost:1234/v1。Ollama：" +
-    "http://localhost:11434/v1。llama.cpp：http://localhost:8080/v1。",
-  "settings.assistant.endpointChecking": "そのアドレスにどのモデルがあるか尋ねています...",
-  "settings.assistant.endpointFound_other": "応答あり。選べるモデルは {count} 個です。",
-  "settings.assistant.endpointNone":
-    "そのアドレスは何も応答しませんでした。サーバーが動いているか、API が有効かを確認してください。",
-  "settings.assistant.commandMode": "コマンドの実行場所",
-  "settings.assistant.commandMode.terminal": "自分のターミナルで",
-  "settings.assistant.commandMode.background": "バックグラウンドで",
-  "settings.assistant.commandMode.terminal.note":
-    "コマンドは今見ているセッションに打ち込まれるため、" +
-    "実行の様子を見られ、出力もスクロールバックに残ります。そのシェルの履歴にも入り、" +
-    "アシスタントは終了コードではなく画面上の結果を読みます。",
-  "settings.assistant.commandMode.background.note":
-    "コマンドは見えない独立したチャネルで走ります。すっきりしており、" +
-    "アシスタントは本当の終了コードときれいな出力を受け取れますが、何が起きたかはその説明を聞くしかありません。",
-  "settings.assistant.approval": "実行前に確認する",
-  "settings.assistant.approval.always": "すべての操作",
-  "settings.assistant.approval.writes": "変更する操作だけ",
-  "settings.assistant.approval.never": "しない",
-  "settings.assistant.approval.always.note":
-    "ファイルやターミナルの読み取りを含め、ツール呼び出しのたびに確認を待ちます。" +
-    "安全ですが、長い調査はクリックの連続になります。",
-  "settings.assistant.approval.writes.note":
-    "読み取りは自由に進みます。システムを変える操作は止まり、" +
-    "正確なコマンドと実行先のホストを見せます。",
-  "settings.assistant.approval.never.note":
-    "データの削除やサービスの再起動を含め、どの操作も承認を待ちません。" +
-    "ホストを壊しても構わないときだけ使ってください。",
-  "settings.assistant.localTools": "このコンピューター上のツールを許可する",
-  "settings.assistant.localToolsDesc":
-    "アシスタントがローカルファイルを読み書きし、ローカルコマンドを実行できるようにします。既定はオフです。" +
-    "このパネルはサーバー管理用であり、自分のマシンはその何倍も広い範囲です。",
-  "settings.assistant.allowList": "承認なしで実行してよいコマンド",
-  "settings.assistant.allowListDesc":
-    "1 行に 1 つ。先頭の完全な単語で照合します。パイプ、リダイレクト、セミコロン、" +
-    "置換、2 行目のいずれかがあれば、先頭が何であれ必ず尋ねます。",
-  "settings.assistant.allowListNote": "承認方式が「{mode}」のときだけ効きます。",
-  "settings.assistant.blockList": "絶対に実行させないコマンド",
-  "settings.assistant.blockListDesc":
-    "1 行に 1 つ。これらのコマンドは尋ねずに拒否されます。すべての承認モードでそうで、" +
-    "「しない」も含みます。アシスタントが自分のチャネルで走らせても、あなたのターミナルに打ち込んでも同じです。引数も数えます。「rm -rf」は " +
-    "「rm -fr」、「rm -r -f」、「sudo /bin/rm --recursive --force」も止めます。",
-  "settings.assistant.blockListEmpty": "入力欄を空にすると、どのコマンドも止めません。",
-  "settings.assistant.blockListWarning":
-    "これは誤操作を防ぐガードレールであり、セキュリティ制御ではありません。" +
-    "シェルでは同じコマンドの書き方が多すぎて、どの一覧もすべてを覆えません。重要な操作では承認をオンのままにしてください。",
-  "settings.assistant.saveList": "一覧を保存",
-  "settings.assistant.restoreDefaults": "既定に戻す",
-  "settings.assistant.quickPrompts": "クイック質問",
-  "settings.assistant.quickPromptsDesc":
-    "会話が空のとき、パネルはこれらの質問をワンクリックのボタンにします。1 行に 1 つです。" +
-    "既定では何も入っていません。本当に役立つのは、毎週自分のマシンに聞く質問だからです。",
-  "settings.assistant.quickPromptsPlaceholder":
-    "ディスクを埋めているのは何？\n前回のデプロイはなぜ失敗した？",
-  "settings.assistant.quickPromptsNote":
-    "最大 12 件です。クリックしても送信はせず入力欄に入るだけなので、" +
-    "先に補足できます。",
-  "settings.assistant.savePrompts": "質問を保存",
-  "settings.assistant.steps": "1 回あたりの手数",
-  "settings.assistant.stepsDesc":
-    "1 つの質問で行えるツール呼び出しの上限です。それを超えるとアシスタントは止まって報告します。" +
-    "なかなか結果が出ない実行は、あなたが気づく前に自分で終わります。",
-  "settings.assistant.lines": "読めるターミナルの行数",
-  "settings.assistant.linesDesc":
-    "1 回の読み取りで返す、セッションの直近出力の量です。上げると文脈は増えますが、" +
-    "会話の予算も多く使います。",
-  "settings.assistant.signIn": "ログイン方法",
-  "settings.assistant.theAgent": "このエージェント",
-  "settings.assistant.accountOpencode":
-    "OpenCode は CLI で設定済みのプロバイダーと資格情報を使います。" +
-    "「opencode auth login」で管理してください。ここに保存した鍵は OpenCode へ渡りません。",
-  "settings.assistant.accountGrokApi":
-    "このマシンに Grok Build が入っていないため、NoxSSH はここに保存した鍵で xAI API を直接呼び、" +
-    "トークン課金になります。CLI を入れてログインすれば、自分のプランを使えます。",
-  "settings.assistant.accountKimi":
-    "CLI の有無にかかわらず、Kimi Code はここに保存した鍵で動き、" +
-    "トークン課金です。NoxSSH は独自の設定で CLI を動かすため、" +
-    "このマシンの Kimi Code ログインは読み取られず、使われません。",
-  "settings.assistant.accountLocal":
-    "ログインするアカウントはありません。モデルはこのコンピューター上で動くため、" +
-    "アカウントもトークン課金もありません。サーバー側で鍵を求めているときだけ入れてください。",
-  "settings.assistant.accountPlan":
-    "このマシンでは {agent} でログイン済みで、{plan} プランを使っています。" +
-    "使用量はそのプランから引かれるため、ここへ鍵を入れる必要はありません。",
-  "settings.assistant.accountProvider":
-    "このマシンの {agent} は {provider} を使うよう設定されており、" +
-    "資格情報はそのプロバイダーが管理します。ここでの設定は不要です。",
-  "settings.assistant.accountAgentKey":
-    "このマシンの {agent} は API キーを使っているため、トークン課金です。",
-  "settings.assistant.accountStoredKey":
-    "ここに鍵が保存されており、それが使われます。入力欄を空にして保存すると削除され、" +
-    "{agent} のログインに戻ります。",
-  "settings.assistant.accountNone":
-    "このマシンですでに {agent} にログインしているなら（たいていそうです）、何もする必要はありません。" +
-    "鍵が必要なのはログインしていないときだけです。",
-  "settings.assistant.apiKey": "API キー",
-  "settings.assistant.keyStored": "鍵が保存されています",
-  "settings.assistant.keyOptional": "サーバーが求めるときだけ必要です",
-  "settings.assistant.keySaved": "鍵を保存しました。",
-  "settings.assistant.keyRemoved": "鍵を削除しました。",
-  "settings.assistant.keyFailed": "その鍵を保存できませんでした。",
-  "settings.assistant.noSecureStore":
-    "このシステムには安全な保存場所がないため、ここに鍵を保存できません。",
-  "settings.assistant.tools": "できること",
-  "settings.assistant.toolsDesc":
-    "ツールは {count} 個で、うち {readOnly} 個は読み取り専用です。残りは上の承認設定に従います。",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "監視",
@@ -1064,12 +918,12 @@ export default {
   "settings.account.backupDeleted": "バックアップを削除しました",
   "settings.account.resetLocalTitle": "このマシンのデータを空にする",
   "settings.account.resetLocalDesc":
-    "このマシン上のホスト、鍵、スニペット、プロキシ、既知のホスト、アシスタント設定、WebDAV 同期設定を削除し、初期状態に戻します。サーバー上の既存の同期データや履歴バックアップは変えません。",
+    "このマシン上のホスト、鍵、スニペット、プロキシ、既知のホスト、WebDAV 同期設定を削除し、初期状態に戻します。サーバー上の既存の同期データや履歴バックアップは変えません。",
   "settings.account.resetLocal": "このマシンのデータを空にする",
   "settings.account.resettingLocal": "空にしています…",
   "settings.account.resetLocalConfirmTitle": "このマシンのデータを空にしますか？",
   "settings.account.resetLocalConfirmMessage":
-    "このマシン上のホスト、鍵、スニペット、プロキシ、既知のホスト、アシスタント設定、および WebDAV のアドレス、アカウント、パスフレーズが削除されます。サーバー上の同期データと履歴バックアップは影響を受けません。",
+    "このマシン上のホスト、鍵、スニペット、プロキシ、既知のホスト、および WebDAV のアドレス、アカウント、パスフレーズが削除されます。サーバー上の同期データと履歴バックアップは影響を受けません。",
   "settings.account.resetLocalConfirm": "このマシンを空にする",
   "settings.account.localResetDone": "このマシンのデータを空にしました",
 
@@ -1413,95 +1267,6 @@ export default {
     "SOCKS プロキシを開いて、そこから Web を見ることもできます。",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "AI アシスタント",
-  "assistant.welcome": "サーバーの手入れを一緒にしましょう",
-  "assistant.welcomeNote":
-    "このターミナルを読み、独立したチャネルでコマンドを実行し、保存済みのすべてのホストで働けます。",
-  "assistant.createQuickPrompts": "クイック質問を作る",
-  "assistant.newConversation": "新しい会話",
-  "assistant.chats": "会話",
-  "assistant.chatHistory": "会話履歴",
-  "assistant.working": "処理中",
-  "assistant.send": "送信",
-  "assistant.stop": "停止",
-  "assistant.askAbout": "{about}について尋ねる",
-  "assistant.costHint": "この会話の見積もり費用。トークン課金です",
-
-  "assistant.currentSession": "現在のセッション",
-  "assistant.nothingConnected": "接続中のセッションはありません",
-  "assistant.noSessionOpen": "開いているセッションはありません",
-  "assistant.yourServers": "あなたのサーバー",
-  "assistant.anyHost": "任意のホスト",
-  "assistant.closedSession": "閉じたセッション",
-  "assistant.savedHost": "保存済みのホスト",
-  "assistant.savedHosts": "保存済みのホスト",
-  "assistant.openSessions": "開いているセッション",
-  "assistant.allHostsHint": "保存済みのすべてのホストと開いているセッション",
-  "assistant.serverCount": "{count} 台のサーバー",
-  "assistant.sessionsOpen_other": "{count} 個のセッションが開いています",
-  "assistant.notConnected": "未接続",
-  "assistant.searchScope": "サーバーを検索",
-  "assistant.searchScopeAria": "セッションとホストを検索",
-
-  "assistant.model": "モデル",
-  "assistant.modelAndEffort": "モデルと思考の強さ",
-  "assistant.readingModels": "モデル一覧を読み込んでいます…",
-  "assistant.noModels": "モデルは報告されていません。もう一度試してください",
-  "assistant.notInRuntimeList": "このランタイムの一覧にありません",
-  "assistant.agentDefault": "{agent} の既定",
-  "assistant.agentDefaultHint": "インストールした {agent} が使うものをそのまま使います",
-  "assistant.effort": "思考の強さ",
-  "assistant.effortLow": "低",
-  "assistant.effortMedium": "中",
-  "assistant.effortHigh": "高",
-  "assistant.effortXHigh": "非常に高い",
-  "assistant.effortMax": "最高",
-  "assistant.effortUltra": "超高",
-
-  "assistant.approvalsLabel": "承認方式：{mode}",
-  "assistant.approvalAlways": "毎回尋ねる",
-  "assistant.approvalAlwaysHint": "ツール呼び出しのたびに確認を待ちます",
-  "assistant.approvalWrites": "変更の前に尋ねる",
-  "assistant.approvalWritesHint": "読み取りは自由に進みます",
-  "assistant.approvalNever": "手放しモード",
-  "assistant.approvalNeverHint": "削除を含め、何も止まりません",
-
-  "assistant.didListHosts": "ホストを一覧しました",
-  "assistant.didListSessions": "セッションを一覧しました",
-  "assistant.didReadTerminal": "ターミナルを読みました",
-  "assistant.didRun": "実行しました",
-  "assistant.didType": "入力しました",
-  "assistant.didList": "一覧しました",
-  "assistant.didRead": "読みました",
-  "assistant.didWrite": "書きました",
-  "assistant.didConnect": "接続しました",
-  "assistant.didDisconnect": "セッションを閉じました",
-  "assistant.lastLines": "最後の {count} 行",
-  "assistant.recentOutput": "直近の出力",
-  "assistant.matching": '"{query}" に一致',
-
-  "assistant.askRunCommand": "コマンドを実行する",
-  "assistant.askSendInput": "ターミナルへ入力する",
-  "assistant.askWriteFile": "ファイルを上書きする",
-  "assistant.askConnectHost": "接続を確立する",
-  "assistant.askDisconnect": "セッションを閉じる",
-  "assistant.askReadTerminal": "ターミナルを読む",
-  "assistant.askReadFile": "ファイルを読む",
-  "assistant.askListDirectory": "ディレクトリを一覧する",
-  "assistant.askListHosts": "保存済みホストを一覧する",
-  "assistant.askListSessions": "開いているセッションを一覧する",
-  "assistant.askRunLocally": "ローカルで {tool} を実行する",
-  "assistant.onHost": "{host} 上",
-  "assistant.allow": "許可",
-  "assistant.decline": "拒否",
-  "assistant.somethingElse": "別のやり方に…",
-  "assistant.insteadPlaceholder": "代わりに何をすべきですか？",
-  "assistant.copyCommand": "コマンドをコピー",
-  "assistant.localWarning": "これはサーバーではなく、あなた自身のコンピューターで実行されます。",
-  "assistant.allowed": "許可しました",
-  "assistant.declined": "拒否しました",
-  "assistant.timedOut": "タイムアウトしました",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

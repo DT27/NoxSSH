@@ -11,7 +11,6 @@ import FolderModal from "./components/FolderModal";
 import SessionScreen from "./components/ui/SessionScreen";
 import SplitLayout from "./components/panes/SplitLayout";
 import PanePicker from "./components/panes/PanePicker";
-import AssistantPanel from "./components/assistant/AssistantPanel";
 import { useTheme } from "./hooks/useTheme";
 import { useSessions } from "./hooks/useSessions";
 import { useTerminalTheme } from "./hooks/useTerminalTheme";
@@ -19,7 +18,6 @@ import { useTerminalSettings } from "./hooks/useTerminalSettings";
 import { useKeychain } from "./hooks/useKeychain";
 import useSettingsSnapshot from "./hooks/useSettingsSnapshot";
 import { APP_GUTTER } from "./lib/layout";
-import { hostOs } from "./lib/os-icons";
 import { tagCounts } from "./lib/tags";
 import {
   createGroup,
@@ -179,18 +177,6 @@ function App() {
 
   // Where typing goes: 'off' | 'tab' | 'window'. See BROADCAST_SCOPES.
   const [broadcast, setBroadcast] = useState("off");
-
-  // The assistant column. Its width is remembered because it is the kind of
-  // thing someone sets once to suit their screen and never touches again.
-  const [assistantOpen, setAssistantOpen] = useState(false);
-  const [assistantWidth, setAssistantWidth] = useState(() => {
-    const stored = Number(window.localStorage.getItem("assistant.width"));
-    return Number.isFinite(stored) && stored >= 320 ? stored : 400;
-  });
-  // paneId -> resolve, for a connection the assistant asked for and is
-  // waiting on. Opening a tab is not the same as being connected, and the
-  // tool cannot hand back a session id until it is.
-  const assistantConnects = useRef(new Map());
 
   // Mirrors for callbacks that must not re-bind on every tab change.
   const tabsRef = useRef(tabs);
@@ -580,22 +566,6 @@ function App() {
 
   const handleConnectResult = useCallback(
     (paneId, result, { reconnect = false } = {}) => {
-      // Anything the assistant is waiting on is answered first, whichever way
-      // it went. A tool blocked on a connection that failed should be told
-      // that, not left to time out.
-      const waiter = assistantConnects.current.get(paneId);
-      if (waiter) {
-        assistantConnects.current.delete(paneId);
-        waiter(
-          result.success
-            ? { success: true, sessionId: paneId }
-            : {
-                success: false,
-                message: result.message || "The connection failed",
-              }
-        );
-      }
-
       const found = locatePane(paneId);
       if (!found) return;
 
@@ -1293,131 +1263,6 @@ function App() {
     return () => document.removeEventListener("keydown", handler, true);
   }, [handleSplitPane, handleToggleZoom, handleClosePane, handleFocusNeighbor]);
 
-  /**
-   * The assistant, toggled from anywhere.
-   *
-   * Registered separately from the pane chords above, which bail out unless a
-   * terminal tab is in front. This one has to work on the Hosts page too,
-   * where "connect to the box that is paging me" is a perfectly good opening
-   * line.
-   */
-  useEffect(() => {
-    const handler = (event) => {
-      if (
-        event.ctrlKey &&
-        event.shiftKey &&
-        !event.altKey &&
-        event.code === "KeyA"
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-        setAssistantOpen((open) => !open);
-      }
-    };
-    document.addEventListener("keydown", handler, true);
-    return () => document.removeEventListener("keydown", handler, true);
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem("assistant.width", String(assistantWidth));
-  }, [assistantWidth]);
-
-  /**
-   * Jump from the panel to its settings.
-   *
-   * The category is written before navigating because that is where the
-   * settings shell reads it from, so this lands on the Assistant page rather
-   * than on whichever one was open last.
-   */
-  const handleOpenAssistantSettings = useCallback(() => {
-    window.localStorage.setItem("settings.category", "assistant");
-    setActiveTabId("home");
-    setActiveNav("settings");
-    setReachedForPage((count) => count + 1);
-  }, []);
-
-  /**
-   * The things the assistant cannot do for itself.
-   *
-   * Opening a session means creating a tab, and tabs live here. So the main
-   * process asks, this answers, and the tool on the other side is held until
-   * it does. Connecting is the interesting one: a tab existing is not the
-   * same as a connection working, so the reply waits for the pane to report
-   * back rather than claiming success the moment the tab appears.
-   */
-  useEffect(() => {
-    return window.api.ai.onAction(
-      async ({ requestId, action, hostId, sessionId, data }) => {
-        const respond = (result) =>
-          window.api.ai.respondToAction(requestId, result);
-
-        try {
-          if (action === "connect") {
-            const host = hosts.find((entry) => entry.id === hostId);
-            if (!host) {
-              respond({
-                success: false,
-                message: "That host is no longer saved",
-              });
-              return;
-            }
-
-            const opened = handleConnect(host);
-            if (!opened?.tabId) {
-              respond({
-                success: false,
-                message: "The session could not be opened",
-              });
-              return;
-            }
-
-            const result = await new Promise((resolve) => {
-              assistantConnects.current.set(opened.tabId, resolve);
-              setTimeout(() => {
-                if (assistantConnects.current.delete(opened.tabId)) {
-                  resolve({
-                    success: false,
-                    message: "The connection did not complete in time",
-                  });
-                }
-              }, 60000);
-            });
-            respond(result);
-            return;
-          }
-
-          if (action === "disconnect") {
-            const controls = paneConnections.current.get(sessionId);
-            if (!controls) {
-              respond({
-                success: false,
-                message: "That session is not open here",
-              });
-              return;
-            }
-            controls.disconnect();
-            respond({ success: true });
-            return;
-          }
-
-          if (action === "input") {
-            // Straight to the one session, deliberately not through
-            // handlePaneInput: a tool that names a session must not be
-            // multiplied across every pane by whatever broadcast mode
-            // happens to be on.
-            window.api.ssh.sendInput(sessionId, data);
-            respond({ success: true });
-            return;
-          }
-
-          respond({ success: false, message: `Unknown action "${action}"` });
-        } catch (error) {
-          respond({ success: false, message: error.message });
-        }
-      }
-    );
-  }, [hosts, handleConnect]);
-
   /** Clicking the tab you are on is the same gesture. See `reachedForPage`. */
   const handleTabClick = useCallback((tabId) => {
     if (tabId === activeTabIdRef.current)
@@ -1616,11 +1461,9 @@ function App() {
   /**
    * Which session is which, when several of them are on the same host.
    *
-   * Computed once here rather than in each of the two places that show a
-   * session, because the whole value of the number is that the tab and the
-   * assistant's scope menu agree on it. Two lists counting separately would
-   * be worse than no numbers at all: they would look authoritative and point
-   * at different terminals.
+   * Computed once here rather than in each place that shows a session, so the
+   * tab strip and the pane header agree on it. Two lists counting separately
+   * would look authoritative and point at different terminals.
    *
    * Every terminal pane is counted, connected or not, so a session dropping
    * does not silently renumber the ones beside it.
@@ -1701,49 +1544,6 @@ function App() {
     }
     return ids;
   }, [tabs]);
-
-  /**
-   * The sessions the assistant can be pointed at, and which one is in front.
-   *
-   * Derived from the tab tree rather than asked for over IPC: the tree is
-   * the model of what is open, and a second list that could disagree with it
-   * is a bug waiting to happen.
-   */
-  const assistantSessions = useMemo(() => {
-    const sessions = [];
-    for (const tab of tabs) {
-      if (tab.type !== "terminal") continue;
-      for (const pane of collectPanes(tab.layout)) {
-        if (pane.mode !== "terminal" || !pane.connected) continue;
-        sessions.push({
-          sessionId: pane.id,
-          // The saved host this terminal came from, when it came from
-          // one. It is what lets the scope menu say a host already
-          // has sessions open, and what lets pinning that host cover
-          // them without naming each one.
-          hostId: pane.host?.id || "",
-          hostName: pane.host?.name || pane.title || "",
-          address: pane.host?.host || "",
-          // The same pair the tab strip draws this session's icon
-          // from, so a row in the assistant's picker and the tab it
-          // refers to are recognisably the same machine.
-          os: hostOs(pane.host),
-          distro: pane.host?.distro || "",
-          // The same number the tab strip is showing, so "the second
-          // web-01" means one terminal rather than two.
-          ordinal: sessionOrdinals.get(pane.id) || 0,
-        });
-      }
-    }
-    return sessions;
-  }, [tabs, sessionOrdinals]);
-
-  const activeSessionId = useMemo(() => {
-    const tab = tabs.find((entry) => entry.id === activeTabId);
-    if (tab?.type !== "terminal") return "";
-    const pane = findPane(tab.layout, tab.focusedPaneId);
-    return pane?.mode === "terminal" && pane.connected ? pane.id : "";
-  }, [tabs, activeTabId]);
 
   return (
     // `app-drag` turns the gutter around the shell into a window frame you
@@ -1993,25 +1793,6 @@ function App() {
               );
             })}
         </main>
-
-        {/* A column beside the content, not over it. The terminal gives
-                    up the width rather than being covered, which matters for a
-                    panel whose whole job is talking about what is on screen.
-
-                    Always here, open or shut, because the two states are one
-                    column at two widths and it animates between them. Shut, it
-                    is the rail: the button and nothing else. */}
-        <AssistantPanel
-          open={assistantOpen}
-          sessions={assistantSessions}
-          hosts={hosts}
-          activeSessionId={activeSessionId}
-          width={assistantWidth}
-          onWidthChange={setAssistantWidth}
-          onOpenSettings={handleOpenAssistantSettings}
-          onOpen={() => setAssistantOpen(true)}
-          onClose={() => setAssistantOpen(false)}
-        />
       </div>
 
       {/* Mounted only while open. The sheet animates itself out and calls

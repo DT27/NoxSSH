@@ -705,7 +705,7 @@ export default function AccountPage() {
             </div>
             <p className="text-xs text-gray-500 dark:text-neutral-400 mt-1">
               {t("settings.account.resetLocalDesc") ||
-                "Clears hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV setup on this computer. Files already on the server are left alone."}
+                "Clears hosts, keys, snippets, proxies, known hosts and the WebDAV setup on this computer. Files already on the server are left alone."}
             </p>
           </div>
           <button

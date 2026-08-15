@@ -549,7 +549,6 @@ export default {
   "settings.nav.general": "일반",
   "settings.nav.appearance": "모양",
   "settings.nav.terminal": "터미널",
-  "settings.nav.assistant": "AI 도우미",
   "settings.nav.monitoring": "모니터링",
   "settings.nav.logging": "로깅",
   "settings.nav.security": "보안",
@@ -695,151 +694,6 @@ export default {
   "settings.terminal.customThemeDesc": "배경, 텍스트, 커서, ANSI 색을 직접 설정합니다",
   "settings.terminal.themeChanged": "터미널 테마가 {theme}(으)로 바뀌었습니다",
   "settings.terminal.customApplied": "사용자 지정 터미널 테마를 적용했습니다",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "AI 도우미",
-  "settings.assistant.desc":
-    "도우미는 터미널을 읽고, 이미 열어 둔 연결을 통해 서버에서 작업합니다. " +
-    "저장된 비밀번호나 키는 절대 보지 않습니다.",
-  "settings.assistant.loading": "도우미 설정을 불러오는 중…",
-  "settings.assistant.agent": "에이전트",
-  "settings.assistant.agentDesc":
-    "어떤 코딩 에이전트가 답할지: 이 컴퓨터에 설치된 것, API 게이트웨이, 또는 직접 돌리는 모델. 바꾸면 새 대화가 시작됩니다.",
-  "settings.assistant.provider.claudeCode": "Anthropic, 내 계정 사용.",
-  "settings.assistant.provider.codex": "OpenAI, 내 계정 사용.",
-  "settings.assistant.provider.opencode": "오픈 소스, 설정한 제공자 사용.",
-  "settings.assistant.provider.relayName": "API 게이트웨이",
-  "settings.assistant.provider.relay":
-    "OpenAI 호환 API 게이트웨이를 사용합니다. Claude Code / Codex / OpenCode를 설치할 필요가 없습니다.",
-  "settings.assistant.provider.grok": "xAI, 내 계정 사용.",
-  "settings.assistant.provider.kimi": "Moonshot, Moonshot 키 사용.",
-  "settings.assistant.provider.local":
-    "내 모델: LM Studio, Ollama, vLLM.",
-  "settings.assistant.provider.unavailable": "이 빌드에서는 아직 제공되지 않습니다.",
-  "settings.assistant.relayBaseUrl": "API 게이트웨이 주소",
-  "settings.assistant.relayModel": "기본 모델",
-  "settings.assistant.relayModelManual": "직접 입력…",
-  "settings.assistant.relayNote":
-    "OpenAI 호환 엔드포인트만 넣으면 됩니다. 예: https://example.com/v1. 로컬 CLI는 필요 없습니다.",
-  "settings.assistant.relayModelsFetch": "모델 가져오기",
-  "settings.assistant.relayModelsFetching": "가져오는 중…",
-  "settings.assistant.relayModelsLoaded": "모델 {count}개를 가져왔습니다",
-  "settings.assistant.relayModelsEmpty":
-    "API 게이트웨이가 모델 목록을 반환하지 않았습니다. 모델 이름을 직접 입력할 수 있습니다.",
-  "settings.assistant.relayModelsFailed": "모델을 가져오지 못했습니다. 주소와 키를 확인하세요.",
-  "settings.assistant.accountRelay":
-    "API 게이트웨이를 통해 모델을 호출합니다. 주소와 API 키를 넣으면 되며, 로컬 에이전트는 필요 없습니다.",
-  "settings.assistant.endpoint": "서버 주소",
-  "settings.assistant.endpointDesc":
-    "로컬 모델 서버가 수신하는 주소입니다. OpenAI API를 말하는 서버면 됩니다.",
-  "settings.assistant.endpointNote":
-    "LM Studio: http://localhost:1234/v1. Ollama: " +
-    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
-  "settings.assistant.endpointChecking": "해당 주소에 어떤 모델이 있는지 묻는 중...",
-  "settings.assistant.endpointFound_other": "응답함, 고를 수 있는 모델 {count}개.",
-  "settings.assistant.endpointNone":
-    "해당 주소에서 아무 응답이 없습니다. 서버가 실행 중인지, API가 켜져 있는지 확인하세요.",
-  "settings.assistant.commandMode": "명령이 실행되는 곳",
-  "settings.assistant.commandMode.terminal": "내 터미널에서",
-  "settings.assistant.commandMode.background": "백그라운드에서",
-  "settings.assistant.commandMode.terminal.note":
-    "보고 있는 세션에 명령이 입력되므로 " +
-    "실행을 지켜볼 수 있고 출력은 스크롤백에 남습니다. 해당 셸의 기록에 들어가며, " +
-    "도우미는 종료 코드가 아니라 화면에서 결과를 읽습니다.",
-  "settings.assistant.commandMode.background.note":
-    "보이지 않는 별도 채널에서 명령이 실행됩니다. 더 깔끔하고 " +
-    "도우미가 실제 종료 코드와 깨끗한 출력을 받지만, 무슨 일이 있었는지는 전언에 의존합니다.",
-  "settings.assistant.approval": "실행 전 묻기",
-  "settings.assistant.approval.always": "모든 작업",
-  "settings.assistant.approval.writes": "변경 작업만",
-  "settings.assistant.approval.never": "묻지 않음",
-  "settings.assistant.approval.always.note":
-    "파일이나 터미널 읽기를 포함해 모든 도구 호출이 확인을 기다립니다. " +
-    "안전하지만, 긴 조사는 클릭이 많아집니다.",
-  "settings.assistant.approval.writes.note":
-    "읽기는 자유롭게 진행됩니다. 시스템을 바꾸는 작업은 멈추고 " +
-    "정확한 명령과 실행할 호스트를 보여 줍니다.",
-  "settings.assistant.approval.never.note":
-    "데이터를 지우거나 서비스를 재시작하는 명령을 포함해 아무 작업도 승인을 기다리지 않습니다. " +
-    "호스트를 망가뜨려도 감당할 수 있을 때만 쓰세요.",
-  "settings.assistant.localTools": "이 컴퓨터에서 도구 사용 허용",
-  "settings.assistant.localToolsDesc":
-    "도우미가 로컬 파일을 읽고 쓰고 로컬 명령을 실행할 수 있습니다. 기본은 꺼짐입니다. " +
-    "이 패널은 서버 관리용이며, 내 기기는 그보다 훨씬 넓은 범위입니다.",
-  "settings.assistant.allowList": "승인 없이 실행할 수 있는 명령",
-  "settings.assistant.allowListDesc":
-    "한 줄에 하나, 앞의 완전한 단어로 맞춥니다. 파이프, 리다이렉트, 세미콜론, " +
-    "치환, 둘째 줄이 있으면 무엇이로 시작하든 반드시 묻습니다.",
-  "settings.assistant.allowListNote": "승인 방식이 “{mode}”일 때만 적용됩니다.",
-  "settings.assistant.blockList": "절대 실행하지 않을 명령",
-  "settings.assistant.blockListDesc":
-    "한 줄에 하나입니다. 이 명령은 묻지 않고 바로 거부되며, “묻지 않음”을 포함한 모든 승인 모드에서 그렇습니다. " +
-    "도우미가 자체 채널에서 실행하든 터미널에 입력하든 마찬가지입니다. 인자도 셉니다. “rm -rf”는 " +
-    "“rm -fr”, “rm -r -f”, “sudo /bin/rm --recursive --force”도 막습니다.",
-  "settings.assistant.blockListEmpty": "입력란을 비우면 아무 명령도 막지 않습니다.",
-  "settings.assistant.blockListWarning":
-    "실수 방지용 가드레일이지 보안 통제가 아닙니다. " +
-    "셸에서 같은 명령을 쓰는 방법이 너무 많아 어떤 목록도 전부 덮을 수 없으므로, 중요한 작업은 승인을 켜 두세요.",
-  "settings.assistant.saveList": "목록 저장",
-  "settings.assistant.restoreDefaults": "기본값 복원",
-  "settings.assistant.quickPrompts": "빠른 질문",
-  "settings.assistant.quickPromptsDesc":
-    "대화가 비어 있을 때 패널이 이 질문들을 원클릭 버튼으로 만듭니다. 한 줄에 하나. " +
-    "기본값은 없습니다. 진짜 쓸모 있는 것은 매주 자기 기기에게 묻는 질문이기 때문입니다.",
-  "settings.assistant.quickPromptsPlaceholder":
-    "디스크를 무엇이 채우고 있나요?\n지난 배포는 왜 실패했나요?",
-  "settings.assistant.quickPromptsNote":
-    "최대 12개입니다. 하나를 누르면 바로 보내지 않고 입력란에만 넣으므로 " +
-    "먼저 내용을 보탤 수 있습니다.",
-  "settings.assistant.savePrompts": "질문 저장",
-  "settings.assistant.steps": "턴당 단계 수",
-  "settings.assistant.stepsDesc":
-    "한 질문에 도구를 최대 몇 번 호출한 뒤 도우미가 멈추고 보고할지입니다. " +
-    "결과가 나오지 않는 실행은 당신이 알아차리기 전에 스스로 끝납니다.",
-  "settings.assistant.lines": "읽을 수 있는 터미널 줄 수",
-  "settings.assistant.linesDesc":
-    "한 번 읽기가 세션의 최근 출력을 얼마나 돌려주는지입니다. 높이면 맥락이 늘지만 " +
-    "대화 예산도 더 씁니다.",
-  "settings.assistant.signIn": "로그인 방식",
-  "settings.assistant.theAgent": "해당 에이전트",
-  "settings.assistant.accountOpencode":
-    "OpenCode는 CLI에 이미 설정된 제공자와 자격 증명을 사용합니다. " +
-    "“opencode auth login”으로 관리하세요. 여기에 저장된 키는 OpenCode에 전달되지 않습니다.",
-  "settings.assistant.accountGrokApi":
-    "이 컴퓨터에 Grok Build가 없어 NoxSSH가 여기에 저장한 키로 xAI API를 직접 호출하며, " +
-    "토큰당 과금됩니다. CLI를 설치하고 로그인하면 내 요금제를 쓸 수 있습니다.",
-  "settings.assistant.accountKimi":
-    "CLI 설치 여부와 관계없이 Kimi Code는 여기에 저장된 키로 동작하며, " +
-    "토큰당 과금됩니다. NoxSSH는 자체 설정으로 CLI를 구동하므로 " +
-    "이 컴퓨터의 Kimi Code 로그인은 읽히지 않고 사용되지 않습니다.",
-  "settings.assistant.accountLocal":
-    "로그인할 계정이 없습니다. 모델이 이 컴퓨터에서 돌아가므로 " +
-    "계정도, 토큰당 과금도 없습니다. 서버에 직접 키를 둔 경우에만 입력하면 됩니다.",
-  "settings.assistant.accountPlan":
-    "이 컴퓨터에서 {agent}(으)로 로그인되어 있으며 {plan} 요금제를 씁니다. " +
-    "사용량은 그 요금제에서 빠지므로 여기에 키를 넣을 필요가 없습니다.",
-  "settings.assistant.accountProvider":
-    "이 컴퓨터의 {agent}가 {provider}를 쓰도록 설정되어 있으며, " +
-    "자격 증명은 해당 제공자가 관리합니다. 여기서는 아무 설정도 필요 없습니다.",
-  "settings.assistant.accountAgentKey":
-    "이 컴퓨터의 {agent}가 API 키를 쓰므로 토큰당 과금됩니다.",
-  "settings.assistant.accountStoredKey":
-    "여기에 저장된 키가 사용됩니다. 입력란을 비우고 저장하면 삭제되고 " +
-    "{agent} 로그인으로 돌아갑니다.",
-  "settings.assistant.accountNone":
-    "이미 이 컴퓨터에서 {agent}에 로그인했다면(보통 그렇습니다) 할 일이 없습니다. " +
-    "로그인하지 않은 경우에만 키가 필요합니다.",
-  "settings.assistant.apiKey": "API 키",
-  "settings.assistant.keyStored": "키가 저장되어 있습니다",
-  "settings.assistant.keyOptional": "서버가 요구할 때만 필요합니다",
-  "settings.assistant.keySaved": "키를 저장했습니다.",
-  "settings.assistant.keyRemoved": "키를 삭제했습니다.",
-  "settings.assistant.keyFailed": "해당 키를 저장할 수 없습니다.",
-  "settings.assistant.noSecureStore":
-    "이 시스템에 사용 가능한 보안 저장소가 없어 여기에 키를 저장할 수 없습니다.",
-  "settings.assistant.tools": "할 수 있는 일",
-  "settings.assistant.toolsDesc":
-    "도구 {count}개 중 {readOnly}개는 읽기 전용입니다. 나머지는 위의 승인 설정을 따릅니다.",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "모니터링",
@@ -1064,12 +918,12 @@ export default {
   "settings.account.backupDeleted": "백업을 삭제했습니다",
   "settings.account.resetLocalTitle": "이 기기의 데이터 지우기",
   "settings.account.resetLocalDesc":
-    "이 컴퓨터의 호스트, 키, 스니펫, 프록시, 알려진 호스트, 도우미 설정, WebDAV 동기화 구성을 지우고 초기 상태로 되돌립니다. 서버의 동기화 데이터나 이력 백업은 건드리지 않습니다.",
+    "이 컴퓨터의 호스트, 키, 스니펫, 프록시, 알려진 호스트, WebDAV 동기화 구성을 지우고 초기 상태로 되돌립니다. 서버의 동기화 데이터나 이력 백업은 건드리지 않습니다.",
   "settings.account.resetLocal": "로컬 데이터 지우기",
   "settings.account.resettingLocal": "지우는 중…",
   "settings.account.resetLocalConfirmTitle": "로컬 데이터를 지울까요?",
   "settings.account.resetLocalConfirmMessage":
-    "이 컴퓨터의 호스트, 키, 스니펫, 프록시, 알려진 호스트, 도우미 설정과 WebDAV 주소, 계정, 암호가 삭제됩니다. 서버의 동기화 데이터와 이력 백업은 영향받지 않습니다.",
+    "이 컴퓨터의 호스트, 키, 스니펫, 프록시, 알려진 호스트와 WebDAV 주소, 계정, 암호가 삭제됩니다. 서버의 동기화 데이터와 이력 백업은 영향받지 않습니다.",
   "settings.account.resetLocalConfirm": "이 기기 지우기",
   "settings.account.localResetDone": "로컬 데이터를 지웠습니다",
 
@@ -1413,95 +1267,6 @@ export default {
     "SOCKS 프록시를 열어 그곳에서 웹을 둘러볼 수도 있습니다.",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "AI 도우미",
-  "assistant.welcome": "서버를 함께 관리해 볼까요",
-  "assistant.welcomeNote":
-    "이 터미널을 읽고, 별도 채널에서 명령을 실행하며, 저장한 모든 호스트에서 작업할 수 있습니다.",
-  "assistant.createQuickPrompts": "빠른 질문 만들기",
-  "assistant.newConversation": "새 대화",
-  "assistant.chats": "대화",
-  "assistant.chatHistory": "대화 기록",
-  "assistant.working": "처리 중",
-  "assistant.send": "보내기",
-  "assistant.stop": "중지",
-  "assistant.askAbout": "{about}에 대해 묻기",
-  "assistant.costHint": "이 대화의 예상 비용, 토큰당 과금",
-
-  "assistant.currentSession": "현재 세션",
-  "assistant.nothingConnected": "연결된 세션이 없습니다",
-  "assistant.noSessionOpen": "열린 세션이 없습니다",
-  "assistant.yourServers": "내 서버",
-  "assistant.anyHost": "임의 호스트",
-  "assistant.closedSession": "닫힌 세션",
-  "assistant.savedHost": "저장된 호스트",
-  "assistant.savedHosts": "저장된 호스트",
-  "assistant.openSessions": "열린 세션",
-  "assistant.allHostsHint": "저장된 모든 호스트와 열린 세션",
-  "assistant.serverCount": "서버 {count}대",
-  "assistant.sessionsOpen_other": "세션 {count}개 열림",
-  "assistant.notConnected": "연결되지 않음",
-  "assistant.searchScope": "서버 검색",
-  "assistant.searchScopeAria": "세션과 호스트 검색",
-
-  "assistant.model": "모델",
-  "assistant.modelAndEffort": "모델과 사고 강도",
-  "assistant.readingModels": "모델 목록을 읽는 중…",
-  "assistant.noModels": "보고된 모델이 없습니다. 다시 시도하세요",
-  "assistant.notInRuntimeList": "이 런타임 목록에 없음",
-  "assistant.agentDefault": "{agent} 기본값",
-  "assistant.agentDefaultHint": "설치한 {agent}가 쓰는 것을 그대로 사용",
-  "assistant.effort": "사고 강도",
-  "assistant.effortLow": "낮음",
-  "assistant.effortMedium": "중간",
-  "assistant.effortHigh": "높음",
-  "assistant.effortXHigh": "매우 높음",
-  "assistant.effortMax": "최대",
-  "assistant.effortUltra": "초고",
-
-  "assistant.approvalsLabel": "승인 방식: {mode}",
-  "assistant.approvalAlways": "매번 묻기",
-  "assistant.approvalAlwaysHint": "모든 도구 호출이 확인을 기다립니다",
-  "assistant.approvalWrites": "변경 전에 묻기",
-  "assistant.approvalWritesHint": "읽기는 자유롭게 진행됩니다",
-  "assistant.approvalNever": "자유 모드",
-  "assistant.approvalNeverHint": "삭제를 포함해 아무것도 멈추지 않습니다",
-
-  "assistant.didListHosts": "호스트를 나열함",
-  "assistant.didListSessions": "세션을 나열함",
-  "assistant.didReadTerminal": "터미널을 읽음",
-  "assistant.didRun": "실행함",
-  "assistant.didType": "입력함",
-  "assistant.didList": "나열함",
-  "assistant.didRead": "읽음",
-  "assistant.didWrite": "씀",
-  "assistant.didConnect": "연결함",
-  "assistant.didDisconnect": "세션을 닫음",
-  "assistant.lastLines": "마지막 {count}줄",
-  "assistant.recentOutput": "최근 출력",
-  "assistant.matching": '"{query}"와 일치',
-
-  "assistant.askRunCommand": "명령 실행",
-  "assistant.askSendInput": "터미널에 입력",
-  "assistant.askWriteFile": "파일 덮어쓰기",
-  "assistant.askConnectHost": "연결 열기",
-  "assistant.askDisconnect": "세션 닫기",
-  "assistant.askReadTerminal": "터미널 읽기",
-  "assistant.askReadFile": "파일 읽기",
-  "assistant.askListDirectory": "디렉터리 나열",
-  "assistant.askListHosts": "저장된 호스트 나열",
-  "assistant.askListSessions": "열린 세션 나열",
-  "assistant.askRunLocally": "로컬에서 {tool} 실행",
-  "assistant.onHost": "{host}에서",
-  "assistant.allow": "허용",
-  "assistant.decline": "거부",
-  "assistant.somethingElse": "다른 방법…",
-  "assistant.insteadPlaceholder": "대신 무엇을 해야 할까요?",
-  "assistant.copyCommand": "명령 복사",
-  "assistant.localWarning": "서버가 아니라 내 컴퓨터에서 실행됩니다.",
-  "assistant.allowed": "허용됨",
-  "assistant.declined": "거부됨",
-  "assistant.timedOut": "시간 초과",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

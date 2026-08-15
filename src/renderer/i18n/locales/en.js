@@ -625,7 +625,6 @@ export default {
   "settings.nav.general": "General",
   "settings.nav.appearance": "Appearance",
   "settings.nav.terminal": "Terminal",
-  "settings.nav.assistant": "AI Agent",
   "settings.nav.monitoring": "Monitoring",
   "settings.nav.logging": "Logging",
   "settings.nav.security": "Security",
@@ -799,177 +798,6 @@ export default {
     "Set your own background, text, cursor and ANSI colors",
   "settings.terminal.themeChanged": "Terminal theme changed to {theme}",
   "settings.terminal.customApplied": "Custom terminal theme applied",
-
-  /* ---------------------------------------------------------------- *
-   * Settings: Assistant
-   * ---------------------------------------------------------------- */
-  "settings.assistant.title": "AI Agent",
-  "settings.assistant.desc":
-    "The agent reads your terminals and works on your servers " +
-    "through the connections you have already opened. It never sees a stored password or key.",
-  "settings.assistant.loading": "Loading the agent settings...",
-  "settings.assistant.agent": "Agent",
-  "settings.assistant.agentDesc":
-    "Which coding agent answers: one installed on this machine, an " +
-    "API Gateway, or a model you are serving yourself. Switching starts a fresh conversation.",
-  "settings.assistant.provider.claudeCode":
-    "Anthropic’s agent, on your own account.",
-  "settings.assistant.provider.codex": "OpenAI’s agent, on your own account.",
-  "settings.assistant.provider.opencode":
-    "Open source, on the providers you set up.",
-  "settings.assistant.provider.relayName": "API Gateway",
-  "settings.assistant.provider.relay":
-    "Uses an OpenAI-compatible API Gateway. No local Claude Code, Codex or OpenCode install required.",
-  "settings.assistant.provider.grok": "xAI’s agent, on your own account.",
-  "settings.assistant.provider.kimi": "Moonshot’s agent, on a Moonshot key.",
-  "settings.assistant.provider.local":
-    "Your own model: LM Studio, Ollama, vLLM.",
-  "settings.assistant.provider.unavailable": "Not available in this build yet.",
-  "settings.assistant.relayBaseUrl": "API Gateway base URL",
-  "settings.assistant.relayModel": "Default model",
-  "settings.assistant.relayModelManual": "Type a model name…",
-  "settings.assistant.relayNote":
-    "Enter an OpenAI-compatible endpoint, e.g. https://example.com/v1. No local CLI is required.",
-  "settings.assistant.relayModelsFetch": "Fetch models",
-  "settings.assistant.relayModelsFetching": "Fetching…",
-  "settings.assistant.relayModelsLoaded": "Loaded {count} models",
-  "settings.assistant.relayModelsEmpty":
-    "The API Gateway returned no models. You can type a model name instead.",
-  "settings.assistant.relayModelsFailed":
-    "Could not fetch models. Check the URL and API key.",
-  "settings.assistant.accountRelay":
-    "Talks to the model through an API Gateway. Enter a base URL and API key. No local agent is required.",
-  "settings.assistant.endpoint": "Server address",
-  "settings.assistant.endpointDesc":
-    "Where the local model server is listening. Any server that " +
-    "speaks the OpenAI API works here.",
-  "settings.assistant.endpointNote":
-    "LM Studio: http://localhost:1234/v1. Ollama: " +
-    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
-  "settings.assistant.endpointChecking": "Asking that address what it has...",
-  "settings.assistant.endpointFound_one":
-    "Answered, with 1 model to choose from.",
-  "settings.assistant.endpointFound_other":
-    "Answered, with {count} models to choose from.",
-  "settings.assistant.endpointNone":
-    "Nothing answered at that address. Check the server is " +
-    "running and that its API is switched on.",
-  "settings.assistant.commandMode": "Where commands run",
-  "settings.assistant.commandMode.terminal": "In my terminal",
-  "settings.assistant.commandMode.background": "Out of sight",
-  "settings.assistant.commandMode.terminal.note":
-    "Commands are typed into the session you are " +
-    "looking at, so you watch them run and the output stays in your scrollback. They go into " +
-    "that shell’s history, and the assistant reads the result off the screen rather than " +
-    "getting an exit code.",
-  "settings.assistant.commandMode.background.note":
-    "Commands run on a separate channel you " +
-    "cannot see. Tidier, and the assistant gets a real exit code and clean output, but you " +
-    "are taking its word for what happened.",
-  "settings.assistant.approval": "Ask before running",
-  "settings.assistant.approval.always": "Every action",
-  "settings.assistant.approval.writes": "Changes only",
-  "settings.assistant.approval.never": "Never",
-  "settings.assistant.approval.always.note":
-    "Every tool call waits for you, including reading a " +
-    "file or the terminal. Thorough, but a long investigation becomes a lot of clicking.",
-  "settings.assistant.approval.writes.note":
-    "Reading runs freely. Anything that changes a system " +
-    "stops and shows you the exact command and the host it would run on.",
-  "settings.assistant.approval.never.note":
-    "Nothing stops for approval, including commands that " +
-    "delete data or restart services. Only sensible for hosts you can afford to break.",
-  "settings.assistant.localTools": "Allow tools on this computer",
-  "settings.assistant.localToolsDesc":
-    "Lets the assistant read and write local files and run " +
-    "local commands. Off by default: the panel is for managing servers, and your own machine " +
-    "is a far wider surface than that needs.",
-  "settings.assistant.allowList": "Commands that never need approval",
-  "settings.assistant.allowListDesc":
-    "One per line, matched on the whole first words. A command " +
-    "containing a pipe, a redirect, a semicolon, a substitution or a second line is always " +
-    "asked about, whatever it starts with.",
-  "settings.assistant.allowListNote":
-    'Only applies while approvals are set to "{mode}".',
-  "settings.assistant.blockList": "Commands it may never run",
-  "settings.assistant.blockListDesc":
-    "One per line. These are refused outright rather than asked " +
-    'about, in every approval mode including "Never", and whether the assistant runs them on ' +
-    'their own channel or types them into your terminal. Flags count: "rm -rf" also stops ' +
-    '"rm -fr", "rm -r -f" and "sudo /bin/rm --recursive --force".',
-  "settings.assistant.blockListEmpty": "Clear the box to block nothing.",
-  "settings.assistant.blockListWarning":
-    "A guardrail against mistakes, not a security control. A " +
-    "shell has too many ways to spell the same command for any list to catch them all, so " +
-    "keep approvals on for anything that matters.",
-  "settings.assistant.saveList": "Save list",
-  "settings.assistant.restoreDefaults": "Restore defaults",
-  "settings.assistant.quickPrompts": "Quick prompts",
-  "settings.assistant.quickPromptsDesc":
-    "Questions the panel offers as one-click buttons when a " +
-    "conversation is empty. One per line. Nothing is set up to begin with, because the ones " +
-    "worth having are the ones you find yourself asking your own machines every week.",
-  "settings.assistant.quickPromptsPlaceholder":
-    "What is filling up the disk?\n" + "Why did the last deploy fail?",
-  "settings.assistant.quickPromptsNote":
-    "Up to 12. Clicking one puts it in the box rather than " +
-    "sending it, so you can add to it first.",
-  "settings.assistant.savePrompts": "Save prompts",
-  "settings.assistant.steps": "Steps per turn",
-  "settings.assistant.stepsDesc":
-    "How many tool calls one question may take before the assistant " +
-    "stops and reports back. A run that is not converging ends on its own rather than when " +
-    "you notice.",
-  "settings.assistant.lines": "Terminal lines it can read",
-  "settings.assistant.linesDesc":
-    "How much of a session’s recent output one read returns. Higher " +
-    "gives it more context to work from and uses more of the conversation’s budget.",
-  "settings.assistant.signIn": "Signing in",
-  "settings.assistant.theAgent": "the agent",
-  "settings.assistant.accountOpencode":
-    "OpenCode uses the providers and credentials already " +
-    'configured in its CLI. Manage them with "opencode auth login"; keys stored here ' +
-    "are not passed to OpenCode.",
-  "settings.assistant.accountGrokApi":
-    "Grok Build is not installed on this machine, so NoxSSH " +
-    "talks to the xAI API directly with the key stored here, and usage is charged per token. " +
-    "Install the CLI and sign in to use your own plan instead.",
-  "settings.assistant.accountKimi":
-    "Kimi Code always runs on the key stored here, whether the CLI " +
-    "is installed or not, and usage is charged per token. NoxSSH drives the CLI against a " +
-    "configuration of its own, so a Kimi Code login on this machine is left alone and not used.",
-  "settings.assistant.accountLocal":
-    "Nothing to sign in to. The model runs on this computer, so " +
-    "there is no account and no per-token charge. A key is only needed if you put one on the " +
-    "server yourself.",
-  "settings.assistant.accountPlan":
-    "Signed in through {agent} on this machine, on a {plan} plan. " +
-    "Usage comes out of that plan, so no key is needed here.",
-  "settings.assistant.accountProvider":
-    "{agent} on this machine is set up against {provider}, " +
-    "which handles its own credentials. Nothing is needed here.",
-  "settings.assistant.accountAgentKey":
-    "{agent} on this machine is using an API key, so usage is " +
-    "charged per token.",
-  "settings.assistant.accountStoredKey":
-    "A key is stored here and will be used. Clear the box " +
-    "and save to remove it and fall back to the {agent} login.",
-  "settings.assistant.accountNone":
-    "Nothing to do if you are already signed in to {agent} on " +
-    "this machine, which is the usual case. A key is only needed when you are not.",
-  "settings.assistant.apiKey": "API key",
-  "settings.assistant.keyStored": "A key is stored",
-  "settings.assistant.keyOptional": "Only if your server asks for one",
-  "settings.assistant.keySaved": "Key saved.",
-  "settings.assistant.keyRemoved": "Key removed.",
-  "settings.assistant.keyFailed": "That key could not be saved.",
-  "settings.assistant.noSecureStore":
-    "This system has no secure store available, so a key cannot " +
-    "be saved here.",
-  "settings.assistant.tools": "What it can do",
-  "settings.assistant.toolsDesc":
-    "{count} tools, of which {readOnly} only read. The rest are " +
-    "subject to the approval setting above.",
 
   /* ---------------------------------------------------------------- *
    * Settings: Monitoring
@@ -1238,12 +1066,12 @@ export default {
   "settings.account.backupDeleted": "Backup deleted",
   "settings.account.resetLocalTitle": "Reset this device",
   "settings.account.resetLocalDesc":
-    "Removes hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV sync setup on this computer. Sync data and historical backups already on the server are left alone.",
+    "Removes hosts, keys, snippets, proxies, known hosts and the WebDAV sync setup on this computer. Sync data and historical backups already on the server are left alone.",
   "settings.account.resetLocal": "Clear local data",
   "settings.account.resettingLocal": "Clearing…",
   "settings.account.resetLocalConfirmTitle": "Clear local data?",
   "settings.account.resetLocalConfirmMessage":
-    "Hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV URL, account and passphrase on this computer will be deleted. Files already on the server are left alone.",
+    "Hosts, keys, snippets, proxies, known hosts and the WebDAV URL, account and passphrase on this computer will be deleted. Files already on the server are left alone.",
   "settings.account.resetLocalConfirm": "Clear this device",
   "settings.account.localResetDone": "Local data cleared",
 
@@ -1644,101 +1472,6 @@ export default {
   "tunnel.editorEmpty":
     "Forward a port to reach a database or internal service through this " +
     "host, or open a SOCKS proxy to browse from it.",
-
-  /* ---------------------------------------------------------------- *
-   * The assistant panel
-   * ---------------------------------------------------------------- */
-  "assistant.title": "AI Agent",
-  "assistant.welcome": "Let’s work on your servers",
-  "assistant.welcomeNote":
-    "It reads this terminal, runs commands on their own channel, and can " +
-    "work across every host you have saved.",
-  "assistant.createQuickPrompts": "Create quick prompts",
-  "assistant.newConversation": "New conversation",
-  "assistant.chats": "Chats",
-  "assistant.chatHistory": "Chat history",
-  "assistant.working": "Working",
-  "assistant.send": "Send",
-  "assistant.stop": "Stop",
-  "assistant.askAbout": "Ask about {about}",
-  "assistant.costHint":
-    "Estimated cost of this conversation, charged per token",
-
-  "assistant.currentSession": "Current session",
-  "assistant.nothingConnected": "Nothing connected",
-  "assistant.noSessionOpen": "No session open",
-  "assistant.yourServers": "your servers",
-  "assistant.anyHost": "any host",
-  "assistant.closedSession": "a closed session",
-  "assistant.savedHost": "a saved host",
-  "assistant.savedHosts": "Saved hosts",
-  "assistant.openSessions": "Open sessions",
-  "assistant.allHostsHint": "Every saved host and open session",
-  "assistant.serverCount": "{count} servers",
-  "assistant.sessionsOpen_one": "{count} session open",
-  "assistant.sessionsOpen_other": "{count} sessions open",
-  "assistant.notConnected": "Not connected",
-  "assistant.searchScope": "Search servers",
-  "assistant.searchScopeAria": "Search sessions and hosts",
-
-  "assistant.model": "Model",
-  "assistant.modelAndEffort": "Model and effort",
-  "assistant.readingModels": "Reading the model list...",
-  "assistant.noModels": "No models reported. Try again",
-  "assistant.notInRuntimeList": "Not in this runtime’s list",
-  "assistant.agentDefault": "{agent} default",
-  "assistant.agentDefaultHint": "Whatever your installed {agent} uses",
-  "assistant.effort": "Effort",
-  "assistant.effortLow": "Low",
-  "assistant.effortMedium": "Medium",
-  "assistant.effortHigh": "High",
-  "assistant.effortXHigh": "Extra high",
-  "assistant.effortMax": "Max",
-  "assistant.effortUltra": "Ultra",
-
-  "assistant.approvalsLabel": "Approvals: {mode}",
-  "assistant.approvalAlways": "Ask every time",
-  "assistant.approvalAlwaysHint": "Every tool call waits for you",
-  "assistant.approvalWrites": "Ask before changes",
-  "assistant.approvalWritesHint": "Reading runs freely",
-  "assistant.approvalNever": "Yolo Mode",
-  "assistant.approvalNeverHint": "Nothing stops, deletes included",
-
-  "assistant.didListHosts": "Listed hosts",
-  "assistant.didListSessions": "Listed sessions",
-  "assistant.didReadTerminal": "Read the terminal",
-  "assistant.didRun": "Ran",
-  "assistant.didType": "Typed",
-  "assistant.didList": "Listed",
-  "assistant.didRead": "Read",
-  "assistant.didWrite": "Wrote",
-  "assistant.didConnect": "Connected to",
-  "assistant.didDisconnect": "Closed the session",
-  "assistant.lastLines": "last {count} lines",
-  "assistant.recentOutput": "recent output",
-  "assistant.matching": 'matching "{query}"',
-
-  "assistant.askRunCommand": "Run a command",
-  "assistant.askSendInput": "Type into the terminal",
-  "assistant.askWriteFile": "Overwrite a file",
-  "assistant.askConnectHost": "Open a connection",
-  "assistant.askDisconnect": "Close a session",
-  "assistant.askReadTerminal": "Read the terminal",
-  "assistant.askReadFile": "Read a file",
-  "assistant.askListDirectory": "List a directory",
-  "assistant.askListHosts": "List saved hosts",
-  "assistant.askListSessions": "List open sessions",
-  "assistant.askRunLocally": "Run {tool} locally",
-  "assistant.onHost": "on {host}",
-  "assistant.allow": "Allow",
-  "assistant.decline": "Decline",
-  "assistant.somethingElse": "Something else...",
-  "assistant.insteadPlaceholder": "What should it do instead?",
-  "assistant.copyCommand": "Copy command",
-  "assistant.localWarning": "This runs on your own computer, not on a server.",
-  "assistant.allowed": "Allowed",
-  "assistant.declined": "Declined",
-  "assistant.timedOut": "Timed out",
 
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)

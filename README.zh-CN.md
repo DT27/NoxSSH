@@ -10,7 +10,7 @@
 
 <p align="center">
   基于 Electron、React 和 xterm.js 打造的现代终端工作区。<br/>
-  AI 助手 · 分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
+  分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
 </p>
 
 <p align="center">
@@ -33,18 +33,16 @@
 ---
 
 NoxSSH 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork。终端、SFTP、
-RDP/VNC 和助手都还在，主要更改了数据同步方式。
+RDP/VNC 都还在，主要更改了数据同步方式。
 
 ## 详细变化
 
-- **用你自己的 WebDAV，而不是 CloudBlast 账户。** 主机、文件夹、密钥、代码片段、代理、已知主机、助手设置和终端设置数据先在本机加密，再上传到你指定的 WebDAV。任何标准 WebDAV 都可以。
+- **用你自己的 WebDAV，而不是 CloudBlast 账户。** 主机、文件夹、密钥、代码片段、代理、已知主机和终端设置数据先在本机加密，再上传到你指定的 WebDAV。任何标准 WebDAV 都可以。
 - **带版本的历史备份**，保存到 WebDAV 上，可按计划定期或手动备份。恢复或删除某一个版本，不影响当前同步数据。
-- **API中转站**，AI 助手可以使用 API中转站，不依赖本机安装 Claude、Codex 或 OpenCode CLI。
 - **导入 NextSSH 备份**，与 PuTTY、KiTTY、MobaXterm、OpenSSH 并列。
 - **无遥测连网** 启动时不会访问 `console.cloudblast.io`。更新检查指向 GitHub 上的 [本仓库](https://github.com/DT27/NoxSSH/releases)。
   <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="NoxSSH" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -76,31 +74,6 @@ RDP/VNC 和助手都还在，主要更改了数据同步方式。
 <a name="features"></a>
 
 ## 功能
-
-### AI 助手
-
-<p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/claude-code-dark.svg"><img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/codex-dark.svg"><img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/opencode-dark.svg"><img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/grok-dark.svg"><img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/kimi-dark.svg"><img src="docs/logos/kimi.svg" alt="Kimi Code" title="Kimi Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/local-model-dark.svg"><img src="docs/logos/local-model.svg" alt="本地模型" title="本地模型" height="34"></picture>
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>Kimi Code</b>
-  &nbsp;·&nbsp; <b>本地模型</b></sub>
-</p>
-
-- **使用本机已有的 Claude Code、Codex、OpenCode 或 Grok Build**，沿用你自己的账号和配置
-- **也可以用本地模型**：LM Studio、Ollama、llama.cpp、vLLM 等，无需账号和密钥，任何内容都不会离开这台电脑
-- **读取当前会话并操作远程服务器**，执行更改前会先征求你的同意
-- **每个对话可单独选择模型和推理强度**，并在运行时显示用量
 
 ### 终端
 
@@ -249,10 +222,6 @@ npm install
 npm run dev
 ```
 
-要通过 OpenCode 使用 AI 助手，请安装 `opencode` CLI，并运行
-`opencode auth login` 配置至少一个模型提供商。NoxSSH 只使用 OpenCode
-现有的提供商和凭据，不会复制或保存它们。
-
 构建便携版可执行文件，输出到 `dist/`：
 
 ```bash
@@ -295,7 +264,7 @@ npm run build
 ## 技术栈
 
 Electron · React · xterm.js · ssh2 · IronRDP（WebAssembly）· noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` 是 Electron 主进程，每个功能一个模块。
 `src/renderer/` 是 React 界面：`components/` 按功能划分，`hooks/` 管状态，

@@ -589,7 +589,6 @@ export default {
   "settings.nav.general": "Chung",
   "settings.nav.appearance": "Giao diện",
   "settings.nav.terminal": "Terminal",
-  "settings.nav.assistant": "Trợ lý AI",
   "settings.nav.monitoring": "Theo dõi",
   "settings.nav.logging": "Ghi nhật ký",
   "settings.nav.security": "Bảo mật",
@@ -755,177 +754,6 @@ export default {
     "Tự đặt màu nền, chữ, con trỏ và các màu ANSI",
   "settings.terminal.themeChanged": "Đã đổi chủ đề terminal sang {theme}",
   "settings.terminal.customApplied": "Đã áp dụng chủ đề terminal tuỳ chỉnh",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "Trợ lý AI",
-  "settings.assistant.desc":
-    "Trợ lý đọc các terminal của bạn và làm việc trên máy chủ thông qua " +
-    "những kết nối bạn đã mở sẵn. Nó không bao giờ thấy mật khẩu hay khoá đã lưu.",
-  "settings.assistant.loading": "Đang tải cài đặt trợ lý…",
-  "settings.assistant.agent": "Tác nhân",
-  "settings.assistant.agentDesc":
-    "Tác nhân lập trình nào sẽ trả lời: một bản đã cài trên máy " +
-    "này, một cổng API, hoặc một mô hình do chính bạn chạy. Đổi tác nhân sẽ bắt đầu một cuộc trò chuyện mới.",
-  "settings.assistant.provider.claudeCode":
-    "Tác nhân của Anthropic, bằng tài khoản của bạn.",
-  "settings.assistant.provider.codex":
-    "Tác nhân của OpenAI, bằng tài khoản của bạn.",
-  "settings.assistant.provider.opencode":
-    "Mã nguồn mở, với nhà cung cấp bạn cấu hình.",
-  "settings.assistant.provider.relayName": "Cổng API",
-  "settings.assistant.provider.relay":
-    "Dùng cổng API tương thích OpenAI. Không cần cài Claude Code, Codex hay OpenCode.",
-  "settings.assistant.provider.grok":
-    "Tác nhân của xAI, bằng tài khoản của bạn.",
-  "settings.assistant.provider.kimi": "Tác nhân của Moonshot, bằng khoá Moonshot.",
-  "settings.assistant.provider.local":
-    "Mô hình của bạn: LM Studio, Ollama, vLLM.",
-  "settings.assistant.provider.unavailable": "Bản dựng này chưa có.",
-  "settings.assistant.relayBaseUrl": "Địa chỉ cổng API",
-  "settings.assistant.relayModel": "Mô hình mặc định",
-  "settings.assistant.relayModelManual": "Nhập tên mô hình…",
-  "settings.assistant.relayNote":
-    "Điền endpoint tương thích OpenAI, ví dụ https://example.com/v1. Không cần CLI cục bộ.",
-  "settings.assistant.relayModelsFetch": "Tải mô hình",
-  "settings.assistant.relayModelsFetching": "Đang tải…",
-  "settings.assistant.relayModelsLoaded": "Đã tải {count} mô hình",
-  "settings.assistant.relayModelsEmpty":
-    "Cổng API không trả về danh sách mô hình. Bạn có thể nhập tên thủ công.",
-  "settings.assistant.relayModelsFailed":
-    "Không tải được mô hình. Hãy kiểm tra địa chỉ và khoá.",
-  "settings.assistant.accountRelay":
-    "Gọi mô hình qua cổng API. Điền địa chỉ và khoá API. Không cần tác nhân cục bộ.",
-  "settings.assistant.endpoint": "Địa chỉ máy chủ",
-  "settings.assistant.endpointDesc":
-    "Nơi máy chủ mô hình cục bộ đang lắng nghe. Bất kỳ máy chủ " +
-    "nào nói API của OpenAI đều dùng được.",
-  "settings.assistant.endpointNote":
-    "LM Studio: http://localhost:1234/v1. Ollama: " +
-    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
-  "settings.assistant.endpointChecking":
-    "Đang hỏi địa chỉ đó xem có những gì...",
-  "settings.assistant.endpointFound_other":
-    "Đã trả lời, có {count} mô hình để chọn.",
-  "settings.assistant.endpointNone":
-    "Không có gì trả lời ở địa chỉ đó. Hãy kiểm tra máy chủ có " +
-    "đang chạy và API của nó đã bật chưa.",
-  "settings.assistant.commandMode": "Lệnh chạy ở đâu",
-  "settings.assistant.commandMode.terminal": "Trong terminal của tôi",
-  "settings.assistant.commandMode.background": "Chạy ngầm",
-  "settings.assistant.commandMode.terminal.note":
-    "Lệnh được gõ vào chính phiên bạn đang xem, nên " +
-    "bạn thấy chúng chạy và kết quả nằm lại trong bộ đệm cuộn. Chúng vào lịch sử của shell " +
-    "đó, và trợ lý đọc kết quả từ màn hình chứ không nhận mã thoát.",
-  "settings.assistant.commandMode.background.note":
-    "Lệnh chạy trên một kênh riêng mà bạn không " +
-    "thấy. Gọn gàng hơn, và trợ lý nhận được mã thoát thật cùng kết quả sạch, nhưng chuyện gì " +
-    "đã xảy ra thì bạn phải tin lời nó.",
-  "settings.assistant.approval": "Hỏi trước khi chạy",
-  "settings.assistant.approval.always": "Mọi thao tác",
-  "settings.assistant.approval.writes": "Chỉ khi thay đổi",
-  "settings.assistant.approval.never": "Không bao giờ",
-  "settings.assistant.approval.always.note":
-    "Mọi lần gọi công cụ đều chờ bạn, kể cả khi chỉ đọc " +
-    "một tệp hay đọc terminal. Rất chắc chắn, nhưng một cuộc điều tra dài sẽ thành rất nhiều " +
-    "lần bấm.",
-  "settings.assistant.approval.writes.note":
-    "Thao tác đọc chạy tự do. Bất cứ thứ gì thay đổi hệ " +
-    "thống đều dừng lại và cho bạn xem đúng lệnh đó cùng máy chủ nó sẽ chạy trên.",
-  "settings.assistant.approval.never.note":
-    "Không có gì dừng lại chờ phê duyệt, kể cả các lệnh " +
-    "xoá dữ liệu hay khởi động lại dịch vụ. Chỉ nên dùng với máy chủ mà bạn chấp nhận được " +
-    "việc nó hỏng.",
-  "settings.assistant.localTools": "Cho phép dùng công cụ trên máy này",
-  "settings.assistant.localToolsDesc":
-    "Cho phép trợ lý đọc ghi tệp cục bộ và chạy lệnh cục bộ. " +
-    "Mặc định tắt: bảng này dùng để quản lý máy chủ, còn máy của chính bạn là một phạm vi " +
-    "rộng hơn thế rất nhiều.",
-  "settings.assistant.allowList": "Các lệnh không bao giờ cần phê duyệt",
-  "settings.assistant.allowListDesc":
-    "Mỗi dòng một lệnh, khớp theo trọn các từ đầu tiên. Một " +
-    "lệnh có ống dẫn, chuyển hướng, dấu chấm phẩy, phép thay thế hoặc dòng thứ hai thì luôn " +
-    "bị hỏi, dù nó bắt đầu bằng gì.",
-  "settings.assistant.allowListNote":
-    "Chỉ có tác dụng khi phê duyệt đang đặt ở “{mode}”.",
-  "settings.assistant.blockList": "Các lệnh không bao giờ được chạy",
-  "settings.assistant.blockListDesc":
-    "Mỗi dòng một lệnh. Chúng bị từ chối thẳng chứ không phải " +
-    "đem ra hỏi, ở mọi chế độ phê duyệt kể cả “Không bao giờ”, dù trợ lý chạy chúng trên kênh " +
-    "riêng hay gõ vào terminal của bạn. Các cờ cũng được tính: “rm -rf” cũng chặn luôn " +
-    "“rm -fr”, “rm -r -f” và “sudo /bin/rm --recursive --force”.",
-  "settings.assistant.blockListEmpty": "Để trống ô này thì không chặn gì cả.",
-  "settings.assistant.blockListWarning":
-    "Đây là rào chắn chống nhầm lẫn, không phải một biện " +
-    "pháp bảo mật. Shell có quá nhiều cách viết cùng một lệnh nên không danh sách nào bắt hết " +
-    "được, vì vậy hãy giữ phê duyệt bật cho những việc quan trọng.",
-  "settings.assistant.saveList": "Lưu danh sách",
-  "settings.assistant.restoreDefaults": "Khôi phục mặc định",
-  "settings.assistant.quickPrompts": "Câu hỏi nhanh",
-  "settings.assistant.quickPromptsDesc":
-    "Những câu hỏi bảng trợ lý hiện thành nút bấm một lần " +
-    "khi cuộc trò chuyện còn trống. Mỗi dòng một câu. Ban đầu không có sẵn gì, vì những câu " +
-    "đáng giá là những câu chính bạn hỏi máy của mình mỗi tuần.",
-  "settings.assistant.quickPromptsPlaceholder":
-    "Cái gì đang làm đầy ổ đĩa?\n" + "Vì sao lần triển khai vừa rồi thất bại?",
-  "settings.assistant.quickPromptsNote":
-    "Tối đa 12 câu. Bấm một câu sẽ đưa nó vào ô nhập chứ " +
-    "không gửi ngay, nên bạn có thể bổ sung trước.",
-  "settings.assistant.savePrompts": "Lưu câu hỏi",
-  "settings.assistant.steps": "Số bước mỗi lượt",
-  "settings.assistant.stepsDesc":
-    "Một câu hỏi được phép gọi công cụ bao nhiêu lần trước khi trợ " +
-    "lý dừng lại và báo cáo. Một lượt chạy không đi tới đâu sẽ tự kết thúc, thay vì đợi tới " +
-    "lúc bạn để ý.",
-  "settings.assistant.lines": "Số dòng terminal nó đọc được",
-  "settings.assistant.linesDesc":
-    "Mỗi lần đọc trả về bao nhiêu dòng kết quả gần đây của phiên. " +
-    "Đặt cao hơn thì nó có nhiều ngữ cảnh hơn, và cũng tốn nhiều hạn mức của cuộc trò chuyện hơn.",
-  "settings.assistant.signIn": "Đăng nhập",
-  "settings.assistant.theAgent": "tác nhân",
-  "settings.assistant.accountOpencode":
-    "OpenCode dùng các nhà cung cấp và thông tin đăng nhập đã " +
-    "cấu hình trong CLI của nó. Hãy quản lý chúng bằng “opencode auth login”; khoá lưu ở " +
-    "đây không được chuyển cho OpenCode.",
-  "settings.assistant.accountGrokApi":
-    "Máy này chưa cài Grok Build, nên NoxSSH nói chuyện " +
-    "thẳng với API của xAI bằng khoá lưu ở đây, và chi phí tính theo token. Hãy cài CLI và " +
-    "đăng nhập để dùng gói của chính bạn.",
-  "settings.assistant.accountKimi":
-    "Kimi Code luôn chạy bằng khoá lưu ở đây, dù CLI có được cài " +
-    "hay không, và chi phí tính theo token. NoxSSH chạy CLI với một cấu hình riêng của " +
-    "nó, nên phiên đăng nhập Kimi Code trên máy này không được đọc tới và giữ nguyên.",
-  "settings.assistant.accountLocal":
-    "Không có gì để đăng nhập. Mô hình chạy trên chính máy " +
-    "tính này, nên không có tài khoản và không tính tiền theo token. Chỉ cần khoá nếu chính " +
-    "bạn đã đặt một khoá trên máy chủ.",
-  "settings.assistant.accountPlan":
-    "Đã đăng nhập qua {agent} trên máy này, với gói {plan}. Mức " +
-    "dùng được trừ vào gói đó, nên ở đây không cần khoá.",
-  "settings.assistant.accountProvider":
-    "{agent} trên máy này được cấu hình dùng {provider}, và " +
-    "bên đó tự lo thông tin đăng nhập. Ở đây không cần gì cả.",
-  "settings.assistant.accountAgentKey":
-    "{agent} trên máy này đang dùng khoá API, nên mức dùng " +
-    "được tính theo token.",
-  "settings.assistant.accountStoredKey":
-    "Một khoá đã được lưu ở đây và sẽ được dùng. Xoá trống ô " +
-    "rồi lưu để gỡ nó và quay lại dùng phần đăng nhập của {agent}.",
-  "settings.assistant.accountNone":
-    "Không cần làm gì nếu bạn đã đăng nhập {agent} trên máy này, " +
-    "vốn là trường hợp thường gặp. Chỉ khi chưa đăng nhập thì mới cần khoá.",
-  "settings.assistant.apiKey": "Khoá API",
-  "settings.assistant.keyStored": "Đã lưu một khoá",
-  "settings.assistant.keyOptional": "Chỉ khi máy chủ của bạn yêu cầu",
-  "settings.assistant.keySaved": "Đã lưu khoá.",
-  "settings.assistant.keyRemoved": "Đã gỡ khoá.",
-  "settings.assistant.keyFailed": "Không lưu được khoá đó.",
-  "settings.assistant.noSecureStore":
-    "Hệ thống này không có kho lưu trữ an toàn nào, nên không " +
-    "thể lưu khoá ở đây.",
-  "settings.assistant.tools": "Nó làm được những gì",
-  "settings.assistant.toolsDesc":
-    "{count} công cụ, trong đó {readOnly} công cụ chỉ đọc. Số còn " +
-    "lại chịu ràng buộc của thiết lập phê duyệt ở trên.",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "Theo dõi",
@@ -1214,12 +1042,12 @@ export default {
   "settings.account.backupDeleted": "Đã xoá bản sao",
   "settings.account.resetLocalTitle": "Đặt lại thiết bị này",
   "settings.account.resetLocalDesc":
-    "Xoá máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý và cấu hình đồng bộ WebDAV trên máy này. Dữ liệu đồng bộ và bản sao lịch sử đã có trên máy chủ được giữ nguyên.",
+    "Xoá máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy và cấu hình đồng bộ WebDAV trên máy này. Dữ liệu đồng bộ và bản sao lịch sử đã có trên máy chủ được giữ nguyên.",
   "settings.account.resetLocal": "Xoá dữ liệu cục bộ",
   "settings.account.resettingLocal": "Đang xoá…",
   "settings.account.resetLocalConfirmTitle": "Xoá dữ liệu cục bộ?",
   "settings.account.resetLocalConfirmMessage":
-    "Máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy, cài đặt trợ lý cùng URL, tài khoản và cụm mật khẩu WebDAV trên máy này sẽ bị xoá. Các tệp đã có trên máy chủ không đổi.",
+    "Máy chủ, khoá, đoạn lệnh, proxy, máy chủ đã tin cậy cùng URL, tài khoản và cụm mật khẩu WebDAV trên máy này sẽ bị xoá. Các tệp đã có trên máy chủ không đổi.",
   "settings.account.resetLocalConfirm": "Xoá thiết bị này",
   "settings.account.localResetDone": "Đã xoá dữ liệu cục bộ",
   "settings.account.lastBackup": "Lần sao lưu trước",
@@ -1614,98 +1442,6 @@ export default {
     "máy chủ này, hoặc mở một proxy SOCKS để duyệt web từ nó.",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "Trợ lý AI",
-  "assistant.welcome": "Cùng làm việc trên máy chủ của bạn nào",
-  "assistant.welcomeNote":
-    "Nó đọc terminal này, chạy lệnh trên kênh riêng, và có thể làm việc " +
-    "trên mọi máy chủ bạn đã lưu.",
-  "assistant.createQuickPrompts": "Tạo câu hỏi nhanh",
-  "assistant.newConversation": "Cuộc trò chuyện mới",
-  "assistant.chats": "Cuộc trò chuyện",
-  "assistant.chatHistory": "Lịch sử trò chuyện",
-  "assistant.working": "Đang làm",
-  "assistant.send": "Gửi",
-  "assistant.stop": "Dừng",
-  "assistant.askAbout": "Hỏi về {about}",
-  "assistant.costHint":
-    "Chi phí ước tính của cuộc trò chuyện này, tính theo token",
-
-  "assistant.currentSession": "Phiên hiện tại",
-  "assistant.nothingConnected": "Chưa kết nối gì",
-  "assistant.noSessionOpen": "Không có phiên nào mở",
-  "assistant.yourServers": "máy chủ của bạn",
-  "assistant.anyHost": "bất kỳ máy chủ nào",
-  "assistant.closedSession": "một phiên đã đóng",
-  "assistant.savedHost": "một máy chủ đã lưu",
-  "assistant.savedHosts": "Máy chủ đã lưu",
-  "assistant.openSessions": "Phiên đang mở",
-  "assistant.allHostsHint": "Mọi máy chủ đã lưu và mọi phiên đang mở",
-  "assistant.serverCount": "{count} máy chủ",
-  "assistant.sessionsOpen_other": "{count} phiên đang mở",
-  "assistant.notConnected": "Chưa kết nối",
-  "assistant.searchScope": "Tìm máy chủ",
-  "assistant.searchScopeAria": "Tìm phiên và máy chủ",
-
-  "assistant.model": "Mô hình",
-  "assistant.modelAndEffort": "Mô hình và mức nỗ lực",
-  "assistant.readingModels": "Đang đọc danh sách mô hình…",
-  "assistant.noModels": "Không có mô hình nào được báo về. Thử lại",
-  "assistant.notInRuntimeList": "Không có trong danh sách của runtime này",
-  "assistant.agentDefault": "Mặc định của {agent}",
-  "assistant.agentDefaultHint": "Dùng đúng thứ mà {agent} bạn đã cài đang dùng",
-  "assistant.effort": "Mức nỗ lực",
-  "assistant.effortLow": "Thấp",
-  "assistant.effortMedium": "Vừa",
-  "assistant.effortHigh": "Cao",
-  "assistant.effortXHigh": "Rất cao",
-  "assistant.effortMax": "Tối đa",
-  "assistant.effortUltra": "Cực đại",
-
-  "assistant.approvalsLabel": "Phê duyệt: {mode}",
-  "assistant.approvalAlways": "Hỏi mọi lúc",
-  "assistant.approvalAlwaysHint": "Mọi lần gọi công cụ đều chờ bạn",
-  "assistant.approvalWrites": "Hỏi trước khi thay đổi",
-  "assistant.approvalWritesHint": "Thao tác đọc chạy tự do",
-  "assistant.approvalNever": "Chế độ thả cửa",
-  "assistant.approvalNeverHint": "Không gì dừng lại, kể cả lệnh xoá",
-
-  "assistant.didListHosts": "Đã liệt kê máy chủ",
-  "assistant.didListSessions": "Đã liệt kê phiên",
-  "assistant.didReadTerminal": "Đã đọc terminal",
-  "assistant.didRun": "Đã chạy",
-  "assistant.didType": "Đã gõ",
-  "assistant.didList": "Đã liệt kê",
-  "assistant.didRead": "Đã đọc",
-  "assistant.didWrite": "Đã ghi",
-  "assistant.didConnect": "Đã kết nối tới",
-  "assistant.didDisconnect": "Đã đóng phiên",
-  "assistant.lastLines": "{count} dòng cuối",
-  "assistant.recentOutput": "kết quả gần đây",
-  "assistant.matching": 'khớp với "{query}"',
-
-  "assistant.askRunCommand": "Chạy một lệnh",
-  "assistant.askSendInput": "Gõ vào terminal",
-  "assistant.askWriteFile": "Ghi đè một tệp",
-  "assistant.askConnectHost": "Mở một kết nối",
-  "assistant.askDisconnect": "Đóng một phiên",
-  "assistant.askReadTerminal": "Đọc terminal",
-  "assistant.askReadFile": "Đọc một tệp",
-  "assistant.askListDirectory": "Liệt kê một thư mục",
-  "assistant.askListHosts": "Liệt kê máy chủ đã lưu",
-  "assistant.askListSessions": "Liệt kê phiên đang mở",
-  "assistant.askRunLocally": "Chạy {tool} trên máy này",
-  "assistant.onHost": "trên {host}",
-  "assistant.allow": "Cho phép",
-  "assistant.decline": "Từ chối",
-  "assistant.somethingElse": "Làm cách khác…",
-  "assistant.insteadPlaceholder": "Nó nên làm gì thay vào đó?",
-  "assistant.copyCommand": "Sao chép lệnh",
-  "assistant.localWarning":
-    "Lệnh này chạy trên chính máy của bạn, không phải trên máy chủ.",
-  "assistant.allowed": "Đã cho phép",
-  "assistant.declined": "Đã từ chối",
-  "assistant.timedOut": "Đã hết thời gian",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

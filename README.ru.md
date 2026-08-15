@@ -10,7 +10,7 @@
 
 <p align="center">
   Современное терминальное рабочее пространство на Electron, React и xterm.js.<br/>
-  ИИ-агент · Разделение панелей · Вкладки · Передача файлов · Проброс портов · Удалённые рабочие столы · Сниппеты
+  Разделение панелей · Вкладки · Передача файлов · Проброс портов · Удалённые рабочие столы · Сниппеты
 </p>
 
 <p align="center">
@@ -33,18 +33,16 @@
 ---
 
 NoxSSH — форк [CloudTerm](https://github.com/BradPerbs/cloudterm). Терминал, SFTP,
-RDP/VNC и ассистент на месте. Главное изменение — как синхронизируются данные.
+RDP/VNC на месте. Главное изменение — как синхронизируются данные.
 
 ## Что изменилось
 
-- **Свой WebDAV вместо аккаунта CloudBlast.** Хосты, папки, ключи, сниппеты, прокси, известные хосты, настройки ассистента и терминала шифруются на этом устройстве и загружаются на выбранный вами WebDAV. Подойдёт любой стандартный WebDAV.
+- **Свой WebDAV вместо аккаунта CloudBlast.** Хосты, папки, ключи, сниппеты, прокси, известные хосты и настройки терминала шифруются на этом устройстве и загружаются на выбранный вами WebDAV. Подойдёт любой стандартный WebDAV.
 - **Версионные резервные копии** на том же WebDAV, по расписанию или вручную. Восстановление или удаление одной версии не затрагивает текущую синхронизацию.
-- **API-шлюз.** Ассистент может работать через совместимый с OpenAI API-шлюз и не требует локального CLI Claude, Codex или OpenCode.
 - **Импорт резервных копий NextSSH**, рядом с PuTTY, KiTTY, MobaXterm и OpenSSH.
 - **Без телеметрии.** При запуске приложение не обращается к `console.cloudblast.io`. Обновления проверяются в [этом репозитории](https://github.com/DT27/NoxSSH/releases) на GitHub.
   <img src="NoxSSH_WebDAV.png" alt="Синхронизация WebDAV в NoxSSH" width="100%">
   <img src="NoxSSH_WebDAV_backup.png" alt="Резервные копии WebDAV в NoxSSH" width="100%">
-  <img src="NoxSSH_AI_APIRelay.png" alt="Relay ИИ в NoxSSH" width="100%">
 
 <img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
@@ -76,54 +74,10 @@ RDP/VNC и ассистент на месте. Главное изменение
   соседствовали в одном приложении.
 - **Место для хранения серверов**: папки, теги, хранилище ключей и сниппеты,
   всё зашифровано и доступно для поиска.
-- **ИИ-агент** в панели рядом с терминалом: читает сеанс, который перед вами, и
-  работает на сервере через него, спрашивая, прежде чем что-то менять.
 
 <a name="features"></a>
 
 ## Возможности
-
-### ИИ-агент
-
-<p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/claude-code-dark.svg"><img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/codex-dark.svg"><img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/opencode-dark.svg"><img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/grok-dark.svg"><img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/kimi-dark.svg"><img src="docs/logos/kimi.svg" alt="Kimi Code" title="Kimi Code" height="34"></picture>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/local-model-dark.svg"><img src="docs/logos/local-model.svg" alt="Локальная модель" title="Локальная модель" height="34"></picture>
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>Kimi Code</b>
-  &nbsp;·&nbsp; <b>Локальная модель</b></sub>
-</p>
-
-- **Работает на уже установленных у вас Claude Code, Codex, OpenCode или Grok
-  Build**, под вашей собственной учётной записью: ничего не нужно вставлять и ни
-  на что дополнительно подписываться
-- **Или на локальной модели**, запущенной на вашем же компьютере (LM Studio,
-  Ollama, llama.cpp, vLLM): без учётной записи, без ключа, и ничего не покидает
-  машину
-- **Читает сеанс, который вы смотрите**, поэтому отвечает на ту ошибку, что у
-  вас на экране, и вставлять её не нужно
-- **Работает в терминале, который вы видите**: команды печатаются в панели, а
-  вывод остаётся в вашем буфере. Или выполняются в скрытом канале, если так
-  удобнее
-- **Спрашивает, прежде чем что-то менять**, со списком команд, которые только
-  смотрят, и режимом строже или свободнее, когда он нужен
-- **Направлен туда, куда скажете**: сеанс перед вами, закреплённый сеанс или
-  все сохранённые хосты
-- **Инструменты вместо догадок**: подключиться к сохранённому хосту, читать и
-  писать файлы, ответить на уже ждущий запрос, прочитать буфер
-- **Не трогает вашу машину**, пока вы не разрешите, и останавливается сам, а не
-  ходит по кругу
-- **Модель и уровень рассуждения для каждого разговора**, а во время работы
-  видно, во что это обходится или сколько от тарифа израсходовано
 
 ### Терминал
 
@@ -276,11 +230,6 @@ npm install
 npm run dev
 ```
 
-Чтобы использовать ИИ-агента с OpenCode, установите CLI `opencode` и настройте
-хотя бы одного провайдера моделей командой `opencode auth login`. NoxSSH
-использует существующие провайдеры и учётные данные OpenCode, не копируя и не
-сохраняя их.
-
 Собрать переносимый исполняемый файл в `dist/`:
 
 ```bash
@@ -295,7 +244,7 @@ npm run build
 | `Ctrl+Shift+K`       | Палитра сниппетов      | `Alt+Shift+-`  | Разделить вниз         |
 | `Ctrl+Shift+B`       | Широковещательный ввод | `Alt+Shift+Z`  | Увеличить панель       |
 | `Ctrl+Shift+C` / `V` | Копировать и вставить  | `Ctrl+Shift+W` | Закрыть панель         |
-| `Ctrl+Shift+A`       | ИИ-агент               | `Alt+Стрелки`  | Переход между панелями |
+| `Alt+Стрелки`        | Переход между панелями |                |                        |
 
 <a name="community"></a>
 
@@ -325,7 +274,7 @@ Issues и pull requests на GitHub тоже приветствуются.
 ## Технологии
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` это главный процесс Electron, по одному модулю на возможность.
 `src/renderer/` это интерфейс на React: `components/` по функциям, `hooks/` для
