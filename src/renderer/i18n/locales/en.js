@@ -821,6 +821,7 @@ export default {
   "settings.assistant.provider.relay":
     "Uses an OpenAI-compatible API Gateway. No local Claude Code, Codex or OpenCode install required.",
   "settings.assistant.provider.grok": "xAI’s agent, on your own account.",
+  "settings.assistant.provider.kimi": "Moonshot’s agent, on a Moonshot key.",
   "settings.assistant.provider.local":
     "Your own model: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "Not available in this build yet.",
@@ -933,6 +934,10 @@ export default {
     "Grok Build is not installed on this machine, so NoxSSH " +
     "talks to the xAI API directly with the key stored here, and usage is charged per token. " +
     "Install the CLI and sign in to use your own plan instead.",
+  "settings.assistant.accountKimi":
+    "Kimi Code always runs on the key stored here, whether the CLI " +
+    "is installed or not, and usage is charged per token. NoxSSH drives the CLI against a " +
+    "configuration of its own, so a Kimi Code login on this machine is left alone and not used.",
   "settings.assistant.accountLocal":
     "Nothing to sign in to. The model runs on this computer, so " +
     "there is no account and no per-token charge. A key is only needed if you put one on the " +

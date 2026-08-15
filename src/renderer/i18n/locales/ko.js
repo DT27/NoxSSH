@@ -712,6 +712,7 @@ export default {
   "settings.assistant.provider.relay":
     "OpenAI 호환 API 게이트웨이를 사용합니다. Claude Code / Codex / OpenCode를 설치할 필요가 없습니다.",
   "settings.assistant.provider.grok": "xAI, 내 계정 사용.",
+  "settings.assistant.provider.kimi": "Moonshot, Moonshot 키 사용.",
   "settings.assistant.provider.local":
     "내 모델: LM Studio, Ollama, vLLM.",
   "settings.assistant.provider.unavailable": "이 빌드에서는 아직 제공되지 않습니다.",
@@ -807,6 +808,10 @@ export default {
   "settings.assistant.accountGrokApi":
     "이 컴퓨터에 Grok Build가 없어 NoxSSH가 여기에 저장한 키로 xAI API를 직접 호출하며, " +
     "토큰당 과금됩니다. CLI를 설치하고 로그인하면 내 요금제를 쓸 수 있습니다.",
+  "settings.assistant.accountKimi":
+    "CLI 설치 여부와 관계없이 Kimi Code는 여기에 저장된 키로 동작하며, " +
+    "토큰당 과금됩니다. NoxSSH는 자체 설정으로 CLI를 구동하므로 " +
+    "이 컴퓨터의 Kimi Code 로그인은 읽히지 않고 사용되지 않습니다.",
   "settings.assistant.accountLocal":
     "로그인할 계정이 없습니다. 모델이 이 컴퓨터에서 돌아가므로 " +
     "계정도, 토큰당 과금도 없습니다. 서버에 직접 키를 둔 경우에만 입력하면 됩니다.",

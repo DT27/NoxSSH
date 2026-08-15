@@ -30,6 +30,7 @@ const PROVIDERS = {
   opencode: require("./providers/opencode"),
   relay: require("./providers/relay"),
   grok: require("./providers/grok"),
+  kimi: require("./providers/kimi"),
   local: require("./providers/local"),
 };
 
@@ -438,6 +439,7 @@ function requestApproval(conversation, { toolName, name, input, local }) {
       local: Boolean(local),
       readOnly: Boolean(definition?.readOnly),
       input,
+      sessionId: info ? info.sessionId : "",
       host: info ? info.hostName || info.address : "",
     });
   });
