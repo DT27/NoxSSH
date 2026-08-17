@@ -132,6 +132,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
     // is global, cached, and the Proxies page keeps every mounted copy current,
     // so a proxy added a moment ago is already on offer here.
     const { proxies } = useProxies();
+    const t = useT();
 
     // Monitoring has a master switch elsewhere, and a host set to be watched
     // while that is off would sit there doing nothing with this form having
@@ -470,7 +471,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                             <button
                                 key={entry.id}
                                 type="button"
-                                title={entry.detail}
+                                title={t(entry.detailKey)}
                                 className={`px-2 py-1.5 rounded-lg text-sm font-medium transition-all ${
                                     kind === entry.id
                                         ? 'bg-white dark:bg-surface-active text-gray-900 dark:text-white shadow-sm'
@@ -484,10 +485,10 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     </div>
                     {/* SSH is the default and the overwhelming majority, and
                         "encrypted shell" under a button marked SSH is a line
-                        nobody needs. The other three are worth a word. */}
+                        nobody needs. The other four are worth a word. */}
                     {kind !== 'ssh' && (
                         <p className="text-[11px] text-gray-500 dark:text-neutral-500">
-                            {HOST_KINDS.find(entry => entry.id === kind)?.summary}
+                            {t(HOST_KINDS.find(entry => entry.id === kind)?.summaryKey)}
                         </p>
                     )}
                 </div>
