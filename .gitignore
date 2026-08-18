@@ -11,3 +11,7 @@ releases/
 # Local working notes and agent config, not part of the project
 CLAUDE.md
 .claude/
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
