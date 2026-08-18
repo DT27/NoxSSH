@@ -17,12 +17,10 @@
 /**
  * Which of several sessions on the same host each one is.
  *
- * Four terminals on `web-01` are four tabs reading `web-01`, and the
- * assistant's scope menu lists the same four indistinguishable rows. Picking
- * the right one is a guess, which is no way to choose the box a command is
- * about to run on. So each gets an ordinal: the first `web-01` is 1, the next
- * is 2, counted the way you read the window, left to right along the strip and
- * top to bottom within a split.
+ * Four terminals on `web-01` are four tabs reading `web-01`. Each gets an
+ * ordinal so the tab strip and the pane header can tell them apart: the first
+ * `web-01` is 1, the next is 2, counted the way you read the window, left to
+ * right along the strip and top to bottom within a split.
  *
  * A host with one session open gets nothing back. Numbering something that is
  * already the only one of its kind is noise, and sameness is the whole problem

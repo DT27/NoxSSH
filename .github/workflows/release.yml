@@ -50,9 +50,7 @@ jobs:
         include:
           # Both Windows targets at once: an installer for people who want the
           # app on their machine, and the portable exe for people who cannot
-          # install anything. 64-bit only. The 32-bit build could never run the
-          # assistant, whose CLI is x64, and nothing was gained by shipping the
-          # rest of the app without it.
+          # install anything. 64-bit only.
           - name: windows-x64
             os: windows-latest
             args: --win --x64
@@ -88,17 +86,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      # npm exposes global CLIs as `.cmd` shims on Windows. This starts the
-      # actual OpenCode server through that shim, connects through its SDK,
-      # and tears down the full process tree without sending a model prompt.
-      - name: Smoke test native OpenCode integration
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $version = node -p "require('./node_modules/@opencode-ai/sdk/package.json').version"
-          npm install --global "opencode-ai@$version"
-          node scripts/smoke-opencode-provider.js
 
       # Compiles against the C# compiler and WinRT metadata that ship inside
       # Windows. The script no-ops elsewhere, but there is no reason to call it.
@@ -236,10 +223,12 @@ jobs:
           # The manifests and blockmaps go up with the installers. The app looks
           # for them by name on the release, so a release without them is one
           # the previous version cannot update to.
+          git fetch --force --tags origin "${GITHUB_REF_NAME}"
+          git tag -l --format='%(contents)' "${GITHUB_REF_NAME}" > release-notes.md
           gh release create "${GITHUB_REF_NAME}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --title "${GITHUB_REF_NAME}" \
-            --generate-notes \
+            --title "${GITHUB_REF_NAME} — without the AI assistant" \
+            --notes-file release-notes.md \
+            --latest \
             *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
 
   winget:

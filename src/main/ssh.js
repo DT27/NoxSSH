@@ -9,7 +9,6 @@ const certificate = require('./certificate');
 const hello = require('./hello');
 const activity = require('./activity');
 const sessionLog = require('./session-log');
-const transcript = require('./transcript');
 const { classifyShellOutput } = require('./os-detect');
 
 // tabId -> { client, stream, port, sftp }
@@ -105,7 +104,6 @@ function destroy(tabId, { reason = 'closed' } = {}) {
     // Before the hooks and the socket: the transcript's closing line should be
     // written while there is still a session to attribute it to.
     sessionLog.close(tabId, { reason: 'session' });
-    transcript.close(tabId);
 
     for (const hook of destroyHooks) {
         try {
@@ -943,16 +941,6 @@ function connect({ tabId, hostId, cols, rows }, { window, requestTrust, requestK
                 protocol: 'ssh',
             });
 
-            // The in-memory tail the assistant reads. Unconditional, unlike the
-            // transcript above: it is bounded, never written down, and dies
-            // with the session.
-            transcript.open(tabId, {
-                hostName: label.name,
-                address: label.address,
-                hostId,
-                protocol: 'ssh',
-            });
-
             port1.on('message', (event) => {
                 const message = event.data;
                 if (message?.type === 'input' && stream.writable) {
@@ -984,7 +972,6 @@ function connect({ tabId, hostId, cols, rows }, { window, requestTrust, requestK
                 // away: a reload leaves the window unable to receive while
                 // the session itself is still perfectly alive.
                 sessionLog.write(tabId, text);
-                transcript.record(tabId, text);
                 if (!scheduled) {
                     scheduled = true;
                     setImmediate(flush);

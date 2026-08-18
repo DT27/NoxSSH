@@ -2,7 +2,7 @@
   <img src="cloudterm.png" alt="CloudTerm" width="128">
 </p>
 
-<h1 align="center">CloudTerm</h1>
+<h1 align="center">NoxSSH</h1>
 
 <p align="center">
   <strong>SSH, SFTP, Telnet и Windows RDP в одном терминале</strong>
@@ -10,62 +10,48 @@
 
 <p align="center">
   Современное терминальное рабочее пространство на Electron, React и xterm.js.<br/>
-  ИИ-агент · Разделение панелей · Вкладки · Передача файлов · Проброс портов · Удалённые рабочие столы · Сниппеты
+  Разделение панелей · Вкладки · Передача файлов · Проброс портов · Удалённые рабочие столы · Сниппеты
 </p>
 
 <p align="center">
-  <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/%D0%A1%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C-%D0%9F%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BD%D1%8F%D1%8F%20%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-success?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="Download" src="https://img.shields.io/badge/%D0%A1%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C-%D0%9F%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BD%D1%8F%D1%8F%20%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-success?style=for-the-badge&logo=github"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/%D0%9F%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-fair--code-green?style=for-the-badge"></a>
-  &nbsp;
-  <a href="https://discord.gg/7M84Xp8QBr"><img alt="Discord" src="https://img.shields.io/badge/Discord-%D0%9F%D1%80%D0%B8%D1%81%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
 <p align="center">
   <a href="./README.md">English</a> ·
   <a href="./README.zh-CN.md">简体中文</a> ·
+  <a href="./README.ja.md">日本語</a> ·
+  <a href="./README.ko.md">한국어</a> ·
   <a href="./README.es.md">Español</a> ·
   <strong>Русский</strong>
 </p>
 
 ---
 
-CloudTerm собирает все способы подключения к серверу в одном окне. Откройте
-сеанс SSH, передайте файлы по SFTP, пробросьте порт и подключитесь к рабочему
-столу Windows, и всё это в рамках одного соединения и одной строки вкладок. Без
-второй программы и без второго входа.
+NoxSSH — форк [CloudTerm](https://github.com/BradPerbs/cloudterm). Терминал, SFTP,
+RDP/VNC на месте. Главное изменение — как синхронизируются данные.
 
-Он подключается к чему угодно: к последовательной консоли ноутбука, к
-коммутатору, который понимает только telnet, к машине с Windows по RDP или к
-серверу у любого провайдера. CloudTerm сделан компанией
-[CloudBlast](https://cloudblast.io), хостинг-провайдером VPS. Он бесплатен для
-всех, а весь исходный код лежит здесь: читайте и меняйте.
+## Что изменилось
 
-<img src="Main%20Image.png" alt="CloudTerm" width="100%">
+- **Свой WebDAV вместо аккаунта CloudBlast.** Хосты, папки, ключи, сниппеты, прокси, известные хосты и настройки терминала шифруются на этом устройстве и загружаются на выбранный вами WebDAV. Подойдёт любой стандартный WebDAV.
+- **Версионные резервные копии** на том же WebDAV, по расписанию или вручную. Восстановление или удаление одной версии не затрагивает текущую синхронизацию.
+- **Импорт резервных копий NextSSH**, рядом с PuTTY, KiTTY, MobaXterm и OpenSSH.
+- **Без телеметрии.** При запуске приложение не обращается к `console.cloudblast.io`. Обновления проверяются в [этом репозитории](https://github.com/DT27/NoxSSH/releases) на GitHub.
+  <img src="NoxSSH_WebDAV.png" alt="Синхронизация WebDAV в NoxSSH" width="100%">
+  <img src="NoxSSH_WebDAV_backup.png" alt="Резервные копии WebDAV в NoxSSH" width="100%">
 
----
-
-<h2 align="center">☁️ Синхронизация через ваш WebDAV</h2>
-
-<p align="center">
-  <strong>Одна и та же конфигурация на каждом компьютере.</strong><br/>
-  Хосты, папки, ключи, сниппеты, прокси, доверенные ключи серверов, настройки ассистента<br/>
-  и терминала шифруются на этом устройстве фразой синхронизации и загружаются на выбранный вами WebDAV.
-</p>
-
-<p align="center">
-  Исторические копии можно восстановить или удалить по одной. Очистка локальных данных<br/>
-  сбрасывает настройки WebDAV на этом компьютере и не трогает файлы, уже лежащие на сервере.
-</p>
+<img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
 ---
 
 ## Содержание
 
 - [Скачать](#download)
-- [Что такое CloudTerm](#what-is-cloudterm)
+- [Что это](#what-it-is)
 - [Возможности](#features)
 - [Скриншоты](#screenshots)
 - [Начало работы](#getting-started)
@@ -76,9 +62,9 @@ CloudTerm собирает все способы подключения к се�
 
 ---
 
-<a name="what-is-cloudterm"></a>
+<a name="what-it-is"></a>
 
-## Что такое CloudTerm
+## Что это
 
 - **Терминал** для SSH, telnet и последовательных консолей, со вкладками,
   разделением панелей и отрисовкой на GPU.
@@ -88,51 +74,10 @@ CloudTerm собирает все способы подключения к се�
   соседствовали в одном приложении.
 - **Место для хранения серверов**: папки, теги, хранилище ключей и сниппеты,
   всё зашифровано и доступно для поиска.
-- **ИИ-агент** в панели рядом с терминалом: читает сеанс, который перед вами, и
-  работает на сервере через него, спрашивая, прежде чем что-то менять.
 
 <a name="features"></a>
 
 ## Возможности
-
-### ИИ-агент
-
-<p align="center">
-  <img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/local-model.svg" alt="Локальная модель" title="Локальная модель" height="34">
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>Локальная модель</b></sub>
-</p>
-
-- **Работает на уже установленных у вас Claude Code, Codex, OpenCode или Grok
-  Build**, под вашей собственной учётной записью: ничего не нужно вставлять и ни
-  на что дополнительно подписываться
-- **Или на локальной модели**, запущенной на вашем же компьютере (LM Studio,
-  Ollama, llama.cpp, vLLM): без учётной записи, без ключа, и ничего не покидает
-  машину
-- **Читает сеанс, который вы смотрите**, поэтому отвечает на ту ошибку, что у
-  вас на экране, и вставлять её не нужно
-- **Работает в терминале, который вы видите**: команды печатаются в панели, а
-  вывод остаётся в вашем буфере. Или выполняются в скрытом канале, если так
-  удобнее
-- **Спрашивает, прежде чем что-то менять**, со списком команд, которые только
-  смотрят, и режимом строже или свободнее, когда он нужен
-- **Направлен туда, куда скажете**: сеанс перед вами, закреплённый сеанс или
-  все сохранённые хосты
-- **Инструменты вместо догадок**: подключиться к сохранённому хосту, читать и
-  писать файлы, ответить на уже ждущий запрос, прочитать буфер
-- **Не трогает вашу машину**, пока вы не разрешите, и останавливается сам, а не
-  ходит по кругу
-- **Модель и уровень рассуждения для каждого разговора**, а во время работы
-  видно, во что это обходится или сколько от тарифа израсходовано
 
 ### Терминал
 
@@ -211,7 +156,7 @@ CloudTerm собирает все способы подключения к се�
   <img src="src/renderer/assets/icons/128_slackware.png" alt="Slackware" title="Slackware" width="42">
   <img src="src/renderer/assets/icons/128_linux.png" alt="Linux" title="Any other Linux" width="42">
   <img src="src/renderer/assets/icons/128_windows.png" alt="Windows" title="Windows" width="42">
-  <img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/macos-dark.svg"><img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42"></picture>
 </p>
 
 ### Безопасность
@@ -268,33 +213,22 @@ CloudTerm собирает все способы подключения к се�
 
 Скачайте последнюю версию для вашей платформы:
 
-| ОС      | Скачать                                                                                                                                                                                                                                   |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS   | [Apple silicon (M1 и новее)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)                            |
-| Windows | [Установщик, x64 (рекомендуется)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [Портативная версия, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux   | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                                                |
+| ОС      | Скачать                                                                                                                                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | [Apple silicon (M1 и новее)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-arm64.dmg) · [Intel](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.dmg)                         |
+| Windows | [Установщик, x64 (рекомендуется)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-Setup-x64.exe) · [Портативная версия, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.exe) |
+| Linux   | [AppImage, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x86_64.AppImage)                                                                                                                  |
 
-В Windows его также можно установить и обновлять из терминала:
-
-```powershell
-winget install CloudBlast.CloudTerm
-```
-
-Или просмотрите [все релизы на GitHub](https://github.com/BradPerbs/cloudterm/releases).
+Или просмотрите [все релизы на GitHub](https://github.com/DT27/NoxSSH/releases).
 
 ### Сборка из исходного кода
 
 ```bash
-git clone https://github.com/BradPerbs/cloudterm.git
-cd cloudterm
+git clone https://github.com/DT27/NoxSSH.git
+cd NoxSSH/noxssh
 npm install
 npm run dev
 ```
-
-Чтобы использовать ИИ-агента с OpenCode, установите CLI `opencode` и настройте
-хотя бы одного провайдера моделей командой `opencode auth login`. CloudTerm
-использует существующие провайдеры и учётные данные OpenCode, не копируя и не
-сохраняя их.
 
 Собрать переносимый исполняемый файл в `dist/`:
 
@@ -310,7 +244,7 @@ npm run build
 | `Ctrl+Shift+K`       | Палитра сниппетов      | `Alt+Shift+-`  | Разделить вниз         |
 | `Ctrl+Shift+B`       | Широковещательный ввод | `Alt+Shift+Z`  | Увеличить панель       |
 | `Ctrl+Shift+C` / `V` | Копировать и вставить  | `Ctrl+Shift+W` | Закрыть панель         |
-| `Ctrl+Shift+A`       | ИИ-агент               | `Alt+Стрелки`  | Переход между панелями |
+| `Alt+Стрелки`        | Переход между панелями |                |                        |
 
 <a name="community"></a>
 
@@ -329,7 +263,7 @@ Issues и pull requests на GitHub тоже приветствуются.
 
 ## Участники
 
-Спасибо всем, кто вложил свой труд в CloudTerm.
+Спасибо всем, кто вложил свой труд в CloudTerm, и тем, кто продолжает его здесь.
 
 <a href="https://github.com/BradPerbs/cloudterm/graphs/contributors">
   <img alt="Участники" src="https://contrib.rocks/image?repo=BradPerbs/cloudterm" />
@@ -340,7 +274,7 @@ Issues и pull requests на GitHub тоже приветствуются.
 ## Технологии
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` это главный процесс Electron, по одному модулю на возможность.
 `src/renderer/` это интерфейс на React: `components/` по функциям, `hooks/` для
@@ -350,9 +284,19 @@ Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
 
 ## Лицензия
 
-CloudTerm распространяется по модели [fair-code](https://faircode.io), условия
-изложены в [Лицензии CloudTerm](LICENSE): исходный код открыт, а программу можно
-свободно использовать, изменять и передавать, в том числе на работе. Продавать
-её или включать любую часть её кода в то, за что вы берёте деньги, можно только
-по коммерческой лицензии от [CloudBlast](https://cloudblast.io), и обычно
-достаточно просто попросить.
+**NoxSSH** — форк [CloudTerm](https://github.com/BradPerbs/cloudterm).
+
+Этот проект распространяется по исходной [Лицензии CloudTerm](LICENSE) (fair-code).
+
+- Исходный код открыт и его можно читать.
+- Программу можно свободно использовать, изменять и передавать (включая публикацию форков), лично или на работе.
+- Продавать её, включать любую часть в платный продукт или услугу, или иначе распространять коммерчески **можно только по отдельной коммерческой лицензии** от CloudBlast.
+
+При распространении любой копии или существенной части необходимо сохранить исходную лицензию и уведомление об авторских правах.
+
+Вы можете точно указать, что эта работа производна от CloudTerm.
+Нельзя называть этот проект «CloudTerm» или представлять его как исходящий от CloudBlast.
+
+Полный текст: [LICENSE](LICENSE) | https://faircode.io
+
+Исходный проект: https://github.com/BradPerbs/cloudterm (CloudBlast)

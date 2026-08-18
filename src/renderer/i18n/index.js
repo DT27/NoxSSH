@@ -4,6 +4,8 @@ import zh from './locales/zh';
 import vi from './locales/vi';
 import pt from './locales/pt';
 import ru from './locales/ru';
+import ja from './locales/ja';
+import ko from './locales/ko';
 
 /**
  * The app's own tiny i18n layer.
@@ -30,12 +32,14 @@ export const DEFAULT_LANGUAGE = 'en';
 export const LANGUAGES = [
     { id: 'en', label: 'English', english: 'English', tag: 'en' },
     { id: 'zh', label: '简体中文', english: 'Chinese (Simplified)', tag: 'zh-Hans' },
+    { id: 'ja', label: '日本語', english: 'Japanese', tag: 'ja' },
+    { id: 'ko', label: '한국어', english: 'Korean', tag: 'ko' },
     { id: 'vi', label: 'Tiếng Việt', english: 'Vietnamese', tag: 'vi' },
     { id: 'pt', label: 'Português', english: 'Portuguese', tag: 'pt' },
     { id: 'ru', label: 'Русский', english: 'Russian', tag: 'ru' },
 ];
 
-const CATALOGS = { en, zh, vi, pt, ru };
+const CATALOGS = { en, zh, ja, ko, vi, pt, ru };
 
 /** Shared with useSettingsSnapshot, which carries this between devices. */
 export const LANGUAGE_KEY = 'language';

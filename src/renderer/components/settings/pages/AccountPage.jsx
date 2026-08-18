@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { toastStyle as getToastStyle } from "../../../lib/toast";
-import { RefreshIcon } from "hugeicons-react";
+import { CloudUploadIcon, CloudDownloadIcon } from "hugeicons-react";
 import SettingsPage from "../ui/SettingsPage";
 import SettingCard from "../ui/SettingCard";
 import SettingRow, { DIVIDED } from "../ui/SettingRow";
@@ -374,7 +374,10 @@ export default function AccountPage() {
   const canBackup = hasUrl && hasPassphrase;
 
   return (
-    <SettingsPage title={t("settings.account.title")}>
+    <SettingsPage
+      title={t("settings.account.title")}
+      description={t("settings.account.webdavPrivacyNote")}
+    >
       <SettingCard>
         <div className="space-y-4">
           <div>
@@ -389,8 +392,7 @@ export default function AccountPage() {
               className="w-full rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
             />
             <p className="text-xs text-gray-500 mt-1">
-              {t("settings.account.webdavUrlHint") ||
-                "服务器地址即可，自动追加 noxssh/snapshot.json 作为备份文件。"}
+              {t("settings.account.webdavUrlHint")}
             </p>
           </div>
 
@@ -436,8 +438,7 @@ export default function AccountPage() {
               className="w-full rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
             />
             <p className="text-xs text-gray-500 mt-1">
-              {t("settings.account.syncPassphraseHint") ||
-                "Used to encrypt the snapshot stored on the server. Remember it — you will need it on other devices to restore."}
+              {t("settings.account.syncPassphraseHint")}
             </p>
           </div>
 
@@ -475,10 +476,7 @@ export default function AccountPage() {
           <SettingRow
             className={DIVIDED}
             title={t("settings.account.enableSync") || "Enable WebDAV sync"}
-            description={
-              t("settings.account.enableSyncDesc") ||
-              "Automatically push and pull encrypted snapshots."
-            }
+            description={t("settings.account.enableSyncDesc")}
             align="center"
             control={
               <Toggle
@@ -492,35 +490,43 @@ export default function AccountPage() {
             }
           />
 
-          <div className="flex items-center justify-between gap-4 pt-2">
-            <div className="space-y-1">
-              <StatusLine {...snapshotState(t, status, busy === "push")} />
-              <StatusLine {...restoreState(t, status)} />
-            </div>
-
-            <div className="flex items-center gap-2">
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0 space-y-1">
+                <StatusLine {...snapshotState(t, status, busy === "push")} />
+                <p className="text-xs text-gray-500 dark:text-neutral-400">
+                  {t("settings.account.saveNowHint")}
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={handlePush}
                 disabled={Boolean(busy) || !status.enabled}
                 className="shrink-0 flex items-center gap-2 px-4 h-9 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 disabled:opacity-50"
               >
-                <RefreshIcon size={16} strokeWidth={1.8} />
+                <CloudUploadIcon size={16} strokeWidth={1.8} />
                 {busy === "push"
-                  ? t("settings.account.saving") || "Saving..."
-                  : t("settings.account.saveNow") || "Save now"}
+                  ? t("settings.account.saving")
+                  : t("settings.account.saveNow")}
               </button>
-
+            </div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0 space-y-1">
+                <StatusLine {...restoreState(t, status)} />
+                <p className="text-xs text-gray-500 dark:text-neutral-400">
+                  {t("settings.account.restoreNowHint")}
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={handlePull}
                 disabled={Boolean(busy) || !status.enabled}
                 className="shrink-0 flex items-center gap-2 px-4 h-9 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 disabled:opacity-50"
               >
-                <RefreshIcon size={16} strokeWidth={1.8} />
+                <CloudDownloadIcon size={16} strokeWidth={1.8} />
                 {busy === "pull"
-                  ? t("settings.account.restoring") || "Restoring..."
-                  : t("settings.account.restoreNow") || "Restore now"}
+                  ? t("settings.account.restoring")
+                  : t("settings.account.restoreNow")}
               </button>
             </div>
           </div>
@@ -536,18 +542,13 @@ export default function AccountPage() {
       {/* Historical backups (separate from live snapshot) */}
       <SettingCard>
         <div className="space-y-4">
-          <div className="text-sm font-medium">
-            {t("settings.account.backupSection") || "Historical backups"}
-          </div>
-
           <SettingRow
-            className={DIVIDED}
             title={
               t("settings.account.backupEnabled") || "Enable historical backups"
             }
             description={
               t("settings.account.backupEnabledDesc") ||
-              "Create timestamped encrypted backup files on the server on a schedule, separate from the live snapshot."
+              "Create timestamped encrypted backup files on the server on a schedule, separate from the current sync data."
             }
             align="center"
             control={
@@ -704,7 +705,7 @@ export default function AccountPage() {
             </div>
             <p className="text-xs text-gray-500 dark:text-neutral-400 mt-1">
               {t("settings.account.resetLocalDesc") ||
-                "Clears hosts, keys, snippets, proxies, known hosts, assistant settings and the WebDAV setup on this computer. Files already on the server are left alone."}
+                "Clears hosts, keys, snippets, proxies, known hosts and the WebDAV setup on this computer. Files already on the server are left alone."}
             </p>
           </div>
           <button
@@ -729,11 +730,6 @@ export default function AccountPage() {
           </button>
         </div>
       </SettingCard>
-
-      <p className="text-xs text-gray-500 px-1">
-        {t("settings.account.webdavPrivacyNote") ||
-          "Your data is encrypted on this device with the sync passphrase before it leaves. The WebDAV password is only used for authentication."}
-      </p>
 
       {confirming && (
         <ConfirmDialog {...confirming} onCancel={() => setConfirming(null)} />

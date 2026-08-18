@@ -3,6 +3,7 @@ import { MoreVerticalIcon } from 'hugeicons-react';
 import { OsIcon, hostOs } from '../lib/os-icons';
 import { DEFAULT_PORTS, hostKind, protocolLabel } from '../lib/protocols';
 import { STATE_STYLES, stateOf, describeStatus } from '../lib/monitor';
+import { formatDate } from '../lib/format';
 import IconTile from './hosts/IconTile';
 import MenuButton, { dropdownItems } from './ui/MenuButton';
 import Tag from './ui/Tag';
@@ -136,6 +137,10 @@ function HostCard({
 
     // Only ever what is true of this host right now. `folderLabel` is passed in
     // by search alone: while browsing, the breadcrumb has already said it.
+    const lastConnected = host.lastConnectedAt
+        ? t('hosts.lastConnected', { when: formatDate(host.lastConnectedAt) })
+        : '';
+
     const extras = [
         folderLabel,
         // Forwards a non-SSH host is still carrying are never started, so
@@ -147,6 +152,7 @@ function HostCard({
         // point of saying it here is that this host does not dial straight out,
         // which is worth spotting from the grid. The editor names it.
         kind !== 'serial' && host.proxyId ? t('hosts.viaProxy') : '',
+        lastConnected,
     ].filter(Boolean);
 
     const tags = host.tags || [];

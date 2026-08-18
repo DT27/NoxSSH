@@ -10,7 +10,7 @@
 
 ## 项目概述
 
-NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户端。它是从 CloudTerm 分支而来，支持 SSH、SFTP、Telnet、RDP、VNC 和串口连接，并集成了 AI 代理功能。
+NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户端。它是从 CloudTerm 分支而来，支持 SSH、SFTP、Telnet、RDP、VNC 和串口连接。
 
 **仓库结构：**
 
@@ -33,13 +33,12 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
   - 触发：保存时防抖推送、定时轮询、锁屏解锁/系统唤醒时拉取
 - 快照内容：
   - 主机、文件夹、密钥、代码片段、代理、已知主机、终端设置
-  - 助手设置与各提供商密钥（解密后再封入快照；本机 `local` 模型地址/密钥不同步）
 - 历史备份：独立文件 `{base}/noxssh/backups/YYYY-MM-DDTHH-MM-SSZ.json`
   - 明文 `counts` 字段仅统计数量，旧备份没有该字段时列表不展示数量
   - 列表可单条删除（WebDAV `DELETE`）；删除不影响当前快照
 - 清空本机数据（设置 → WebDAV 同步）：
   - 需确认后执行
-  - 清除本机主机/密钥/片段/代理/已知主机/助手设置与对话/活动日志
+  - 清除本机主机/密钥/片段/代理/已知主机/活动日志
   - 同时复位本机 WebDAV 配置（地址、账号、密码、同步口令）并停止轮询
   - **不删除**服务器上已有的快照和历史备份
   - 清空过程中禁止自动推送，避免把空数据写到远端
@@ -97,12 +96,12 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 
 ## 主机连接界面本地化
 
-连接覆盖层原先写死英文。现已走 `session.*` 词条，语言跟随设置（en / zh / pt / ru / vi）：
+连接覆盖层原先写死英文。现已走 `session.*` 词条，语言跟随设置（en / zh / ja / ko / pt / ru / vi）：
 
 - [`ConnectingSplash.jsx`](src/renderer/components/ui/ConnectingSplash.jsx)：`正在连接到 {title}`，主机名仍加粗
 - [`SessionScreen.jsx`](src/renderer/components/ui/SessionScreen.jsx)：未知 / 已更改主机密钥、额外认证、连接失败与倒计时重试
 - [`TerminalView.jsx`](src/renderer/components/TerminalView.jsx)：窗格状态条、断开连接 / 关闭窗格
 
-词条在各语言文件末尾的 `session.*`。取消按钮复用 `common.cancel`。
+词条在各语言文件末尾的 `session.*`（en / zh / ja / ko / pt / ru / vi）。取消按钮复用 `common.cancel`。
 
 未改：写入 xterm 缓冲的 `Reconnected` / `Disconnected` / `Connection failed`，以及活动日志、RDP/VNC 状态点等其它英文。

@@ -10,76 +10,49 @@
 
 <p align="center">
   A modern terminal workspace built with Electron, React and xterm.js.<br/>
-  AI agent · Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
+  Split panes · Tabs · File transfers · Port forwarding · Remote desktops · Snippets
 </p>
 
-> **NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm), modified and renamed.
->
-> The source is open; you may use, study, modify and share it for free.
->
-> Original project: CloudTerm by CloudBlast. NoxSSH is an independent fork.
-
 <p align="center">
-  <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-fair--code-green?style=for-the-badge"></a>
-  &nbsp;
-  <a href="https://discord.gg/7M84Xp8QBr"><img alt="Discord" src="https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
 <p align="center">
   <strong>English</strong> ·
   <a href="./README.zh-CN.md">简体中文</a> ·
+  <a href="./README.ja.md">日本語</a> ·
+  <a href="./README.ko.md">한국어</a> ·
   <a href="./README.es.md">Español</a> ·
   <a href="./README.ru.md">Русский</a>
 </p>
 
 ---
 
-**NoxSSH** is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm) by [CloudBlast](https://cloudblast.io), renamed and modified.
+NoxSSH is a fork of [CloudTerm](https://github.com/BradPerbs/cloudterm). It keeps
+the same terminal, SFTP, RDP/VNC. The main change is how data is
+synced.
 
-This project is distributed under the original [CloudTerm License](LICENSE) (fair-code).  
-You may use, study, modify and share it for free. Selling it, or including any part of it in a commercial product or service, requires a separate commercial license from CloudBlast.
+## What changed
 
-You may accurately state that this work is derived from CloudTerm. You may not call this project CloudTerm or present it as coming from CloudBlast.
+- **Your own WebDAV, not a CloudBlast account.** Hosts, folders, keys, snippets, proxies, known hosts and terminal settings are encrypted on this device, then uploaded to a WebDAV you choose. Any standard WebDAV works.
+- **Versioned backups** stored on that WebDAV, on a schedule or by hand. Restore or delete one version without touching the live sync copy.
+- **Import NextSSH backups**, next to PuTTY, KiTTY, MobaXterm and OpenSSH.
+- **No telemetry.** The app does not contact `console.cloudblast.io` on launch. Updates are checked against [this repository](https://github.com/DT27/NoxSSH/releases) on GitHub.
+  <img src="NoxSSH_WebDAV.png" alt="NoxSSH WebDAV sync" width="100%">
+  <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH WebDAV backups" width="100%">
 
----
-
-CloudTerm keeps every way you reach a server in one window. Open an SSH session,
-move files over SFTP, forward a port and take a Windows desktop, all on the same
-connection and the same tab strip. No second app, no second login.
-
-It connects to anything: your laptop's serial console, a switch that only speaks
-telnet, a Windows box over RDP, or a server on any host you like. The original
-CloudTerm is made by [CloudBlast](https://cloudblast.io). NoxSSH is an independent
-fork with its own changes (WebDAV sync, historical backups, etc.). The whole
-source remains available to read and change under the original license.
-
-<img src="Main%20Image.png" alt="CloudTerm" width="100%">
-
----
-
-<h2 align="center">☁️ Sync over your own WebDAV</h2>
-
-<p align="center">
-  <strong>The same setup on every machine you use.</strong><br/>
-  Hosts, folders, keys, snippets, proxies, trusted host keys, assistant settings and<br/>
-  terminal settings are encrypted on this device with your sync passphrase, then uploaded to the WebDAV you choose.
-</p>
-
-<p align="center">
-  Historical backups can be restored or deleted one by one. Clearing local data<br/>
-  resets the WebDAV settings on this computer and leaves files already on the server alone.
-</p>
+<img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
 ---
 
 ## Contents
 
 - [Download](#download)
-- [What is CloudTerm](#what-is-cloudterm)
+- [What it is](#what-it-is)
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Getting started](#getting-started)
@@ -90,9 +63,9 @@ source remains available to read and change under the original license.
 
 ---
 
-<a name="what-is-cloudterm"></a>
+<a name="what-it-is"></a>
 
-## What is CloudTerm
+## What it is
 
 - **A terminal** for SSH, telnet and serial consoles, with tabs, split panes and
 
@@ -110,90 +83,9 @@ source remains available to read and change under the original license.
 
   encrypted and all searchable.
 
-- **An AI agent** in a panel beside the terminal, which reads the session you
-
-  are looking at and works on the server through it, asking before it changes
-  anything.
-
 <a name="features"></a>
 
 ## Features
-
-### AI agent
-
-Pick the agent you already have. CloudTerm drives the CLI on your machine under
-your own account, so there is nothing to paste and nothing extra to subscribe
-to. Or point it at a model running on your own computer, and nothing leaves the
-machine at all.
-
-<table align="center">
-  <tr>
-    <td align="center" width="150"><img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="32"></td>
-    <td align="center" width="150"><img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="32"></td>
-    <td align="center" width="150"><img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="32"></td>
-    <td align="center" width="150"><img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="32"></td>
-    <td align="center" width="150"><img src="docs/logos/local-model.svg" alt="Local model" title="Local model" height="32"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Claude Code</b></td>
-    <td align="center"><b>Codex</b></td>
-    <td align="center"><b>OpenCode</b></td>
-    <td align="center"><b>Grok Build</b></td>
-    <td align="center"><b>Local model</b></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Anthropic models</sub></td>
-    <td align="center"><sub>OpenAI models</sub></td>
-    <td align="center"><sub>Any provider you have set up</sub></td>
-    <td align="center"><sub>xAI models</sub></td>
-    <td align="center"><sub>Whatever you have loaded</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Sign in with <code>claude</code>, then <code>/login</code></sub></td>
-    <td align="center"><sub>Sign in with the Codex app or CLI</sub></td>
-    <td align="center"><sub>Sign in with <code>opencode auth login</code></sub></td>
-    <td align="center"><sub>Sign in with <code>grok</code>, or paste an xAI key</sub></td>
-    <td align="center"><sub>No account, no key, no internet</sub></td>
-  </tr>
-</table>
-
-Whichever you choose, the agent:
-
-- **Reads the session you are watching**, so the error on your screen is the
-
-  one it answers, without you pasting anything
-
-- **Works in the terminal you can see**: commands are typed into the pane and
-
-  the output stays in your scrollback, or run on a hidden channel if you prefer
-
-- **Asks before it changes anything**, with an allow list for the commands that
-
-  only look, and a stricter or looser mode when you want one
-
-- **Pointed where you like**: the session in front, one you pin, or every host
-
-  you have saved
-
-- **Tools instead of guesses**: connect a saved host, read and write files,
-
-  answer a prompt that is already waiting, read the scrollback
-
-- **Leaves your own machine alone** unless you say otherwise, and stops on its
-
-  own rather than looping
-
-- **Model and reasoning effort per conversation**, with what it is costing, or
-
-  how much of your plan it has used, shown as it works
-
-> Claude Code has to be the native install, the one that puts `claude` in
->
-> be started the way the agent runs it.
-
-> On Windows, install OpenCode natively with Chocolatey, Scoop, npm, or its
->
-> CloudTerm desktop app.
 
 ### Terminal
 
@@ -271,7 +163,7 @@ hostnames.
   <img src="src/renderer/assets/icons/128_slackware.png" alt="Slackware" title="Slackware" width="42">
   <img src="src/renderer/assets/icons/128_linux.png" alt="Linux" title="Any other Linux" width="42">
   <img src="src/renderer/assets/icons/128_windows.png" alt="Windows" title="Windows" width="42">
-  <img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/macos-dark.svg"><img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42"></picture>
 </p>
 
 ### Security
@@ -327,38 +219,22 @@ Terminal themes, app colours, fonts and even the logo in the title bar.
 
 Download the latest release for your platform:
 
-| OS      | Download                                                                                                                                                                                                                     |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS   | [Apple silicon (M1 and later)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)             |
-| Windows | [Installer, x64 (recommended)](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [Portable, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux   | [AppImage, x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                                   |
+| OS      | Download                                                                                                                                                                                                           |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| macOS   | [Apple silicon (M1 and later)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-arm64.dmg) · [Intel](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.dmg)                         |
+| Windows | [Installer, x64 (recommended)](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-Setup-x64.exe) · [Portable, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.exe)             |
+| Linux   | [AppImage, x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x86_64.AppImage)                                                                                                                    |
 
-On Windows you can install and update it from a terminal instead:
-
-```powershell
-winget install CloudBlast.CloudTerm
-```
-
-Or browse [all GitHub releases](https://github.com/BradPerbs/cloudterm/releases).
+Or browse [all GitHub releases](https://github.com/DT27/NoxSSH/releases).
 
 ### Build from source
 
 ```bash
-git clone https://github.com/BradPerbs/cloudterm.git
-cd cloudterm
+git clone https://github.com/DT27/NoxSSH.git
+cd NoxSSH/noxssh
 npm install
 npm run dev
 ```
-
-To use the AI agent with OpenCode, install the `opencode` CLI and configure at
-least one model provider with `opencode auth login`. CloudTerm uses OpenCode's
-existing providers and credentials; it does not copy or store them.
-
-To use a local model, start the server you already run and put its address in
-Settings, Assistant. LM Studio listens on `http://localhost:1234/v1`, Ollama on
-`http://localhost:11434/v1`, llama.cpp on `http://localhost:8080/v1`; anything
-that speaks the OpenAI API works. Pick a model with tool support, since the
-assistant works by calling tools rather than by writing text.
 
 Build a portable executable into `dist/`:
 
@@ -374,7 +250,7 @@ npm run build
 | `Ctrl+Shift+K`       | Snippet palette    | `Alt+Shift+-`  | Split down         |
 | `Ctrl+Shift+B`       | Broadcast input    | `Alt+Shift+Z`  | Zoom pane          |
 | `Ctrl+Shift+C` / `V` | Copy and paste     | `Ctrl+Shift+W` | Close pane         |
-| `Ctrl+Shift+A`       | AI agent           | `Alt+Arrows`   | Move between panes |
+| `Alt+Arrows`         | Move between panes |                |                    |
 
 <a name="community"></a>
 
@@ -392,7 +268,8 @@ Issues and pull requests are welcome here on GitHub.
 
 ## Contributors
 
-Thanks to everyone who has put work into CloudTerm.
+Thanks to everyone who has put work into CloudTerm, and to those who have
+continued it here.
 
 <a href="https://github.com/BradPerbs/cloudterm/graphs/contributors">
   <img alt="Contributors" src="https://contrib.rocks/image?repo=BradPerbs/cloudterm" />
@@ -403,7 +280,7 @@ Thanks to everyone who has put work into CloudTerm.
 ## Tech stack
 
 Electron · React · xterm.js · ssh2 · IronRDP (WebAssembly) · noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` is the Electron main process, one module per feature.
 `src/renderer/` is the React UI: `components/` by feature, `hooks/` for state,

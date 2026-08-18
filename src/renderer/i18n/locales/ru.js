@@ -111,7 +111,7 @@ export default {
   "hosts.editor.disclosure.nameAndTags": "Имя и метки",
   "hosts.editor.displayName": "Отображаемое имя",
   "hosts.editor.displayNameHint":
-    "Если пусто, хост показывается как {address}.",
+    "Если пусто, хост показывается как имя хоста / IP.",
   "hosts.editor.displayNamePlaceholder": "например, Production Server",
   "hosts.editor.tags": "Метки",
   "hosts.editor.tagsHint":
@@ -617,7 +617,6 @@ export default {
   "settings.nav.general": "Общие",
   "settings.nav.appearance": "Оформление",
   "settings.nav.terminal": "Терминал",
-  "settings.nav.assistant": "ИИ-ассистент",
   "settings.nav.monitoring": "Мониторинг",
   "settings.nav.logging": "Журналирование",
   "settings.nav.security": "Безопасность",
@@ -790,175 +789,6 @@ export default {
     "Задайте свои фон, текст, курсор и цвета ANSI",
   "settings.terminal.themeChanged": "Тема терминала изменена на {theme}",
   "settings.terminal.customApplied": "Своя тема терминала применена",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "ИИ-ассистент",
-  "settings.assistant.desc":
-    "Ассистент читает ваши терминалы и работает на ваших серверах через " +
-    "уже открытые вами соединения. Он никогда не видит сохранённые пароли и ключи.",
-  "settings.assistant.loading": "Загрузка настроек ассистента…",
-  "settings.assistant.agent": "Агент",
-  "settings.assistant.agentDesc":
-    "Какой агент отвечает: установленный на этой машине, релей " +
-    "или модель, которую вы запустили сами. Смена агента начинает новый разговор.",
-  "settings.assistant.provider.claudeCode":
-    "Агент Anthropic, под вашей учётной записью.",
-  "settings.assistant.provider.codex":
-    "Агент OpenAI, под вашей учётной записью.",
-  "settings.assistant.provider.opencode":
-    "Открытый код, с вашими провайдерами.",
-  "settings.assistant.provider.relayName": "Релей",
-  "settings.assistant.provider.relay":
-    "OpenAI-совместимый релей. Claude Code, Codex и OpenCode устанавливать не нужно.",
-  "settings.assistant.provider.grok": "Агент xAI, под вашей учётной записью.",
-  "settings.assistant.provider.local": "Ваша модель: LM Studio, Ollama, vLLM.",
-  "settings.assistant.provider.unavailable": "В этой сборке пока недоступно.",
-  "settings.assistant.relayBaseUrl": "Адрес релея",
-  "settings.assistant.relayModel": "Модель по умолчанию",
-  "settings.assistant.relayModelManual": "Ввести имя модели…",
-  "settings.assistant.relayNote":
-    "Укажите OpenAI-совместимый адрес, например https://example.com/v1. Локальный CLI не нужен.",
-  "settings.assistant.relayModelsFetch": "Загрузить модели",
-  "settings.assistant.relayModelsFetching": "Загрузка…",
-  "settings.assistant.relayModelsLoaded": "Загружено моделей: {count}",
-  "settings.assistant.relayModelsEmpty":
-    "Релей не вернул список моделей. Можно ввести имя вручную.",
-  "settings.assistant.relayModelsFailed":
-    "Не удалось загрузить модели. Проверьте адрес и ключ.",
-  "settings.assistant.accountRelay":
-    "Модель вызывается через релей. Укажите адрес и API-ключ. Локальный агент не нужен.",
-  "settings.assistant.endpoint": "Адрес сервера",
-  "settings.assistant.endpointDesc":
-    "Где слушает локальный сервер моделей. Подойдёт любой " +
-    "сервер, говорящий на API OpenAI.",
-  "settings.assistant.endpointNote":
-    "LM Studio: http://localhost:1234/v1. Ollama: " +
-    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
-  "settings.assistant.endpointChecking":
-    "Спрашиваем этот адрес, что у него есть...",
-  "settings.assistant.endpointFound_one": "Ответил, доступна {count} модель.",
-  "settings.assistant.endpointFound_few": "Ответил, доступно {count} модели.",
-  "settings.assistant.endpointFound_many": "Ответил, доступно {count} моделей.",
-  "settings.assistant.endpointFound_other":
-    "Ответил, доступно {count} моделей.",
-  "settings.assistant.endpointNone":
-    "По этому адресу никто не ответил. Проверьте, что сервер " +
-    "запущен и его API включён.",
-  "settings.assistant.commandMode": "Где выполняются команды",
-  "settings.assistant.commandMode.terminal": "В моём терминале",
-  "settings.assistant.commandMode.background": "Вне поля зрения",
-  "settings.assistant.commandMode.terminal.note":
-    "Команды набираются в том сеансе, который вы " +
-    "видите, поэтому вы наблюдаете за их выполнением, а вывод остаётся в буфере прокрутки. " +
-    "Они попадают в историю этой оболочки, а ассистент читает результат с экрана вместо кода " +
-    "возврата.",
-  "settings.assistant.commandMode.background.note":
-    "Команды выполняются в отдельном канале, " +
-    "который вы не видите. Так аккуратнее, и ассистент получает настоящий код возврата и " +
-    "чистый вывод, но о случившемся приходится верить ему на слово.",
-  "settings.assistant.approval": "Спрашивать перед запуском",
-  "settings.assistant.approval.always": "Любое действие",
-  "settings.assistant.approval.writes": "Только изменения",
-  "settings.assistant.approval.never": "Никогда",
-  "settings.assistant.approval.always.note":
-    "Каждый вызов инструмента ждёт вас, включая чтение " +
-    "файла или терминала. Надёжно, но долгий разбор превращается в множество нажатий.",
-  "settings.assistant.approval.writes.note":
-    "Чтение выполняется свободно. Всё, что меняет " +
-    "систему, останавливается и показывает вам точную команду и хост, на котором она " +
-    "выполнилась бы.",
-  "settings.assistant.approval.never.note":
-    "Ничто не останавливается ради подтверждения, включая " +
-    "команды, которые удаляют данные или перезапускают службы. Разумно только для хостов, " +
-    "которые вы можете позволить себе сломать.",
-  "settings.assistant.localTools": "Разрешить инструменты на этом компьютере",
-  "settings.assistant.localToolsDesc":
-    "Позволяет ассистенту читать и записывать локальные файлы " +
-    "и выполнять локальные команды. По умолчанию выключено: панель нужна для управления " +
-    "серверами, а ваша собственная машина намного шире того, что для этого требуется.",
-  "settings.assistant.allowList": "Команды, которым подтверждение не нужно",
-  "settings.assistant.allowListDesc":
-    "По одной в строке, сверяются по первым словам целиком. " +
-    "Команда с конвейером, перенаправлением, точкой с запятой, подстановкой или второй " +
-    "строкой запрашивается всегда, с чего бы она ни начиналась.",
-  "settings.assistant.allowListNote":
-    "Действует, только пока подтверждение стоит на «{mode}».",
-  "settings.assistant.blockList": "Команды, которые запускать нельзя",
-  "settings.assistant.blockListDesc":
-    "По одной в строке. Они отклоняются сразу, а не выносятся " +
-    "на подтверждение, в любом режиме, включая «Никогда», и неважно, выполняет ли их " +
-    "ассистент в своём канале или набирает в вашем терминале. Флаги учитываются: «rm -rf» " +
-    "останавливает также «rm -fr», «rm -r -f» и «sudo /bin/rm --recursive --force».",
-  "settings.assistant.blockListEmpty":
-    "Очистите поле, чтобы ничего не блокировать.",
-  "settings.assistant.blockListWarning":
-    "Это ограждение от ошибок, а не средство безопасности. В " +
-    "оболочке слишком много способов записать одну и ту же команду, чтобы любой список " +
-    "поймал их все, поэтому для важного оставляйте подтверждения включёнными.",
-  "settings.assistant.saveList": "Сохранить список",
-  "settings.assistant.restoreDefaults": "Вернуть значения по умолчанию",
-  "settings.assistant.quickPrompts": "Быстрые вопросы",
-  "settings.assistant.quickPromptsDesc":
-    "Вопросы, которые панель предлагает кнопками в один " +
-    "щелчок, когда разговор пуст. По одному в строке. Изначально ничего не задано, потому что " +
-    "стоящие вопросы это те, которые вы сами задаёте своим машинам каждую неделю.",
-  "settings.assistant.quickPromptsPlaceholder":
-    "Чем забит диск?\n" + "Почему не прошло последнее развёртывание?",
-  "settings.assistant.quickPromptsNote":
-    "До 12 штук. Нажатие подставляет вопрос в поле, а не " +
-    "отправляет его, так что сначала можно дописать.",
-  "settings.assistant.savePrompts": "Сохранить вопросы",
-  "settings.assistant.steps": "Шагов за ход",
-  "settings.assistant.stepsDesc":
-    "Сколько вызовов инструментов может занять один вопрос, прежде " +
-    "чем ассистент остановится и отчитается. Идущий вникуда прогон завершается сам, а не " +
-    "тогда, когда вы это заметите.",
-  "settings.assistant.lines": "Сколько строк терминала он читает",
-  "settings.assistant.linesDesc":
-    "Сколько недавнего вывода сеанса возвращает одно чтение. " +
-    "Больше значит больше контекста для работы и больший расход бюджета разговора.",
-  "settings.assistant.signIn": "Вход",
-  "settings.assistant.theAgent": "агент",
-  "settings.assistant.accountOpencode":
-    "OpenCode использует провайдеров и учётные данные, уже " +
-    "настроенные в его CLI. Управляйте ими командой «opencode auth login»; ключи, сохранённые " +
-    "здесь, в OpenCode не передаются.",
-  "settings.assistant.accountGrokApi":
-    "Grok Build не установлен на этой машине, поэтому " +
-    "NoxSSH обращается к API xAI напрямую с сохранённым здесь ключом, и оплата идёт за " +
-    "токены. Установите CLI и войдите, чтобы использовать свой тариф.",
-  "settings.assistant.accountLocal":
-    "Входить некуда. Модель работает на этом компьютере, так " +
-    "что нет ни учётной записи, ни оплаты за токены. Ключ нужен, только если вы сами " +
-    "поставили его на сервер.",
-  "settings.assistant.accountPlan":
-    "Вход выполнен через {agent} на этой машине, тариф {plan}. " +
-    "Расход идёт по этому тарифу, поэтому ключ здесь не нужен.",
-  "settings.assistant.accountProvider":
-    "{agent} на этой машине настроен на {provider}, который " +
-    "сам занимается своими учётными данными. Здесь ничего не требуется.",
-  "settings.assistant.accountAgentKey":
-    "{agent} на этой машине использует ключ API, поэтому " +
-    "расход считается по токенам.",
-  "settings.assistant.accountStoredKey":
-    "Ключ сохранён здесь и будет использоваться. Очистите " +
-    "поле и сохраните, чтобы удалить его и вернуться ко входу через {agent}.",
-  "settings.assistant.accountNone":
-    "Делать ничего не нужно, если вы уже вошли в {agent} на этой " +
-    "машине, а так обычно и бывает. Ключ нужен, только если вход не выполнен.",
-  "settings.assistant.apiKey": "Ключ API",
-  "settings.assistant.keyStored": "Ключ сохранён",
-  "settings.assistant.keyOptional": "Только если ваш сервер его требует",
-  "settings.assistant.keySaved": "Ключ сохранён.",
-  "settings.assistant.keyRemoved": "Ключ удалён.",
-  "settings.assistant.keyFailed": "Не удалось сохранить этот ключ.",
-  "settings.assistant.noSecureStore":
-    "В этой системе нет доступного защищённого хранилища, " +
-    "поэтому ключ здесь сохранить нельзя.",
-  "settings.assistant.tools": "Что он умеет",
-  "settings.assistant.toolsDesc":
-    "Инструментов: {count}, из них только читают {readOnly}. " +
-    "Остальные подчиняются настройке подтверждения выше.",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "Мониторинг",
@@ -1207,11 +1037,11 @@ export default {
   "settings.account.backupOff":
     "Резервное копирование в облако выключено. То, что уже сохранено, " +
     "останется, пока вы это не замените.",
-  "settings.account.backedUp": "Сохранено в вашей учётной записи CloudBlast",
-  "settings.account.saveNow": "Сохранить сейчас",
-  "settings.account.saving": "Сохранение…",
-  "settings.account.savedAgo": "Сохранено {when}",
-  "settings.account.notSavedYet": "Ещё не сохранено",
+  "settings.account.backedUp": "Загружено в WebDAV",
+  "settings.account.saveNow": "Загрузить сейчас",
+  "settings.account.saving": "Загрузка…",
+  "settings.account.savedAgo": "Загружено {when}",
+  "settings.account.notSavedYet": "Ещё не загружено",
   "settings.account.justNow": "только что",
   "settings.account.minutesAgo": "{count} мин назад",
   "settings.account.hoursAgo": "{count} ч назад",
@@ -1223,14 +1053,14 @@ export default {
   "settings.account.title": "Синхронизация WebDAV",
   "settings.account.webdavUrl": "Адрес WebDAV",
   "settings.account.webdavUrlHint":
-    "Достаточно адреса сервера. Путь noxssh/snapshot.json добавляется автоматически.",
+    "Достаточно адреса сервера, например https://dav.jianguoyun.com/dav/. Каталог NoxSSH/ добавляется автоматически.",
   "settings.account.username": "Имя пользователя",
   "settings.account.webdavPassword": "Пароль WebDAV",
   "settings.account.webdavPasswordHint":
     "Пароль HTTP Basic для вашего WebDAV-сервера (хранится безопасно).",
   "settings.account.syncPassphrase": "Фраза синхронизации",
   "settings.account.syncPassphraseHint":
-    "Шифрует снимок перед загрузкой. Она понадобится на других устройствах для восстановления.",
+    "Шифрует данные синхронизации перед загрузкой. Она понадобится на других устройствах для восстановления.",
   "settings.account.saveUrlUser": "Сохранить адрес и имя",
   "settings.account.saveSecrets": "Сохранить пароли",
   "settings.account.test": "Проверить соединение",
@@ -1238,20 +1068,24 @@ export default {
   "settings.account.testOk": "Соединение успешно",
   "settings.account.enableSync": "Включить синхронизацию WebDAV",
   "settings.account.enableSyncDesc":
-    "Автоматически отправлять и получать зашифрованные хосты, ключи и настройки.",
+    "При включении локальные изменения загружаются примерно через 8 секунд. Сервер проверяется каждые 5 минут, а также при разблокировке или пробуждении. Если на сервере более новая копия, она сначала объединяется, затем отправляется.",
+  "settings.account.saveNowHint":
+    "Сразу загрузить текущие данные этого компьютера, не дожидаясь автоматической отправки.",
+  "settings.account.restoreNowHint":
+    "Сразу скачать копию с сервера и заменить данные на этом компьютере, не дожидаясь следующей проверки.",
   "settings.account.configSaved": "Настройки сохранены",
   "settings.account.secretsSaved": "Учётные данные обновлены",
-  "settings.account.restoreNow": "Восстановить сейчас",
-  "settings.account.restoring": "Восстановление…",
-  "settings.account.restored": "Восстановлено из WebDAV",
-  "settings.account.notRestoredYet": "Ещё не восстанавливалось",
-  "settings.account.restoredAgo": "Восстановлено {when}",
+  "settings.account.restoreNow": "Скачать сейчас",
+  "settings.account.restoring": "Скачивание…",
+  "settings.account.restored": "Скачано из WebDAV",
+  "settings.account.notRestoredYet": "Ещё не скачивалось",
+  "settings.account.restoredAgo": "Скачано {when}",
   "settings.account.webdavPrivacyNote":
     "Данные шифруются на этом устройстве фразой синхронизации до отправки. Пароль WebDAV нужен только для входа.",
   "settings.account.backupSection": "Исторические копии",
   "settings.account.backupEnabled": "Включить исторические копии",
   "settings.account.backupEnabledDesc":
-    "По расписанию создавать на сервере отдельные зашифрованные файлы с меткой времени, отдельно от живого снимка.",
+    "По расписанию создавать на сервере отдельные зашифрованные файлы с меткой времени, отдельно от текущих данных синхронизации.",
   "settings.account.backupFrequency": "Частота копий",
   "settings.account.backupFrequencyManual": "Только вручную",
   "settings.account.backupFrequencyHourly": "Каждый час",
@@ -1271,12 +1105,12 @@ export default {
   "settings.account.backupDeleted": "Копия удалена",
   "settings.account.resetLocalTitle": "Сбросить это устройство",
   "settings.account.resetLocalDesc":
-    "Удаляет хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента и локальную конфигурацию WebDAV. Снимки и исторические копии уже на сервере не затрагиваются.",
+    "Удаляет хосты, ключи, сниппеты, прокси, известные хосты и локальную конфигурацию WebDAV. Данные синхронизации и исторические копии уже на сервере не затрагиваются.",
   "settings.account.resetLocal": "Очистить локальные данные",
   "settings.account.resettingLocal": "Очистка…",
   "settings.account.resetLocalConfirmTitle": "Очистить локальные данные?",
   "settings.account.resetLocalConfirmMessage":
-    "Хосты, ключи, сниппеты, прокси, известные хосты, настройки ассистента, а также URL, учётная запись и парольная фраза WebDAV на этом компьютере будут удалены. Файлы на сервере не изменятся.",
+    "Хосты, ключи, сниппеты, прокси, известные хосты, а также URL, учётная запись и парольная фраза WebDAV на этом компьютере будут удалены. Файлы на сервере не изменятся.",
   "settings.account.resetLocalConfirm": "Очистить это устройство",
   "settings.account.localResetDone": "Локальные данные очищены",
   "settings.account.lastBackup": "Последняя копия",
@@ -1428,6 +1262,7 @@ export default {
   "hosts.noPort": "Нет порта",
   "hosts.connected": "Подключено",
   "hosts.viaProxy": "через прокси",
+  "hosts.lastConnected": "{when}",
   "hosts.tunnelCount_one": "{count} туннель",
   "hosts.tunnelCount_few": "{count} туннеля",
   "hosts.tunnelCount_many": "{count} туннелей",
@@ -1706,101 +1541,6 @@ export default {
     "этот хост, либо откройте прокси SOCKS, чтобы ходить в сеть из него.",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "ИИ-ассистент",
-  "assistant.welcome": "Займёмся вашими серверами",
-  "assistant.welcomeNote":
-    "Он читает этот терминал, выполняет команды в отдельном канале и может " +
-    "работать со всеми сохранёнными хостами.",
-  "assistant.createQuickPrompts": "Создать быстрые вопросы",
-  "assistant.newConversation": "Новый разговор",
-  "assistant.chats": "Разговоры",
-  "assistant.chatHistory": "История разговоров",
-  "assistant.working": "Работает",
-  "assistant.send": "Отправить",
-  "assistant.stop": "Остановить",
-  "assistant.askAbout": "Спросите про {about}",
-  "assistant.costHint": "Оценка стоимости этого разговора, оплата по токенам",
-
-  "assistant.currentSession": "Текущий сеанс",
-  "assistant.nothingConnected": "Ничего не подключено",
-  "assistant.noSessionOpen": "Нет открытых сеансов",
-  "assistant.yourServers": "ваши серверы",
-  "assistant.anyHost": "любой хост",
-  "assistant.closedSession": "закрытый сеанс",
-  "assistant.savedHost": "сохранённый хост",
-  "assistant.savedHosts": "Сохранённые хосты",
-  "assistant.openSessions": "Открытые сеансы",
-  "assistant.allHostsHint": "Все сохранённые хосты и открытые сеансы",
-  "assistant.serverCount": "серверов: {count}",
-  "assistant.sessionsOpen_one": "открыт {count} сеанс",
-  "assistant.sessionsOpen_few": "открыто {count} сеанса",
-  "assistant.sessionsOpen_many": "открыто {count} сеансов",
-  "assistant.sessionsOpen_other": "открыто {count} сеанса",
-  "assistant.notConnected": "Не подключён",
-  "assistant.searchScope": "Поиск серверов",
-  "assistant.searchScopeAria": "Поиск сеансов и хостов",
-
-  "assistant.model": "Модель",
-  "assistant.modelAndEffort": "Модель и усилие",
-  "assistant.readingModels": "Читаем список моделей…",
-  "assistant.noModels": "Моделей не сообщено. Попробуйте снова",
-  "assistant.notInRuntimeList": "Нет в списке этого рантайма",
-  "assistant.agentDefault": "По умолчанию для {agent}",
-  "assistant.agentDefaultHint":
-    "То, что использует установленный у вас {agent}",
-  "assistant.effort": "Усилие",
-  "assistant.effortLow": "Низкое",
-  "assistant.effortMedium": "Среднее",
-  "assistant.effortHigh": "Высокое",
-  "assistant.effortXHigh": "Очень высокое",
-  "assistant.effortMax": "Максимум",
-  "assistant.effortUltra": "Ультра",
-
-  "assistant.approvalsLabel": "Подтверждения: {mode}",
-  "assistant.approvalAlways": "Спрашивать каждый раз",
-  "assistant.approvalAlwaysHint": "Каждый вызов инструмента ждёт вас",
-  "assistant.approvalWrites": "Спрашивать перед изменениями",
-  "assistant.approvalWritesHint": "Чтение выполняется свободно",
-  "assistant.approvalNever": "Режим Yolo",
-  "assistant.approvalNeverHint": "Ничто не останавливается, включая удаление",
-
-  "assistant.didListHosts": "Перечислил хосты",
-  "assistant.didListSessions": "Перечислил сеансы",
-  "assistant.didReadTerminal": "Прочитал терминал",
-  "assistant.didRun": "Выполнил",
-  "assistant.didType": "Набрал",
-  "assistant.didList": "Перечислил",
-  "assistant.didRead": "Прочитал",
-  "assistant.didWrite": "Записал",
-  "assistant.didConnect": "Подключился к",
-  "assistant.didDisconnect": "Закрыл сеанс",
-  "assistant.lastLines": "последние {count} строк",
-  "assistant.recentOutput": "недавний вывод",
-  "assistant.matching": 'по запросу "{query}"',
-
-  "assistant.askRunCommand": "Выполнить команду",
-  "assistant.askSendInput": "Набрать в терминале",
-  "assistant.askWriteFile": "Перезаписать файл",
-  "assistant.askConnectHost": "Открыть соединение",
-  "assistant.askDisconnect": "Закрыть сеанс",
-  "assistant.askReadTerminal": "Прочитать терминал",
-  "assistant.askReadFile": "Прочитать файл",
-  "assistant.askListDirectory": "Показать каталог",
-  "assistant.askListHosts": "Показать сохранённые хосты",
-  "assistant.askListSessions": "Показать открытые сеансы",
-  "assistant.askRunLocally": "Выполнить {tool} локально",
-  "assistant.onHost": "на {host}",
-  "assistant.allow": "Разрешить",
-  "assistant.decline": "Отклонить",
-  "assistant.somethingElse": "Что-нибудь другое…",
-  "assistant.insteadPlaceholder": "Что ему стоит сделать вместо этого?",
-  "assistant.copyCommand": "Скопировать команду",
-  "assistant.localWarning":
-    "Это выполняется на вашем компьютере, а не на сервере.",
-  "assistant.allowed": "Разрешено",
-  "assistant.declined": "Отклонено",
-  "assistant.timedOut": "Истекло время",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

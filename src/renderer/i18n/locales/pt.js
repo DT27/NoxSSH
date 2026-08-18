@@ -107,7 +107,7 @@ export default {
   "hosts.editor.disclosure.nameAndTags": "Nome e etiquetas",
   "hosts.editor.displayName": "Nome a mostrar",
   "hosts.editor.displayNameHint":
-    "Se ficar em branco, este anfitrião aparece como {address}.",
+    "Se ficar em branco, este anfitrião aparece como o nome / IP.",
   "hosts.editor.displayNamePlaceholder": "p. ex. Servidor de produção",
   "hosts.editor.tags": "Etiquetas",
   "hosts.editor.tagsHint":
@@ -605,7 +605,6 @@ export default {
   "settings.nav.general": "Geral",
   "settings.nav.appearance": "Aspeto",
   "settings.nav.terminal": "Terminal",
-  "settings.nav.assistant": "Agente de IA",
   "settings.nav.monitoring": "Monitorização",
   "settings.nav.logging": "Registo",
   "settings.nav.security": "Segurança",
@@ -776,172 +775,6 @@ export default {
     "Defina o seu fundo, texto, cursor e cores ANSI",
   "settings.terminal.themeChanged": "Tema do terminal alterado para {theme}",
   "settings.terminal.customApplied": "Tema de terminal personalizado aplicado",
-
-  /* ---- Settings: Assistant ---- */
-  "settings.assistant.title": "Agente de IA",
-  "settings.assistant.desc":
-    "O agente lê os seus terminais e trabalha nos seus servidores " +
-    "através das ligações que já abriu. Nunca vê uma palavra-passe ou chave guardada.",
-  "settings.assistant.loading": "A carregar as definições do agente…",
-  "settings.assistant.agent": "Agente",
-  "settings.assistant.agentDesc":
-    "Que agente de programação responde: um instalado nesta " +
-    "máquina, um relay, ou um modelo que você mesmo está a servir. Mudar de agente começa uma " +
-    "conversa nova.",
-  "settings.assistant.provider.claudeCode":
-    "O agente da Anthropic, na sua conta.",
-  "settings.assistant.provider.codex": "O agente da OpenAI, na sua conta.",
-  "settings.assistant.provider.opencode":
-    "Código aberto, nos fornecedores que definir.",
-  "settings.assistant.provider.relayName": "Relay",
-  "settings.assistant.provider.relay":
-    "Usa um relay compatível com OpenAI. Não é preciso instalar Claude Code, Codex ou OpenCode.",
-  "settings.assistant.provider.grok": "O agente da xAI, na sua conta.",
-  "settings.assistant.provider.local": "O seu modelo: LM Studio, Ollama, vLLM.",
-  "settings.assistant.provider.unavailable":
-    "Ainda não disponível nesta versão.",
-  "settings.assistant.relayBaseUrl": "URL do relay",
-  "settings.assistant.relayModel": "Modelo predefinido",
-  "settings.assistant.relayModelManual": "Escrever o nome do modelo…",
-  "settings.assistant.relayNote":
-    "Indique um endpoint compatível com OpenAI, p. ex. https://example.com/v1. Não é preciso CLI local.",
-  "settings.assistant.relayModelsFetch": "Obter modelos",
-  "settings.assistant.relayModelsFetching": "A obter…",
-  "settings.assistant.relayModelsLoaded": "Carregados {count} modelos",
-  "settings.assistant.relayModelsEmpty":
-    "O relay não devolveu modelos. Pode escrever o nome manualmente.",
-  "settings.assistant.relayModelsFailed":
-    "Não foi possível obter os modelos. Verifique o URL e a chave.",
-  "settings.assistant.accountRelay":
-    "Fala com o modelo através de um relay. Indique o URL e a chave de API. Não é preciso um agente local.",
-  "settings.assistant.endpoint": "Endereço do servidor",
-  "settings.assistant.endpointDesc":
-    "Onde o servidor de modelos local está à escuta. Serve " +
-    "qualquer servidor que fale a API da OpenAI.",
-  "settings.assistant.endpointNote":
-    "LM Studio: http://localhost:1234/v1. Ollama: " +
-    "http://localhost:11434/v1. llama.cpp: http://localhost:8080/v1.",
-  "settings.assistant.endpointChecking":
-    "A perguntar a esse endereço o que tem...",
-  "settings.assistant.endpointFound_one": "Respondeu, com 1 modelo à escolha.",
-  "settings.assistant.endpointFound_other":
-    "Respondeu, com {count} modelos à escolha.",
-  "settings.assistant.endpointNone":
-    "Nada respondeu nesse endereço. Verifique se o servidor " +
-    "está a correr e se a API dele está ligada.",
-  "settings.assistant.commandMode": "Onde correm os comandos",
-  "settings.assistant.commandMode.terminal": "No meu terminal",
-  "settings.assistant.commandMode.background": "Fora da vista",
-  "settings.assistant.commandMode.terminal.note":
-    "Os comandos são escritos na sessão que está a " +
-    "ver, por isso vê-os a correr e o resultado fica no seu histórico. Entram no histórico " +
-    "dessa shell, e o assistente lê o resultado do ecrã em vez de receber um código de saída.",
-  "settings.assistant.commandMode.background.note":
-    "Os comandos correm num canal separado que " +
-    "não vê. Fica mais limpo, e o assistente recebe um código de saída verdadeiro e um " +
-    "resultado sem ruído, mas fica a acreditar no que ele diz que aconteceu.",
-  "settings.assistant.approval": "Perguntar antes de correr",
-  "settings.assistant.approval.always": "Todas as ações",
-  "settings.assistant.approval.writes": "Só alterações",
-  "settings.assistant.approval.never": "Nunca",
-  "settings.assistant.approval.always.note":
-    "Todas as chamadas a ferramentas esperam por si, " +
-    "incluindo ler um ficheiro ou o terminal. É minucioso, mas uma investigação longa " +
-    "transforma-se em muitos cliques.",
-  "settings.assistant.approval.writes.note":
-    "A leitura corre à vontade. Tudo o que altere um " +
-    "sistema para e mostra-lhe o comando exato e o anfitrião onde correria.",
-  "settings.assistant.approval.never.note":
-    "Nada para à espera de aprovação, incluindo comandos " +
-    "que apagam dados ou reiniciam serviços. Só faz sentido para anfitriões que pode dar-se " +
-    "ao luxo de estragar.",
-  "settings.assistant.localTools": "Permitir ferramentas neste computador",
-  "settings.assistant.localToolsDesc":
-    "Deixa o assistente ler e escrever ficheiros locais e " +
-    "correr comandos locais. Desligado por predefinição: o painel serve para gerir " +
-    "servidores, e a sua própria máquina é uma superfície muito maior do que isso exige.",
-  "settings.assistant.allowList": "Comandos que nunca precisam de aprovação",
-  "settings.assistant.allowListDesc":
-    "Um por linha, comparados pelas primeiras palavras " +
-    "inteiras. Um comando com um pipe, um redirecionamento, um ponto e vírgula, uma " +
-    "substituição ou uma segunda linha é sempre perguntado, comece por onde começar.",
-  "settings.assistant.allowListNote":
-    "Só se aplica enquanto as aprovações estiverem em “{mode}”.",
-  "settings.assistant.blockList": "Comandos que nunca pode correr",
-  "settings.assistant.blockListDesc":
-    "Um por linha. Estes são recusados em vez de perguntados, " +
-    "em todos os modos de aprovação incluindo “Nunca”, quer o assistente os corra no seu " +
-    "próprio canal quer os escreva no seu terminal. As opções contam: “rm -rf” também trava " +
-    "“rm -fr”, “rm -r -f” e “sudo /bin/rm --recursive --force”.",
-  "settings.assistant.blockListEmpty": "Limpe a caixa para não bloquear nada.",
-  "settings.assistant.blockListWarning":
-    "Uma proteção contra enganos, não um controlo de " +
-    "segurança. Uma shell tem demasiadas formas de escrever o mesmo comando para qualquer " +
-    "lista as apanhar todas, por isso mantenha as aprovações ligadas para o que importa.",
-  "settings.assistant.saveList": "Guardar lista",
-  "settings.assistant.restoreDefaults": "Repor predefinições",
-  "settings.assistant.quickPrompts": "Perguntas rápidas",
-  "settings.assistant.quickPromptsDesc":
-    "Perguntas que o painel oferece como botões de um clique " +
-    "quando a conversa está vazia. Uma por linha. Não vem nada preparado, porque as que valem " +
-    "a pena são as que dá por si a fazer às suas máquinas todas as semanas.",
-  "settings.assistant.quickPromptsPlaceholder":
-    "O que está a encher o disco?\n" + "Porque falhou a última implantação?",
-  "settings.assistant.quickPromptsNote":
-    "Até 12. Clicar numa põe-na na caixa em vez de a enviar, " +
-    "para poder acrescentar algo primeiro.",
-  "settings.assistant.savePrompts": "Guardar perguntas",
-  "settings.assistant.steps": "Passos por turno",
-  "settings.assistant.stepsDesc":
-    "Quantas chamadas a ferramentas uma pergunta pode levar antes " +
-    "de o assistente parar e dar conta do trabalho. Uma execução que não está a convergir " +
-    "acaba sozinha em vez de acabar quando reparar nela.",
-  "settings.assistant.lines": "Linhas de terminal que pode ler",
-  "settings.assistant.linesDesc":
-    "Quanto do resultado recente de uma sessão devolve cada " +
-    "leitura. Mais dá-lhe mais contexto para trabalhar e gasta mais do orçamento da conversa.",
-  "settings.assistant.signIn": "Início de sessão",
-  "settings.assistant.theAgent": "o agente",
-  "settings.assistant.accountOpencode":
-    "O OpenCode usa os fornecedores e credenciais já " +
-    "configurados na sua CLI. Trate deles com “opencode auth login”; as chaves guardadas " +
-    "aqui não são passadas ao OpenCode.",
-  "settings.assistant.accountGrokApi":
-    "O Grok Build não está instalado nesta máquina, por isso o " +
-    "NoxSSH fala diretamente com a API da xAI usando a chave guardada aqui, e o uso é " +
-    "cobrado por token. Instale a CLI e inicie sessão para usar o seu próprio plano.",
-  "settings.assistant.accountLocal":
-    "Não há sessão para iniciar. O modelo corre neste " +
-    "computador, por isso não há conta nem cobrança por token. Só precisa de uma chave se foi " +
-    "você a pôr uma no servidor.",
-  "settings.assistant.accountPlan":
-    "Com sessão iniciada através do {agent} nesta máquina, num " +
-    "plano {plan}. A utilização sai desse plano, por isso não é precisa nenhuma chave aqui.",
-  "settings.assistant.accountProvider":
-    "O {agent} nesta máquina está configurado com {provider}, " +
-    "que trata das suas próprias credenciais. Não é preciso nada aqui.",
-  "settings.assistant.accountAgentKey":
-    "O {agent} nesta máquina está a usar uma chave de API, " +
-    "por isso a utilização é cobrada por token.",
-  "settings.assistant.accountStoredKey":
-    "Está aqui guardada uma chave e será usada. Limpe a " +
-    "caixa e guarde para a remover e voltar ao início de sessão do {agent}.",
-  "settings.assistant.accountNone":
-    "Não é preciso fazer nada se já tem sessão iniciada no " +
-    "{agent} nesta máquina, que é o caso habitual. Só é precisa uma chave quando não tem.",
-  "settings.assistant.apiKey": "Chave de API",
-  "settings.assistant.keyStored": "Há uma chave guardada",
-  "settings.assistant.keyOptional": "Só se o seu servidor pedir uma",
-  "settings.assistant.keySaved": "Chave guardada.",
-  "settings.assistant.keyRemoved": "Chave removida.",
-  "settings.assistant.keyFailed": "Não foi possível guardar essa chave.",
-  "settings.assistant.noSecureStore":
-    "Este sistema não tem nenhum cofre seguro disponível, por " +
-    "isso não é possível guardar aqui uma chave.",
-  "settings.assistant.tools": "O que pode fazer",
-  "settings.assistant.toolsDesc":
-    "{count} ferramentas, das quais {readOnly} apenas leem. As " +
-    "restantes estão sujeitas à definição de aprovação acima.",
 
   /* ---- Settings: Monitoring ---- */
   "settings.monitoring.title": "Monitorização",
@@ -1175,11 +1008,11 @@ export default {
   "settings.account.backupOff":
     "A cópia na nuvem está desligada. O que já está guardado fica até " +
     "que o substitua.",
-  "settings.account.backedUp": "Guardado na sua conta CloudBlast",
-  "settings.account.saveNow": "Guardar agora",
-  "settings.account.saving": "A guardar…",
-  "settings.account.savedAgo": "Guardado {when}",
-  "settings.account.notSavedYet": "Ainda não guardado",
+  "settings.account.backedUp": "Enviado para o WebDAV",
+  "settings.account.saveNow": "Enviar agora",
+  "settings.account.saving": "A enviar…",
+  "settings.account.savedAgo": "Enviado {when}",
+  "settings.account.notSavedYet": "Ainda não enviado",
   "settings.account.justNow": "agora mesmo",
   "settings.account.minutesAgo": "há {count} min",
   "settings.account.hoursAgo": "há {count} h",
@@ -1189,14 +1022,14 @@ export default {
   "settings.account.title": "Sincronização WebDAV",
   "settings.account.webdavUrl": "URL WebDAV",
   "settings.account.webdavUrlHint":
-    "Basta o endereço do servidor. O caminho noxssh/snapshot.json é acrescentado automaticamente.",
+    "Basta o endereço do servidor, p. ex. https://dav.jianguoyun.com/dav/. A pasta NoxSSH/ é acrescentada automaticamente.",
   "settings.account.username": "Nome de utilizador",
   "settings.account.webdavPassword": "Palavra-passe WebDAV",
   "settings.account.webdavPasswordHint":
     "Palavra-passe HTTP Basic do servidor WebDAV (guardada em segurança).",
   "settings.account.syncPassphrase": "Frase-passe de sincronização",
   "settings.account.syncPassphraseHint":
-    "Encripta o instantâneo antes de o enviar. Precisa dela noutro dispositivo para restaurar.",
+    "Encripta os dados de sincronização antes de os enviar. Precisa dela noutro dispositivo para restaurar.",
   "settings.account.saveUrlUser": "Guardar URL e nome",
   "settings.account.saveSecrets": "Guardar palavras-passe",
   "settings.account.test": "Testar ligação",
@@ -1204,20 +1037,24 @@ export default {
   "settings.account.testOk": "Ligação bem-sucedida",
   "settings.account.enableSync": "Ativar sincronização WebDAV",
   "settings.account.enableSyncDesc":
-    "Enviar e receber automaticamente anfitriões, chaves e definições encriptados.",
+    "Quando está ligado, as alterações locais são enviadas ao fim de cerca de 8 segundos. O servidor é verificado a cada 5 minutos e de novo ao desbloquear ou acordar o computador. Se a cópia no servidor estiver à frente, é fundida antes do envio.",
+  "settings.account.saveNowHint":
+    "Enviar já os dados atuais deste computador, sem esperar pelo envio automático.",
+  "settings.account.restoreNowHint":
+    "Descarregar já a cópia do servidor e substituir os dados neste computador, sem esperar pela próxima verificação.",
   "settings.account.configSaved": "Definições guardadas",
   "settings.account.secretsSaved": "Credenciais atualizadas",
-  "settings.account.restoreNow": "Restaurar agora",
-  "settings.account.restoring": "A restaurar…",
-  "settings.account.restored": "Restaurado a partir do WebDAV",
-  "settings.account.notRestoredYet": "Ainda não restaurado",
-  "settings.account.restoredAgo": "Restaurado {when}",
+  "settings.account.restoreNow": "Descarregar agora",
+  "settings.account.restoring": "A descarregar…",
+  "settings.account.restored": "Descarregado do WebDAV",
+  "settings.account.notRestoredYet": "Ainda não descarregado",
+  "settings.account.restoredAgo": "Descarregado {when}",
   "settings.account.webdavPrivacyNote":
     "Os dados são encriptados neste dispositivo com a frase-passe de sincronização antes de saírem. A palavra-passe WebDAV serve só para autenticação.",
   "settings.account.backupSection": "Cópias históricas",
   "settings.account.backupEnabled": "Ativar cópias históricas",
   "settings.account.backupEnabledDesc":
-    "Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados do instantâneo em direto.",
+    "Criar no servidor, segundo um calendário, ficheiros encriptados com data, separados dos dados de sincronização atuais.",
   "settings.account.backupFrequency": "Frequência das cópias",
   "settings.account.backupFrequencyManual": "Só manual",
   "settings.account.backupFrequencyHourly": "De hora a hora",
@@ -1237,12 +1074,12 @@ export default {
   "settings.account.backupDeleted": "Cópia eliminada",
   "settings.account.resetLocalTitle": "Repor este dispositivo",
   "settings.account.resetLocalDesc":
-    "Remove anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e a configuração WebDAV neste computador. Os instantâneos e as cópias históricas já no servidor ficam intactos.",
+    "Remove anfitriões, chaves, snippets, proxies, chaves conhecidas e a configuração WebDAV neste computador. Os dados de sincronização e as cópias históricas já no servidor ficam intactos.",
   "settings.account.resetLocal": "Limpar dados locais",
   "settings.account.resettingLocal": "A limpar…",
   "settings.account.resetLocalConfirmTitle": "Limpar os dados locais?",
   "settings.account.resetLocalConfirmMessage":
-    "Os anfitriões, chaves, snippets, proxies, chaves conhecidas, definições do assistente e o URL, conta e frase-passe WebDAV neste computador serão apagados. Os ficheiros já no servidor não mudam.",
+    "Os anfitriões, chaves, snippets, proxies, chaves conhecidas e o URL, conta e frase-passe WebDAV neste computador serão apagados. Os ficheiros já no servidor não mudam.",
   "settings.account.resetLocalConfirm": "Limpar este dispositivo",
   "settings.account.localResetDone": "Dados locais limpos",
   "settings.account.lastBackup": "Última cópia",
@@ -1378,6 +1215,7 @@ export default {
   "hosts.noPort": "Sem porta",
   "hosts.connected": "Ligado",
   "hosts.viaProxy": "via proxy",
+  "hosts.lastConnected": "{when}",
   "hosts.tunnelCount_one": "{count} túnel",
   "hosts.tunnelCount_other": "{count} túneis",
   "hosts.itemCount_one": "{count} item",
@@ -1653,100 +1491,6 @@ export default {
     "interno através deste anfitrião, ou abra um proxy SOCKS para navegar a partir dele.",
 
   /* ---- Assistant panel ---- */
-  "assistant.title": "Agente de IA",
-  "assistant.welcome": "Vamos trabalhar nos seus servidores",
-  "assistant.welcomeNote":
-    "Lê este terminal, corre comandos no canal deles, e pode trabalhar em " +
-    "todos os anfitriões que tem guardados.",
-  "assistant.createQuickPrompts": "Criar perguntas rápidas",
-  "assistant.newConversation": "Nova conversa",
-  "assistant.chats": "Conversas",
-  "assistant.chatHistory": "Histórico de conversas",
-  "assistant.working": "A trabalhar",
-  "assistant.send": "Enviar",
-  "assistant.stop": "Parar",
-  "assistant.askAbout": "Pergunte sobre {about}",
-  "assistant.costHint": "Custo estimado desta conversa, cobrado por token",
-
-  "assistant.currentSession": "Sessão atual",
-  "assistant.nothingConnected": "Nada ligado",
-  "assistant.noSessionOpen": "Nenhuma sessão aberta",
-  "assistant.yourServers": "os seus servidores",
-  "assistant.anyHost": "qualquer anfitrião",
-  "assistant.closedSession": "uma sessão fechada",
-  "assistant.savedHost": "um anfitrião guardado",
-  "assistant.savedHosts": "Anfitriões guardados",
-  "assistant.openSessions": "Sessões abertas",
-  "assistant.allHostsHint":
-    "Todos os anfitriões guardados e as sessões abertas",
-  "assistant.serverCount": "{count} servidores",
-  "assistant.sessionsOpen_one": "{count} sessão aberta",
-  "assistant.sessionsOpen_other": "{count} sessões abertas",
-  "assistant.notConnected": "Não ligado",
-  "assistant.searchScope": "Procurar servidores",
-  "assistant.searchScopeAria": "Procurar sessões e anfitriões",
-
-  "assistant.model": "Modelo",
-  "assistant.modelAndEffort": "Modelo e esforço",
-  "assistant.readingModels": "A ler a lista de modelos...",
-  "assistant.noModels": "Nenhum modelo comunicado. Tente outra vez",
-  "assistant.notInRuntimeList": "Não está na lista deste runtime",
-  "assistant.agentDefault": "Predefinição do {agent}",
-  "assistant.agentDefaultHint": "O que quer que o {agent} instalado use",
-  "assistant.effort": "Esforço",
-  "assistant.effortLow": "Baixo",
-  "assistant.effortMedium": "Médio",
-  "assistant.effortHigh": "Alto",
-  "assistant.effortXHigh": "Muito alto",
-  "assistant.effortMax": "Máximo",
-  "assistant.effortUltra": "Ultra",
-
-  "assistant.approvalsLabel": "Aprovações: {mode}",
-  "assistant.approvalAlways": "Perguntar sempre",
-  "assistant.approvalAlwaysHint":
-    "Todas as chamadas a ferramentas esperam por si",
-  "assistant.approvalWrites": "Perguntar antes de alterar",
-  "assistant.approvalWritesHint": "A leitura corre à vontade",
-  "assistant.approvalNever": "Modo Yolo",
-  "assistant.approvalNeverHint": "Nada para, incluindo o que apaga",
-
-  "assistant.didListHosts": "Listou os anfitriões",
-  "assistant.didListSessions": "Listou as sessões",
-  "assistant.didReadTerminal": "Leu o terminal",
-  "assistant.didRun": "Correu",
-  "assistant.didType": "Escreveu",
-  "assistant.didList": "Listou",
-  "assistant.didRead": "Leu",
-  "assistant.didWrite": "Escreveu",
-  "assistant.didConnect": "Ligou a",
-  "assistant.didDisconnect": "Fechou a sessão",
-  "assistant.lastLines": "últimas {count} linhas",
-  "assistant.recentOutput": "resultado recente",
-  "assistant.matching": 'que corresponde a "{query}"',
-
-  "assistant.askRunCommand": "Correr um comando",
-  "assistant.askSendInput": "Escrever no terminal",
-  "assistant.askWriteFile": "Substituir um ficheiro",
-  "assistant.askConnectHost": "Abrir uma ligação",
-  "assistant.askDisconnect": "Fechar uma sessão",
-  "assistant.askReadTerminal": "Ler o terminal",
-  "assistant.askReadFile": "Ler um ficheiro",
-  "assistant.askListDirectory": "Listar uma pasta",
-  "assistant.askListHosts": "Listar os anfitriões guardados",
-  "assistant.askListSessions": "Listar as sessões abertas",
-  "assistant.askRunLocally": "Correr {tool} localmente",
-  "assistant.onHost": "em {host}",
-  "assistant.allow": "Permitir",
-  "assistant.decline": "Recusar",
-  "assistant.somethingElse": "Outra coisa...",
-  "assistant.insteadPlaceholder": "O que deve fazer em vez disso?",
-  "assistant.copyCommand": "Copiar comando",
-  "assistant.localWarning":
-    "Isto corre no seu próprio computador, não num servidor.",
-  "assistant.allowed": "Permitido",
-  "assistant.declined": "Recusado",
-  "assistant.timedOut": "Expirou",
-
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

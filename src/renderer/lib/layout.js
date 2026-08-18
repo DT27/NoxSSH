@@ -33,9 +33,8 @@ export const PANE_OVERLAY_TOP = PANE_HEADER_HEIGHT + 8;
  * The card grid the library panels use: hosts, keys, proxies, snippets.
  *
  * Columns are worked out from the width the grid actually has, not from the
- * width of the window. Those are different numbers here, and increasingly so:
- * the sidebar takes a fixed slice off the left and the assistant takes an
- * adjustable one off the right, so `lg:grid-cols-3` cheerfully keeps three
+ * width of the window. Those are different numbers here: the sidebar takes a
+ * fixed slice off the left, so `lg:grid-cols-3` cheerfully keeps three
  * columns in a container that has since been squeezed to the width of two, and
  * every card in it ends up eliding its own title.
  *

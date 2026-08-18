@@ -70,7 +70,7 @@ function TunnelCard({ tunnel, isLive, onStart, onStop, onEdit, onDelete }) {
                     <button
                         onClick={running ? onStop : onStart}
                         disabled={!isLive && !running}
-                        title={running ? t('tunnel.stop') : isLive ? t('tunnel.start') : t('assistant.notConnected')}
+                        title={running ? t('tunnel.stop') : isLive ? t('tunnel.start') : t('session.statusDisconnected')}
                         className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
                             running
                                 ? 'text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'

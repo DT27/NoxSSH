@@ -10,83 +10,48 @@
 
 <p align="center">
   基于 Electron、React 和 xterm.js 打造的现代终端工作区。<br/>
-  AI 助手 · 分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
+  分屏 · 标签页 · 文件传输 · 端口转发 · 远程桌面 · 命令片段
 </p>
 
-> **NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork，已改名并进行修改。
-
 <p align="center">
-  <a href="https://github.com/BradPerbs/cloudterm/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-fair--code-green?style=for-the-badge"></a>
-  &nbsp;
-  <a href="https://discord.gg/7M84Xp8QBr"><img alt="Discord" src="https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
 <p align="center">
   <a href="./README.md">English</a> ·
   <strong>简体中文</strong> ·
+  <a href="./README.ja.md">日本語</a> ·
+  <a href="./README.ko.md">한국어</a> ·
   <a href="./README.es.md">Español</a> ·
   <a href="./README.ru.md">Русский</a>
 </p>
 
 ---
 
-**NoxSSH** 是 [CloudTerm](https://github.com/BradPerbs/cloudterm)（由 [CloudBlast](https://cloudblast.io) 开发）的 fork，已改名并进行了修改。
+NoxSSH 是 [CloudTerm](https://github.com/BradPerbs/cloudterm) 的 fork。终端、SFTP、
+RDP/VNC 都还在，主要更改了数据同步方式。
 
-本项目遵循原 [CloudTerm 许可证](LICENSE)（fair-code 模式）分发：
+## 详细变化
 
-- 源码开放，可阅读。
-- 软件可免费使用、修改、分享（包括发布 fork），无论个人还是公司内部使用均可。
-- 出售本软件、将任何部分代码用于收费产品/服务、作为付费托管服务运行，或其他商业分发，**需要向 CloudBlast 单独申请商业授权**。
+- **用你自己的 WebDAV，而不是 CloudBlast 账户。** 主机、文件夹、密钥、代码片段、代理、已知主机和终端设置数据先在本机加密，再上传到你指定的 WebDAV。任何标准 WebDAV 都可以。
+- **带版本的历史备份**，保存到 WebDAV 上，可按计划定期或手动备份。恢复或删除某一个版本，不影响当前同步数据。
+- **导入 NextSSH 备份**，与 PuTTY、KiTTY、MobaXterm、OpenSSH 并列。
+- **无遥测连网** 启动时不会访问 `console.cloudblast.io`。更新检查指向 GitHub 上的 [本仓库](https://github.com/DT27/NoxSSH/releases)。
+  <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">
+  <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH" width="100%">
 
-分发时必须保留原许可证和版权声明。
-
-你可以准确地说明本作品衍生自 CloudTerm。  
-你不得将本项目称为“CloudTerm”，也不得声称它来自 CloudBlast。
-
-完整条款见：[LICENSE](LICENSE) | https://faircode.io
-
-原项目地址：https://github.com/BradPerbs/cloudterm （CloudBlast）
-
----
-
-CloudTerm 把连接服务器的所有方式放进同一个窗口。开一个 SSH 会话、用 SFTP 传文件、
-转发一个端口、接管一台 Windows 桌面，全都在同一条连接、同一排标签页上完成。不需要
-第二个程序，也不需要第二次登录。
-
-它能连接任何设备：笔记本上的串口控制台、只会说 telnet 的交换机、通过 RDP 访问的
-Windows 主机，或者任意服务商上的服务器。原 CloudTerm 由 VPS 云主机公司
-[CloudBlast](https://cloudblast.io) 开发，对所有人免费，全部源码都在仓库里。
-
-NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、历史备份等），
-并遵循原 CloudTerm 许可证继续开放。
-
-<img src="Main%20Image.png" alt="CloudTerm" width="100%">
-
----
-
-<h2 align="center">☁️ 用你自己的 WebDAV 同步</h2>
-
-<p align="center">
-  <strong>在你用的每一台电脑上，都是同一套配置。</strong><br/>
-  主机、文件夹、密钥、命令片段、代理、已信任的主机密钥、助手设置和终端设置，<br/>
-  先在本机用同步口令加密，再上传到你指定的 WebDAV。
-</p>
-
-<p align="center">
-  历史备份可单独恢复或删除。清空本机数据会复位本地 WebDAV 配置，<br/>
-  不会删除服务器上已有的快照和历史备份。
-</p>
+<img src="Main%20Image.png" alt="NoxSSH" width="100%">
 
 ---
 
 ## 目录
 
 - [下载](#download)
-- [什么是 CloudTerm](#what-is-cloudterm)
+- [它是什么](#what-it-is)
 - [功能](#features)
 - [界面截图](#screenshots)
 - [快速开始](#getting-started)
@@ -97,9 +62,9 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
 
 ---
 
-<a name="what-is-cloudterm"></a>
+<a name="what-it-is"></a>
 
-## 什么是 CloudTerm
+## 它是什么
 
 - **一个终端**：SSH、telnet 和串口控制台，带标签页、分屏和 GPU 加速渲染。
 - **一个 SFTP 客户端**：复用已经打开的连接，支持递归传输和拖放。
@@ -109,28 +74,6 @@ NoxSSH 是一个独立的 fork，包含自己的改动（例如 WebDAV 同步、
 <a name="features"></a>
 
 ## 功能
-
-### AI 助手
-
-<p align="center">
-  <img src="docs/logos/claude-code.svg" alt="Claude Code" title="Claude Code" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/codex.svg" alt="Codex" title="Codex" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/opencode.svg" alt="OpenCode" title="OpenCode" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/grok.svg" alt="Grok Build" title="Grok Build" height="34">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/logos/local-model.svg" alt="本地模型" title="本地模型" height="34">
-  <br/>
-  <sub><b>Claude Code</b> &nbsp;·&nbsp; <b>Codex</b> &nbsp;·&nbsp; <b>OpenCode</b>
-  &nbsp;·&nbsp; <b>Grok Build</b> &nbsp;·&nbsp; <b>本地模型</b></sub>
-</p>
-
-- **使用本机已有的 Claude Code、Codex、OpenCode 或 Grok Build**，沿用你自己的账号和配置
-- **也可以用本地模型**：LM Studio、Ollama、llama.cpp、vLLM 等，无需账号和密钥，任何内容都不会离开这台电脑
-- **读取当前会话并操作远程服务器**，执行更改前会先征求你的同意
-- **每个对话可单独选择模型和推理强度**，并在运行时显示用量
 
 ### 终端
 
@@ -206,7 +149,7 @@ Debian 和 Fedora 的机器，不用去读主机名。
   <img src="src/renderer/assets/icons/128_slackware.png" alt="Slackware" title="Slackware" width="42">
   <img src="src/renderer/assets/icons/128_linux.png" alt="Linux" title="Any other Linux" width="42">
   <img src="src/renderer/assets/icons/128_windows.png" alt="Windows" title="Windows" width="42">
-  <img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/macos-dark.svg"><img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42"></picture>
 </p>
 
 ### 安全
@@ -262,32 +205,22 @@ Debian 和 Fedora 的机器，不用去读主机名。
 
 下载适用于你平台的最新版本：
 
-| 操作系统 | 下载                                                                                                                                                                                                              |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS    | [Apple 芯片（M1 及更新机型）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-arm64.dmg) · [Intel](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.dmg)   |
-| Windows  | [安装版，x64（推荐）](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-Setup-x64.exe) · [便携版，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x64.exe) |
-| Linux    | [AppImage，x64](https://github.com/BradPerbs/cloudterm/releases/latest/download/CloudTerm-x86_64.AppImage)                                                                                                        |
+| 操作系统 | 下载                                                                                                                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS    | [Apple 芯片（M1 及更新机型）](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-arm64.dmg) · [Intel](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.dmg)   |
+| Windows  | [安装版，x64（推荐）](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-Setup-x64.exe) · [便携版，x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.exe) |
+| Linux    | [AppImage，x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x86_64.AppImage)                                                                                             |
 
-在 Windows 上也可以直接从终端安装和更新：
-
-```powershell
-winget install CloudBlast.CloudTerm
-```
-
-也可以浏览 [GitHub 上的全部版本](https://github.com/BradPerbs/cloudterm/releases)。
+也可以浏览 [GitHub 上的全部版本](https://github.com/DT27/NoxSSH/releases)。
 
 ### 从源码构建
 
 ```bash
-git clone https://github.com/BradPerbs/cloudterm.git
-cd cloudterm
+git clone https://github.com/DT27/NoxSSH.git
+cd NoxSSH/noxssh
 npm install
 npm run dev
 ```
-
-要通过 OpenCode 使用 AI 助手，请安装 `opencode` CLI，并运行
-`opencode auth login` 配置至少一个模型提供商。CloudTerm 只使用 OpenCode
-现有的提供商和凭据，不会复制或保存它们。
 
 构建便携版可执行文件，输出到 `dist/`：
 
@@ -320,7 +253,7 @@ npm run build
 
 ## 贡献者
 
-感谢每一位为 CloudTerm 付出努力的人。
+感谢每一位为 CloudTerm 付出努力的人，以及在此继续维护的人。
 
 <a href="https://github.com/BradPerbs/cloudterm/graphs/contributors">
   <img alt="贡献者" src="https://contrib.rocks/image?repo=BradPerbs/cloudterm" />
@@ -331,7 +264,7 @@ npm run build
 ## 技术栈
 
 Electron · React · xterm.js · ssh2 · IronRDP（WebAssembly）· noVNC · Tailwind ·
-Vite · Claude Agent SDK · Codex SDK · OpenCode SDK
+Vite
 
 `src/main/` 是 Electron 主进程，每个功能一个模块。
 `src/renderer/` 是 React 界面：`components/` 按功能划分，`hooks/` 管状态，

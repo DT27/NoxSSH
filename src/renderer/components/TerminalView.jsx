@@ -184,8 +184,8 @@ function TerminalView({
     pane,
     // Which of several sessions on the same host this one is, or 0 when it is
     // the only one. Handed down rather than worked out here: the number only
-    // means anything across the whole window, and the tab strip and the
-    // assistant's scope menu have to agree with it.
+    // means anything across the whole window, and the tab strip has to
+    // agree with it.
     ordinal = 0,
     terminalTheme,
     customTerminalTheme,
@@ -1381,10 +1381,9 @@ function TerminalView({
                     </span>
 
                     {/* Which of several sessions on this host this pane is,
-                        matching the number on its tab and in the assistant's
-                        scope menu. Without it here, a split of three panes on
-                        one host is three identical headers, and "pin to
-                        web-01 #2" names a terminal you cannot find on screen. */}
+                        matching the number on its tab. Without it here, a
+                        split of three panes on one host is three identical
+                        headers. */}
                     {ordinal > 0 && (
                         <span
                             className="shrink-0 text-[10px] font-semibold tabular-nums
