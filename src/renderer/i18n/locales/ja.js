@@ -66,6 +66,7 @@ export default {
   "hosts.editor.hostname": "ホスト名 / IP",
   "hosts.editor.hostnameDesktopHint":
     "デスクトップのアドレスです。下の「リモートデスクトップ」で別のアドレスを指定しない限り、ここが使われます。",
+  "hosts.editor.desktopAddressHint": "デスクトップのアドレスです。",
   "hosts.editor.hostnameIpmiHint":
     "サービスプロセッサのアドレスです。下の「IPMI」で別のアドレスを指定しない限り、ここが使われます。",
   "hosts.editor.port": "ポート",

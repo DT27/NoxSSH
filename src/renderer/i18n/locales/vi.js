@@ -68,6 +68,7 @@ export default {
   "hosts.editor.hostname": "Tên máy / IP",
   "hosts.editor.hostnameDesktopHint":
     "Máy tính để bàn ở đâu. Được dùng trừ khi mục Máy tính để bàn bên dưới chỉ một địa chỉ khác.",
+  "hosts.editor.desktopAddressHint": "Máy tính để bàn ở đâu.",
   "hosts.editor.hostnameIpmiHint":
     "Bộ xử lý dịch vụ ở đâu. Được dùng trừ khi mục IPMI bên dưới chỉ một địa chỉ khác.",
   "hosts.editor.port": "Cổng",

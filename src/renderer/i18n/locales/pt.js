@@ -68,6 +68,7 @@ export default {
   "hosts.editor.hostname": "Nome / IP",
   "hosts.editor.hostnameDesktopHint":
     "Onde está o ambiente de trabalho. Usado salvo se a secção Ambiente de trabalho abaixo indicar outro endereço.",
+  "hosts.editor.desktopAddressHint": "Onde está o ambiente de trabalho.",
   "hosts.editor.hostnameIpmiHint":
     "Onde está o processador de serviço. Usado salvo se a secção IPMI abaixo indicar outro endereço.",
   "hosts.editor.port": "Porta",

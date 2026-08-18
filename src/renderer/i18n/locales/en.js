@@ -84,6 +84,7 @@ export default {
   "hosts.editor.hostname": "Hostname / IP",
   "hosts.editor.hostnameDesktopHint":
     "Where the desktop is. Used unless the Desktop section below names a different address.",
+  "hosts.editor.desktopAddressHint": "Where the desktop is.",
   "hosts.editor.hostnameIpmiHint":
     "Where the service processor is. Used unless the IPMI section below names a different address.",
   "hosts.editor.port": "Port",

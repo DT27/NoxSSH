@@ -78,7 +78,12 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
         name: host?.name || '',
         tags: host?.tags || [],
         protocol: host?.protocol || 'ssh',
-        host: host?.host || '',
+        // A desktop-only host has one address. The record may still carry a
+        // leftover on the desktop block from when the form asked twice; seed
+        // from the one that is actually used so a reopen does not change it.
+        host: hostKind(host) === 'desktop'
+            ? (host?.desktop?.host || host?.host || '')
+            : (host?.host || ''),
         port: host?.port || DEFAULT_PORTS[host?.protocol || 'ssh'] || 22,
         serial: { ...DEFAULT_SERIAL, ...(host?.serial || {}) },
         username: host?.username || '',
@@ -270,6 +275,10 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     // Still stored as an SSH host. `only` is what stops it
                     // dialling, and it is the field the rest of the app reads.
                     protocol: 'ssh',
+                    // Keep whatever was already typed. A leftover desktop
+                    // override is folded into it so switching kind cannot
+                    // blank the only address the form will now show.
+                    host: previous.host || desktop.host || '',
                     desktop: {
                         ...desktop,
                         enabled: true,
@@ -279,6 +288,10 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         // be configured to travel down a connection that is
                         // never made.
                         transport: 'direct',
+                        // One address, the host's. A leftover override is
+                        // usually 127.0.0.1 from a tunnelled view, which is
+                        // the wrong answer once this host no longer has SSH.
+                        host: '',
                     },
                     // The two shell-less kinds are one answer to one question,
                     // so choosing this one puts the other back to being a view
@@ -334,7 +347,12 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
         // encryption, redaction and backup handling as everything else. Which
         // field it lands in follows the protocol, so switching between them
         // leaves the other's password stored and untouched.
-        const { password: desktopPassword, ...desktop } = formData.desktop || {};
+        const { password: desktopPassword, ...desktopRest } = formData.desktop || {};
+        // A desktop-only host stores the address on the host itself. The
+        // desktop block's copy is the override used when an SSH host also has
+        // a desktop view, and must stay blank here or a save would resurrect
+        // the second field the form just stopped asking.
+        const desktop = isDesktop ? { ...desktopRest, host: '' } : desktopRest;
         const isRdp = desktop.protocol === 'rdp';
         const desktopSecret = desktopPassword || (clearDesktopPassword ? null : '');
 
@@ -372,7 +390,7 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
             return;
         }
         close();
-    }, [formData, isSerial, clearSecrets, clearDesktopPassword, onSave]);
+    }, [formData, isSerial, isDesktop, clearSecrets, clearDesktopPassword, onSave]);
 
     return (
         <Sheet
@@ -486,14 +504,15 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                     </p>
                 )}
 
-                {!isSerial && (
+                {/* A desktop names its address in the section below, next to
+                    the port, because that is the only address it has. Showing
+                    Hostname / IP as well would ask the same question twice. */}
+                {!isSerial && !isDesktop && (
                     <div className="grid grid-cols-4 gap-4">
                     <Field
                         label={t('hosts.editor.hostname')}
                         className={hasShell ? 'col-span-3' : 'col-span-4'}
-                        hint={isDesktop
-                            ? t('hosts.editor.hostnameDesktopHint')
-                            : isIpmi
+                        hint={isIpmi
                             ? t('hosts.editor.hostnameIpmiHint')
                             : undefined}
                     >
@@ -708,6 +727,8 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
                         <DesktopEditor
                             managed
                             desktop={formData.desktop}
+                            hostAddress={formData.host}
+                            onHostAddressChange={(next) => handleChange('host', next)}
                             hasPassword={formData.desktop?.protocol === 'rdp'
                                 ? host?.hasRdpPassword
                                 : host?.hasVncPassword}

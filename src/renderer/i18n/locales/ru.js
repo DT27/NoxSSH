@@ -73,6 +73,7 @@ export default {
   "hosts.editor.hostname": "Имя хоста / IP",
   "hosts.editor.hostnameDesktopHint":
     "Где находится рабочий стол. Используется, если в разделе «Рабочий стол» ниже не указан другой адрес.",
+  "hosts.editor.desktopAddressHint": "Где находится рабочий стол.",
   "hosts.editor.hostnameIpmiHint":
     "Где находится контроллер управления. Используется, если в разделе IPMI ниже не указан другой адрес.",
   "hosts.editor.port": "Порт",

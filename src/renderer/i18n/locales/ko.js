@@ -66,6 +66,7 @@ export default {
   "hosts.editor.hostname": "호스트 이름 / IP",
   "hosts.editor.hostnameDesktopHint":
     "데스크톱의 주소입니다. 아래 “원격 데스크톱”에서 다른 주소를 지정하지 않으면 이 값이 사용됩니다.",
+  "hosts.editor.desktopAddressHint": "데스크톱의 주소입니다.",
   "hosts.editor.hostnameIpmiHint":
     "서비스 프로세서의 주소입니다. 아래 “IPMI”에서 다른 주소를 지정하지 않으면 이 값이 사용됩니다.",
   "hosts.editor.port": "포트",

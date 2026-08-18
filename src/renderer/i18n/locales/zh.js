@@ -66,6 +66,7 @@ export default {
   "hosts.editor.hostname": "主机名 / IP",
   "hosts.editor.hostnameDesktopHint":
     "桌面的地址。除非下方“远程桌面”中指定了不同的地址，否则使用此处的值。",
+  "hosts.editor.desktopAddressHint": "桌面所在的地址。",
   "hosts.editor.hostnameIpmiHint":
     "服务处理器的地址。除非下方“IPMI”中指定了不同的地址，否则使用此处的值。",
   "hosts.editor.port": "端口",
