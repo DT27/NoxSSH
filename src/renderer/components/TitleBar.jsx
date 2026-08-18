@@ -351,47 +351,19 @@ function SessionTab({
                 onMenu(tab, event.clientX, event.clientY);
             }}
         >
-            {/* The remote OS identifies the tab; until the
-                session is up it dims and pulses, which is
-                the state the status dot used to carry. An
-                empty launcher tab has no host yet.
-                Pointing at the tab swaps the icon for the
-                close button in the same slot, so nothing
-                shifts under the pointer and the tab keeps
-                its width whether hovered or not. */}
-            <span className="relative flex items-center justify-center w-4 h-4 shrink-0">
-                <span
-                    aria-hidden="true"
-                    className="absolute inset-0 flex items-center justify-center transition-opacity group-hover:opacity-0"
-                >
-                    {isLauncher ? (
-                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <path d="M12 5v14M5 12h14" />
-                        </svg>
-                    ) : (
-                        <OsIcon
-                            os={hostOs(tab.host)}
-                            distro={tab.host?.distro}
-                            className={`w-4 h-4 ${tab.connected ? '' : 'opacity-50 animate-pulse'}`}
-                        />
-                    )}
-                </span>
-
-                <span
-                    className="tab-close absolute inset-0 flex items-center justify-center rounded-md
-                        opacity-0 pointer-events-none transition-opacity
-                        group-hover:opacity-100 group-hover:pointer-events-auto
-                        hover:bg-gray-900/10 dark:hover:bg-white/15"
-                    title={t('titleBar.closeTab')}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onClose(tab.id);
-                    }}
-                >
-                    <svg width="9" height="9" viewBox="0 0 9 9" aria-hidden="true">
-                        <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            {/* The remote OS identifies the tab */}
+            <span className="flex items-center justify-center w-4 h-4 shrink-0">
+                {isLauncher ? (
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M12 5v14M5 12h14" />
                     </svg>
-                </span>
+                ) : (
+                    <OsIcon
+                        os={hostOs(tab.host)}
+                        distro={tab.host?.distro}
+                        className={`w-4 h-4 ${tab.connected ? '' : 'opacity-50 animate-pulse'}`}
+                    />
+                )}
             </span>
             <span className="truncate flex-1 text-left min-w-0">{tab.title}</span>
 
@@ -423,6 +395,23 @@ function SessionTab({
                     {tab.paneCount}
                 </span>
             )}
+
+            {/* Close button on the right side */}
+            <span
+                className="tab-close flex items-center justify-center w-4 h-4 shrink-0 rounded-md
+                    opacity-0 pointer-events-none transition-opacity
+                    group-hover:opacity-100 group-hover:pointer-events-auto
+                    hover:bg-gray-900/10 dark:hover:bg-white/15"
+                title={t('titleBar.closeTab')}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onClose(tab.id);
+                }}
+            >
+                <svg width="9" height="9" viewBox="0 0 9 9" aria-hidden="true">
+                    <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+            </span>
         </button>
     );
 }

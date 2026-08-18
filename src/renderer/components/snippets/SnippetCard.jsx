@@ -42,6 +42,7 @@ function SnippetCard({
     onEdit,
     onDuplicate,
     onDelete,
+    onContextMenu,
 }) {
     const isList = view === 'list';
     const asPackage = snippet.kind === 'package';
@@ -88,6 +89,7 @@ function SnippetCard({
             tabIndex={0}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
+            onContextMenu={onContextMenu}
         >
             <div className="flex items-center gap-2.5">
                 <IconTile size={isList ? 'sm' : 'md'}>

@@ -6,6 +6,7 @@ import SnippetDialog from './snippets/SnippetDialog';
 import SnippetCard from './snippets/SnippetCard';
 import SnippetsToolbar from './snippets/SnippetsToolbar';
 import EmptyFrame from './ui/EmptyFrame';
+import ContextMenu from './ui/ContextMenu';
 import { useSnippets } from '../hooks/useSnippets';
 import {
     describeScope,
@@ -17,6 +18,7 @@ import { toastOptions } from '../lib/toast';
 import { useT } from '../i18n';
 import { CARD_GRID } from '../lib/layout';
 import { useFlipOrder } from '../hooks/useFlipOrder';
+import { PencilEdit02Icon, Copy01Icon, Delete02Icon } from 'hugeicons-react';
 
 /**
  * The snippet library.
@@ -39,6 +41,7 @@ function SnippetsPanel({ isActive = true, reachedForPage = 0, allHosts = [] }) {
     const { snippets, save, remove } = useSnippets();
     const [editing, setEditing] = useState(null);
     const [confirming, setConfirming] = useState(null);
+    const [contextMenu, setContextMenu] = useState(null);
     const [query, setQuery] = useState('');
     const [kind, setKind] = useState('all');
     const [tag, setTag] = useState('');
@@ -316,6 +319,14 @@ function SnippetsPanel({ isActive = true, reachedForPage = 0, allHosts = [] }) {
                                 onEdit={() => setEditing(entry.snippet)}
                                 onDuplicate={() => handleDuplicate(entry.snippet)}
                                 onDelete={() => handleDelete(entry.snippet)}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    setContextMenu({
+                                        x: e.clientX,
+                                        y: e.clientY,
+                                        snippet: entry.snippet
+                                    });
+                                }}
                             />
                         ))}
                     </div>
@@ -335,6 +346,33 @@ function SnippetsPanel({ isActive = true, reachedForPage = 0, allHosts = [] }) {
 
             {confirming && (
                 <ConfirmDialog {...confirming} onCancel={() => setConfirming(null)} />
+            )}
+
+            {contextMenu && (
+                <ContextMenu
+                    x={contextMenu.x}
+                    y={contextMenu.y}
+                    items={[
+                        {
+                            label: '编辑',
+                            icon: <PencilEdit02Icon size={16} strokeWidth={2} />,
+                            onClick: () => setEditing(contextMenu.snippet)
+                        },
+                        {
+                            label: '复制',
+                            icon: <Copy01Icon size={16} strokeWidth={2} />,
+                            onClick: () => handleDuplicate(contextMenu.snippet)
+                        },
+                        { type: 'separator' },
+                        {
+                            label: '删除',
+                            icon: <Delete02Icon size={16} strokeWidth={2} />,
+                            onClick: () => handleDelete(contextMenu.snippet),
+                            danger: true
+                        }
+                    ]}
+                    onClose={() => setContextMenu(null)}
+                />
             )}
         </div>
     );

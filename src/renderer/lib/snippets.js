@@ -34,7 +34,7 @@ export const emptyStep = (ref = '') => ({
 });
 
 export function validateSnippet(snippet) {
-    if (!String(snippet?.name || '').trim()) return 'Name is required';
+    // Name is optional - will be auto-generated from command if empty
 
     if (isPackage(snippet)) {
         const usable = (snippet.steps || []).filter(step =>

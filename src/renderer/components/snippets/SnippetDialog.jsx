@@ -56,12 +56,22 @@ export default function SnippetDialog({ snippet, hosts = [], library = [], dismi
         setTouched(true);
         if (validateSnippet(form)) return;
 
+        // If name is empty, use command content (truncate if too long)
+        let finalName = form.name.trim();
+        if (!finalName) {
+            const commandText = asPackage ? composed.text : form.command;
+            // Truncate to 50 characters if too long
+            finalName = commandText.length > 50
+                ? commandText.substring(0, 50).trim() + '...'
+                : commandText.trim();
+        }
+
         onSave({
             ...form,
-            name: form.name.trim(),
+            name: finalName,
             tags: tagText.split(',').map(tag => tag.trim()).filter(Boolean),
         });
-    }, [form, tagText, onSave]);
+    }, [form, tagText, onSave, asPackage, composed.text]);
 
     return (
         <Sheet

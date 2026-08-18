@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import { useTransfers } from '../hooks/useTransfers';
 import { useTunnels } from '../hooks/useTunnels';
 import { useSshConnection } from '../hooks/useSshConnection';
+import { useSnippets } from '../hooks/useSnippets';
 import { toastOptions } from '../lib/toast';
 import { MODIFIER_KEY } from '../lib/platform';
 import { OsIcon, hostOs } from '../lib/os-icons';
@@ -28,6 +29,8 @@ import BmcView from './BmcView';
 import SearchBar from './terminal/SearchBar';
 import PaneRoute, { DesktopPaneRoute } from './terminal/PaneRoute';
 import SnippetPalette from './snippets/SnippetPalette';
+import SelectionToolbar from './terminal/SelectionToolbar';
+import SnippetDialog from './snippets/SnippetDialog';
 
 // Pane ids that already opened a connection. Guards against React StrictMode's
 // double-mount in development dialling the same host twice.
@@ -249,6 +252,9 @@ function TerminalView({
     const promptId = hostKeyPrompt?.requestId || authPrompt?.requestId || null;
     const [searchOpen, setSearchOpen] = useState(false);
     const [snippetsOpen, setSnippetsOpen] = useState(false);
+    const [selectionToolbar, setSelectionToolbar] = useState(null);
+    const [editingSnippet, setEditingSnippet] = useState(false);
+    const [snippetToEdit, setSnippetToEdit] = useState(null);
     /**
      * A host that is only a desktop: a Windows box with RDP and no SSH server.
      *
@@ -325,6 +331,7 @@ function TerminalView({
     // Read here as well as in the panel, so the header badge shows what is
     // forwarding without the panel ever having been opened.
     const { summary: tunnelSummary } = useTunnels(pane?.id);
+    const { refresh: refreshSnippets } = useSnippets();
 
     // Kept in refs so callbacks never need them as dependencies.
     const connectResultRef = useRef(onConnectResult);
@@ -430,8 +437,46 @@ function TerminalView({
 
     const closeSnippets = useCallback(() => {
         setSnippetsOpen(false);
+        setSelectionToolbar(null);
+        setEditingSnippet(false);
         termRef.current?.focus();
     }, []);
+
+    const handleCopySelection = useCallback(() => {
+        if (selectionToolbar?.text) {
+            copySelection();
+        }
+    }, [selectionToolbar]);
+
+    const handleAddSnippetFromSelection = useCallback(() => {
+        if (selectionToolbar?.text) {
+            setSnippetToEdit({
+                text: selectionToolbar.text,
+                hostId: pane.host?.id,
+                hostInfo: pane.host ? {
+                    id: pane.host.id,
+                    name: pane.host.name,
+                    username: pane.host.username,
+                    host: pane.host.host
+                } : null
+            });
+            setSnippetsOpen(false);
+            setEditingSnippet(true);
+            setSelectionToolbar(null);
+        }
+    }, [selectionToolbar, pane.host]);
+
+    const handleSaveSnippetFromSelection = useCallback(async (snippet) => {
+        if (!window.api?.snippets) return;
+        await window.api.snippets.save(snippet);
+        setEditingSnippet(false);
+        setSnippetToEdit(null);
+        // Refresh snippets list after saving
+        if (refreshSnippets) {
+            await refreshSnippets();
+        }
+        toast.success('代码片段已保存', toastOptions());
+    }, [refreshSnippets]);
 
     // Memoised because the custom theme is built fresh on every resolve, and a
     // new object identity here would re-assign term.options.theme each render,
@@ -655,6 +700,46 @@ function TerminalView({
             // Through `sendInput`, not straight to the session: it is what
             // decides whether this keystroke also reaches the other panes.
             term.onData(data => sendInput(data));
+
+            // Handle text selection in terminal using mouse events
+            let lastMouseUpEvent = null;
+            const termElement = terminalRef.current;
+
+            const handleMouseUp = (e) => {
+                lastMouseUpEvent = e;
+                // Small delay to let selection complete
+                setTimeout(() => {
+                    const selection = term.getSelection();
+                    if (selection && viewMode === 'ssh' && !snippetsOpen && lastMouseUpEvent) {
+                        // Position toolbar above the selection to avoid covering it
+                        setSelectionToolbar({
+                            text: selection,
+                            position: {
+                                x: lastMouseUpEvent.clientX + 8,
+                                y: lastMouseUpEvent.clientY - 40
+                            }
+                        });
+                    } else {
+                        setSelectionToolbar(null);
+                    }
+                }, 50);
+            };
+
+            const handleMouseDown = () => {
+                setSelectionToolbar(null);
+            };
+
+            if (termElement) {
+                termElement.addEventListener('mouseup', handleMouseUp);
+                termElement.addEventListener('mousedown', handleMouseDown);
+            }
+
+            term.onSelectionChange(() => {
+                // Just clear toolbar when selection is cleared
+                if (!term.getSelection()) {
+                    setSelectionToolbar(null);
+                }
+            });
 
             // Ctrl+Shift+C/V. Plain Ctrl+C must stay SIGINT, which is exactly
             // why terminals put copy on the shifted chord. Returning false
@@ -1779,6 +1864,34 @@ function TerminalView({
                     hostName={pane.host?.name || pane.title}
                     onInsert={insertSnippet}
                     onClose={closeSnippets}
+                />
+            )}
+
+            {selectionToolbar && viewMode === 'ssh' && !snippetsOpen && (
+                <SelectionToolbar
+                    selectedText={selectionToolbar.text}
+                    position={selectionToolbar.position}
+                    onCopy={handleCopySelection}
+                    onAddSnippet={handleAddSnippetFromSelection}
+                    onClose={() => setSelectionToolbar(null)}
+                />
+            )}
+
+            {editingSnippet && snippetToEdit && (
+                <SnippetDialog
+                    snippet={{
+                        command: snippetToEdit.text,
+                        hostIds: snippetToEdit.hostId ? [snippetToEdit.hostId] : [],
+                        kind: 'command'
+                    }}
+                    hosts={snippetToEdit.hostInfo ? [snippetToEdit.hostInfo] : []}
+                    library={[]}
+                    dismiss={true}
+                    onSave={handleSaveSnippetFromSelection}
+                    onClose={() => {
+                        setEditingSnippet(false);
+                        setSnippetToEdit(null);
+                    }}
                 />
             )}
         </div>

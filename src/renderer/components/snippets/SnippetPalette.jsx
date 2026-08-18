@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Search01Icon, ArrowLeft01Icon, Alert02Icon } from 'hugeicons-react';
+import { Search01Icon, ArrowLeft01Icon, Alert02Icon, Add01Icon } from 'hugeicons-react';
 import { useEnterOn } from '../../hooks/useEnter';
 import { PANE_OVERLAY_TOP } from '../../lib/layout';
 import { useSnippets } from '../../hooks/useSnippets';
@@ -11,6 +11,9 @@ import {
     isPackage,
 } from '../../lib/snippets';
 import Tooltip from '../ui/Tooltip';
+import SnippetDialog from './SnippetDialog';
+import ContextMenu from '../ui/ContextMenu';
+import { PencilEdit02Icon, Delete02Icon } from 'hugeicons-react';
 
 /**
  * Pick a snippet and put it in the terminal.
@@ -40,7 +43,7 @@ const preview = (command) => {
     return lines.length > 1 ? `${lines[0]} …` : lines[0];
 };
 
-function SnippetRow({ snippet, body, steps, broken, active, onPick, onHover }) {
+function SnippetRow({ snippet, body, steps, broken, active, onPick, onHover, onContextMenu }) {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -53,12 +56,20 @@ function SnippetRow({ snippet, body, steps, broken, active, onPick, onHover }) {
             type="button"
             onClick={onPick}
             onMouseMove={onHover}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                onContextMenu(e, snippet);
+            }}
             className={`w-full text-left px-2.5 py-2 rounded-lg transition-colors ${
-                active ? 'bg-gray-100 dark:bg-surface-control' : ''
+                active
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-transparent hover:bg-white/5'
             }`}
         >
             <div className="flex items-center gap-2 min-w-0">
-                <span className="text-[13px] font-medium text-gray-900 dark:text-white truncate">
+                <span className={`text-[13px] font-semibold truncate ${
+                    active ? 'text-white' : 'text-white'
+                }`}>
                     {snippet.name}
                 </span>
 
@@ -91,7 +102,9 @@ function SnippetRow({ snippet, body, steps, broken, active, onPick, onHover }) {
                 ))}
             </div>
 
-            <div className="text-[11px] font-mono text-gray-500 dark:text-neutral-400 truncate mt-0.5">
+            <div className={`text-[11px] font-mono truncate mt-0.5 ${
+                active ? 'text-blue-100' : 'text-gray-200'
+            }`}>
                 {preview(body)}
             </div>
         </button>
@@ -99,12 +112,15 @@ function SnippetRow({ snippet, body, steps, broken, active, onPick, onHover }) {
 }
 
 export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) {
-    const { snippets, loading } = useSnippets();
+    const { snippets, loading, save, refresh, remove } = useSnippets();
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
     // Set once a snippet with placeholders is chosen; null while browsing.
     const [filling, setFilling] = useState(null);
     const [values, setValues] = useState({});
+    const [editing, setEditing] = useState(false);
+    const [editingSnippet, setEditingSnippet] = useState(null);
+    const [contextMenu, setContextMenu] = useState(null);
     const panelRef = useRef(null);
 
     /** Fades in over the pane rather than appearing. See lib/enterMotion. */
@@ -149,15 +165,19 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
      * it, so the button could never be used to dismiss what it opened.
      */
     useEffect(() => {
+        if (editing) return; // Don't close when editing dialog is open
+
         const handlePointerDown = (event) => {
             if (panelRef.current?.contains(event.target)) return;
             if (event.target.closest?.('[data-snippet-trigger]')) return;
+            // Don't close when clicking on context menu
+            if (event.target.closest?.('[role="menu"]')) return;
             onClose();
         };
 
         document.addEventListener('mousedown', handlePointerDown, true);
         return () => document.removeEventListener('mousedown', handlePointerDown, true);
-    }, [onClose]);
+    }, [onClose, editing]);
 
     const send = useCallback((snippet, filled) => {
         onInsert(filled, snippet.runImmediately);
@@ -197,6 +217,69 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
         send(filling.snippet, fillPlaceholders(filling.text, values));
     }, [filling, values, send]);
 
+    const handleSaveNew = useCallback(async (snippet) => {
+        await save(snippet);
+        setEditing(false);
+        setEditingSnippet(null);
+        // Refresh the snippets list after saving
+        if (refresh) {
+            await refresh();
+        }
+    }, [save, refresh]);
+
+    const handleContextMenu = useCallback((e, snippet) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setContextMenu({
+            x: e.clientX,
+            y: e.clientY,
+            snippet
+        });
+    }, []);
+
+    const handleEdit = useCallback(() => {
+        if (contextMenu?.snippet) {
+            setEditingSnippet(contextMenu.snippet);
+            setEditing(true);
+        }
+    }, [contextMenu]);
+
+    const handleDelete = useCallback(async () => {
+        if (contextMenu?.snippet) {
+            await remove(contextMenu.snippet.id);
+            if (refresh) {
+                await refresh();
+            }
+        }
+    }, [contextMenu, remove, refresh]);
+
+    const contextMenuItems = useMemo(() => {
+        if (!contextMenu) return [];
+        return [
+            {
+                label: '编辑',
+                icon: <PencilEdit02Icon size={16} strokeWidth={2} />,
+                onClick: handleEdit
+            },
+            { type: 'separator' },
+            {
+                label: '删除',
+                icon: <Delete02Icon size={16} strokeWidth={2} />,
+                onClick: handleDelete,
+                danger: true
+            }
+        ];
+    }, [contextMenu, handleEdit, handleDelete]);
+
+    // Close context menu when clicking outside
+    useEffect(() => {
+        if (!contextMenu) return;
+
+        const handleClick = () => setContextMenu(null);
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [contextMenu]);
+
     const handleKeyDown = useCallback((event) => {
         if (event.key === 'Escape') {
             event.preventDefault();
@@ -230,6 +313,22 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
 
     const filled = filling ? fillPlaceholders(filling.text, values) : '';
     const unanswered = filling ? filling.names.filter(name => !values[name]) : [];
+
+    if (editing) {
+        return (
+            <SnippetDialog
+                snippet={editingSnippet}
+                hosts={hostId ? [{ id: hostId, name: hostName }] : []}
+                library={snippets}
+                dismiss={false}
+                onSave={handleSaveNew}
+                onClose={() => {
+                    setEditing(false);
+                    setEditingSnippet(null);
+                }}
+            />
+        );
+    }
 
     return (
         <div
@@ -320,6 +419,15 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
                             aria-label="Search snippets"
                             className="flex-1 bg-transparent outline-none text-sm text-gray-900 dark:text-white placeholder:text-gray-400"
                         />
+                        <Tooltip label="新增代码片段">
+                            <button
+                                type="button"
+                                onClick={() => setEditing(true)}
+                                className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-surface-control transition-colors"
+                            >
+                                <Add01Icon size={14} strokeWidth={2.5} />
+                            </button>
+                        </Tooltip>
                         <span className="shrink-0 text-[10px] font-mono text-gray-400 dark:text-neutral-500">
                             Esc
                         </span>
@@ -353,6 +461,7 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
                                         active={index === activeIndex}
                                         onPick={() => pick(entry)}
                                         onHover={() => setActiveIndex(index)}
+                                        onContextMenu={handleContextMenu}
                                     />
                                 ))}
                             </div>
@@ -373,6 +482,15 @@ export default function SnippetPalette({ hostId, hostName, onInsert, onClose }) 
                         </div>
                     )}
                 </>
+            )}
+
+            {contextMenu && (
+                <ContextMenu
+                    x={contextMenu.x}
+                    y={contextMenu.y}
+                    items={contextMenuItems}
+                    onClose={() => setContextMenu(null)}
+                />
             )}
         </div>
     );
