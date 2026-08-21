@@ -1693,6 +1693,7 @@ function register(getWindow) {
   handle("updates-install", () => updates.install());
   handle("updates-open", () => updates.open());
   handle("updates-dismiss", () => updates.dismiss());
+  handle("updates-set-auto-check", (_, enabled) => updates.setAutoCheck(enabled));
 
   /* ---------------- Startup ---------------- */
 

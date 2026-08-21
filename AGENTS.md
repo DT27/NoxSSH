@@ -105,3 +105,18 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 词条在各语言文件末尾的 `session.*`（en / zh / ja / ko / pt / ru / vi）。取消按钮复用 `common.cancel`。
 
 未改：写入 xterm 缓冲的 `Reconnected` / `Disconnected` / `Connection failed`，以及活动日志、RDP/VNC 状态点等其它英文。
+
+## 更新检查改为可选（默认禁用）
+
+为避免无意中的网络请求，自动更新检查现在**默认禁用**（opt-in 模式）：
+
+- 新增配置项：[`src/main/updates.js`](src/main/updates.js) 的 `autoCheck` 状态字段（默认 `false`）
+- UI 开关：[`AboutPage.jsx`](src/renderer/components/settings/pages/AboutPage.jsx) 在"关于"页面新增"自动检查更新"切换开关
+- IPC 通道：`update-set-auto-check` 用于启用/禁用自动检查
+- 行为：
+  - 默认启动**不检查**更新，除非用户显式开启
+  - 开启后每次启动延迟 30 秒后首次检查，之后每 24 小时轮询一次
+  - 关闭后停止定时器，不再自动请求 GitHub releases
+- 词条：新增 `settings.about.autoCheck*` 系列词条（zh / en / ja / ko / pt / ru / vi）
+
+手动点击"检查更新"按钮不受此开关影响，始终可用。

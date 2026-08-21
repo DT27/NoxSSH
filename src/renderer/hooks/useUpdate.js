@@ -68,5 +68,14 @@ export default function useUpdate() {
      */
     const install = useCallback(() => window.api.updates.install(), []);
 
-    return { status, check, open, download, install };
+    /** Set auto-check enabled/disabled */
+    const setAutoCheck = useCallback(async (enabled) => {
+        const result = await window.api.updates.setAutoCheck(enabled);
+        // Refresh status after changing auto-check setting
+        const newStatus = await window.api.updates.status();
+        setStatus(newStatus);
+        return result;
+    }, []);
+
+    return { status, check, open, download, install, setAutoCheck };
 }

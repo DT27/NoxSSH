@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="cloudterm.png" alt="CloudTerm" width="128">
+  <img src="appicon.png" alt="NoxSSH" width="128">
 </p>
 
 <h1 align="center">NoxSSH</h1>

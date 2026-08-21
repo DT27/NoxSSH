@@ -992,6 +992,10 @@ export default {
   /* ---- Settings: About ---- */
   "settings.about.title": "关于",
   "settings.about.version": "版本 {version}",
+  "settings.about.github": "GitHub 仓库",
+  "settings.about.autoCheck": "自动检查更新",
+  "settings.about.autoCheckEnabled": "已开启自动检查更新",
+  "settings.about.autoCheckDisabled": "已关闭自动检查更新",
   "settings.about.updates": "更新",
   "settings.about.checking": "正在检查更新…",
   "settings.about.checkingShort": "检查中…",

@@ -106,9 +106,11 @@ function load() {
             // Kept on disk so the limit survives a restart. Reopening the app
             // to get ten more checks would make it a suggestion.
             manual: Array.isArray(raw.manual) ? raw.manual.filter(Number.isFinite) : [],
+            // Auto-check disabled by default
+            autoCheck: typeof raw.autoCheck === 'boolean' ? raw.autoCheck : false,
         };
     } catch {
-        state = { etag: '', checkedAt: null, latest: null, dismissed: '', manual: [] };
+        state = { etag: '', checkedAt: null, latest: null, dismissed: '', manual: [], autoCheck: false };
     }
 
     return state;
@@ -706,6 +708,7 @@ function status() {
         error: lastError,
         disabled: DISABLED,
         repo: REPO,
+        autoCheck: current.autoCheck || false,
     };
 }
 
@@ -851,6 +854,8 @@ function start(notify) {
 
     if (DISABLED) return;
 
+    const current = load();
+
     const tick = () => {
         check().catch(() => {
             // `runInstall` and `runNotify` both fold every failure into the
@@ -861,25 +866,15 @@ function start(notify) {
     };
 
     /*
-     * Every launch, thirty seconds in, and once a day after that for as long as
-     * the app stays open.
-     *
-     * The launch check used to be skipped when one had already run inside the
-     * last twenty-four hours, on the reasoning that restarting the app is not a
-     * reason to ask GitHub again. It is, though, and it is the only lever a user
-     * has: closing and reopening is what anybody does when they think the app
-     * has missed something, and the answer was that it would keep saying nothing
-     * until whatever was left of the day had run out.
-     *
-     * Being wrong about it costs nothing, which is what makes the old caution
-     * the wrong trade. The request carries the stored ETag, so the ordinary
-     * answer is a 304 that GitHub does not count against the rate limit, and the
-     * manual allowance is only ever spent by the button in Settings.
+     * Auto-check is now opt-in (disabled by default).
+     * Only start the timer if autoCheck is explicitly enabled.
      */
-    pollTimer = setTimeout(tick, LAUNCH_DELAY_MS);
-    // A day-long timer is not a reason to keep the process alive on a platform
-    // where closing the window is meant to end it.
-    pollTimer.unref?.();
+    if (current.autoCheck) {
+        pollTimer = setTimeout(tick, LAUNCH_DELAY_MS);
+        // A day-long timer is not a reason to keep the process alive on a platform
+        // where closing the window is meant to end it.
+        pollTimer.unref?.();
+    }
 }
 
 module.exports = {
@@ -892,4 +887,29 @@ module.exports = {
     install,
     compareVersions,
     stripHtml,
+    setAutoCheck: (enabled) => {
+        const current = load();
+        current.autoCheck = Boolean(enabled);
+        persist();
+
+        // Clear existing timer
+        if (pollTimer) {
+            clearTimeout(pollTimer);
+            pollTimer = null;
+        }
+
+        // If enabling, start the timer
+        if (enabled && !DISABLED) {
+            const tick = () => {
+                check().catch(() => {});
+                pollTimer = setTimeout(tick, AUTO_INTERVAL_MS);
+                pollTimer.unref?.();
+            };
+            pollTimer = setTimeout(tick, LAUNCH_DELAY_MS);
+            pollTimer.unref?.();
+        }
+
+        emit();
+        return { success: true, autoCheck: current.autoCheck };
+    },
 };

@@ -5,6 +5,10 @@ import SettingRow from '../ui/SettingRow';
 import useUpdate from '../../../hooks/useUpdate';
 import { formatDateTime } from '../../../lib/format';
 import { useT } from '../../../i18n';
+import logoUrl from '../../../appicon.svg';
+import toast from 'react-hot-toast';
+
+const GITHUB_REPO = 'https://github.com/DT27/NoxSSH';
 
 /**
  * What the update row says, in one line.
@@ -53,7 +57,7 @@ const PRIMARY = `flex items-center gap-1.5 px-4 h-9 rounded-xl text-sm font-medi
 
 export default function AboutPage() {
     const t = useT();
-    const { status, check, open, download, install } = useUpdate();
+    const { status, check, open, download, install, setAutoCheck } = useUpdate();
     const [busy, setBusy] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -110,14 +114,52 @@ export default function AboutPage() {
                             {t('settings.about.version', { version: status.version })}
                         </p>
                     )}
+                    <a
+                        href={GITHUB_REPO}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-1 inline-block"
+                    >
+                        {t('settings.about.github')}
+                    </a>
                 </div>
-                <div className="w-16 h-16 bg-white dark:bg-black/20 rounded-2xl flex items-center justify-center text-gray-900 dark:text-white">
-                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="4 17 10 11 4 5" />
-                        <line x1="12" y1="19" x2="20" y2="19" />
-                    </svg>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden">
+                    <img src={logoUrl} alt="NoxSSH" className="w-full h-full object-contain" />
                 </div>
             </div>
+
+            <SettingCard>
+                <SettingRow
+                    align="center"
+                    title={t('settings.about.autoCheck')}
+                    description={status?.autoCheck
+                        ? t('settings.about.autoCheckEnabled')
+                        : t('settings.about.autoCheckDisabled')}
+                    control={
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={status?.autoCheck || false}
+                                onChange={async (e) => {
+                                    const enabled = e.target.checked;
+                                    try {
+                                        await setAutoCheck(enabled);
+                                        toast.success(
+                                            enabled
+                                                ? t('settings.about.autoCheckEnabled')
+                                                : t('settings.about.autoCheckDisabled')
+                                        );
+                                    } catch (error) {
+                                        toast.error(error.message);
+                                    }
+                                }}
+                            />
+                            <div className="w-11 h-6 bg-gray-200 dark:bg-neutral-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        </label>
+                    }
+                />
+            </SettingCard>
 
             <SettingCard>
                 <SettingRow

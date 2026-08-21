@@ -6,7 +6,7 @@ import SettingRow, { DIVIDED } from '../ui/SettingRow';
 import Toggle from '../ui/Toggle';
 import SegmentedControl from '../../ui/SegmentedControl';
 import AppColorsDialog from '../AppColorsDialog';
-import logoUrl from '../../../logoterminal.svg';
+import logoUrl from '../../../appicon.svg';
 import { CUSTOM_THEME } from '../../../hooks/useTheme';
 import {
     APP_COLOR_PRESETS,

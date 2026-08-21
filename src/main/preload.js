@@ -560,6 +560,8 @@ contextBridge.exposeInMainWorld("api", {
     install: () => ipcRenderer.invoke("updates-install"),
     open: () => ipcRenderer.invoke("updates-open"),
     dismiss: () => ipcRenderer.invoke("updates-dismiss"),
+    // Set auto-check enabled/disabled
+    setAutoCheck: (enabled) => ipcRenderer.invoke("updates-set-auto-check", enabled),
     // The daily check is not one the renderer asked for, a check started
     // from Settings has to reach the bell in the title bar, and download
     // progress is nobody's request at all.

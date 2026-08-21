@@ -24,7 +24,7 @@ import ContextMenu from './ui/ContextMenu';
 import NotificationsMenu from './NotificationsMenu';
 import Tooltip from './ui/Tooltip';
 import { TAB_COLORS, segmentStrip, tabColor, withAlpha } from '../lib/tabs';
-import logoUrl from '../logoterminal.svg';
+import logoUrl from '../appicon.svg';
 import { useT } from '../i18n';
 
 // Ripple effect hook
