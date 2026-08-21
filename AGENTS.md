@@ -61,10 +61,10 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 
 注意：
 
-- 同步口令丢失将无法解密远端快照（与之前 CloudBlast 账户口令丢失的威胁模型一致）
+- 同步口令丢失将无法解密远端快照
 - WebDAV 密码仅用于认证；实际内容在设备端加密
 - 清空本机后若不再填写 WebDAV 配置，不会自动从远端拉回数据
-- 旧的 CloudBlast 相关模块文件（`account.js`、`server-sync.js`、`cloud-snapshot.js`）暂时保留在磁盘上，但运行时入口已不再引用，可在确认无误后删除
+- 旧的 CloudBlast 相关模块文件（`account.js`、`server-sync.js`、`cloud-snapshot.js`）及其测试已彻底删除
 
 ## 中国网络：Electron 二进制镜像
 
