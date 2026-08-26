@@ -407,6 +407,10 @@ contextBridge.exposeInMainWorld("api", {
     // Main owns the picker and the reading; the renderer gets a data URL
     // for an image the user chose, or a reason it could not have one.
     chooseLogo: () => ipcRenderer.invoke("choose-logo-image"),
+    // Keep the native window/taskbar/Dock icon aligned with the effective app
+    // theme. Main validates the value before choosing a packaged image.
+    setIconTheme: (theme) =>
+      ipcRenderer.send("appearance-set-icon-theme", theme),
   },
 
   importer: {

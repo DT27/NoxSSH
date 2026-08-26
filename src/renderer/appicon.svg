@@ -1,19 +1,54 @@
-<svg width="400" height="306" viewBox="0 0 400 306" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="400" height="306" fill="#F5F5F5"/>
-<path d="M169.412 215.377L182.353 225.381L169.412 235.385" stroke="#00F2FE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M192.941 235.385H210.588" stroke="#00F2FE" stroke-width="8" stroke-linecap="round"/>
-<path d="M107.79 281.283C61.6852 281.283 29.4118 242.276 29.4118 193.516C29.4118 149.63 61.6852 115.499 103.18 110.623C121.622 47.2339 167.727 17.9777 218.442 27.7298C264.547 37.4818 301.431 76.4902 310.652 125.251C342.925 130.127 370.588 159.382 370.588 196.44C370.588 237.4 338.315 281.283 296.82 281.283H107.79Z" stroke="url(#paint0_linear_0_1)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M144.508 238.705V122.733L254.949 238.705V122.733" stroke="url(#paint1_linear_0_1)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-<defs>
-<linearGradient id="paint0_linear_0_1" x1="29.4118" y1="25.8923" x2="370.682" y2="281.159" gradientUnits="userSpaceOnUse">
-<stop stop-color="#00F2FE"/>
-<stop offset="0.5" stop-color="#38BDF8"/>
-<stop offset="1" stop-color="#B86BFF"/>
-</linearGradient>
-<linearGradient id="paint1_linear_0_1" x1="143.529" y1="122.4" x2="255.338" y2="237.695" gradientUnits="userSpaceOnUse">
-<stop stop-color="#00F2FE"/>
-<stop offset="0.5" stop-color="#38BDF8"/>
-<stop offset="1" stop-color="#B86BFF"/>
-</linearGradient>
-</defs>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 376 290">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #00f2fe;
+        stroke-width: 8px;
+      }
+
+      .cls-1, .cls-3, .cls-4, .cls-5 {
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-4, .cls-5 {
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-4 {
+        stroke: url(#_未命名的渐变_2);
+      }
+
+      .cls-4, .cls-5 {
+        stroke-width: 24px;
+      }
+
+      .cls-5 {
+        stroke: url(#_未命名的渐变);
+      }
+    </style>
+    <linearGradient id="_未命名的渐变" data-name="未命名的渐变" x1="2.5" y1="269.9" x2="343.8" y2="14.6" gradientTransform="translate(0 306) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00f2fe"/>
+      <stop offset=".5" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#b86bff"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_2" data-name="未命名的渐变 2" x1="131.6" y1="193.4" x2="243.4" y2="78.1" gradientTransform="translate(0 306) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00f2fe"/>
+      <stop offset=".5" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#b86bff"/>
+    </linearGradient>
+  </defs>
+  <rect class="cls-2" width="376" height="290"/>
+  <path class="cls-1" d="M157.6,205.4l12.9,10-12.9,10"/>
+  <path class="cls-3" d="M181.2,225.4h17.6"/>
+  <path class="cls-5" d="M96,271.3c-46.1,0-78.4-39-78.4-87.8s32.3-78,73.8-82.9C109.9,37.2,156,8,206.7,17.7c46.1,9.8,83,48.8,92.2,97.5,32.3,4.9,59.9,34.1,59.9,71.2s-32.3,84.8-73.8,84.8H96Z"/>
+  <path class="cls-4" d="M132.7,228.7v-116l110.4,116v-116"/>
 </svg>

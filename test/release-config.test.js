@@ -37,4 +37,27 @@ const wingetInstaller = new RegExp(regexSource);
 assert.ok(wingetInstaller.test(setup), 'winget regex does not match the versioned installer');
 assert.ok(!wingetInstaller.test(portable), 'winget regex also matches the portable build');
 
-console.log('release config: versioned artifact names verified');
+const dayIcon = 'build/AppIcons/icons-day/desktop-1024x1024.png';
+const nightIcon = 'build/AppIcons/icons-night/desktop-1024x1024.png';
+
+for (const platform of ['win', 'mac', 'linux']) {
+    assert.strictEqual(pkg.build[platform].icon, dayIcon, `${platform} does not use the day package icon`);
+}
+
+for (const source of [dayIcon, nightIcon]) {
+    assert.ok(fs.existsSync(path.join(root, source)), `missing icon source: ${source}`);
+}
+
+function copiedIconSources(entries) {
+    return new Set(
+        entries
+            .filter((entry) => String(entry.to || '').startsWith('app-icons/'))
+            .map((entry) => entry.from)
+    );
+}
+
+const runtimeIconSources = copiedIconSources(pkg.build.extraResources);
+assert.ok(runtimeIconSources.has(dayIcon), 'runtime resources omit the day icon');
+assert.ok(runtimeIconSources.has(nightIcon), 'runtime resources omit the night icon');
+
+console.log('release config: artifact names and adaptive icons verified');

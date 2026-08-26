@@ -4,6 +4,7 @@ const path = require('path');
 const ipc = require('./ipc');
 const transport = require('./transport');
 const webdavSync = require('./webdav-sync');
+const appIcon = require('./app-icon');
 
 // macOS 上常见的 EGL 驱动错误日志（eglQueryDeviceAttribEXT: Bad attribute）
 // 这是 Chromium 在初始化 GPU/EGL 时对驱动的探测失败，通常无害。
@@ -59,11 +60,13 @@ function saveWindowState(window) {
 
 function createWindow() {
     const state = loadWindowState();
+    const icon = appIcon.currentIcon();
 
     mainWindow = new BrowserWindow({
         width: state?.width || 1200,
         height: state?.height || 800,
         ...(state?.x !== undefined ? { x: state.x, y: state.y } : {}),
+        ...(process.platform !== 'darwin' && icon ? { icon } : {}),
         minWidth: 900,
         minHeight: 600,
         // Everywhere but macOS the window is frameless and the title bar draws
@@ -180,6 +183,7 @@ app.whenReady().then(() => {
      */
     app.setAppUserModelId('com.noxssh.app');
 
+    appIcon.initialize();
     ipc.register(getWindow);
     createWindow();
 

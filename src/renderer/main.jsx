@@ -31,12 +31,14 @@ import './input.css';
 // effect, which lands *after* the first paint. Anything reading the class
 // during render would otherwise see light mode and bake in the wrong colours.
 (() => {
-    const stored = localStorage.getItem('theme') || 'system';
+    const saved = localStorage.getItem('theme');
+    const stored = ['light', 'dark', 'system', 'custom'].includes(saved) ? saved : 'system';
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.classList.toggle(
         'dark',
         stored === 'dark' || stored === 'custom' || (stored === 'system' && prefersDark)
     );
+    window.api?.appearance?.setIconTheme?.(stored);
 
     // The custom theme's colours too, and for the same reason: they are what
     // that theme *is*, so the first paint has to already be in them.

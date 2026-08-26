@@ -5,25 +5,25 @@
 <h1 align="center">NoxSSH</h1>
 
 <p align="center">
-  <strong>SSH、SFTP、Telnet、Windows RDP をひとつの端末に</strong>
+  <strong>モダンで安全、WebDAV 同期に対応したマルチプロトコルのリモート接続ツール</strong>
 </p>
 
 <p align="center">
-  Electron、React、xterm.js で作られたモダンなターミナルワークスペース。<br/>
-  分割ペイン · タブ · ファイル転送 · ポート転送 · リモートデスクトップ · スニペット
+  SSH · SFTP · Telnet · シリアル · RDP · VNC<br/>
+  分割ペイン · ファイル転送 · ポート転送 · プライベート WebDAV 同期
 </p>
 
 <p align="center">
-  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="Download" src="https://img.shields.io/badge/Download-Latest-success?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/DT27/NoxSSH/releases/latest"><img alt="最新リリース" src="https://img.shields.io/github/v/release/DT27/NoxSSH?style=for-the-badge&label=Release&color=2ea44f"></a>
   &nbsp;
-  <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
+  <img alt="プラットフォーム" src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge&logo=electron">
   &nbsp;
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-fair--code-green?style=for-the-badge"></a>
 </p>
 
 <p align="center">
-  <a href="./README.md">English</a> ·
-  <a href="./README.zh-CN.md">简体中文</a> ·
+  <a href="./README.md">简体中文</a> ·
+  <a href="./README.en.md">English</a> ·
   <strong>日本語</strong> ·
   <a href="./README.ko.md">한국어</a> ·
   <a href="./README.es.md">Español</a> ·
@@ -32,44 +32,35 @@
 
 ---
 
-NoxSSH は [CloudTerm](https://github.com/BradPerbs/cloudterm) のフォークです。ターミナル、SFTP、
-RDP/VNC はそのままに、データの同期方法を主に変更しています。
+<img src="NoxSSH_Main.png" alt="NoxSSH メイン画面" width="100%">
 
-## 主な変更点
+NoxSSH は、サーバー、ネットワーク機器、リモートデスクトップを日常的に管理する
+開発者や運用担当者向けのデスクトップツールです。ターミナル、ファイル管理、
+ポート転送、リモートデスクトップをひとつにまとめ、WebDAV で設定をデバイス間同期できます。
 
-- **CloudBlast アカウントではなく、自分の WebDAV。** ホスト、フォルダー、鍵、スニペット、プロキシ、既知のホスト、ターミナル設定は、この端末で暗号化してから指定した WebDAV にアップロードします。標準の WebDAV ならどれでも使えます。
-- **バージョン付き履歴バックアップ**を WebDAV に保存。スケジュールまたは手動。あるバージョンを復元・削除しても、現在の同期データには影響しません。
-- **NextSSH バックアップのインポート。** PuTTY、KiTTY、MobaXterm、OpenSSH と同じ並びです。
-- **テレメトリなし。** 起動時に `console.cloudblast.io` へアクセスしません。更新確認は GitHub の [このリポジトリ](https://github.com/DT27/NoxSSH/releases) を見ます。
-  <img src="NoxSSH_WebDAV.png" alt="NoxSSH" width="100%">
-  <img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH" width="100%">
+## 特長
 
-<img src="Main%20Image.png" alt="NoxSSH" width="100%">
+- **あらゆる環境へひとつのアプリから接続：** SSH、SFTP、Telnet、シリアル、RDP、VNC をまとめて管理。
+- **効率的なターミナルワークスペース：** タブ、柔軟な分割ペイン、入力の一斉送信、セッション復元、検索、録画。
+- **WebDAV 同期：** ホスト、鍵、スニペット、プロキシ、既知のホスト、ターミナル設定を端末上で暗号化してからアップロード。
+- **独立した履歴バックアップ：** 定期または手動でバージョンを作成し、現在のスナップショットに影響を与えず復元・削除。
+- **簡単な移行：** OpenSSH、PuTTY、KiTTY、MobaXterm、NextSSH からデータをインポート。
+- **初期状態では通信を最小限に：** テレメトリはなく、自動更新確認はデフォルトで無効。手動確認はいつでも可能。
+
+NoxSSH は [CloudTerm](https://github.com/BradPerbs/cloudterm) を基に、アカウント式クラウド同期を WebDAV に置き換えています。
 
 ---
 
 ## 目次
 
-- [ダウンロード](#download)
-- [これは何か](#what-it-is)
 - [機能](#features)
 - [スクリーンショット](#screenshots)
 - [はじめに](#getting-started)
-- [コミュニティ](#community)
-- [貢献者](#contributors)
+- [参加する](#community)
 - [技術スタック](#tech-stack)
 - [ライセンス](#license)
 
 ---
-
-<a name="what-it-is"></a>
-
-## これは何か
-
-- **ひとつのターミナル**：SSH、telnet、シリアルコンソール。タブ、分割ペイン、GPU 描画。
-- **ひとつの SFTP クライアント**：すでに開いている接続を使い、再帰転送とドラッグ＆ドロップ。
-- **RDP と VNC**：Windows と Linux を同じアプリに並べる。
-- **サーバーを置く場所**：フォルダー、タグ、鍵保管庫、スニペット。すべて暗号化、すべて検索可能。
 
 <a name="features"></a>
 
@@ -77,21 +68,22 @@ RDP/VNC はそのままに、データの同期方法を主に変更していま
 
 ### ターミナル
 
-- **任意の分割**。1 枚を拡大したり全画面にもできる
-- **タブ**に名前・色・グループ。次回起動で復元
-- **36 のテーマ**。自分で色を決めてもよい
-- **スクロールバック検索**は正規表現対応。リンクはクリックできる
-- **入力の一斉送信**。一度の入力をすべてのセッションへ
-- **セッション録画**とワンクリックのスクリーンショット
+- **柔軟な分割ペイン**：左右・上下の分割、ペイン拡大、全画面表示
+- **タブとグループ**：名前と色を設定し、次回起動時に復元
+- **明暗ターミナルテーマ**、フォントと配色をカスタマイズ可能
+- **スクロールバック検索とクリック可能なリンク**、正規表現にも対応
+- **入力の一斉送信**で複数セッションを同時操作
+- **セッション録画とスクリーンショット**でトラブル対応と記録を支援
 
 ### 接続
 
-- **SSH、telnet、シリアル**を同じウィンドウに
-- **ジャンプホスト**で堡塁の先へ
-- **パスワード、鍵、SSH agent、証明書**、TPM に置く Windows Hello 鍵
-- **二要素認証**のプロンプトを正しく扱う
-- **自動再接続**。切断やノート PC の復帰後もつなぎ直す
-- **接続時に実行するコマンド**。つながるたびに再生
+- **SSH、Telnet、シリアル接続**を同じウィンドウで管理
+- **ジャンプホスト**を使った踏み台経由の接続
+- **SOCKS5、SOCKS4、HTTP プロキシ**をターミナル、SFTP、ポート転送、リモートデスクトップで共用
+- **パスワード、鍵、SSH Agent、証明書**、TPM で保護された Windows Hello 鍵
+- **対話型認証と 2FA**
+- **自動再接続**：ネットワーク切断やシステム復帰後に再接続
+- **接続時コマンド**を接続成功後に自動実行
 
 ### ファイルとネットワーク
 
@@ -100,17 +92,18 @@ RDP/VNC はそのままに、データの同期方法を主に変更していま
 - **ポート転送**：ローカル、リモート、動的 SOCKS5。リアルタイムの通信量
 - **リモートデスクトップ**：RDP と VNC をペインに開き、SSH トンネル経由
 
-### 整理
+### データと移行
 
-- **フォルダーと色付きタグ**がホスト一覧全体に効く
-- **スニペット**は値の入力を求められ、一連の手順としてまとめられる
-- **名前、アドレス、タグを即座に検索**
-- **既存の `~/.ssh/config` を一度で取り込み**
+- **暗号化 WebDAV 同期**：同期パスフレーズで端末上のデータを暗号化してからアップロードします。**同期パスフレーズは端末にのみ保存され、紛失するとリモートデータを復号できません。WebDAV パスワードは接続認証にのみ使用されます。**
+- **履歴バックアップ**は作成、復元、個別削除ができ、現在の同期スナップショットを上書きしません
+- **ローカル暗号化バックアップ**で設定一式をエクスポートし、別の端末へインポート
+- **複数形式からインポート：** OpenSSH、PuTTY、KiTTY、MobaXterm、NextSSH
 
-### オペレーティングシステム
+<a name="operating-systems"></a>
 
-接続時に OS を判別し、ホストカードとタブにそのロゴが出ます。ホスト名を読まなくても
-Debian と Fedora を見分けられます。
+### オペレーティングシステムの検出
+
+接続後に OS を検出し、ホストカードにシステムのアイコンとバージョンを表示します。
 
 <p align="center">
   <img src="src/renderer/assets/icons/128_debian.png" alt="Debian" title="Debian" width="42">
@@ -123,33 +116,35 @@ Debian と Fedora を見分けられます。
   <img src="src/renderer/assets/icons/128_elementary.png" alt="elementary OS" title="elementary OS" width="42">
   <img src="src/renderer/assets/icons/128_zorin.png" alt="Zorin OS" title="Zorin OS" width="42">
   <img src="src/renderer/assets/icons/128_mx.png" alt="MX Linux" title="MX Linux" width="42">
+  <br/>
   <img src="src/renderer/assets/icons/128_deepin.png" alt="deepin" title="deepin" width="42">
   <img src="src/renderer/assets/icons/128_raspios.png" alt="Raspberry Pi OS" title="Raspberry Pi OS" width="42">
   <img src="src/renderer/assets/icons/128_kali.png" alt="Kali Linux" title="Kali Linux" width="42">
   <img src="src/renderer/assets/icons/128_parrot.png" alt="Parrot OS" title="Parrot OS" width="42">
   <img src="src/renderer/assets/icons/128_tails.png" alt="Tails" title="Tails" width="42">
-  <br/>
   <img src="src/renderer/assets/icons/128_fedora_newlogo.png" alt="Fedora" title="Fedora" width="42">
   <img src="src/renderer/assets/icons/128_redhat.png" alt="Red Hat Enterprise Linux" title="Red Hat Enterprise Linux" width="42">
   <img src="src/renderer/assets/icons/128_centos_blue.png" alt="CentOS" title="CentOS" width="42">
   <img src="src/renderer/assets/icons/128_alma_darkblue.png" alt="AlmaLinux" title="AlmaLinux" width="42">
   <img src="src/renderer/assets/icons/128_suse.png" alt="openSUSE and SLES" title="openSUSE and SLES" width="42">
+  <br/>
   <img src="src/renderer/assets/icons/128_arch.png" alt="Arch Linux" title="Arch Linux" width="42">
   <img src="src/renderer/assets/icons/128_manjaro.png" alt="Manjaro" title="Manjaro" width="42">
   <img src="src/renderer/assets/icons/128_endeavour.png" alt="EndeavourOS" title="EndeavourOS" width="42">
   <img src="src/renderer/assets/icons/128_garuda_blue.png" alt="Garuda Linux" title="Garuda Linux" width="42">
   <img src="src/renderer/assets/icons/128_arco.png" alt="ArcoLinux" title="ArcoLinux" width="42">
   <img src="src/renderer/assets/icons/128_artix.png" alt="Artix Linux" title="Artix Linux" width="42">
-  <br/>
   <img src="src/renderer/assets/icons/128_alpine.png" alt="Alpine Linux" title="Alpine Linux" width="42">
   <img src="src/renderer/assets/icons/128_nixos.png" alt="NixOS" title="NixOS" width="42">
   <img src="src/renderer/assets/icons/128_gentoo.png" alt="Gentoo" title="Gentoo" width="42">
   <img src="src/renderer/assets/icons/128_void.png" alt="Void Linux" title="Void Linux" width="42">
+  <br/>
   <img src="src/renderer/assets/icons/128_solus.png" alt="Solus" title="Solus" width="42">
   <img src="src/renderer/assets/icons/128_slackware.png" alt="Slackware" title="Slackware" width="42">
+  <img src="src/renderer/assets/icons/128_unraid.png" alt="Unraid" title="Unraid" width="42">
   <img src="src/renderer/assets/icons/128_linux.png" alt="Linux" title="Any other Linux" width="42">
   <img src="src/renderer/assets/icons/128_windows.png" alt="Windows" title="Windows" width="42">
-  <img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/logos/macos-dark.svg"><img src="docs/logos/macos.svg" alt="macOS" title="macOS" width="42"></picture>
 </p>
 
 ### セキュリティ
@@ -166,32 +161,23 @@ Debian と Fedora を見分けられます。
 
 ## スクリーンショット
 
-### ホストとキーチェーン
+### WebDAV 同期と履歴バックアップ
 
-サーバーはフォルダー、タグ、検索付き。カードにプロトコルが表示されます。WebDAV 同期を
-設定すれば、別のパソコンでも同じホストが戻ってきます。
+<img src="NoxSSH_WebDAV.png" alt="NoxSSH WebDAV 同期" width="100%">
 
-<img src="hostscloudterm.png" alt="ホストとキーチェーン" width="100%">
+<img src="NoxSSH_WebDAV_backup.png" alt="NoxSSH WebDAV 履歴バックアップ" width="100%">
 
 ### 分割ペインと SFTP
 
-左にファイル、右に 2 つのシェル。裏は 1 本の接続です。窓の許す限り分割し、
-区切りはドラッグできます。
-
-<img src="Split%20Pane.png" alt="分割ペインと SFTP" width="100%">
+<img src="NoxSSH_SplitPane.png" alt="分割ペインと SFTP" width="100%">
 
 ### Windows リモートデスクトップ
 
-Linux セッションの隣のタブに、Windows デスクトップ全体。クリップボードは双方向、
-解像度はペインに追従します。
+<img src="NoxSSH_RDP.png" alt="Windows リモートデスクトップ" width="100%">
 
-<img src="RDP.png" alt="Windows リモートデスクトップ" width="100%">
+### 外観とターミナル配色
 
-### 好みに合わせる
-
-ターミナルテーマ、アプリの色、フォント、タイトルバーのアイコンまで変えられます。
-
-<img src="Customizeable.png" alt="外観設定" width="100%">
+<img src="NoxSSH_Customizeable.png" alt="外観設定" width="100%">
 
 ---
 
@@ -203,26 +189,28 @@ Linux セッションの隣のタブに、Windows デスクトップ全体。ク
 
 ### ダウンロード
 
-お使いのプラットフォーム向けの最新版：
+お使いのプラットフォームに合うパッケージを[最新リリース](https://github.com/DT27/NoxSSH/releases/latest)からダウンロードしてください：
 
-| OS      | ダウンロード                                                                                                                                                                                |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS    | [Apple シリコン（M1 以降）](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-arm64.dmg) · [Intel](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.dmg)   |
-| Windows  | [インストーラー、x64（推奨）](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-Setup-x64.exe) · [ポータブル、x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x64.exe) |
-| Linux    | [AppImage、x64](https://github.com/DT27/NoxSSH/releases/latest/download/NoxSSH-x86_64.AppImage)                                                                                             |
+| OS | アーキテクチャ | ファイル名 |
+| -- | -------------- | ---------- |
+| Windows | x64 | `NoxSSH-Setup-v<version>-x64.exe`（インストーラー、推奨）または `NoxSSH-v<version>-x64.exe`（ポータブル） |
+| macOS | Apple シリコン / Intel | `NoxSSH-v<version>-arm64.dmg` または `NoxSSH-v<version>-x64.dmg` |
+| Linux | x64 | `NoxSSH-v<version>-x64.AppImage` |
 
 [GitHub のすべてのリリース](https://github.com/DT27/NoxSSH/releases)も見られます。
 
 ### ソースからビルド
 
+Node.js 20 以降と npm が必要です。
+
 ```bash
 git clone https://github.com/DT27/NoxSSH.git
-cd NoxSSH/noxssh
+cd NoxSSH
 npm install
 npm run dev
 ```
 
-ポータブル実行ファイルは `dist/` に出力されます：
+現在のプラットフォーム向けリリースパッケージを `dist/` に生成します：
 
 ```bash
 npm run build
@@ -236,28 +224,27 @@ npm run build
 | `Ctrl+Shift+K`       | スニペットパレット | `Alt+Shift+-`  | 下に分割   |
 | `Ctrl+Shift+B`       | 入力の一斉送信     | `Alt+Shift+Z`  | ペイン拡大 |
 | `Ctrl+Shift+C` / `V` | コピーと貼り付け   | `Ctrl+Shift+W` | ペインを閉じる |
+| `Alt+矢印キー`       | ペイン間を移動     |                |            |
 
 <a name="community"></a>
 
-## コミュニティ
+## 参加する
 
-質問、バグ、要望、これから何をするか知りたいとき。
-
-<p>
-  <a href="https://discord.gg/7M84Xp8QBr"><img alt="Join the Discord" src="https://img.shields.io/badge/Join%20the%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
-</p>
-
-GitHub の issue と pull request も歓迎します。
+- バグや機能要望は [Issues](https://github.com/DT27/NoxSSH/issues) へ報告してください。
+- 修正や新機能は [Pull Request](https://github.com/DT27/NoxSSH/pulls) で送ってください。
+- 変更を提出する前に `npm test` と `npm run build:renderer` を実行してください。
 
 <a name="contributors"></a>
 
 ## 貢献者
 
-CloudTerm に力を貸したすべての人、そしてここで続けている人に感謝します。
+NoxSSH の貢献者：
 
-<a href="https://github.com/BradPerbs/cloudterm/graphs/contributors">
-  <img alt="貢献者" src="https://contrib.rocks/image?repo=BradPerbs/cloudterm" />
+<a href="https://github.com/DT27/NoxSSH/graphs/contributors">
+  <img alt="NoxSSH の貢献者" src="https://contrib.rocks/image?repo=DT27/NoxSSH" />
 </a>
+
+元の CloudTerm の貢献者にも感謝します。
 
 <a name="tech-stack"></a>
 

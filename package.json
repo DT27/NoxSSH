@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "start": "electron .",
-    "test": "node test/snippets.test.js && node test/host-tags.test.js && node test/backup.test.js && node test/activity.test.js && node test/vnc.test.js && node test/rdp.test.js && node test/telnet.test.js && node test/serial.test.js && node test/session-log.test.js && node test/os-detect.test.js && node test/jump-host.test.js && node test/updates.test.js && node test/release-config.test.js && node test/nextssh-import.test.js",
+    "test": "node test/snippets.test.js && node test/host-tags.test.js && node test/backup.test.js && node test/activity.test.js && node test/vnc.test.js && node test/rdp.test.js && node test/telnet.test.js && node test/serial.test.js && node test/session-log.test.js && node test/os-detect.test.js && node test/jump-host.test.js && node test/updates.test.js && node test/app-icon.test.js && node test/release-config.test.js && node test/nextssh-import.test.js",
     "dev": "concurrently -k \"npm run dev:vite\" \"npm run dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "wait-on tcp:5173 && electron .",
@@ -68,6 +68,14 @@
           "!README.md",
           "!hello-helper.exe"
         ]
+      },
+      {
+        "from": "build/AppIcons/icons-day/desktop-1024x1024.png",
+        "to": "app-icons/icon-day.png"
+      },
+      {
+        "from": "build/AppIcons/icons-night/desktop-1024x1024.png",
+        "to": "app-icons/icon-night.png"
       }
     ],
     "win": {
@@ -75,7 +83,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "build/AppIcons/icon.png",
+      "icon": "build/AppIcons/icons-day/desktop-1024x1024.png",
       "files": [
         "src/main/**/*",
         "dist/renderer/**/*",
@@ -128,7 +136,7 @@
       ],
       "category": "public.app-category.developer-tools",
       "darkModeSupport": true,
-      "icon": "build/AppIcons/icon.png",
+      "icon": "build/AppIcons/icons-day/desktop-1024x1024.png",
       "artifactName": "NoxSSH-v${version}-${arch}.${ext}"
     },
     "dmg": {
@@ -156,7 +164,7 @@
       "category": "Development",
       "synopsis": "Modern SSH client",
       "artifactName": "NoxSSH-v${version}-${arch}.${ext}",
-      "icon": "build/AppIcons/icon.png",
+      "icon": "build/AppIcons/icons-day/desktop-1024x1024.png",
       "desktop": {
         "entry": {
           "Categories": "Development;Network;",

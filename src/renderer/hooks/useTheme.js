@@ -70,13 +70,15 @@ export function useTheme() {
         // A custom palette is a retint of the dark ramp, so choosing one is also
         // choosing dark: the light surfaces are Tailwind's greys and would not
         // hear about it.
-        root.classList.toggle(
-            'dark',
-            themeName === 'dark' || themeName === CUSTOM_THEME || (themeName === 'system' && prefersDark)
-        );
+        const dark = themeName === 'dark'
+            || themeName === CUSTOM_THEME
+            || (themeName === 'system' && prefersDark);
+        root.classList.toggle('dark', dark);
 
         if (themeName === CUSTOM_THEME) applyAppColors(colors);
         else clearAppColors();
+
+        window.api?.appearance?.setIconTheme?.(themeName);
     }, []);
 
     const setTheme = useCallback((newTheme) => {
