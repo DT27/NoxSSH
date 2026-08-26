@@ -46,7 +46,7 @@ function localPathFor(tabId, remotePath) {
     // backslash is a separator again.
     const name = safeLocalSegment(path.posix.basename(remotePath), 'file');
 
-    return path.join(app.getPath('temp'), 'cloudblast-ssh-edit', digest, name);
+    return path.join(app.getPath('temp'), 'noxssh-ssh-edit', digest, name);
 }
 
 function streamDown(handle, remotePath, localPath) {

@@ -130,14 +130,14 @@ console.log('\nupdates: mac manifest merging');
 const manifest = (arch) => [
     'version: 1.4.0',
     'files:',
-    `  - url: CloudTerm-${arch}.zip`,
+    `  - url: NoxSSH-${arch}.zip`,
     `    sha512: zip-${arch}-hash`,
     '    size: 104857600',
     '    blockMapSize: 112233',
-    `  - url: CloudTerm-${arch}.dmg`,
+    `  - url: NoxSSH-${arch}.dmg`,
     `    sha512: dmg-${arch}-hash`,
     '    size: 104857600',
-    `path: CloudTerm-${arch}.zip`,
+    `path: NoxSSH-${arch}.zip`,
     `sha512: zip-${arch}-hash`,
     "releaseDate: '2026-08-03T10:00:00.000Z'",
 ].join('\n') + '\n';
@@ -155,10 +155,10 @@ check('carries both architectures into one file list', () => {
     ]);
 
     assert.deepStrictEqual(result.urls, [
-        'CloudTerm-x64.zip',
-        'CloudTerm-x64.dmg',
-        'CloudTerm-arm64.zip',
-        'CloudTerm-arm64.dmg',
+        'NoxSSH-x64.zip',
+        'NoxSSH-x64.dmg',
+        'NoxSSH-arm64.zip',
+        'NoxSSH-arm64.dmg',
     ]);
 });
 
@@ -179,7 +179,7 @@ check('keeps every line electron-builder wrote', () => {
     // Exactly one of each top-level key, and the first input's copy of it.
     assert.strictEqual(result.text.match(/^version:/gm).length, 1);
     assert.strictEqual(result.text.match(/^path:/gm).length, 1);
-    assert.ok(result.text.includes('path: CloudTerm-x64.zip'));
+    assert.ok(result.text.includes('path: NoxSSH-x64.zip'));
 });
 
 check('names arm64 so the updater can tell it from x64', () => {
@@ -195,7 +195,7 @@ check('names arm64 so the updater can tell it from x64', () => {
 
     assert.strictEqual(zips.filter(url => url.includes('x64')).length, 1);
     assert.strictEqual(zips.filter(url => url.includes('arm64')).length, 1);
-    assert.ok(!'CloudTerm-arm64.zip'.includes('x64'));
+    assert.ok(!'NoxSSH-arm64.zip'.includes('x64'));
 });
 
 check('drops an artifact listed by both runners', () => {
@@ -204,7 +204,7 @@ check('drops an artifact listed by both runners', () => {
         write('latest-mac-x64-again.yml', manifest('x64')),
     ]);
 
-    assert.deepStrictEqual(result.urls, ['CloudTerm-x64.zip', 'CloudTerm-x64.dmg']);
+    assert.deepStrictEqual(result.urls, ['NoxSSH-x64.zip', 'NoxSSH-x64.dmg']);
 });
 
 check('passes a single manifest through unchanged', () => {

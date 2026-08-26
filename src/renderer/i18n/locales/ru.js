@@ -635,11 +635,11 @@ export default {
   "settings.general.languageChanged": "Язык изменён на {language}",
   "settings.general.startup": "Запускать при входе",
   "settings.general.startupDesc":
-    "Открывать CloudTerm автоматически при входе в этот компьютер",
+    "Открывать NoxSSH автоматически при входе в этот компьютер",
   "settings.general.startupOn":
-    "CloudTerm будет открываться при входе в систему",
+    "NoxSSH будет открываться при входе в систему",
   "settings.general.startupOff":
-    "CloudTerm больше не будет открываться при входе в систему",
+    "NoxSSH больше не будет открываться при входе в систему",
   "settings.general.startupFailed": "Не удалось изменить эту настройку",
   "settings.general.startupUnknown":
     "Не удалось узнать, запускается ли приложение вместе с системой",
@@ -687,15 +687,15 @@ export default {
   "settings.appearance.logoHidden": "Логотип скрыт",
   "settings.appearance.customLogo": "Свой логотип",
   "settings.appearance.customLogoSet":
-    "Ваше изображение вместо знака CloudBlast.",
+    "Ваше изображение вместо логотипа NoxSSH.",
   "settings.appearance.customLogoDesc":
-    "Используйте своё изображение вместо знака CloudBlast. " +
+    "Используйте своё изображение вместо логотипа NoxSSH. " +
     "PNG, JPG, GIF, WebP, SVG, BMP или ICO, до 512 КБ.",
   "settings.appearance.choosing": "Выбор…",
   "settings.appearance.chooseImage": "Выбрать изображение",
   "settings.appearance.logoUnreadable": "Не удалось прочитать это изображение",
   "settings.appearance.logoSet": "Логотип заменён на {name}",
-  "settings.appearance.logoCleared": "Возврат к знаку CloudBlast",
+  "settings.appearance.logoCleared": "Возврат к логотипу NoxSSH",
   "settings.appearance.position": "Положение",
   "settings.appearance.positionDesc":
     "С какого края заголовка стоит значок: рядом с кнопкой " +
@@ -800,7 +800,7 @@ export default {
     "в своём собственном редакторе.",
   "settings.monitoring.unreadable":
     "Не удалось прочитать настройки мониторинга из приложения. " +
-    "Перезапустите CloudTerm и откройте эту страницу снова.",
+    "Перезапустите NoxSSH и откройте эту страницу снова.",
   "settings.monitoring.saveFailed": "Не удалось сохранить эту настройку",
   "settings.monitoring.checkFailed": "Не удалось проверить хосты",
   "settings.monitoring.master": "Следить за недоступностью хостов",
@@ -995,49 +995,9 @@ export default {
   "settings.knownHosts.forgotHost": "{host} забыт",
   "settings.knownHosts.forgotKey": "Ключ {type} для {host} забыт",
 
-  /* ---- Settings: Account ---- */
-  "settings.account.fallbackName": "Учётная запись CloudBlast",
-  "settings.account.yourAccount": "вашей учётной записи CloudBlast",
-  "settings.account.connectedAs": "Подключено как {account}",
-  "settings.account.disconnect": "Отключить",
-  "settings.account.disconnecting": "Отключение…",
-  "settings.account.disconnected": "Учётная запись отключена",
-  "settings.account.disconnectedLocally":
-    "Выход на этом устройстве выполнен, но связаться с " +
-    "консолью и отозвать доступ не удалось. Удалите устройство в разделе «Настройки → API».",
-  "settings.account.connect": "Подключите свою учётную запись",
-  "settings.account.connectAction": "Подключить",
-  "settings.account.connectDesc":
-    "Синхронизируйте свои серверы и сохраните свою конфигурацию.",
-  "settings.account.unlockFirst": "Сначала разблокируйте приложение.",
-  "settings.account.waitingForBrowser": "Ожидание браузера…",
-  "settings.account.syncServers": "Синхронизировать мои серверы",
-  "settings.account.syncServersDesc":
-    "Ваши серверы CloudBlast появятся в разделе «Хосты», готовые " +
-    "к подключению.",
+  /* ---- Settings: WebDAV sync ---- */
   "settings.account.syncOn": "Синхронизация WebDAV включена",
   "settings.account.syncOff": "Синхронизация WebDAV выключена",
-  "settings.account.syncNow": "Синхронизировать",
-  "settings.account.syncing": "Синхронизация…",
-  "settings.account.syncedAgo": "Синхронизировано {when}",
-  "settings.account.notSyncedYet": "Ещё не синхронизировано",
-  "settings.account.serverCount_one": "{count} сервер",
-  "settings.account.serverCount_few": "{count} сервера",
-  "settings.account.serverCount_many": "{count} серверов",
-  "settings.account.serverCount_other": "{count} сервера",
-  "settings.account.serversSynced_one": "Синхронизирован {count} сервер",
-  "settings.account.serversSynced_few": "Синхронизировано {count} сервера",
-  "settings.account.serversSynced_many": "Синхронизировано {count} серверов",
-  "settings.account.serversSynced_other": "Синхронизировано {count} сервера",
-  "settings.account.noServers": "В этой учётной записи пока нет серверов",
-  "settings.account.cloudBackup": "Резервная копия в облаке",
-  "settings.account.cloudBackupDesc":
-    "Ваши хосты, папки, ключи и настройки, сохранённые в учётной " +
-    "записи для ваших других устройств.",
-  "settings.account.backupOn": "Резервное копирование в облако включено",
-  "settings.account.backupOff":
-    "Резервное копирование в облако выключено. То, что уже сохранено, " +
-    "останется, пока вы это не замените.",
   "settings.account.backedUp": "Загружено в WebDAV",
   "settings.account.saveNow": "Загрузить сейчас",
   "settings.account.saving": "Загрузка…",
@@ -1154,7 +1114,7 @@ export default {
     "восстанавливать дважды безопасно.",
   "settings.backup.chooseFile": "Выбрать файл…",
   "settings.backup.openTitle": "Открыть зашифрованную копию",
-  "settings.backup.fileKind": "Копия CloudBlast",
+  "settings.backup.fileKind": "Копия NoxSSH",
   "settings.backup.pickerFailed": "Не удалось открыть выбор файла",
   "settings.backup.file": "Файл",
   "settings.backup.open": "Открыть копию",
@@ -1276,10 +1236,9 @@ export default {
   "hosts.folderEmpty": "Пусто",
   "hosts.folderActions": "Действия с папкой",
   "hosts.syncedBadge": "Синхронизировано",
-  "hosts.syncedAccount": "Синхронизировано из вашей учётной записи CloudBlast",
+  "hosts.syncedAccount": "Импортировано из прежней облачной синхронизации",
   "hosts.syncedProject":
-    "Проект в вашей учётной записи CloudBlast. Синхронизация сохраняет его " +
-    "имя и его место",
+    "Проект импортирован из прежней облачной синхронизации. Его имя и место сохранены",
   "hosts.upOneLevel": "На уровень выше",
   "hosts.dragHint":
     "Перетащите карточку на папку, чтобы убрать её туда · Растяните рамку, чтобы " +
@@ -1541,7 +1500,6 @@ export default {
     "Пробросьте порт, чтобы достать базу данных или внутреннюю службу через " +
     "этот хост, либо откройте прокси SOCKS, чтобы ходить в сеть из него.",
 
-  /* ---- Assistant panel ---- */
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

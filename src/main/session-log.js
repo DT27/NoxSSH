@@ -87,7 +87,7 @@ const configPath = () => path.join(app.getPath('userData'), 'session-log.json');
 /** Where transcripts go when the user has not chosen somewhere else. */
 function defaultDirectory() {
     try {
-        return path.join(app.getPath('documents'), 'CloudBlast', 'Session logs');
+        return path.join(app.getPath('documents'), 'NoxSSH', 'Session logs');
     } catch {
         // No Documents folder (a stripped container); userData always exists.
         return path.join(app.getPath('userData'), 'session-logs');
@@ -301,7 +301,7 @@ function start(tabId, { hostName = '', address = '', hostId = '', protocol = '',
         });
 
         const header = [
-            `# CloudTerm session log`,
+            `# NoxSSH session log`,
             `# host: ${hostName || '(unnamed)'}${address ? ` (${address})` : ''}`,
             ...(protocol ? [`# protocol: ${protocol}`] : []),
             `# started: ${startedAt.toISOString()}`,

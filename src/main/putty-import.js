@@ -46,7 +46,7 @@ const unmunge = (name) =>
  * ------------------------------------------------------------------ */
 
 function exportKey(rootKey) {
-    const tmp = path.join(os.tmpdir(), `cloudblast-reg-${process.pid}-${Date.now()}.reg`);
+    const tmp = path.join(os.tmpdir(), `noxssh-reg-${process.pid}-${Date.now()}.reg`);
     try {
         execFileSync('reg.exe', ['export', rootKey, tmp, '/y'], { windowsHide: true, stdio: 'pipe' });
         let text = fs.readFileSync(tmp, 'utf16le');

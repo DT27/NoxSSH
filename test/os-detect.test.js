@@ -1,17 +1,10 @@
-/**
- * The os/distro vocabulary shared by live SSH detection and CloudBlast sync.
- *
- * Both paths matter equally: a host synced from the panel and the same host
- * after connecting must agree, or the icon changes under the user for no
- * visible reason.
- */
+/** OS and distribution detection from live SSH session metadata. */
 const path = require('path');
 const assert = require('assert');
 
 const {
     classifyShellOutput,
     classifySystemOutput,
-    classifyTemplateName,
 } = require(path.join(__dirname, '..', 'src', 'main', 'os-detect.js'));
 
 let passed = 0;
@@ -96,52 +89,6 @@ check('extracts the Windows product version rather than the surrounding label', 
         'Microsoft Windows',
     ].join('\n');
     assert.strictEqual(classifySystemOutput(output).osVersion, '10.0.20348.2402');
-});
-
-console.log('\nos detection: CloudBlast template names');
-
-check('maps the common templates', () => {
-    assert.deepStrictEqual(classifyTemplateName('Ubuntu 22.04'), { os: 'linux', distro: 'ubuntu' });
-    assert.deepStrictEqual(classifyTemplateName('Debian 12'), { os: 'linux', distro: 'debian' });
-    assert.deepStrictEqual(classifyTemplateName('AlmaLinux 9'), { os: 'linux', distro: 'alma' });
-    assert.deepStrictEqual(classifyTemplateName('Rocky Linux 9'), { os: 'linux', distro: 'rocky' });
-    assert.deepStrictEqual(classifyTemplateName('CentOS 7'), { os: 'linux', distro: 'centos' });
-    assert.deepStrictEqual(classifyTemplateName('Fedora 40'), { os: 'linux', distro: 'fedora' });
-    assert.deepStrictEqual(classifyTemplateName('Alpine Linux 3.19'), { os: 'linux', distro: 'alpine' });
-    assert.deepStrictEqual(classifyTemplateName('Unraid 7.1'), { os: 'linux', distro: 'unraid' });
-});
-
-check('maps Windows templates', () => {
-    assert.deepStrictEqual(classifyTemplateName('Windows Server 2022'), { os: 'windows', distro: '' });
-});
-
-check('uses the version field when the name alone is bare', () => {
-    assert.deepStrictEqual(classifyTemplateName('Ubuntu', '24.04'), { os: 'linux', distro: 'ubuntu' });
-});
-
-check('says nothing rather than guessing for an unidentifiable template', () => {
-    assert.deepStrictEqual(classifyTemplateName('Custom image'), { os: '', distro: '' });
-    assert.deepStrictEqual(classifyTemplateName(''), { os: '', distro: '' });
-    assert.deepStrictEqual(classifyTemplateName(null), { os: '', distro: '' });
-});
-
-check('still reports linux when a template names no distribution', () => {
-    assert.deepStrictEqual(classifyTemplateName('Generic Linux'), { os: 'linux', distro: '' });
-});
-
-check('agrees with shell detection on the same distribution', () => {
-    for (const [template, shell] of [
-        ['Ubuntu 22.04', 'ID=ubuntu'],
-        ['Debian 12', 'ID=debian'],
-        ['Rocky Linux 9', 'ID=rocky'],
-        ['Alpine Linux 3.19', 'ID=alpine'],
-    ]) {
-        assert.deepStrictEqual(
-            classifyTemplateName(template),
-            classifyShellOutput(shell),
-            `${template} and ${shell} disagree`,
-        );
-    }
 });
 
 console.log(`\n${passed} checks passed${process.exitCode ? ', with failures above' : ''}\n`);

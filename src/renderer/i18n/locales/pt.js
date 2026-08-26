@@ -623,11 +623,11 @@ export default {
   "settings.general.languageChanged": "Idioma alterado para {language}",
   "settings.general.startup": "Iniciar com a sessão",
   "settings.general.startupDesc":
-    "Abrir o CloudTerm automaticamente quando inicia sessão neste " +
+    "Abrir o NoxSSH automaticamente quando inicia sessão neste " +
     "computador",
-  "settings.general.startupOn": "O CloudTerm abrirá quando iniciar sessão",
+  "settings.general.startupOn": "O NoxSSH abrirá quando iniciar sessão",
   "settings.general.startupOff":
-    "O CloudTerm deixará de abrir quando iniciar sessão",
+    "O NoxSSH deixará de abrir quando iniciar sessão",
   "settings.general.startupFailed": "Não foi possível alterar isso",
   "settings.general.startupUnknown":
     "Não foi possível saber se a aplicação arranca com o sistema",
@@ -674,15 +674,15 @@ export default {
   "settings.appearance.logoHidden": "Logótipo escondido",
   "settings.appearance.customLogo": "Logótipo personalizado",
   "settings.appearance.customLogoSet":
-    "A sua imagem, no lugar da marca CloudBlast.",
+    "A sua imagem, no lugar do logótipo NoxSSH.",
   "settings.appearance.customLogoDesc":
-    "Use a sua imagem em vez da marca CloudBlast. PNG, JPG, " +
+    "Use a sua imagem em vez do logótipo NoxSSH. PNG, JPG, " +
     "GIF, WebP, SVG, BMP ou ICO, até 512 KB.",
   "settings.appearance.choosing": "A escolher…",
   "settings.appearance.chooseImage": "Escolher imagem",
   "settings.appearance.logoUnreadable": "Não foi possível ler essa imagem",
   "settings.appearance.logoSet": "Logótipo definido para {name}",
-  "settings.appearance.logoCleared": "De volta à marca CloudBlast",
+  "settings.appearance.logoCleared": "De volta ao logótipo NoxSSH",
   "settings.appearance.position": "Posição",
   "settings.appearance.positionDesc":
     "Em que extremo da barra de título fica a marca: junto ao " +
@@ -786,7 +786,7 @@ export default {
     "quiser vigiar é ligado no seu próprio editor.",
   "settings.monitoring.unreadable":
     "Não foi possível ler a monitorização a partir da aplicação. " +
-    "Reinicie o CloudTerm e abra esta página outra vez.",
+    "Reinicie o NoxSSH e abra esta página outra vez.",
   "settings.monitoring.saveFailed": "Não foi possível guardar essa definição",
   "settings.monitoring.checkFailed": "Não foi possível verificar os anfitriões",
   "settings.monitoring.master": "Vigiar quedas dos anfitriões",
@@ -969,46 +969,9 @@ export default {
   "settings.knownHosts.forgotHost": "{host} esquecido",
   "settings.knownHosts.forgotKey": "Esquecida a chave {type} de {host}",
 
-  /* ---- Settings: Account ---- */
-  "settings.account.fallbackName": "Conta CloudBlast",
-  "settings.account.yourAccount": "a sua conta CloudBlast",
-  "settings.account.connectedAs": "Ligado como {account}",
-  "settings.account.disconnect": "Desligar",
-  "settings.account.disconnecting": "A desligar…",
-  "settings.account.disconnected": "Conta desligada",
-  "settings.account.disconnectedLocally":
-    "Sessão terminada neste dispositivo, mas não foi " +
-    "possível contactar a consola para revogar o acesso. Remova o dispositivo em " +
-    "Definições → API.",
-  "settings.account.connect": "Ligue a sua conta",
-  "settings.account.connectAction": "Ligar",
-  "settings.account.connectDesc":
-    "Sincronize os seus servidores e faça cópia da sua configuração.",
-  "settings.account.unlockFirst": "Desbloqueie a aplicação primeiro.",
-  "settings.account.waitingForBrowser": "A aguardar o navegador…",
-  "settings.account.syncServers": "Sincronizar os meus servidores",
-  "settings.account.syncServersDesc":
-    "Os seus servidores CloudBlast aparecem em Anfitriões, " +
-    "prontos a ligar.",
+  /* ---- Settings: WebDAV sync ---- */
   "settings.account.syncOn": "Sincronização WebDAV ativada",
   "settings.account.syncOff": "Sincronização WebDAV desativada",
-  "settings.account.syncNow": "Sincronizar agora",
-  "settings.account.syncing": "A sincronizar…",
-  "settings.account.syncedAgo": "Sincronizado {when}",
-  "settings.account.notSyncedYet": "Ainda não sincronizado",
-  "settings.account.serverCount_one": "{count} servidor",
-  "settings.account.serverCount_other": "{count} servidores",
-  "settings.account.serversSynced_one": "{count} servidor sincronizado",
-  "settings.account.serversSynced_other": "{count} servidores sincronizados",
-  "settings.account.noServers": "Esta conta ainda não tem servidores",
-  "settings.account.cloudBackup": "Cópia na nuvem",
-  "settings.account.cloudBackupDesc":
-    "Os seus anfitriões, pastas, chaves e definições, guardados " +
-    "na sua conta para os seus outros dispositivos.",
-  "settings.account.backupOn": "A cópia na nuvem está ligada",
-  "settings.account.backupOff":
-    "A cópia na nuvem está desligada. O que já está guardado fica até " +
-    "que o substitua.",
   "settings.account.backedUp": "Enviado para o WebDAV",
   "settings.account.saveNow": "Enviar agora",
   "settings.account.saving": "A enviar…",
@@ -1123,7 +1086,7 @@ export default {
     "restaurar duas vezes é seguro.",
   "settings.backup.chooseFile": "Escolher ficheiro…",
   "settings.backup.openTitle": "Abrir cópia cifrada",
-  "settings.backup.fileKind": "Cópia CloudBlast",
+  "settings.backup.fileKind": "Cópia NoxSSH",
   "settings.backup.pickerFailed":
     "Não foi possível abrir o seletor de ficheiros",
   "settings.backup.file": "Ficheiro",
@@ -1225,10 +1188,9 @@ export default {
   "hosts.folderEmpty": "Vazia",
   "hosts.folderActions": "Ações da pasta",
   "hosts.syncedBadge": "Sincronizada",
-  "hosts.syncedAccount": "Sincronizada da sua conta CloudBlast",
+  "hosts.syncedAccount": "Importado da sincronização antiga",
   "hosts.syncedProject":
-    "Um projeto na sua conta CloudBlast. A sincronização mantém o nome e o " +
-    "lugar dele",
+    "Um projeto importado da sincronização antiga. O nome e o lugar são mantidos",
   "hosts.upOneLevel": "Subir um nível",
   "hosts.dragHint":
     "Arraste um cartão para uma pasta para o arquivar · Arraste uma caixa para " +
@@ -1491,7 +1453,6 @@ export default {
     "Encaminhe uma porta para alcançar uma base de dados ou um serviço " +
     "interno através deste anfitrião, ou abra um proxy SOCKS para navegar a partir dele.",
 
-  /* ---- Assistant panel ---- */
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

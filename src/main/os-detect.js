@@ -1,15 +1,8 @@
 /**
  * Turning a blob of text into the os/distro pair the icons are keyed on.
  *
- * Two very different things end up here:
- *
- *   the output of `cat /etc/os-release` and `uname -a` from a live session, and
- *   the name of the template a CloudBlast server was built from ("Ubuntu 22.04").
- *
- * They share this one table on purpose. When they had a vocabulary each, a
- * server synced from the panel and the same server after connecting could
- * disagree about what it was running, and the icon would change under the user
- * for no reason they could see.
+ * The input is the output of `cat /etc/os-release` and `uname -a` from a live
+ * session.
  *
  * Order matters: the derivatives come before the distributions they are built
  * on, or every Kubuntu is an Ubuntu and every Manjaro is an Arch.
@@ -170,40 +163,9 @@ function classifySystemOutput(output) {
     };
 }
 
-/**
- * Classify a template name from the panel, e.g. "Ubuntu 22.04" or "Windows
- * Server 2022".
- *
- * Unlike shell output, this can genuinely fail to say anything: a template
- * called "Custom image" identifies nothing. It returns an empty os in that
- * case rather than guessing 'linux', so a caller can tell "I could not tell"
- * apart from "it is a Linux I do not have an icon for".
- */
-function classifyTemplateName(name, version = '') {
-    const lower = `${name || ''} ${version || ''}`.toLowerCase().trim();
-
-    if (!lower) return { os: '', distro: '' };
-
-    if (lower.includes('windows')) return { os: 'windows', distro: '' };
-    if (lower.includes('freebsd')) return { os: 'freebsd', distro: '' };
-    if (lower.includes('openbsd')) return { os: 'openbsd', distro: '' };
-    if (lower.includes('macos') || lower.includes('mac os')) return { os: 'macos', distro: '' };
-
-    const distro = matchDistro(lower);
-
-    if (distro) return { os: 'linux', distro };
-
-    // Named itself Linux without naming a distribution -- still worth the
-    // generic penguin over nothing at all.
-    if (lower.includes('linux')) return { os: 'linux', distro: '' };
-
-    return { os: '', distro: '' };
-}
-
 module.exports = {
     DISTRO_MAP,
     matchDistro,
     classifyShellOutput,
     classifySystemOutput,
-    classifyTemplateName,
 };

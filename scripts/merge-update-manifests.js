@@ -3,15 +3,14 @@
  * Folds the per-arch update manifests into the one file the updater reads.
  *
  * electron-builder writes a `latest-mac.yml` beside whatever it just built, and
- * the release workflow builds the two macOS architectures on two runners,
- * because each has to carry a different Claude binary. So two manifests arrive,
- * each describing only its own half of the release, and one release can only
- * publish one of them.
+ * the release workflow builds the two macOS architectures on two runners. Two
+ * manifests therefore arrive, each describing only its own half of the release,
+ * and one release can only publish one of them.
  *
  * Letting the second overwrite the first is the bug this exists to prevent, and
  * it is a quiet one. electron-updater picks from the file list by looking for
  * `process.arch` in the name and falls back to the first entry when nothing
- * matches, so a manifest listing only `CloudTerm-arm64.zip` does not fail on an
+ * matches, so a manifest listing only `NoxSSH-arm64.zip` does not fail on an
  * Intel Mac. It hands over the arm64 build, and the failure surfaces later as
  * an app that will not start.
  *
@@ -31,7 +30,7 @@ const fs = require('fs');
 // this must not match, which is what anchoring to column zero buys.
 const TOP_LEVEL = /^([A-Za-z][\w-]*):(.*)$/;
 
-// `  - url: CloudTerm-arm64.zip`, the first line of an entry. Later lines of
+// `  - url: NoxSSH-arm64.zip`, the first line of an entry. Later lines of
 // the same entry are indented further and carry no dash.
 const ENTRY_START = /^\s+-\s+\S/;
 

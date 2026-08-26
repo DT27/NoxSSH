@@ -430,7 +430,7 @@ contextBridge.exposeInMainWorld("api", {
   },
 
   webdavSync: {
-    // WebDAV encrypted snapshot sync (replaces previous CloudBlast cloud sync).
+    // WebDAV encrypted snapshot sync (replaces the legacy cloud sync).
     // The renderer only sees status and can trigger push/pull; credentials live in main.
     status: () => ipcRenderer.invoke("webdav-sync-status"),
     configure: (patch) =>

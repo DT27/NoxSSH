@@ -645,10 +645,10 @@ export default {
   "settings.general.languageChanged": "Language changed to {language}",
   "settings.general.startup": "Start at login",
   "settings.general.startupDesc":
-    "Open CloudTerm automatically when you sign in to this computer",
-  "settings.general.startupOn": "CloudTerm will open when you sign in",
+    "Open NoxSSH automatically when you sign in to this computer",
+  "settings.general.startupOn": "NoxSSH will open when you sign in",
   "settings.general.startupOff":
-    "CloudTerm will no longer open when you sign in",
+    "NoxSSH will no longer open when you sign in",
   "settings.general.startupFailed": "That could not be changed",
   "settings.general.startupUnknown":
     "Could not read whether the app starts at boot",
@@ -695,15 +695,15 @@ export default {
   "settings.appearance.logoHidden": "Logo hidden",
   "settings.appearance.customLogo": "Custom logo",
   "settings.appearance.customLogoSet":
-    "Your own image, in place of the CloudBlast mark.",
+    "Your own image, in place of the NoxSSH logo.",
   "settings.appearance.customLogoDesc":
-    "Use your own image instead of the CloudBlast mark. PNG, " +
+    "Use your own image instead of the NoxSSH logo. PNG, " +
     "JPG, GIF, WebP, SVG, BMP or ICO, up to 512 KB.",
   "settings.appearance.choosing": "Choosing…",
   "settings.appearance.chooseImage": "Choose image",
   "settings.appearance.logoUnreadable": "That image could not be read",
   "settings.appearance.logoSet": "Logo set to {name}",
-  "settings.appearance.logoCleared": "Back to the CloudBlast mark",
+  "settings.appearance.logoCleared": "Back to the NoxSSH logo",
   "settings.appearance.position": "Position",
   "settings.appearance.positionDesc":
     "Which end of the title bar the mark sits at: beside the " +
@@ -809,7 +809,7 @@ export default {
     "get a notification when one stops answering. It takes two switches: this page turns the " +
     "feature on, and each host you want watched is switched on in its own editor.",
   "settings.monitoring.unreadable":
-    "Monitoring could not be read from the app. Restart CloudTerm " +
+    "Monitoring could not be read from the app. Restart NoxSSH " +
     "and open this page again.",
   "settings.monitoring.saveFailed": "Could not save that setting",
   "settings.monitoring.checkFailed": "Could not check the hosts",
@@ -1111,7 +1111,7 @@ export default {
     "twice is safe.",
   "settings.backup.chooseFile": "Choose file…",
   "settings.backup.openTitle": "Open encrypted backup",
-  "settings.backup.fileKind": "CloudBlast backup",
+  "settings.backup.fileKind": "NoxSSH backup",
   "settings.backup.pickerFailed": "Could not open the file picker",
   "settings.backup.file": "File",
   "settings.backup.open": "Open backup",
@@ -1213,9 +1213,9 @@ export default {
   "hosts.folderEmpty": "Empty",
   "hosts.folderActions": "Folder actions",
   "hosts.syncedBadge": "Synced",
-  "hosts.syncedAccount": "Synced from your CloudBlast account",
+  "hosts.syncedAccount": "Imported from legacy cloud sync",
   "hosts.syncedProject":
-    "A project on your CloudBlast account. The sync keeps its name and its place",
+    "A project imported from legacy cloud sync. Its name and location are preserved",
   "hosts.upOneLevel": "Up one level",
   "hosts.dragHint":
     "Drag a card onto a folder to file it · Drag a box to pick out several",

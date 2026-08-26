@@ -1,4 +1,4 @@
-# CloudTerm Resources
+# NoxSSH Resources
 
 Application resources bundled into the packaged app (icons and similar assets).
 

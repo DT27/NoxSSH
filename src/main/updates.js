@@ -33,13 +33,16 @@ const path = require('path');
  * quietly withheld from the people least likely to notice it was missing.
  */
 
-const REPO = process.env.CLOUDBLAST_UPDATE_REPO || 'DT27/NoxSSH';
+// Keep the old names as aliases for deployments configured before the fork.
+const REPO_OVERRIDE = process.env.NOXSSH_UPDATE_REPO || process.env.CLOUDBLAST_UPDATE_REPO;
+const REPO = REPO_OVERRIDE || 'DT27/NoxSSH';
 const RELEASES_API = `https://api.github.com/repos/${REPO}/releases/latest`;
 const RELEASES_PAGE = `https://github.com/${REPO}/releases/latest`;
 
 // For installs that are updated by something else -- a package manager, an
 // enterprise deployment -- where a notice the user cannot act on is only noise.
-const DISABLED = process.env.CLOUDBLAST_UPDATE_DISABLED === '1';
+const DISABLED = process.env.NOXSSH_UPDATE_DISABLED === '1'
+    || process.env.CLOUDBLAST_UPDATE_DISABLED === '1';
 
 const SCHEMA_VERSION = 1;
 
@@ -244,7 +247,7 @@ function signedOnMac() {
     macSigned = false;
 
     try {
-        // .../CloudTerm.app/Contents/Resources/app.asar, three levels below the
+        // .../NoxSSH.app/Contents/Resources/app.asar, three levels below the
         // bundle whose signature is the one that matters.
         const bundle = path.resolve(app.getAppPath(), '..', '..', '..');
         const result = spawnSync('codesign', ['-dv', '--verbose=2', bundle], {
@@ -330,7 +333,7 @@ function api() {
     // Only when overridden. Left alone, electron-updater reads the app-update.yml
     // that electron-builder packaged, which is the repo the build came from and
     // a better answer than anything reconstructed here.
-    if (process.env.CLOUDBLAST_UPDATE_REPO) {
+    if (REPO_OVERRIDE) {
         const [owner, repo] = REPO.split('/');
         updater.setFeedURL({ provider: 'github', owner, repo });
     }
@@ -539,7 +542,7 @@ async function request() {
                 // GitHub refuses requests without one. Deliberately just the
                 // product name: the hostname, the version and the account are
                 // nobody's business on a call that is otherwise anonymous.
-                'User-Agent': 'CloudTerm',
+                'User-Agent': 'NoxSSH',
                 // The reason the ETag is kept at all: a 304 does not count
                 // against the hourly rate limit, so the common case -- nothing
                 // has changed -- is free.

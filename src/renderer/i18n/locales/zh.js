@@ -565,9 +565,9 @@ export default {
     "应用自身文字所使用的语言。终端输出以及服务器打印的任何内容都保持原样。",
   "settings.general.languageChanged": "语言已切换为 {language}",
   "settings.general.startup": "开机启动",
-  "settings.general.startupDesc": "登录这台电脑时自动打开 CloudTerm",
-  "settings.general.startupOn": "登录时将自动打开 CloudTerm",
-  "settings.general.startupOff": "登录时不再自动打开 CloudTerm",
+  "settings.general.startupDesc": "登录这台电脑时自动打开 NoxSSH",
+  "settings.general.startupOn": "登录时将自动打开 NoxSSH",
+  "settings.general.startupOff": "登录时不再自动打开 NoxSSH",
   "settings.general.startupFailed": "无法更改该设置",
   "settings.general.startupUnknown": "无法读取应用是否随系统启动",
   "settings.general.restore": "恢复会话",
@@ -608,15 +608,15 @@ export default {
   "settings.appearance.logoHidden": "已隐藏标志",
   "settings.appearance.customLogo": "自定义标志",
   "settings.appearance.customLogoSet":
-    "使用你自己的图片，替代 CloudBlast 标志。",
+    "使用你自己的图片，替代 NoxSSH 标志。",
   "settings.appearance.customLogoDesc":
-    "用你自己的图片替代 CloudBlast 标志。支持 PNG、JPG、GIF、" +
+    "用你自己的图片替代 NoxSSH 标志。支持 PNG、JPG、GIF、" +
     "WebP、SVG、BMP 或 ICO，最大 512 KB。",
   "settings.appearance.choosing": "选择中…",
   "settings.appearance.chooseImage": "选择图片",
   "settings.appearance.logoUnreadable": "无法读取该图片",
   "settings.appearance.logoSet": "标志已设为 {name}",
-  "settings.appearance.logoCleared": "已恢复 CloudBlast 标志",
+  "settings.appearance.logoCleared": "已恢复 NoxSSH 标志",
   "settings.appearance.position": "位置",
   "settings.appearance.positionDesc":
     "标志位于标题栏的哪一端：菜单按钮旁边，还是靠近窗口按钮那一侧。",
@@ -702,7 +702,7 @@ export default {
     "在应用打开期间检查主机是否仍可访问，并在某台主机停止响应时发出通知。" +
     "需要两个开关：本页面启用该功能，而每台想要监控的主机还要在它自己的编辑器里单独开启。",
   "settings.monitoring.unreadable":
-    "无法从应用读取监控设置。请重启 CloudTerm 后重新打开本页面。",
+    "无法从应用读取监控设置。请重启 NoxSSH 后重新打开本页面。",
   "settings.monitoring.saveFailed": "无法保存该设置",
   "settings.monitoring.checkFailed": "无法检查这些主机",
   "settings.monitoring.master": "监控主机是否掉线",
@@ -957,7 +957,7 @@ export default {
     "默认不会动这里已有的内容，所以恢复两次也是安全的。",
   "settings.backup.chooseFile": "选择文件…",
   "settings.backup.openTitle": "打开加密备份",
-  "settings.backup.fileKind": "CloudBlast 备份",
+  "settings.backup.fileKind": "NoxSSH 备份",
   "settings.backup.pickerFailed": "无法打开文件选择器",
   "settings.backup.file": "文件",
   "settings.backup.open": "打开备份",
@@ -1042,9 +1042,9 @@ export default {
   "hosts.folderEmpty": "空",
   "hosts.folderActions": "文件夹操作",
   "hosts.syncedBadge": "已同步",
-  "hosts.syncedAccount": "从你的 CloudBlast 账户同步",
+  "hosts.syncedAccount": "从旧版云同步导入",
   "hosts.syncedProject":
-    "你 CloudBlast 账户中的一个项目。同步会保留它的名称和位置",
+    "从旧版云同步导入的项目，其名称和位置会继续保留",
   "hosts.upOneLevel": "上一级",
   "hosts.dragHint": "把卡片拖到文件夹上即可归档 · 拖出一个框可以一次选中多个",
   "hosts.dragHintFiltered": "在卡片上拖出一个框可以一次选中多个",
@@ -1271,7 +1271,6 @@ export default {
     "转发一个端口，即可经由这台主机访问数据库或内部服务；" +
     "也可以打开一个 SOCKS 代理，从它那里浏览网页。",
 
-  /* ---- Assistant panel ---- */
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

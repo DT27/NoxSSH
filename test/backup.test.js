@@ -96,7 +96,7 @@ check('rejects a swapped salt', () => {
 });
 
 check('throws on a file that is not a backup', () => {
-    assert.throws(() => backup.unseal({ hello: 'world' }, PASS), /not a CloudBlast backup/i);
+    assert.throws(() => backup.unseal({ hello: 'world' }, PASS), /not a NoxSSH backup/i);
 });
 
 check('throws on a newer format version', () => {

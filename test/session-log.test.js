@@ -428,6 +428,7 @@ const body = (text) => text.split('\n').filter(line => !line.startsWith('#')).jo
 
     await checkAsync('never deletes a transcript still being written', async () => {
         const filePath = sessionLog.start('tab-15', { hostName: 'live', address: 'x' });
+        await settle();
         const old = new Date(Date.now() - 10 * DAY);
         fs.utimesSync(filePath, old, old);
 

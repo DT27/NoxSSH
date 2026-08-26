@@ -112,7 +112,7 @@ function seal(payload, passphrase) {
  */
 function unseal(envelope, passphrase) {
     if (envelope?.format !== FORMAT) {
-        throw new Error('This is not a CloudBlast backup file');
+        throw new Error('This is not a NoxSSH backup file');
     }
     if (envelope.version > VERSION) {
         throw new Error(
@@ -181,8 +181,8 @@ function readFile(filePath) {
  * Key-based envelopes
  *
  * Same cipher and the same authenticated header, but keyed directly by 32
- * random bytes instead of a passphrase. Used for the cloud snapshot, where the
- * key comes from the account rather than from something a person typed.
+ * random bytes instead of a passphrase. Used for the WebDAV snapshot, where
+ * the key comes from local sync configuration rather than user input here.
  *
  * No KDF, because there is nothing to stretch: a passphrase needs scrypt
  * because it is low entropy and guessable, while a 256-bit random key is
@@ -225,7 +225,7 @@ function sealWithKey(payload, key) {
 /** Returns the payload, or null when the key is wrong or the blob was altered. */
 function unsealWithKey(envelope, key) {
     if (envelope?.format !== KEYED_FORMAT) {
-        throw new Error('This is not a CloudBlast snapshot');
+        throw new Error('This is not a NoxSSH snapshot');
     }
     if (envelope.version > VERSION) {
         throw new Error('This snapshot was written by a newer version of the app');

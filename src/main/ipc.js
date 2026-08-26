@@ -188,7 +188,7 @@ function register(getWindow) {
 
   transfers.setNotifier(notify);
 
-  // WebDAV encrypted snapshot sync (replaces previous CloudBlast sync).
+  // WebDAV encrypted snapshot sync (replaces the legacy cloud sync).
   webdavSync.start(notify);
 
   // The reachability poller. Given the window as well as the notifier because
@@ -401,7 +401,7 @@ function register(getWindow) {
    */
   handle("create-hello-key", async (event, { name, comment } = {}) => {
     const id = `key-${Date.now()}`;
-    const credential = `cloudblast-${id}`;
+    const credential = `noxssh-${id}`;
     const enrolled = await hello.create(credential, comment || "windows-hello");
 
     try {
@@ -1036,8 +1036,8 @@ function register(getWindow) {
     const stamp = new Date().toISOString().slice(0, 10);
     const { canceled, filePath } = await dialog.showSaveDialog(getWindow(), {
       title: "Save encrypted backup",
-      defaultPath: `cloudblast-backup-${stamp}.cbbackup`,
-      filters: [{ name: "CloudBlast backup", extensions: ["cbbackup"] }],
+      defaultPath: `noxssh-backup-${stamp}.cbbackup`,
+      filters: [{ name: "NoxSSH backup", extensions: ["cbbackup"] }],
     });
     if (canceled || !filePath) return { success: false, canceled: true };
 
@@ -1087,7 +1087,7 @@ function register(getWindow) {
         title: "Open encrypted backup",
         properties: ["openFile"],
         filters: [
-          { name: "CloudBlast backup", extensions: ["cbbackup"] },
+          { name: "NoxSSH backup", extensions: ["cbbackup"] },
           { name: "All Files", extensions: ["*"] },
         ],
       });
@@ -1376,7 +1376,7 @@ function register(getWindow) {
     const stamp = new Date().toISOString().slice(0, 10);
     const { canceled, filePath } = await dialog.showSaveDialog(getWindow(), {
       title: "Export activity log",
-      defaultPath: `cloudblast-activity-${stamp}.json`,
+      defaultPath: `noxssh-activity-${stamp}.json`,
       filters: [{ name: "JSON", extensions: ["json"] }],
     });
     if (canceled || !filePath) return { success: false, canceled: true };

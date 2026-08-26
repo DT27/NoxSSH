@@ -565,9 +565,9 @@ export default {
     "앱 자체 텍스트에 쓰는 언어입니다. 터미널 출력과 서버가 인쇄하는 내용은 그대로 둡니다.",
   "settings.general.languageChanged": "언어가 {language}(으)로 바뀌었습니다",
   "settings.general.startup": "로그인 시 시작",
-  "settings.general.startupDesc": "이 컴퓨터에 로그인할 때 CloudTerm을 자동으로 엽니다",
-  "settings.general.startupOn": "로그인하면 CloudTerm이 자동으로 열립니다",
-  "settings.general.startupOff": "로그인해도 CloudTerm이 더 이상 자동으로 열리지 않습니다",
+  "settings.general.startupDesc": "이 컴퓨터에 로그인할 때 NoxSSH를 자동으로 엽니다",
+  "settings.general.startupOn": "로그인하면 NoxSSH가 자동으로 열립니다",
+  "settings.general.startupOff": "로그인해도 NoxSSH가 더 이상 자동으로 열리지 않습니다",
   "settings.general.startupFailed": "해당 설정을 바꿀 수 없습니다",
   "settings.general.startupUnknown": "앱이 시스템 시작 시 켜지는지 읽을 수 없습니다",
   "settings.general.restore": "세션 복원",
@@ -608,15 +608,15 @@ export default {
   "settings.appearance.logoHidden": "로고를 숨겼습니다",
   "settings.appearance.customLogo": "사용자 지정 로고",
   "settings.appearance.customLogoSet":
-    "CloudBlast 로고 대신 내 이미지를 사용합니다.",
+    "NoxSSH 로고 대신 내 이미지를 사용합니다.",
   "settings.appearance.customLogoDesc":
-    "CloudBlast 로고 대신 내 이미지를 사용합니다. PNG, JPG, GIF, " +
+    "NoxSSH 로고 대신 내 이미지를 사용합니다. PNG, JPG, GIF, " +
     "WebP, SVG, BMP 또는 ICO, 최대 512KB.",
   "settings.appearance.choosing": "선택 중…",
   "settings.appearance.chooseImage": "이미지 선택",
   "settings.appearance.logoUnreadable": "해당 이미지를 읽을 수 없습니다",
   "settings.appearance.logoSet": "로고를 {name}(으)로 설정했습니다",
-  "settings.appearance.logoCleared": "CloudBlast 로고로 되돌렸습니다",
+  "settings.appearance.logoCleared": "NoxSSH 로고로 되돌렸습니다",
   "settings.appearance.position": "위치",
   "settings.appearance.positionDesc":
     "로고가 제목 표시줄의 어느 끝에 있을지: 메뉴 버튼 옆, 또는 창 버튼 쪽.",
@@ -702,7 +702,7 @@ export default {
     "앱이 열려 있는 동안 호스트가 여전히 도달 가능한지 확인하고, 응답이 멈추면 알립니다. " +
     "스위치가 두 개 필요합니다. 이 페이지에서 기능을 켜고, 감시할 각 호스트는 해당 편집기에서 따로 켭니다.",
   "settings.monitoring.unreadable":
-    "앱에서 모니터링 설정을 읽을 수 없습니다. CloudTerm을 다시 시작한 뒤 이 페이지를 여세요.",
+    "앱에서 모니터링 설정을 읽을 수 없습니다. NoxSSH를 다시 시작한 뒤 이 페이지를 여세요.",
   "settings.monitoring.saveFailed": "해당 설정을 저장할 수 없습니다",
   "settings.monitoring.checkFailed": "해당 호스트를 확인할 수 없습니다",
   "settings.monitoring.master": "호스트 장애 감시",
@@ -957,7 +957,7 @@ export default {
     "기본적으로 여기에 이미 있는 것은 건드리지 않으므로, 두 번 복원해도 안전합니다.",
   "settings.backup.chooseFile": "파일 선택…",
   "settings.backup.openTitle": "암호화된 백업 열기",
-  "settings.backup.fileKind": "CloudBlast 백업",
+  "settings.backup.fileKind": "NoxSSH 백업",
   "settings.backup.pickerFailed": "파일 선택기를 열 수 없습니다",
   "settings.backup.file": "파일",
   "settings.backup.open": "백업 열기",
@@ -1038,9 +1038,9 @@ export default {
   "hosts.folderEmpty": "비어 있음",
   "hosts.folderActions": "폴더 작업",
   "hosts.syncedBadge": "동기화됨",
-  "hosts.syncedAccount": "CloudBlast 계정에서 동기화됨",
+  "hosts.syncedAccount": "이전 클라우드 동기화에서 가져옴",
   "hosts.syncedProject":
-    "CloudBlast 계정의 프로젝트입니다. 동기화가 이름과 위치를 유지합니다",
+    "이전 클라우드 동기화에서 가져온 프로젝트입니다. 이름과 위치는 유지됩니다",
   "hosts.upOneLevel": "한 단계 위로",
   "hosts.dragHint": "카드를 폴더로 끌어 정리 · 상자를 끌어 여러 개를 한 번에 선택",
   "hosts.dragHintFiltered": "카드 위에서 상자를 끌어 여러 개를 한 번에 선택",
@@ -1267,7 +1267,6 @@ export default {
     "포트를 포워딩하면 이 호스트를 통해 데이터베이스나 내부 서비스에 갈 수 있고, " +
     "SOCKS 프록시를 열어 그곳에서 웹을 둘러볼 수도 있습니다.",
 
-  /* ---- Assistant panel ---- */
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

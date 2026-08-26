@@ -607,9 +607,9 @@ export default {
   "settings.general.languageChanged": "Đã đổi ngôn ngữ sang {language}",
   "settings.general.startup": "Khởi động cùng máy",
   "settings.general.startupDesc":
-    "Tự mở CloudTerm khi bạn đăng nhập vào máy tính này",
-  "settings.general.startupOn": "CloudTerm sẽ mở khi bạn đăng nhập",
-  "settings.general.startupOff": "CloudTerm sẽ không còn mở khi bạn đăng nhập",
+    "Tự mở NoxSSH khi bạn đăng nhập vào máy tính này",
+  "settings.general.startupOn": "NoxSSH sẽ mở khi bạn đăng nhập",
+  "settings.general.startupOff": "NoxSSH sẽ không còn mở khi bạn đăng nhập",
   "settings.general.startupFailed": "Không thể thay đổi mục này",
   "settings.general.startupUnknown":
     "Không đọc được liệu ứng dụng có khởi động cùng máy hay không",
@@ -654,15 +654,15 @@ export default {
   "settings.appearance.logoHidden": "Đã ẩn logo",
   "settings.appearance.customLogo": "Logo tuỳ chỉnh",
   "settings.appearance.customLogoSet":
-    "Ảnh của riêng bạn, thay cho biểu tượng CloudBlast.",
+    "Ảnh của riêng bạn, thay cho biểu tượng NoxSSH.",
   "settings.appearance.customLogoDesc":
-    "Dùng ảnh của riêng bạn thay cho biểu tượng CloudBlast. " +
+    "Dùng ảnh của riêng bạn thay cho biểu tượng NoxSSH. " +
     "PNG, JPG, GIF, WebP, SVG, BMP hoặc ICO, tối đa 512 KB.",
   "settings.appearance.choosing": "Đang chọn…",
   "settings.appearance.chooseImage": "Chọn ảnh",
   "settings.appearance.logoUnreadable": "Không đọc được ảnh đó",
   "settings.appearance.logoSet": "Đã đặt logo thành {name}",
-  "settings.appearance.logoCleared": "Đã quay lại biểu tượng CloudBlast",
+  "settings.appearance.logoCleared": "Đã quay lại biểu tượng NoxSSH",
   "settings.appearance.position": "Vị trí",
   "settings.appearance.positionDesc":
     "Biểu tượng nằm ở đầu nào của thanh tiêu đề: cạnh nút menu, " +
@@ -764,7 +764,7 @@ export default {
     "bật tính năng, còn từng máy chủ bạn muốn theo dõi thì bật trong trình sửa của chính nó.",
   "settings.monitoring.unreadable":
     "Không đọc được phần theo dõi từ ứng dụng. Hãy khởi động lại " +
-    "CloudTerm rồi mở lại trang này.",
+    "NoxSSH rồi mở lại trang này.",
   "settings.monitoring.saveFailed": "Không lưu được thiết lập đó",
   "settings.monitoring.checkFailed": "Không kiểm tra được các máy chủ",
   "settings.monitoring.master": "Theo dõi máy chủ để phát hiện gián đoạn",
@@ -941,43 +941,9 @@ export default {
   "settings.knownHosts.forgotHost": "Đã quên {host}",
   "settings.knownHosts.forgotKey": "Đã quên khoá {type} của {host}",
 
-  /* ---- Settings: Account ---- */
-  "settings.account.fallbackName": "Tài khoản CloudBlast",
-  "settings.account.yourAccount": "tài khoản CloudBlast của bạn",
-  "settings.account.connectedAs": "Đã kết nối với tư cách {account}",
-  "settings.account.disconnect": "Ngắt kết nối",
-  "settings.account.disconnecting": "Đang ngắt kết nối…",
-  "settings.account.disconnected": "Đã ngắt kết nối tài khoản",
-  "settings.account.disconnectedLocally":
-    "Đã đăng xuất trên thiết bị này, nhưng không liên lạc " +
-    "được với bảng điều khiển để thu hồi quyền truy cập. Hãy gỡ thiết bị trong Cài đặt → API.",
-  "settings.account.connect": "Kết nối tài khoản của bạn",
-  "settings.account.connectAction": "Kết nối",
-  "settings.account.connectDesc":
-    "Đồng bộ máy chủ và sao lưu thiết lập của bạn.",
-  "settings.account.unlockFirst": "Hãy mở khoá ứng dụng trước.",
-  "settings.account.waitingForBrowser": "Đang chờ trình duyệt…",
-  "settings.account.syncServers": "Đồng bộ máy chủ của tôi",
-  "settings.account.syncServersDesc":
-    "Các máy chủ CloudBlast của bạn sẽ xuất hiện trong Máy chủ, " +
-    "sẵn sàng để kết nối.",
+  /* ---- Settings: WebDAV sync ---- */
   "settings.account.syncOn": "Đã bật đồng bộ WebDAV",
   "settings.account.syncOff": "Đã tắt đồng bộ WebDAV",
-  "settings.account.syncNow": "Đồng bộ ngay",
-  "settings.account.syncing": "Đang đồng bộ…",
-  "settings.account.syncedAgo": "Đồng bộ {when}",
-  "settings.account.notSyncedYet": "Chưa đồng bộ",
-  "settings.account.serverCount_other": "{count} máy chủ",
-  "settings.account.serversSynced_other": "Đã đồng bộ {count} máy chủ",
-  "settings.account.noServers": "Tài khoản này chưa có máy chủ nào",
-  "settings.account.cloudBackup": "Sao lưu đám mây",
-  "settings.account.cloudBackupDesc":
-    "Máy chủ, thư mục, khoá và cài đặt của bạn, được lưu vào " +
-    "tài khoản để dùng trên các thiết bị khác.",
-  "settings.account.backupOn": "Sao lưu đám mây đang bật",
-  "settings.account.backupOff":
-    "Sao lưu đám mây đang tắt. Những gì đã lưu vẫn còn cho tới khi " +
-    "bạn thay thế nó.",
   "settings.account.backedUp": "Đã tải lên WebDAV",
   "settings.account.saveNow": "Tải lên ngay",
   "settings.account.saving": "Đang tải lên…",
@@ -1091,7 +1057,7 @@ export default {
     "hai lần vẫn an toàn.",
   "settings.backup.chooseFile": "Chọn tệp…",
   "settings.backup.openTitle": "Mở bản sao lưu đã mã hoá",
-  "settings.backup.fileKind": "Bản sao lưu CloudBlast",
+  "settings.backup.fileKind": "Bản sao lưu NoxSSH",
   "settings.backup.pickerFailed": "Không mở được hộp thoại chọn tệp",
   "settings.backup.file": "Tệp",
   "settings.backup.open": "Mở bản sao lưu",
@@ -1187,10 +1153,9 @@ export default {
   "hosts.folderEmpty": "Trống",
   "hosts.folderActions": "Thao tác với thư mục",
   "hosts.syncedBadge": "Đã đồng bộ",
-  "hosts.syncedAccount": "Được đồng bộ từ tài khoản CloudBlast của bạn",
+  "hosts.syncedAccount": "Đã nhập từ đồng bộ đám mây cũ",
   "hosts.syncedProject":
-    "Một dự án trên tài khoản CloudBlast của bạn. Việc đồng bộ giữ nguyên " +
-    "tên và vị trí của nó",
+    "Dự án được nhập từ đồng bộ đám mây cũ. Tên và vị trí được giữ nguyên",
   "hosts.upOneLevel": "Lên một cấp",
   "hosts.dragHint":
     "Kéo một thẻ vào thư mục để xếp nó vào đó · Kéo một khung để chọn nhiều thẻ",
@@ -1442,7 +1407,6 @@ export default {
     "Chuyển tiếp một cổng để tiếp cận cơ sở dữ liệu hay dịch vụ nội bộ qua " +
     "máy chủ này, hoặc mở một proxy SOCKS để duyệt web từ nó.",
 
-  /* ---- Assistant panel ---- */
   /* ---------------------------------------------------------------- *
    * Connection overlay (host key, extra auth, retry)
    * ---------------------------------------------------------------- */

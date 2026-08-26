@@ -129,25 +129,6 @@ jobs:
           # electron-builder hunts for one and fails the macOS build.
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
-      # The agent SDK carries the Claude CLI as an optional platform package,
-      # a 253MB binary that the app deliberately does not ship: the provider
-      # drives the user's own install instead. npm still puts it in
-      # node_modules, so only the `files` excludes in package.json keep it out
-      # of the build, and the sole symptom of losing them is an installer three
-      # times the size. Cheaper to fail here than to notice on a release page.
-      - name: Check the agent CLI did not get packaged
-        shell: bash
-        run: |
-          set -e
-          found=$(find dist -maxdepth 12 -name 'claude-agent-sdk-*' || true)
-          if [ -n "$found" ]; then
-            echo 'The Claude CLI platform package was packaged into the app:'
-            echo "$found"
-            echo 'Check the "files" excludes in package.json.'
-            exit 1
-          fi
-          echo 'No agent CLI in the build, as intended.'
-
       # The app reads this file to find out a release exists, so a build that
       # did not write one produces an installer nobody can update from, and
       # nothing else about the build looks wrong. Printed as well as checked:
@@ -236,7 +217,7 @@ jobs:
           git fetch --force --tags origin "${GITHUB_REF_NAME}"
           git tag -l --format='%(contents)' "${GITHUB_REF_NAME}" > release-notes.md
           gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME} — without the AI assistant" \
+            --title "${GITHUB_REF_NAME}" \
             --notes-file release-notes.md \
             --latest \
             *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
