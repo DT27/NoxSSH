@@ -9,7 +9,7 @@ const certificate = require('./certificate');
 const hello = require('./hello');
 const activity = require('./activity');
 const sessionLog = require('./session-log');
-const { classifyShellOutput } = require('./os-detect');
+const { classifySystemOutput } = require('./os-detect');
 
 // tabId -> { client, stream, port, sftp }
 const sessions = new Map();
@@ -1044,17 +1044,47 @@ function detectOS(tabId) {
 
         timer = setTimeout(() => settle({ os: 'unknown' }), 5000);
 
-        const cmd = '(cat /etc/os-release 2>/dev/null || true) && echo "---UNAME---" && (uname -a 2>/dev/null || ver 2>/dev/null || echo unknown)';
-        session.client.exec(cmd, (err, stream) => {
+        const cmd = [
+            '(if [ -r /etc/unraid-version ]; then echo "---UNRAID---"; cat /etc/unraid-version; fi) 2>/dev/null;',
+            'echo "---OS-RELEASE---"; (cat /etc/os-release 2>/dev/null || true);',
+            'echo "---SYSTEM-VERSION---";',
+            '(sw_vers -productVersion 2>/dev/null || freebsd-version 2>/dev/null || uname -r 2>/dev/null || ver 2>/dev/null || true);',
+            'echo "---UNAME---"; (uname -a 2>/dev/null || ver 2>/dev/null || echo unknown)',
+        ].join(' ');
+
+        const collect = (command, done) => session.client.exec(command, (err, stream) => {
+            if (err) return done(err, '');
+            let output = '';
+            stream.on('data', (data) => { output += data.toString(); });
+            stream.stderr.on('data', (data) => { output += data.toString(); });
+            stream.on('close', () => done(null, output));
+        });
+
+        collect(cmd, (err, output) => {
+            if (settled) return;
             if (err) {
                 settle({ os: 'unknown' });
                 return;
             }
+            if (output.includes('---UNAME---')) {
+                settle(classifySystemOutput(output));
+                return;
+            }
 
-            let output = '';
-            stream.on('data', (data) => { output += data.toString(); });
-            stream.stderr.on('data', (data) => { output += data.toString(); });
-            stream.on('close', () => settle(classifyShellOutput(output)));
+            // Windows OpenSSH normally uses cmd.exe or PowerShell, neither of
+            // which can parse the POSIX probe above. `cmd /c ver` works from
+            // both shells and gives the product build without locale-sensitive
+            // PowerShell formatting.
+            collect('cmd /d /c ver', (_windowsError, windowsOutput) => {
+                if (settled) return;
+                if (!/windows/i.test(windowsOutput)) {
+                    settle(classifySystemOutput(output));
+                    return;
+                }
+                settle(classifySystemOutput(
+                    `---SYSTEM-VERSION---\n${windowsOutput}\n---UNAME---\n${windowsOutput}`,
+                ));
+            });
         });
     });
 }

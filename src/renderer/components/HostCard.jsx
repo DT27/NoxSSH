@@ -1,12 +1,13 @@
 import { memo, useCallback } from 'react';
 import { MoreVerticalIcon } from 'hugeicons-react';
-import { OsIcon, hostOs } from '../lib/os-icons';
+import { OsIcon, describeHostSystem, hostOs } from '../lib/os-icons';
 import { DEFAULT_PORTS, hostKind, protocolLabel } from '../lib/protocols';
 import { STATE_STYLES, stateOf, describeStatus } from '../lib/monitor';
 import { formatDate } from '../lib/format';
 import IconTile from './hosts/IconTile';
 import MenuButton, { dropdownItems } from './ui/MenuButton';
 import Tag from './ui/Tag';
+import Tooltip from './ui/Tooltip';
 import { useT } from '../i18n';
 
 /**
@@ -80,6 +81,7 @@ function HostCard({
 
     const protocol = host.protocol || 'ssh';
     const kind = hostKind(host);
+    const system = describeHostSystem(host);
 
     /**
      * How the last reachability check went, or null for a host nobody is
@@ -214,38 +216,40 @@ function HostCard({
             {...dragProps}
         >
             <div className="flex items-center gap-2.5">
-                <IconTile size={isList ? 'sm' : 'md'}>
-                    <OsIcon
-                        os={hostOs(host)}
-                        distro={host.distro}
-                        className={isList ? 'w-[18px] h-[18px]' : 'w-[22px] h-[22px]'}
-                    />
-                    {/* A live session is the one thing about a host that is true
-                        this second rather than whenever it was last saved, so it
-                        is marked on the icon rather than written in the meta.
+                <Tooltip label={system.name} hint={system.version || undefined} placement="top">
+                    <IconTile size={isList ? 'sm' : 'md'}>
+                        <OsIcon
+                            os={hostOs(host)}
+                            distro={host.distro}
+                            className={isList ? 'w-[18px] h-[18px]' : 'w-[22px] h-[22px]'}
+                        />
+                        {/* A live session is the one thing about a host that is true
+                            this second rather than whenever it was last saved, so it
+                            is marked on the icon rather than written in the meta.
 
-                        A watched host that is not connected puts its last check
-                        in the same corner, because it is the same kind of fact
-                        and there is only one corner. It never competes with the
-                        badge above it: a session that is open has already proved
-                        the host is up, more recently and more thoroughly than a
-                        check could. The two are told apart by fill. Solid is a
-                        connection, hollow is a host believed to be answering,
-                        and red is one that is not. */}
-                    {connected ? (
-                        <span
-                            title={t('hosts.connected')}
-                            className="absolute -right-0.5 -bottom-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500
-                                ring-2 ring-white dark:ring-surface-control"
-                        />
-                    ) : watch && (
-                        <span
-                            title={describeStatus(status)}
-                            className={`absolute -right-0.5 -bottom-0.5 w-2.5 h-2.5 rounded-full
-                                ring-2 ring-white dark:ring-surface-control ${watch.dot}`}
-                        />
-                    )}
-                </IconTile>
+                            A watched host that is not connected puts its last check
+                            in the same corner, because it is the same kind of fact
+                            and there is only one corner. It never competes with the
+                            badge above it: a session that is open has already proved
+                            the host is up, more recently and more thoroughly than a
+                            check could. The two are told apart by fill. Solid is a
+                            connection, hollow is a host believed to be answering,
+                            and red is one that is not. */}
+                        {connected ? (
+                            <span
+                                title={t('hosts.connected')}
+                                className="absolute -right-0.5 -bottom-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500
+                                    ring-2 ring-white dark:ring-surface-control"
+                            />
+                        ) : watch && (
+                            <span
+                                title={describeStatus(status)}
+                                className={`absolute -right-0.5 -bottom-0.5 w-2.5 h-2.5 rounded-full
+                                    ring-2 ring-white dark:ring-surface-control ${watch.dot}`}
+                            />
+                        )}
+                    </IconTile>
+                </Tooltip>
 
                 <div className={`min-w-0 flex-1 ${isList ? 'flex items-center gap-3' : ''}`}>
                     <div className={isList ? 'min-w-0 flex-1' : 'min-w-0'}>

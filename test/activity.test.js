@@ -245,7 +245,13 @@ check('editing one records the fields that changed', () => {
 
 check('a connect timestamp on its own is not an edit', () => {
     const before = log.summary().all;
-    store.saveHost({ id: 'h1', lastConnectedAt: Date.now(), os: 'linux', distro: 'debian' });
+    store.saveHost({
+        id: 'h1',
+        lastConnectedAt: Date.now(),
+        os: 'linux',
+        distro: 'debian',
+        osVersion: '12',
+    });
     assert.strictEqual(log.summary().all, before, 'bookkeeping was logged as a user edit');
 });
 

@@ -623,14 +623,18 @@ function App() {
       // Detect remote OS in the background and remember it on the host
       window.api.ssh
         .detectOS(paneId)
-        .then(({ os, distro }) => {
+        .then(({ os, distro, osVersion = "" }) => {
           if (
             host &&
             os &&
             os !== "unknown" &&
-            (os !== host.os || distro !== host.distro)
+            (
+              os !== host.os ||
+              distro !== host.distro ||
+              osVersion !== (host.osVersion || "")
+            )
           ) {
-            saveHost({ ...host, os, distro });
+            saveHost({ ...host, os, distro, osVersion });
           }
         })
         .catch(() => {});

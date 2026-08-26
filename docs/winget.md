@@ -121,7 +121,7 @@ any tag, and the pull request is `Update version: CloudBlast.CloudTerm version
 **Only the installer is published.** The release carries two `.exe` files, the
 NSIS installer and the portable build. winget installs things, and there is
 nothing for it to install a portable exe into, so the job's `installers-regex`
-picks out `CloudTerm-Setup-x64.exe` and ignores the rest. A separate
+picks out `NoxSSH-Setup-v<version>-x64.exe` and ignores the rest. A separate
 `CloudBlast.CloudTerm.Portable` package could be added later if anyone asks.
 
 **`Scope: user`.** `perMachine` is false in the electron-builder config, so

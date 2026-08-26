@@ -10,6 +10,7 @@ const assert = require('assert');
 
 const {
     classifyShellOutput,
+    classifySystemOutput,
     classifyTemplateName,
 } = require(path.join(__dirname, '..', 'src', 'main', 'os-detect.js'));
 
@@ -38,6 +39,20 @@ check('prefers the derivative over its base', () => {
     assert.strictEqual(classifyShellOutput('ID=manjaro\nID_LIKE=arch').distro, 'manjaro');
 });
 
+check('recognises Unraid before its Slackware base', () => {
+    const output = [
+        '---UNRAID---',
+        'version="7.1.4"',
+        '---OS-RELEASE---',
+        'NAME="Slackware"',
+        'ID=slackware',
+        'VERSION_ID=15.0',
+    ].join('\n');
+    assert.strictEqual(classifyShellOutput(output).distro, 'unraid');
+    assert.strictEqual(classifySystemOutput(output).osVersion, '7.1.4');
+    assert.strictEqual(classifyShellOutput('NAME="Slackware"\nID=slackware').distro, 'slackware');
+});
+
 check('recognises the non-Linux families', () => {
     assert.strictEqual(classifyShellOutput('Darwin Kernel Version 23.0').os, 'macos');
     assert.strictEqual(classifyShellOutput('FreeBSD host 14.0-RELEASE').os, 'freebsd');
@@ -57,6 +72,32 @@ check('survives empty and missing output', () => {
     assert.deepStrictEqual(classifyShellOutput(undefined), { os: 'linux', distro: '' });
 });
 
+check('reads Linux and macOS versions from their own system metadata', () => {
+    const ubuntu = 'ID=ubuntu\nVERSION_ID="24.04"\n---UNAME---\nLinux web 6.8.0';
+    assert.deepStrictEqual(classifySystemOutput(ubuntu), {
+        os: 'linux',
+        distro: 'ubuntu',
+        osVersion: '24.04',
+    });
+
+    const macos = '---SYSTEM-VERSION---\n14.5\n---UNAME---\nDarwin mac 23.5.0';
+    assert.deepStrictEqual(classifySystemOutput(macos), {
+        os: 'macos',
+        distro: '',
+        osVersion: '14.5',
+    });
+});
+
+check('extracts the Windows product version rather than the surrounding label', () => {
+    const output = [
+        '---SYSTEM-VERSION---',
+        'Microsoft Windows [Version 10.0.20348.2402]',
+        '---UNAME---',
+        'Microsoft Windows',
+    ].join('\n');
+    assert.strictEqual(classifySystemOutput(output).osVersion, '10.0.20348.2402');
+});
+
 console.log('\nos detection: CloudBlast template names');
 
 check('maps the common templates', () => {
@@ -67,6 +108,7 @@ check('maps the common templates', () => {
     assert.deepStrictEqual(classifyTemplateName('CentOS 7'), { os: 'linux', distro: 'centos' });
     assert.deepStrictEqual(classifyTemplateName('Fedora 40'), { os: 'linux', distro: 'fedora' });
     assert.deepStrictEqual(classifyTemplateName('Alpine Linux 3.19'), { os: 'linux', distro: 'alpine' });
+    assert.deepStrictEqual(classifyTemplateName('Unraid 7.1'), { os: 'linux', distro: 'unraid' });
 });
 
 check('maps Windows templates', () => {

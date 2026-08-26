@@ -4,7 +4,7 @@
 
 编译后的客户端体积超过 100MB，主要原因包括：
 
-1. **大量操作系统图标**（~0.86 MB）
+1. **操作系统图标**（已按实际引用清理至 ~0.14 MB）
 2. **项目截图文件**（~3.46 MB）
 3. **Node.js 依赖包**
 4. **Electron 框架本身**
@@ -23,7 +23,6 @@ NoxSSH_WebDAV_backup.png # 0.3 MB
 Customizeable.png       # 0.22 MB
 hostscloudterm.png      # 0.14 MB
 Split Pane.png          # 0.25 MB
-vaults and hosts page.png # 0.19 MB
 ```
 
 **操作方法：**
@@ -37,8 +36,7 @@ vaults and hosts page.png # 0.19 MB
   "resources/**/*",
   "!resources/README.md",
   "!resources/hello-helper.exe",
-  "!*.png",  // 排除根目录所有 PNG
-  "build/icon.png",  // 但保留应用图标
+  "!*.png",  // 排除根目录所有 PNG；build/AppIcons 仅供 electron-builder 使用
   "!**/node_modules/@hugeicons/**",
   "!**/node_modules/hugeicons-react/**",
   "!**/node_modules/@fontsource/**",
@@ -51,17 +49,13 @@ vaults and hosts page.png # 0.19 MB
 ]
 ```
 
-### 2. 优化操作系统图标（可节省 ~0.5 MB）
+### 2. 优化操作系统图标（已完成）
 
-当前有 105 个操作系统图标（128x128 PNG），可以考虑：
+当前保留 39 个图标：36 个系统识别图标和 3 个应用导入图标。未被源码或
+README 引用的备用配色及发行版图标已删除，未知发行版继续使用通用 Linux
+图标。
 
-**选项 A：按需加载（推荐）**
-
-- 将不常用的 Linux 发行版图标改为延迟加载
-- 只打包最常见的 10-15 个系统图标
-- 其他图标使用通用 Linux 图标占位
-
-**选项 B：压缩优化**
+**后续可选：压缩优化**
 
 - 使用 pngquant 或 tinypng 压缩图标，可减少 30-50% 体积
 - 考虑将部分图标转为 WebP 格式

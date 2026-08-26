@@ -35,9 +35,11 @@ import iconZorin from '../assets/icons/128_zorin.png';
 import iconParrot from '../assets/icons/128_parrot.png';
 import iconGaruda from '../assets/icons/128_garuda_blue.png';
 import iconTails from '../assets/icons/128_tails.png';
+import iconUnraid from '../assets/icons/128_unraid.png';
 
 const ICON_MAP = {
     // Distros
+    unraid: iconUnraid,
     ubuntu: iconUbuntu,
     kubuntu: iconKubuntu,
     lubuntu: iconLubuntu,
@@ -78,6 +80,51 @@ const ICON_MAP = {
     windows: iconWindows,
 };
 
+const SYSTEM_NAMES = {
+    unraid: 'Unraid',
+    ubuntu: 'Ubuntu',
+    kubuntu: 'Kubuntu',
+    lubuntu: 'Lubuntu',
+    xubuntu: 'Xubuntu',
+    debian: 'Debian',
+    fedora: 'Fedora',
+    centos: 'CentOS',
+    rhel: 'Red Hat Enterprise Linux',
+    rocky: 'Rocky Linux',
+    alma: 'AlmaLinux',
+    arch: 'Arch Linux',
+    arco: 'ArcoLinux',
+    artix: 'Artix Linux',
+    manjaro: 'Manjaro',
+    endeavour: 'EndeavourOS',
+    garuda: 'Garuda Linux',
+    alpine: 'Alpine Linux',
+    nixos: 'NixOS',
+    gentoo: 'Gentoo',
+    suse: 'openSUSE',
+    opensuse: 'openSUSE',
+    mint: 'Linux Mint',
+    pop: 'Pop!_OS',
+    elementary: 'elementary OS',
+    zorin: 'Zorin OS',
+    deepin: 'Deepin',
+    kali: 'Kali Linux',
+    parrot: 'Parrot OS',
+    tails: 'Tails',
+    mx: 'MX Linux',
+    void: 'Void Linux',
+    solus: 'Solus',
+    slackware: 'Slackware',
+    raspios: 'Raspberry Pi OS',
+    raspberry: 'Raspberry Pi OS',
+    amazon: 'Amazon Linux',
+    linux: 'Linux',
+    windows: 'Windows',
+    macos: 'macOS',
+    freebsd: 'FreeBSD',
+    openbsd: 'OpenBSD',
+};
+
 export function getOsIcon(os, distro) {
     if (distro && ICON_MAP[distro]) return ICON_MAP[distro];
     if (os && ICON_MAP[os]) return ICON_MAP[os];
@@ -102,6 +149,15 @@ export function hostOs(host) {
     if (host?.os) return host.os;
     if (host?.desktop?.enabled && host.desktop.protocol === 'rdp') return 'windows';
     return '';
+}
+
+export function describeHostSystem(host) {
+    const os = hostOs(host);
+    const key = host?.distro || os;
+    return {
+        name: SYSTEM_NAMES[key] || key || '',
+        version: String(host?.osVersion || '').trim(),
+    };
 }
 
 // macOS has no PNG in the icon set.

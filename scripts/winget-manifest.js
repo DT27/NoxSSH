@@ -31,17 +31,14 @@ const crypto = require('crypto');
 
 const pkg = require('../package.json');
 
-const REPO = 'BradPerbs/cloudterm';
+const githubPublish = pkg.build.publish.find(provider => provider.provider === 'github');
+const REPO = `${githubPublish.owner}/${githubPublish.repo}`;
 
 // winget names a package Publisher.Package and keys everything off that name,
 // including the directory it lives in and what people type to install it.
 // Changing it later means submitting a new package and asking for the old one
 // to be taken down, so it is a decision rather than a detail.
 const IDENTIFIER = 'CloudBlast.CloudTerm';
-
-// The installer, and only the installer. The portable build is the other .exe
-// on the release, and there is nothing for winget to install it into.
-const INSTALLER = 'CloudTerm-Setup-x64.exe';
 
 // Which manifest schema these are written against. winget-pkgs still accepts
 // older ones, so this only moves when there is a reason: bump it, then read
@@ -114,6 +111,22 @@ function fail(message) {
     process.exit(1);
 }
 
+function installerName(version) {
+    const values = {
+        version,
+        arch: 'x64',
+        ext: 'exe',
+        productName: pkg.build.productName,
+    };
+    const name = pkg.build.nsis.artifactName.replace(
+        /\$\{(\w+)\}/g,
+        (placeholder, key) => values[key] || placeholder,
+    );
+
+    if (name.includes('${')) throw new Error(`cannot resolve installer name template: ${name}`);
+    return name;
+}
+
 function uuidV5(name, namespace) {
     const hash = crypto
         .createHash('sha1')
@@ -136,7 +149,7 @@ function uuidV5(name, namespace) {
 async function fetchRelease(tag) {
     const headers = {
         Accept: 'application/vnd.github+json',
-        'User-Agent': 'cloudterm-winget-manifest',
+        'User-Agent': 'noxssh-winget-manifest',
     };
 
     // Only to lift the rate limit. The repository is public, so an unauthenticated
@@ -278,16 +291,17 @@ async function main(argv) {
     // winget versions do not carry the `v` that git tags do, and a manifest
     // that disagrees with itself about the version is rejected on submission.
     const version = tag.replace(/^v/, '');
+    const installer = installerName(version);
 
     const release = await fetchRelease(tag);
 
     if (release.draft) fail(`the ${tag} release is still a draft, so its assets are not public yet`);
 
-    const asset = release.assets.find(candidate => candidate.name === INSTALLER);
+    const asset = release.assets.find(candidate => candidate.name === installer);
 
     if (!asset) {
         fail(
-            `the ${tag} release has no ${INSTALLER}. It has: `
+            `the ${tag} release has no ${installer}. It has: `
             + (release.assets.map(candidate => candidate.name).join(', ') || 'nothing'),
         );
     }
@@ -330,4 +344,4 @@ if (require.main === module) {
     main(process.argv.slice(2)).catch((error) => fail(error.message));
 }
 
-module.exports = { build, uuidV5, scalar };
+module.exports = { build, installerName, uuidV5, scalar };

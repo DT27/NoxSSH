@@ -14,9 +14,10 @@ const SIZES = {
     md: 'w-9 h-9 rounded-xl',
 };
 
-export default function IconTile({ size = 'md', className = '', children }) {
+export default function IconTile({ size = 'md', className = '', children, ...rest }) {
     return (
         <span
+            {...rest}
             className={`${SIZES[size] || SIZES.md} shrink-0 relative flex items-center justify-center
                 bg-gray-900/[0.06] dark:bg-white/[0.07] ${className}`}
         >

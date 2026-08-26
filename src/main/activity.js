@@ -288,7 +288,7 @@ const SECRET_FIELDS = new Set(['password', 'privateKey', 'passphrase', 'vncPassw
  * app talking about itself.
  */
 const NOISE_FIELDS = new Set([
-    'id', 'lastConnectedAt', 'os', 'distro',
+    'id', 'lastConnectedAt', 'os', 'distro', 'osVersion',
     'hasPassword', 'hasPrivateKey', 'hasPassphrase', 'hasVncPassword',
 ]);
 

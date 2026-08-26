@@ -12,16 +12,11 @@ you build it.
 
 ## Icons
 
-The app icon is not here. It lives at `build/icon.png` in the repo root, and
-all three platform targets point at that one file: electron-builder generates
-the Windows `.ico` and the macOS `.icns` from it, and Linux takes the PNG as
-it is.
+The app icon is not here. It lives at `build/AppIcons/icon.png`.
+electron-builder uses that 1024px source for Windows, macOS, and Linux,
+converting it to `.ico` and `.icns` where required.
 
 `win.icon` used to name `resources/icon.ico`, which was never committed, so
 every Windows build up to now quietly shipped the default Electron logo.
 electron-builder warns about a missing icon rather than failing, which is how
 that went unnoticed.
-
-**The current `build/icon.png` is built from `appicon.png` in the repo root**,
-which serves as the unified brand identity icon for the NoxSSH application
-across all platforms (Linux, Windows, and macOS).
