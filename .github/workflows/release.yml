@@ -105,22 +105,9 @@ jobs:
 
       - run: npm run build:renderer
 
-      # ssh2 lists cpu-features as an optional dependency and uses it only to
-      # prefer a hardware-accelerated cipher, behind a bare try/catch. It is
-      # built with nan, and nan does not compile against Electron 43's V8
-      # headers: External::New and GetAlignedPointerFromInternalField both grew
-      # a required tag argument. So @electron/rebuild fails on any runner that
-      # has a compiler to try it with.
-      #
-      # Windows never had it installed at all, npm having skipped it there,
-      # which is the only reason that build has ever worked. Removing it puts
-      # macOS and Linux in the same position rather than a worse one.
-      #
-      # Last thing before packaging, deliberately. Anything that runs npm can
-      # bring it back, so this wants to be after everything that might.
-      - name: Drop cpu-features, which cannot build against this Electron
-        shell: bash
-        run: rm -rf node_modules/cpu-features
+      # cpu-features is dropped in scripts/before-build.js, which electron-builder
+      # runs immediately before the native rebuild. ssh2 loads it optionally and
+      # nan cannot compile against Electron 43; leaving it in fails the rebuild.
 
       - name: Package
         run: npx electron-builder ${{ matrix.args }} --publish never

@@ -60,4 +60,20 @@ const runtimeIconSources = copiedIconSources(pkg.build.extraResources);
 assert.ok(runtimeIconSources.has(dayIcon), 'runtime resources omit the day icon');
 assert.ok(runtimeIconSources.has(nightIcon), 'runtime resources omit the night icon');
 
+assert.strictEqual(pkg.build.beforeBuild, './scripts/before-build.js');
+assert.ok(fs.existsSync(path.join(root, 'scripts', 'before-build.js')), 'missing beforeBuild hook');
+assert.ok(!/\s--win\b/.test(pkg.scripts['build:electron']), 'default electron build is pinned to Windows');
+assert.ok(/\s--win\b/.test(pkg.scripts['build:electron:win']), 'Windows electron build is missing --win');
+assert.ok(workflow.includes('scripts/before-build.js'), 'release workflow does not mention the beforeBuild hook');
+assert.ok(!workflow.includes('rm -rf node_modules/cpu-features'), 'release workflow still deletes cpu-features by hand');
+
+const beforeBuild = require(path.join(root, 'scripts', 'before-build.js'));
+const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'noxssh-before-build-'));
+const cpuFeatures = path.join(tmp, 'node_modules', 'cpu-features');
+fs.mkdirSync(cpuFeatures, { recursive: true });
+fs.writeFileSync(path.join(cpuFeatures, 'package.json'), '{"name":"cpu-features"}');
+assert.strictEqual(beforeBuild({ appDir: tmp }), true, 'beforeBuild must return true so electron-builder still packs node_modules');
+assert.ok(!fs.existsSync(cpuFeatures), 'beforeBuild left cpu-features in place');
+fs.rmSync(tmp, { recursive: true, force: true });
+
 console.log('release config: artifact names and adaptive icons verified');

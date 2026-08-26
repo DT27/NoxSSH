@@ -13,10 +13,12 @@
     "build:css": "npx tailwindcss -i ./src/renderer/input.css -o ./src/renderer/styles.css",
     "build:hello": "node scripts/build-hello-helper.js",
     "build:renderer": "vite build",
-    "build:electron": "electron-builder --win --x64",
+    "build:electron": "electron-builder",
+    "build:electron:win": "electron-builder --win --x64",
     "build:electron:mac": "electron-builder --mac",
     "build:electron:linux": "electron-builder --linux AppImage",
     "build": "npm run build:hello && npm run build:css && npm run build:renderer && npm run build:electron",
+    "build:win": "npm run build:hello && npm run build:css && npm run build:renderer && npm run build:electron:win",
     "build:mac": "npm run build:renderer && npm run build:electron:mac",
     "build:linux": "npm run build:renderer && npm run build:electron:linux"
   },
@@ -59,6 +61,7 @@
     "asarUnpack": [
       "**/node_modules/@serialport/bindings-cpp/**"
     ],
+    "beforeBuild": "./scripts/before-build.js",
     "extraResources": [
       {
         "from": "resources/",
