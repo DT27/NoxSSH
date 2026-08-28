@@ -203,16 +203,32 @@ jobs:
           # the previous version cannot update to.
           git fetch --force --tags origin "${GITHUB_REF_NAME}"
           git tag -l --format='%(contents)' "${GITHUB_REF_NAME}" > release-notes.md
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME}" \
-            --notes-file release-notes.md \
-            --latest \
-            *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
+
+          # A tag with a prerelease suffix (v1.4.3-beta.1) publishes as a
+          # pre-release so it never becomes the version `--latest` users and
+          # the updater see first.
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
+            gh release create "${GITHUB_REF_NAME}" \
+              --title "${GITHUB_REF_NAME}" \
+              --notes-file release-notes.md \
+              --prerelease \
+              *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
+          else
+            gh release create "${GITHUB_REF_NAME}" \
+              --title "${GITHUB_REF_NAME}" \
+              --notes-file release-notes.md \
+              --latest \
+              *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
+          fi
 
   winget:
     name: Open the winget pull request
     needs: release
     runs-on: ubuntu-latest
+
+    # Prerelease tags (v1.4.3-beta.1) are testing builds; winget only ever
+    # offers stable versions.
+    if: ${{ !contains(github.ref_name, '-') }}
 
     # A fork can tag a release without owning a fork of winget-pkgs, and that
     # should print a line rather than fail a release that has already gone out.

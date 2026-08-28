@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+        关闭 macOS App Sandbox。SSH 客户端需要与任意地址（包括
+        局域网私有网段 10.x / 172.16.x / 192.168.x）建立原始 TCP 连接，
+        还要监听本地端口做 SSH 隧道和 VNC/RDP 的本地代理。这些都超出
+        了 App Sandbox 默认允许的范围。
+
+        应用自身已经通过 BrowserWindow 的 sandbox: true、contextIsolation、
+        will-attach-webview 加固等措施在渲染进程层做了隔离，不需要在
+        操作系统层再加一层沙盒限制。iTerm2、Terminal.app 等终端类应用
+        也都关闭了 App Sandbox。
+    -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+</dict>
+</plist>

@@ -1,6 +1,6 @@
 {
   "name": "noxssh",
-  "version": "1.4.2",
+  "version": "1.4.3-beta.1",
   "description": "NoxSSH - Modern SSH Client built with Electron, React and xterm.js",
   "main": "src/main/main.js",
   "scripts": {
@@ -140,7 +140,13 @@
       "category": "public.app-category.developer-tools",
       "darkModeSupport": true,
       "icon": "build/AppIcons/icons-day/desktop-1024x1024.png",
-      "artifactName": "NoxSSH-v${version}-${arch}.${ext}"
+      "artifactName": "NoxSSH-v${version}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSLocalNetworkUsageDescription": "NoxSSH 需要访问本地网络以通过 SSH、Telnet、SFTP 等协议连接局域网设备。"
+      }
     },
     "dmg": {
       "background": null,
