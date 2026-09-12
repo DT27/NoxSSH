@@ -413,6 +413,11 @@ function collect() {
 function apply(payload) {
   if (!payload) return { hosts: { added: 0 }, keys: { added: 0 } };
 
+  // WebDAV live sync is last-write-wins by revision: pull() only calls this
+  // when the remote revision is higher, so overwriting local records is the
+  // intended semantics. Using overwrite:false here (the backup-restore default)
+  // meant any field change on an existing host — name, port, tags, tunnels —
+  // was silently skipped, so host names never synced.
   const summary = store.importAll(
     {
       hosts: payload.hosts || [],
@@ -421,7 +426,7 @@ function apply(payload) {
       snippets: payload.snippets || [],
       proxies: payload.proxies || [],
     },
-    { overwrite: false }
+    { overwrite: true }
   );
 
   if (payload.knownHosts) {
