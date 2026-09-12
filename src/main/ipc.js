@@ -1157,6 +1157,7 @@ function register(getWindow) {
         detail: [
           `${result.hosts.added} host(s) added`,
           result.hosts.replaced ? `${result.hosts.replaced} replaced` : "",
+          result.hosts.deleted ? `${result.hosts.deleted} deleted` : "",
           `${result.keys.added} key(s) added`,
           overwrite ? "existing records overwritten" : "existing records kept",
         ]

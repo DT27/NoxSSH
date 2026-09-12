@@ -7,7 +7,9 @@ const vault = require("./vault");
 const activity = require("./activity");
 const backup = require("./backup");
 
-const SCHEMA_VERSION = 1;
+// 2: payload carries host deletion tombstones (`tombs`). Readers of either
+// version simply ignore the field they do not know, so no migration.
+const SCHEMA_VERSION = 2;
 
 const SNAPSHOT_SUBDIR = "noxssh";
 const SNAPSHOT_BASENAME = "snapshot.json";
@@ -405,6 +407,10 @@ function collect() {
     keys: everything.keys || [],
     snippets: everything.snippets || [],
     proxies: everything.proxies || [],
+    // Deletion tombstones: what makes a host removed anywhere stay removed
+    // everywhere, including against a snapshot from a device that never
+    // saw the deletion.
+    tombs: everything.tombs || {},
     knownHosts: knownHosts.exportAll() || {},
     settings: rendererSettings || null,
   };
@@ -530,8 +536,9 @@ async function pullLocked({ force = false } = {}) {
       (summary?.snippets?.added || 0) +
       (summary?.folders?.added || 0) +
       (summary?.proxies?.added || 0);
+    const removedHosts = summary?.hosts?.deleted || 0;
 
-    if (added > 0) {
+    if (added > 0 || removedHosts > 0) {
       activity.record({
         category: "data",
         action: "sync.restore",
@@ -539,11 +546,18 @@ async function pullLocked({ force = false } = {}) {
         target: "WebDAV setup",
         detail: `${summary.hosts?.added || 0} host(s), ${
           summary.keys?.added || 0
-        } key(s) restored`,
+        } key(s) restored${
+          removedHosts ? `, ${removedHosts} host(s) deleted` : ""
+        }`,
       });
     }
 
-    notify("webdav-sync-state", { ...status(), pulled: true, added });
+    notify("webdav-sync-state", {
+      ...status(),
+      pulled: true,
+      added,
+      deletedHosts: removedHosts,
+    });
     return { pulled: true, revision: remoteRev, added, summary };
   } catch (error) {
     state = { ...s, lastError: error.message };
@@ -795,7 +809,8 @@ async function restoreFromBackup(name) {
       (summary?.snippets?.added || 0) +
       (summary?.folders?.added || 0) +
       (summary?.proxies?.added || 0);
-    if (added > 0) {
+    const removedHosts = summary?.hosts?.deleted || 0;
+    if (added > 0 || removedHosts > 0) {
       activity.record({
         category: "data",
         action: "backup.restore",
@@ -803,7 +818,9 @@ async function restoreFromBackup(name) {
         target: "WebDAV backup",
         detail: `${summary.hosts?.added || 0} host(s), ${
           summary.keys?.added || 0
-        } key(s) restored from ${name}`,
+        } key(s) restored from ${name}${
+          removedHosts ? `, ${removedHosts} host(s) deleted` : ""
+        }`,
       });
     }
 
@@ -811,6 +828,7 @@ async function restoreFromBackup(name) {
       ...status(),
       pulled: true,
       added,
+      deletedHosts: removedHosts,
       fromBackup: name,
     });
     return { restored: true, name, added, summary };

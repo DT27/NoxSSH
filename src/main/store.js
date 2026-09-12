@@ -79,7 +79,25 @@ function emptyStore() {
     keys: [],
     snippets: [],
     proxies: [],
+    // Host deletion tombstones: id -> the ISO instant the deletion happened.
+    // Travel with every snapshot and backup so a deletion survives the merges
+    // instead of being undone by a device that never saw it. Hosts only —
+    // the other collections are small enough that losing a deletion is an
+    // annoyance, while a host coming back drags its credentials with it.
+    tombs: {},
   };
+}
+
+/** Keep only well-shaped tombstones: a non-empty id and an ISO-ish stamp. */
+function normalizeTombs(raw) {
+  if (!raw || typeof raw !== "object") return {};
+  const out = {};
+  for (const [id, at] of Object.entries(raw)) {
+    if (typeof id === "string" && id && typeof at === "string" && at) {
+      out[id] = at;
+    }
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ *
@@ -429,6 +447,9 @@ function loadFromDisk() {
       // none, which needs no migration: the collection starts empty.
       snippets: parsed.snippets || [],
       proxies: parsed.proxies || [],
+      // Same story for the tombstones: a store from before them has none,
+      // which only means nothing has been deleted yet.
+      tombs: normalizeTombs(parsed.tombs),
     };
 
     const repaired = repairNestedSecrets(cache);
@@ -535,6 +556,11 @@ function saveHost(host) {
   const id = host.id || `host-${Date.now()}`;
   const index = store.hosts.findIndex((h) => h.id === id);
   const existing = index >= 0 ? store.hosts[index] : {};
+
+  // A save under a deleted id is a resurrection — whoever is saving has the
+  // record back, so the tombstone no longer describes anything real and
+  // would only go on blocking the id elsewhere.
+  if (store.tombs[id]) delete store.tombs[id];
 
   // Never trust redaction flags coming back from the renderer.
   const {
@@ -672,6 +698,15 @@ function deleteHost(hostId) {
   const store = load();
   const removed = store.hosts.find((h) => h.id === hostId);
   store.hosts = store.hosts.filter((h) => h.id !== hostId);
+
+  if (removed) {
+    // The tombstone is what makes the deletion a fact other devices learn
+    // about: without it, the next snapshot from a device that still has the
+    // host would quietly bring it back, credentials and all. Nothing is
+    // recorded for an id that was not there — a tomb for a host nobody had
+    // would only ever block a future record that reuses the id.
+    store.tombs[hostId] = new Date().toISOString();
+  }
 
   // Anything relayed through the host that just went has to stop pointing at
   // it. Left dangling it would still look connectable in the list and fail on
@@ -1968,6 +2003,9 @@ function exportAll() {
       ...normalizeProxy(record),
       password: record.password ? decryptSecret(record.password) : "",
     })),
+    // Deletions travel so a restore cannot undo them by re-adding a record
+    // this user has already thrown away.
+    tombs: { ...store.tombs },
   };
 }
 
@@ -2039,25 +2077,35 @@ function importAll(payload, { overwrite = false } = {}) {
   };
 
   const summary = {
-    hosts: mergeCollection(store.hosts, payload?.hosts, {
-      overwrite,
-      prepare: (raw) => {
-        const record = prepareSecrets(raw);
-        // Same normalisation a saved host gets: these drive real
-        // listening sockets and must not reach the runtime malformed.
-        if (record.tunnels !== undefined)
-          record.tunnels = normalizeTunnels(record.tunnels);
-        if (record.desktop !== undefined)
-          record.desktop = normalizeDesktop(record.desktop);
-        if (record.bmc !== undefined) record.bmc = normalizeBmc(record.bmc);
-        if (record.monitor !== undefined)
-          record.monitor = normalizeMonitor(record.monitor);
-        // A backup is a file a person can edit, so the tag list arrives
-        // as untrusted as one from the editor does.
-        if (record.tags !== undefined) record.tags = normalizeTags(record.tags);
-        return record;
+    hosts: mergeCollection(
+      store.hosts,
+      // A host this machine has deleted stays deleted: the tombstone wins
+      // over any snapshot that still carries the record, or every pull
+      // would resurrect what the user threw away. The tomb itself is kept
+      // so the deletion carries on to wherever this payload came from.
+      (Array.isArray(payload?.hosts) ? payload.hosts : []).filter(
+        (raw) => !store.tombs[raw?.id]
+      ),
+      {
+        overwrite,
+        prepare: (raw) => {
+          const record = prepareSecrets(raw);
+          // Same normalisation a saved host gets: these drive real
+          // listening sockets and must not reach the runtime malformed.
+          if (record.tunnels !== undefined)
+            record.tunnels = normalizeTunnels(record.tunnels);
+          if (record.desktop !== undefined)
+            record.desktop = normalizeDesktop(record.desktop);
+          if (record.bmc !== undefined) record.bmc = normalizeBmc(record.bmc);
+          if (record.monitor !== undefined)
+            record.monitor = normalizeMonitor(record.monitor);
+          // A backup is a file a person can edit, so the tag list arrives
+          // as untrusted as one from the editor does.
+          if (record.tags !== undefined) record.tags = normalizeTags(record.tags);
+          return record;
+        },
       },
-    }),
+    ),
     folders: mergeCollection(store.folders, payload?.folders, {
       overwrite,
       prepare: (raw) => ({ ...raw }),
@@ -2082,6 +2130,28 @@ function importAll(payload, { overwrite = false } = {}) {
     }),
   };
 
+  // Deletions named by the payload: take the local record out and remember
+  // the tomb, so neither this payload nor a later one can bring the host
+  // back. A payload that carries both a live record and a tomb for one id
+  // contradicts itself; the live record wins and the local tomb (if any) is
+  // left standing, which keeps a local deletion from being talked over.
+  let deletedHosts = 0;
+  const liveIds = new Set(
+    (Array.isArray(payload?.hosts) ? payload.hosts : [])
+      .map((raw) => raw?.id)
+      .filter(Boolean)
+  );
+  for (const [id, deletedAt] of Object.entries(normalizeTombs(payload?.tombs))) {
+    if (liveIds.has(id)) continue;
+    if (!store.tombs[id] || store.tombs[id] < deletedAt) {
+      store.tombs[id] = deletedAt;
+    }
+    const before = store.hosts.length;
+    store.hosts = store.hosts.filter((h) => h.id !== id);
+    deletedHosts += before - store.hosts.length;
+  }
+  summary.hosts.deleted = deletedHosts;
+
   persist();
   return summary;
 }
@@ -2100,8 +2170,16 @@ function previewImport(payload) {
     return { total: fresh + conflicting, new: fresh, existing: conflicting };
   };
 
+  // Hosts this machine has deleted are not going to land, so they stay out
+  // of the preview rather than being counted as new and then quietly
+  // skipped by the restore.
+  const tombed = new Set(Object.keys(store.tombs || {}));
+  const incomingHosts = (Array.isArray(payload?.hosts) ? payload.hosts : []).filter(
+    (raw) => !tombed.has(raw?.id)
+  );
+
   return {
-    hosts: count(payload?.hosts, store.hosts),
+    hosts: count(incomingHosts, store.hosts),
     folders: count(payload?.folders, store.folders),
     keys: count(payload?.keys, store.keys),
     snippets: count(payload?.snippets, store.snippets),

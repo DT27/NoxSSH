@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export function useSessions() {
     const [hosts, setHosts] = useState([]);
@@ -16,6 +16,18 @@ export function useSessions() {
             console.error('Failed to load sessions:', error);
         }
     }, []);
+
+    // A pull can land on its own — the five-minute poll, a restore from a
+    // history backup — and it changes hosts without anyone here having
+    // touched them. Reload when one finishes, so a host deleted on another
+    // device leaves the list instead of lingering until the next click.
+    useEffect(
+        () =>
+            window.api.webdavSync.onState((state) => {
+                if (state?.pulled) loadData();
+            }),
+        [loadData]
+    );
 
     const saveHost = useCallback(async (host) => {
         const saved = await window.api.hosts.save(host);

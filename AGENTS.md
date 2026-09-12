@@ -30,9 +30,16 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
   - 配置：URL、用户名、密码、同步口令（均在主进程保存，渲染进程不可见）
   - 加密：使用 `backup.seal/unseal`（AES-256-GCM + scrypt），口令在设备端加密后再上传
   - 冲突处理：上传前先拉取远端并合并，再以更高 revision 推送
+  - 记录合并为 last-write-wins：pull 到更高 revision 时按 id 覆盖已存在记录（`store.importAll` 强制 `overwrite: true`），字段级修改因此能跨设备同步
+  - 删除墓碑（tombstone）：`store.deleteHost` 在 `tombs`（id → 删除时间）中留痕，随快照与备份一起走
+    - 拉取/恢复时：快照携带的墓碑会删除本地对应主机并合并墓碑；云端新主机正常添加
+    - 本地已删除的主机不会被任何快照复活；删除随下次推送传播到所有设备
+    - 仅主机有墓碑；`saveHost` 用被删 id 重新保存即撤销删除
+    - `SCHEMA_VERSION = 2`：旧版本读新快照只是忽略 `tombs` 字段，无需迁移
   - 触发：保存时防抖推送、定时轮询、锁屏解锁/系统唤醒时拉取
 - 快照内容：
-  - 主机、文件夹、密钥、代码片段、代理、已知主机、终端设置
+  - 主机、文件夹、密钥、代码片段、代理、已知主机、终端设置、主机删除墓碑（`tombs`）
+- 拉取后刷新：[`useSessions.js`](src/renderer/hooks/useSessions.js) 监听 `webdav-sync-state`，`pulled` 为真即重载主机列表，被删主机即时从界面消失
 - 历史备份：独立文件 `{base}/noxssh/backups/YYYY-MM-DDTHH-MM-SSZ.json`
   - 明文 `counts` 字段仅统计数量，旧备份没有该字段时列表不展示数量
   - 列表可单条删除（WebDAV `DELETE`）；删除不影响当前快照
