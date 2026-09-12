@@ -132,7 +132,6 @@ function HostModal({ host, dismiss, onClose, onSave, keys = [], hosts = [], allT
     // is global, cached, and the Proxies page keeps every mounted copy current,
     // so a proxy added a moment ago is already on offer here.
     const { proxies } = useProxies();
-    const t = useT();
 
     // Monitoring has a master switch elsewhere, and a host set to be watched
     // while that is off would sit there doing nothing with this form having
