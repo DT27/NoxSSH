@@ -23,16 +23,16 @@ module.exports = function beforeBuild(context) {
     // the packaged copy keeps whatever mode it was copied with. Setting it here
     // means the app does not have to fix permissions inside a bundle that may
     // be read-only; local-shell.js still checks at runtime for a dev install.
-    const pty = path.join(
-        context.appDir,
-        'node_modules',
-        'node-pty',
-        'prebuilds',
-        `${process.platform}-${process.arch}`,
-        'spawn-helper'
-    );
+    //
+    // Every architecture directory is visited rather than only this machine's:
+    // an Intel host packaging --arm64 ships the arm64 helper, and looking at
+    // process.arch would leave that one without its execute bit.
+    const prebuilds = path.join(context.appDir, 'node_modules', 'node-pty', 'prebuilds');
     try {
-        if (fs.existsSync(pty)) fs.chmodSync(pty, 0o755);
+        for (const dir of fs.readdirSync(prebuilds)) {
+            const pty = path.join(prebuilds, dir, 'spawn-helper');
+            if (fs.existsSync(pty)) fs.chmodSync(pty, 0o755);
+        }
     } catch {
         // Windows ships no helper, and a compiled build sets its own mode.
     }

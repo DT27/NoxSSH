@@ -17,6 +17,12 @@
 # them for download without creating a release, which is the way to test a
 # change to this file.
 #
+# A hand run can also finish a release without rebuilding the platforms that
+# already built: point `reuse_run_id` at an earlier run of this workflow, list
+# the platforms that run already covered in `skip_platforms`, and name the tag
+# in `tag`. The release job then downloads those artifacts from the old run and
+# only the missing platforms are compiled.
+#
 # The release carries more than the installers. electron-builder writes a
 # `latest*.yml` beside each build describing what it just made, and the
 # `.blockmap` files next to them are what let an update download only the parts
@@ -35,47 +41,103 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      # The run whose artifacts stand in for builds this run is skipping. It is
+      # read by the release job, not by the build matrix, which cannot ask
+      # GitHub what a run already contains.
+      reuse_run_id:
+        description: 'Run id to take finished builds from (empty: build everything)'
+        required: false
+      # Which of those the earlier run already covered, by matrix name. Space
+      # or comma separated both work, because contains() only looks for the name.
+      skip_platforms:
+        description: 'Platforms covered by that run, e.g. windows-x64,linux-x64,macos-x64'
+        required: false
+      # A release needs a tag, and a run started from a branch has none. Naming
+      # it here publishes that tag without moving it, which is the whole point:
+      # moving a tag would start a second run that rebuilds everything.
+      tag:
+        description: 'Release tag to publish when running from a branch, e.g. v1.4.3'
+        required: false
 
 permissions:
   contents: write
+  # Reading the artifacts of another run with GITHUB_TOKEN needs this on top of
+  # what the release itself uses.
+  actions: read
 
 jobs:
+  # The matrix is computed instead of written out below, because a hand run
+  # that reuses an earlier run has to leave that run's platforms out, and a
+  # job-level `if:` cannot read matrix values (the matrix context is not one of
+  # the contexts a job condition may use). The list is normally all of them.
+  plan:
+    name: Plan the builds
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.platforms.outputs.matrix }}
+    steps:
+      - id: platforms
+        shell: bash
+        env:
+          SKIP: ${{ inputs.skip_platforms }}
+        run: |
+          set -euo pipefail
+
+          # Name, runner labels and electron-builder arguments for every
+          # platform the release can carry:
+          #
+          # - Windows builds both targets at once: an installer for people who
+          #   want the app on their machine, and the portable exe for people
+          #   who cannot install anything. 64-bit only.
+          #
+          # - Both macOS builds run on the project's own runner, an Intel Mac,
+          #   so neither waits on the GitHub-hosted macOS pool, which has been
+          #   cancelling these jobs during capacity crunches. Packaging never
+          #   executes the app, it only copies binaries, so the arm64 build
+          #   cross-compiles there: electron-builder downloads the arm64
+          #   Electron, and @electron/rebuild builds node-pty for arm64 with the
+          #   same Xcode toolchain. What that cannot do is run the result.
+          #
+          #   The install has to be native, though, or the renderer cannot
+          #   build: rollup loads a binary for the machine it is running on.
+          #
+          #   `--mac` and not `--mac dmg`, so the zip in the mac target list
+          #   gets built too. Squirrel updates a mac app from a zip and will not
+          #   touch a dmg, so the dmg is what a person downloads and the zip is
+          #   what the app downloads.
+          platforms='[
+            {"name":"windows-x64","os":["windows-latest"],"args":"--win --x64"},
+            {"name":"macos-x64","os":["self-hosted","macos-latest"],"args":"--mac --x64"},
+            {"name":"macos-arm64","os":["self-hosted","macos-latest"],"args":"--mac --arm64"},
+            {"name":"linux-x64","os":["ubuntu-latest"],"args":"--linux AppImage --x64"}
+          ]'
+
+          # Names in skip_platforms are dropped. It is empty on a tag push,
+          # which has no inputs at all, and then every platform is kept.
+          matrix=$(jq -c --arg skip "$SKIP" '
+            [ .[] | .name as $name
+              | select(($skip | split(",") | map(gsub("^\\s+|\\s+$"; "")) | index($name)) == null) ]
+          ' <<< "$platforms")
+
+          if [[ "$matrix" == "[]" ]]; then
+            echo "skip_platforms covers every platform, so there is nothing to build."
+            echo "Leave at least the one platform the reused run is missing out of it."
+            exit 1
+          fi
+
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix"
+
   build:
     name: ${{ matrix.name }}
+    needs: plan
     runs-on: ${{ matrix.os }}
     strategy:
       # One platform failing should not deny you the other four.
       fail-fast: false
       matrix:
-        include:
-          # Both Windows targets at once: an installer for people who want the
-          # app on their machine, and the portable exe for people who cannot
-          # install anything. 64-bit only.
-          - name: windows-x64
-            os: windows-latest
-            args: --win --x64
-          # Both macOS builds run on Apple silicon. macos-13 was the last Intel
-          # runner and queues forever now that it is being retired, so the
-          # Intel dmg is cross-built. Packaging never executes the app, it only
-          # copies binaries, so the host architecture does not matter there.
-          #
-          # It matters to npm, though: the install has to be native or the
-          # renderer cannot build, because rollup loads a binary for the
-          # machine it is running on.
-          #
-          # `--mac` and not `--mac dmg`, so the zip in the mac target list gets
-          # built too. Squirrel updates a mac app from a zip and will not touch
-          # a dmg, so the dmg is what a person downloads and the zip is what the
-          # app downloads.
-          - name: macos-x64
-            os: [self-hosted, macos-latest]
-            args: --mac --x64
-          - name: macos-arm64
-            os: macos-latest
-            args: --mac --arm64
-          - name: linux-x64
-            os: ubuntu-latest
-            args: --linux AppImage --x64
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -156,9 +218,15 @@ jobs:
     name: Publish the release
     needs: build
     runs-on: ubuntu-latest
-    # Only a tag publishes. A manual run stops after the build job, so the
-    # artifacts can be inspected without anything going out.
-    if: startsWith(github.ref, 'refs/tags/')
+    # A tag publishes. So does a hand run that named a tag, which is how a
+    # release is finished from builds an earlier run already made. A hand run
+    # without one stops after the build job, so the artifacts can be inspected
+    # without anything going out.
+    #
+    # A build job that failed produces a patchy set of files nobody should
+    # download, so a failure skips the release like it always did; a platform
+    # left out on purpose reports skipped, not failed.
+    if: ${{ !cancelled() && needs.build.result != 'failure' && (startsWith(github.ref, 'refs/tags/') || inputs.tag != '') }}
 
     steps:
       # For scripts/merge-update-manifests.js, and nothing else. No npm install:
@@ -169,6 +237,17 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
+
+      # Whatever the named run already built, laid out exactly the way this
+      # run's artifacts are, so the collection step below does not care where a
+      # file came from. The platforms it covers are the ones the build matrix
+      # skipped, so no name lands here twice.
+      - uses: actions/download-artifact@v4
+        if: ${{ inputs.reuse_run_id != '' }}
+        with:
+          path: artifacts
+          run-id: ${{ inputs.reuse_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Collect the builds
         run: |
@@ -197,25 +276,28 @@ jobs:
       - name: Attach the builds to the release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # A tag run already carries its tag; a hand run from a branch names
+          # one instead.
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           # The manifests and blockmaps go up with the installers. The app looks
           # for them by name on the release, so a release without them is one
           # the previous version cannot update to.
-          git fetch --force --tags origin "${GITHUB_REF_NAME}"
-          git tag -l --format='%(contents)' "${GITHUB_REF_NAME}" > release-notes.md
+          git fetch --force --tags origin "${TAG}"
+          git tag -l --format='%(contents)' "${TAG}" > release-notes.md
 
           # A tag with a prerelease suffix (v1.4.3-beta.1) publishes as a
           # pre-release so it never becomes the version `--latest` users and
           # the updater see first.
-          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
-            gh release create "${GITHUB_REF_NAME}" \
-              --title "${GITHUB_REF_NAME}" \
+          if [[ "${TAG}" == *-* ]]; then
+            gh release create "${TAG}" \
+              --title "${TAG}" \
               --notes-file release-notes.md \
               --prerelease \
               *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
           else
-            gh release create "${GITHUB_REF_NAME}" \
-              --title "${GITHUB_REF_NAME}" \
+            gh release create "${TAG}" \
+              --title "${TAG}" \
               --notes-file release-notes.md \
               --latest \
               *.exe *.dmg *.AppImage *.zip *.blockmap *.yml
@@ -227,8 +309,9 @@ jobs:
     runs-on: ubuntu-latest
 
     # Prerelease tags (v1.4.3-beta.1) are testing builds; winget only ever
-    # offers stable versions.
-    if: ${{ !contains(github.ref_name, '-') }}
+    # offers stable versions. A hand run from a branch names its tag as an
+    # input, so that is what gets checked there.
+    if: ${{ !contains(inputs.tag || github.ref_name, '-') }}
 
     # A fork can tag a release without owning a fork of winget-pkgs, and that
     # should print a line rather than fail a release that has already gone out.
