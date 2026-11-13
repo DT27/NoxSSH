@@ -68,7 +68,7 @@ jobs:
           # a dmg, so the dmg is what a person downloads and the zip is what the
           # app downloads.
           - name: macos-x64
-            os: macos-latest
+            os: [self-hosted, macos-latest]
             args: --mac --x64
           - name: macos-arm64
             os: macos-latest
