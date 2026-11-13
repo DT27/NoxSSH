@@ -256,7 +256,7 @@ jobs:
       - uses: vedantmgoyal9/winget-releaser@v2
         if: env.HAS_TOKEN == 'true'
         with:
-          identifier: CloudBlast.CloudTerm
+          identifier: NoxSSH.NoxSSH
           # Both Windows builds are `.exe` files, and the action's default
           # pattern would sweep up the portable one as a second installer for
           # the same architecture. Only the installer belongs in winget.

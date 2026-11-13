@@ -1,19 +1,22 @@
-# Publishing CloudTerm on winget
+# Publishing NoxSSH on winget
 
-Once this is set up, Windows users install and update CloudTerm without opening
-a browser:
+Once this is set up, Windows users install and update NoxSSH without opening a
+browser:
 
 ```powershell
-winget install CloudBlast.CloudTerm
-winget upgrade CloudBlast.CloudTerm
+winget install NoxSSH.NoxSSH
+winget upgrade NoxSSH.NoxSSH
 ```
+
+`CloudBlast.CloudTerm` on winget is the upstream CloudTerm project's package,
+not this fork's, and nothing here touches it.
 
 winget has no upload. Its package list is
 [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs), a repository
 of YAML files that say where an installer lives and what its SHA256 is, and a
-version is published by opening a pull request against it. So publishing
-CloudTerm means keeping three small files up to date in someone else's
-repository, once per release, forever.
+version is published by opening a pull request against it. So publishing NoxSSH
+means keeping three small files up to date in someone else's repository, once
+per release, forever.
 
 That is what the `winget` job in
 [release.yml](../.github/workflows/release.yml) is for. It cannot do the
@@ -25,7 +28,7 @@ submitted by hand, once, and every release after it is automatic.
 
 **Fork winget-pkgs.** Go to
 [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs) and fork it
-to the same account that owns this repository, `BradPerbs`. The release job
+to the same account that owns this repository, `DT27`. The release job
 pushes its branch there. Leave the fork alone otherwise; the tooling syncs it.
 
 **Make a token.** GitHub, Settings, Developer settings, Personal access tokens,
@@ -45,7 +48,7 @@ The `winget` job prints a line saying it skipped, and stops.
 Write the manifests for a release that already exists:
 
 ```bash
-node scripts/winget-manifest.js v1.2.0
+node scripts/winget-manifest.js v1.4.3
 ```
 
 The tag is optional and defaults to `v` plus the version in package.json. The
@@ -55,10 +58,10 @@ rather than from anything typed in here. It writes three files under
 `dist/winget/`:
 
 ```
-manifests/c/CloudBlast/CloudTerm/1.2.0/
-    CloudBlast.CloudTerm.yaml               which locale describes it
-    CloudBlast.CloudTerm.locale.en-US.yaml  name, publisher, license, description
-    CloudBlast.CloudTerm.installer.yaml     the URL, the hash, how to install it
+manifests/n/NoxSSH/NoxSSH/1.4.3/
+    NoxSSH.NoxSSH.yaml               which locale describes it
+    NoxSSH.NoxSSH.locale.en-US.yaml  name, publisher, license, description
+    NoxSSH.NoxSSH.installer.yaml     the URL, the hash, how to install it
 ```
 
 That is the path they belong at inside winget-pkgs, which is the whole point of
@@ -69,7 +72,7 @@ branch and the pull request in one command, and takes the same token:
 ```powershell
 winget install Microsoft.WingetCreate
 
-$manifests = 'dist\winget\manifests\c\CloudBlast\CloudTerm\1.2.0'
+$manifests = 'dist\winget\manifests\n\NoxSSH\NoxSSH\1.4.3'
 winget validate --manifest $manifests
 wingetcreate submit --token $env:WINGET_TOKEN $manifests
 ```
@@ -77,16 +80,16 @@ wingetcreate submit --token $env:WINGET_TOKEN $manifests
 Or by hand, if you would rather see the commit before it goes:
 
 ```bash
-git clone https://github.com/BradPerbs/winget-pkgs
+git clone https://github.com/DT27/winget-pkgs
 cd winget-pkgs
-git checkout -b CloudBlast.CloudTerm-1.2.0
-cp -r /path/to/cloudterm/dist/winget/manifests .
-git add manifests/c/CloudBlast
-git commit -m "New package: CloudBlast.CloudTerm version 1.2.0"
-git push -u origin CloudBlast.CloudTerm-1.2.0
+git checkout -b NoxSSH.NoxSSH-1.4.3
+cp -r /path/to/noxssh/dist/winget/manifests .
+git add manifests/n/NoxSSH
+git commit -m "New package: NoxSSH.NoxSSH version 1.4.3"
+git push -u origin NoxSSH.NoxSSH-1.4.3
 gh pr create --repo microsoft/winget-pkgs \
-  --title "New package: CloudBlast.CloudTerm version 1.2.0" \
-  --body "Adds CloudTerm, an SSH, SFTP, Telnet, RDP and VNC client. https://github.com/BradPerbs/cloudterm"
+  --title "New package: NoxSSH.NoxSSH version 1.4.3" \
+  --body "Adds NoxSSH, an SSH, SFTP, Telnet, RDP and VNC client. https://github.com/DT27/NoxSSH"
 ```
 
 Either way, their pipeline takes over. It downloads the installer, runs a
@@ -101,7 +104,7 @@ Two things that come up:
   winget are the same, but SmartScreen and occasionally the pipeline's own
   scanner have opinions about unsigned installers and the review can stall on
   it. Reply on the pull request if it does.
-- The publisher name has to be one you can claim. `CloudBlast` is fine here.
+- The publisher name has to be one you can claim. `NoxSSH` is fine here.
   It is also permanent in practice: the identifier is the directory name, the
   thing people type, and what every already-installed copy is matched against,
   so changing it later means a new package and a request to remove the old one.
@@ -113,8 +116,8 @@ finishes, the `winget` job opens the next pull request on its own. It fails
 loudly if something is wrong and leaves the GitHub release alone either way.
 
 If it is ever easier to do a version by hand, the script above still works for
-any tag, and the pull request is `Update version: CloudBlast.CloudTerm version
-1.3.0` rather than `New package`.
+any tag, and the pull request is `Update version: NoxSSH.NoxSSH version 1.5.0`
+rather than `New package`.
 
 ## Why the manifests say what they say
 
@@ -122,16 +125,16 @@ any tag, and the pull request is `Update version: CloudBlast.CloudTerm version
 NSIS installer and the portable build. winget installs things, and there is
 nothing for it to install a portable exe into, so the job's `installers-regex`
 picks out `NoxSSH-Setup-v<version>-x64.exe` and ignores the rest. A separate
-`CloudBlast.CloudTerm.Portable` package could be added later if anyone asks.
+`NoxSSH.NoxSSH.Portable` package could be added later if anyone asks.
 
 **`Scope: user`.** `perMachine` is false in the electron-builder config, so
-CloudTerm installs under the user's own AppData and never asks to elevate.
+NoxSSH installs under the user's own AppData and never asks to elevate.
 Saying so keeps `winget install` from waiting on a prompt that is not coming.
 
 **`AppsAndFeaturesEntries.ProductCode`.** This is the one that is easy to get
-wrong and hard to notice. electron-builder registers CloudTerm in Add or remove
+wrong and hard to notice. electron-builder registers NoxSSH in Add or remove
 programs under a GUID rather than a name, and the display name it writes is
-`CloudTerm 1.2.0`, version included. Match that by name and every release looks
+`NoxSSH 1.4.3`, version included. Match that by name and every release looks
 like a different program, so `winget upgrade` never offers an upgrade and
 `winget install` on a machine that already has it installs it again.
 

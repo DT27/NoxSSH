@@ -38,7 +38,7 @@ const REPO = `${githubPublish.owner}/${githubPublish.repo}`;
 // including the directory it lives in and what people type to install it.
 // Changing it later means submitting a new package and asking for the old one
 // to be taken down, so it is a decision rather than a detail.
-const IDENTIFIER = 'CloudBlast.CloudTerm';
+const IDENTIFIER = 'NoxSSH.NoxSSH';
 
 // Which manifest schema these are written against. winget-pkgs still accepts
 // older ones, so this only moves when there is a reason: bump it, then read
@@ -53,8 +53,8 @@ const MINIMUM_WINDOWS = '10.0.17763.0';
 // electron-builder's NSIS installer registers its uninstall entry under a GUID
 // rather than under a name, and derives that GUID as a UUID v5 of the appId in
 // a namespace of its own. Handing winget the same GUID is the whole reason
-// `winget upgrade` can see an installed CloudTerm: the entry is named
-// "CloudTerm 1.2.0", version and all, so matching it by name would break on
+// `winget upgrade` can see an installed NoxSSH: the entry is named
+// "NoxSSH 1.4.3", version and all, so matching it by name would break on
 // every release.
 //
 // Derived rather than pasted so it tracks appId. Worth knowing that appId is
@@ -65,30 +65,32 @@ const ELECTRON_BUILDER_NAMESPACE = '50e065bc-3134-11e6-9bab-38c9862bdaf3';
 
 const LOCALE = {
     PackageLocale: 'en-US',
-    Publisher: 'CloudBlast',
-    PublisherUrl: 'https://cloudblast.io',
+    Publisher: 'NoxSSH',
+    PublisherUrl: `https://github.com/${REPO}`,
     PublisherSupportUrl: `https://github.com/${REPO}/issues`,
-    Author: 'CloudBlast',
-    PackageName: 'CloudTerm',
+    Author: 'NoxSSH',
+    PackageName: 'NoxSSH',
     PackageUrl: `https://github.com/${REPO}`,
     License: 'CloudTerm License 1.0',
     LicenseUrl: `https://github.com/${REPO}/blob/main/LICENSE`,
-    Copyright: 'Copyright 2026 CloudBlast. All rights reserved.',
+    Copyright: 'Copyright 2026 NoxSSH. All rights reserved.',
     CopyrightUrl: `https://github.com/${REPO}/blob/main/LICENSE`,
     ShortDescription: 'SSH, SFTP, Telnet and Windows RDP, all in one terminal',
     Description: [
-        'CloudTerm keeps every way you reach a server in one window. Open an SSH',
+        'NoxSSH keeps every way you reach a server in one window. Open an SSH',
         'session, move files over SFTP, forward a port and take a Windows desktop,',
         'all on the same connection and the same tab strip.',
         '',
         'It speaks SSH, SFTP, Telnet, RDP, VNC and serial, and adds split panes,',
-        'tabbed sessions, saved snippets, port forwarding and session logging.',
-        'Hosts, keys, snippets and',
-        'settings sync between machines, encrypted on your own machine first.',
+        'tabbed sessions, saved snippets, port forwarding, session logging and',
+        'local shells alongside the remote ones.',
         '',
-        'Built with Electron, React and xterm.js by CloudBlast, and free to use.',
+        'Hosts, keys, snippets and settings sync between machines through your own',
+        'WebDAV storage, encrypted on your machine before anything leaves it.',
+        '',
+        'Built with Electron, React and xterm.js, and free to use.',
     ].join('\n'),
-    Moniker: 'cloudterm',
+    Moniker: 'noxssh',
     Tags: [
         'ssh',
         'ssh-client',
