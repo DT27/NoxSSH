@@ -414,9 +414,13 @@ export default {
   "newTab.notSaved": "Não guardado",
   "newTab.notSavedNote": "Não guardado. Pede as credenciais à medida que liga.",
   "newTab.connectTo": "Ligar a",
+  "newTab.localTerminal": "Terminal local",
   "newTab.hintNavigate": "navegar",
   "newTab.hintConnect": "ligar",
   "newTab.hintClose": "fechar separador",
+
+  /* ---- Local terminal ---- */
+  "local.title": "Terminal local",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "Recarregar",
@@ -761,6 +765,9 @@ export default {
     "texto por baixo de um URL atire um navegador para o ecrã a meio da sessão.",
   "settings.terminal.link.click": "Clique",
   "settings.terminal.link.modifier": "{modifier} + clique",
+  "settings.terminal.localShell": "Shell predefinida",
+  "settings.terminal.localShellDesc": "Usada pelos terminais locais que abrir a partir de agora. Deixe em branco para seguir o sistema, ou indique um caminho completo ou um nome de comando.",
+  "settings.terminal.localShellReset": "Seguir o sistema",
   "settings.terminal.reset": "Voltar às predefinições",
   "settings.terminal.resetAlready": "Tudo acima já está no valor predefinido.",
   "settings.terminal.resetDesc":
@@ -1298,8 +1305,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "Série",
-  "protocol.desktop": "Ambiente de trabalho",
-  "protocol.ssh.summary": "Shell cifrada, e tudo o que assenta nela",
+  "protocol.local": "Local",
+  "protocol.desktop": "Ambiente de trabalho",  "protocol.ssh.summary": "Shell cifrada, e tudo o que assenta nela",
   "protocol.ssh.detail":
     "Ficheiros, encaminhamento de portas e um ambiente de trabalho remoto " +
     "são todos canais de uma ligação SSH, por isso só são oferecidos aqui.",

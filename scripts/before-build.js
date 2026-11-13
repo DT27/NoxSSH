@@ -18,6 +18,25 @@ const path = require('path');
 module.exports = function beforeBuild(context) {
     const dir = path.join(context.appDir, 'node_modules', 'cpu-features');
     fs.rmSync(dir, { recursive: true, force: true });
+
+    // node-pty's prebuilt PTY helper is published without its execute bit, and
+    // the packaged copy keeps whatever mode it was copied with. Setting it here
+    // means the app does not have to fix permissions inside a bundle that may
+    // be read-only; local-shell.js still checks at runtime for a dev install.
+    const pty = path.join(
+        context.appDir,
+        'node_modules',
+        'node-pty',
+        'prebuilds',
+        `${process.platform}-${process.arch}`,
+        'spawn-helper'
+    );
+    try {
+        if (fs.existsSync(pty)) fs.chmodSync(pty, 0o755);
+    } catch {
+        // Windows ships no helper, and a compiled build sets its own mode.
+    }
+
     // Must be true: a falsy return tells electron-builder that node_modules
     // are handled outside it, and it then packs none of them.
     return true;

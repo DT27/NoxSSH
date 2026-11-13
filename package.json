@@ -1,6 +1,6 @@
 {
   "name": "noxssh",
-  "version": "1.4.3-beta.1",
+  "version": "1.4.3",
   "description": "NoxSSH - Modern SSH Client built with Electron, React and xterm.js",
   "main": "src/main/main.js",
   "scripts": {
@@ -59,7 +59,8 @@
       "!**/node_modules/react-hot-toast/**"
     ],
     "asarUnpack": [
-      "**/node_modules/@serialport/bindings-cpp/**"
+      "**/node_modules/@serialport/bindings-cpp/**",
+      "**/node_modules/node-pty/**"
     ],
     "beforeBuild": "./scripts/before-build.js",
     "extraResources": [
@@ -214,6 +215,7 @@
     "gsap": "^3.15.0",
     "hugeicons-react": "^0.4.0",
     "ironrdp-wasm": "^1.1.0",
+    "node-pty": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.6.0",

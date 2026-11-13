@@ -405,9 +405,13 @@ export default {
   "newTab.notSavedNote":
     "Chưa lưu. Thông tin đăng nhập sẽ được hỏi khi kết nối.",
   "newTab.connectTo": "Kết nối tới",
+  "newTab.localTerminal": "Terminal cục bộ",
   "newTab.hintNavigate": "di chuyển",
   "newTab.hintConnect": "kết nối",
   "newTab.hintClose": "đóng thẻ",
+
+  /* ---- Local terminal ---- */
+  "local.title": "Terminal cục bộ",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "Tải lại",
@@ -739,6 +743,9 @@ export default {
     "bấm vốn nhắm vào chữ nằm dưới URL bật trình duyệt lên giữa phiên làm việc.",
   "settings.terminal.link.click": "Bấm",
   "settings.terminal.link.modifier": "{modifier} + bấm",
+  "settings.terminal.localShell": "Shell mặc định",
+  "settings.terminal.localShellDesc": "Dùng cho các terminal cục bộ mở từ bây giờ. Để trống để theo hệ thống, hoặc nhập đường dẫn đầy đủ hay tên lệnh.",
+  "settings.terminal.localShellReset": "Theo hệ thống",
   "settings.terminal.reset": "Trở về mặc định",
   "settings.terminal.resetAlready":
     "Mọi mục ở trên đều đang ở giá trị mặc định.",
@@ -1259,8 +1266,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "Serial",
-  "protocol.desktop": "Máy tính từ xa",
-  "protocol.ssh.summary": "Shell được mã hoá, và mọi thứ dựng trên nó",
+  "protocol.local": "Cục bộ",
+  "protocol.desktop": "Máy tính từ xa",  "protocol.ssh.summary": "Shell được mã hoá, và mọi thứ dựng trên nó",
   "protocol.ssh.detail":
     "Tệp, chuyển tiếp cổng và máy tính từ xa đều là các kênh trên một kết " +
     "nối SSH, nên chúng chỉ được cung cấp ở đây.",

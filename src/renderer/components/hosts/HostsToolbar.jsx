@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import {
+    CommandLineIcon,
     FolderAddIcon,
     GridViewIcon,
     LeftToRightListBulletIcon,
@@ -60,6 +61,7 @@ const HostsToolbar = forwardRef(function HostsToolbar({
     onViewChange,
     onNewFolder,
     onNewHost,
+    onLocalTerminal,
     compact = false,
 }, searchRef) {
     const t = useT();
@@ -104,6 +106,15 @@ const HostsToolbar = forwardRef(function HostsToolbar({
                 {/* A hairline between "how it is shown" and "what there is",
                     so the two primary actions do not read as a fifth filter. */}
                 <span className="w-px h-6 bg-gray-200 dark:bg-surface-control mx-0.5" aria-hidden="true" />
+
+                {/* A shell on this machine, where sessions are started rather
+                    than only in the new-tab launcher: the page that lists what
+                    you connect to is the page you look at when you want one. */}
+                <IconButton
+                    onClick={onLocalTerminal}
+                    title={t('local.title')}
+                    icon={<CommandLineIcon size={18} strokeWidth={1.75} />}
+                />
 
                 <IconButton
                     onClick={onNewFolder}

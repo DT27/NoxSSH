@@ -1,5 +1,30 @@
 # 更新日志
 
+## [1.4.3] - 2026-11-13
+
+### 新增
+
+- **本地终端**：在主机页工具栏或新建标签页中直接打开本机 Shell，与远程会话共用标签、分屏、搜索、复制粘贴、片段、会话录制等能力
+- **默认 Shell 设置**：设置 → 终端新增「默认 Shell」，留空跟随系统，也可填完整路径或命令名（如 `fish`、`pwsh`、`wsl.exe`）
+- 本地终端随布局恢复：重启后在原位置重建为新的本地 Shell
+
+### 改进
+
+- 连接失败不再停在「正在连接」：主进程拒绝连接（如保险库无法解密、处理器抛错）时会显示「无法连接」与具体原因，并可重试
+- 主机页工具栏新增终端入口，无需先新建标签页
+- 本地会话纳入「记录所有会话」，并可在设置中单独开关
+
+### 技术细节
+
+- 新增 [`local-shell.js`](src/main/local-shell.js)：基于 `node-pty` 创建伪终端，`$SHELL` 优先，macOS 回退 `/bin/zsh`、Linux 回退 `/bin/bash`、Windows 使用 PowerShell 或 `COMSPEC`
+- 本地会话经 `transport.js` 的 `local` 后端分发，不经过 SSH 拨号、认证与主机密钥流程
+- 新增 `local-shell-default` IPC 通道，`ssh-connect` 透传 `shell` 参数；新增 [`local-shell.js`](src/renderer/lib/local-shell.js) 与布局序列化支持
+- 新增 [`settings-snapshot.js`](src/renderer/lib/settings-snapshot.js)：默认 Shell 不进入 WebDAV 快照，拉取时保留本机值
+- 打包：`node-pty` 加入依赖与 `asarUnpack`，`before-build.js` 修正 `spawn-helper` 执行位
+- 新增词条：`newTab.localTerminal`、`local.title`、`protocol.local`、`settings.terminal.localShell*`（zh / en / ja / ko / pt / ru / vi）
+
+---
+
 ## [1.4.2] - 2026-08-21
 
 ### 新增

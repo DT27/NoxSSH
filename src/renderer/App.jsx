@@ -13,6 +13,7 @@ import SplitLayout from "./components/panes/SplitLayout";
 import PanePicker from "./components/panes/PanePicker";
 import { useTheme } from "./hooks/useTheme";
 import { useSessions } from "./hooks/useSessions";
+import { createLocalHost } from "./lib/local-shell";
 import { useTerminalTheme } from "./hooks/useTerminalTheme";
 import { useTerminalSettings } from "./hooks/useTerminalSettings";
 import { useKeychain } from "./hooks/useKeychain";
@@ -239,9 +240,13 @@ function App() {
   if (savedSessionRef.current === undefined)
     savedSessionRef.current = readSavedSession();
 
-  // Load data on mount
+  // Load data on mount. `hostsLoaded` is separate from `hosts` because an
+  // empty list and a list that has not arrived yet look the same, and the
+  // restore below has to wait for the second one: a local terminal has no host
+  // to wait for, but a saved connection would be dropped as deleted.
+  const [hostsLoaded, setHostsLoaded] = useState(false);
   useEffect(() => {
-    loadData();
+    loadData().finally(() => setHostsLoaded(true));
   }, [loadData]);
 
   // Reopen the terminal tabs from the last run once the host list is in.
@@ -251,7 +256,7 @@ function App() {
   // second one.
   useEffect(() => {
     const saved = savedSessionRef.current;
-    if (!saved || hosts.length === 0) return;
+    if (!saved || !hostsLoaded) return;
     savedSessionRef.current = null;
 
     const hostsById = Object.fromEntries(hosts.map((host) => [host.id, host]));
@@ -304,7 +309,7 @@ function App() {
     if (restored.some((t) => t.id === saved.activeTabId)) {
       setActiveTabId(saved.activeTabId);
     }
-  }, [hosts]);
+  }, [hosts, hostsLoaded]);
 
   // Remember which terminal tabs are open, and how each one is laid out.
   // Held back until the restore effect has consumed the previous record, or
@@ -545,6 +550,18 @@ function App() {
     // as the session id every other part of the app knows it by.
     return { success: true, tabId };
   }, []);
+
+  /**
+   * A shell on this machine, opened like any other session.
+   *
+   * Nothing downstream needs a second kind of tab: a local terminal is a pane
+   * whose host record is a stand-in (see lib/local-shell.js), so it takes a
+   * tab, a split, a restore and a close exactly the way a connection does.
+   */
+  const handleNewLocalTerminal = useCallback(
+    (intoTabId) => handleConnect(createLocalHost(), intoTabId),
+    [handleConnect]
+  );
 
   /**
    * An address typed into a picker rather than a host chosen from one.
@@ -1649,6 +1666,7 @@ function App() {
               onTerminalSettingsReset={resetTerminalSettings}
               onDataImported={handleDataImported}
               onNewHost={handleNewHost}
+              onLocalTerminal={() => handleNewLocalTerminal()}
               onEditHost={handleEditHost}
               onDuplicateHost={handleDuplicateHost}
               onDeleteHost={handleDeleteHost}
@@ -1698,6 +1716,7 @@ function App() {
                     if (host) handleConnect(host, tab.id);
                   }}
                   onNewHost={handleNewHost}
+                  onLocalTerminal={() => handleNewLocalTerminal(tab.id)}
                   onClose={() => handleCloseTab(tab.id)}
                 />
               </div>

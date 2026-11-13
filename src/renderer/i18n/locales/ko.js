@@ -378,9 +378,13 @@ export default {
   "newTab.notSaved": "저장되지 않음",
   "newTab.notSavedNote": "저장되지 않았습니다. 연결 시 로그인 정보를 묻습니다.",
   "newTab.connectTo": "연결 대상",
+  "newTab.localTerminal": "로컬 터미널",
   "newTab.hintNavigate": "이동",
   "newTab.hintConnect": "연결",
   "newTab.hintClose": "탭 닫기",
+
+  /* ---- Local terminal ---- */
+  "local.title": "로컬 터미널",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "다시 로드",
@@ -683,6 +687,9 @@ export default {
     "URL 아래 텍스트를 누르려다 세션 도중에 브라우저가 뜨는 일을 막습니다.",
   "settings.terminal.link.click": "클릭",
   "settings.terminal.link.modifier": "{modifier} + 클릭",
+  "settings.terminal.localShell": "기본 셸",
+  "settings.terminal.localShellDesc": "앞으로 여는 로컬 터미널에 사용됩니다. 비워 두면 시스템 설정을 따르며, 전체 경로나 명령 이름을 입력할 수 있습니다.",
+  "settings.terminal.localShellReset": "시스템 기본값",
   "settings.terminal.reset": "기본값으로 되돌리기",
   "settings.terminal.resetAlready": "위의 항목이 이미 모두 기본값입니다.",
   "settings.terminal.resetDesc":
@@ -1136,8 +1143,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "시리얼",
-  "protocol.desktop": "원격 데스크톱",
-  "protocol.ssh.summary": "암호화된 셸, 그리고 그 위에 올라간 모든 것",
+  "protocol.local": "로컬",
+  "protocol.desktop": "원격 데스크톱",  "protocol.ssh.summary": "암호화된 셸, 그리고 그 위에 올라간 모든 것",
   "protocol.ssh.detail":
     "파일, 포트 포워딩, 원격 데스크톱은 모두 SSH 연결 위의 채널이므로 여기에서만 제공됩니다.",
   "protocol.telnet.summary": "SSH가 없는 장치로 가는 일반 소켓",

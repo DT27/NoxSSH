@@ -424,9 +424,13 @@ export default {
   "newTab.notSavedNote":
     "Не сохранено. Данные для входа будут запрошены при подключении.",
   "newTab.connectTo": "Подключиться к",
+  "newTab.localTerminal": "Локальный терминал",
   "newTab.hintNavigate": "перемещение",
   "newTab.hintConnect": "подключиться",
   "newTab.hintClose": "закрыть вкладку",
+
+  /* ---- Local terminal ---- */
+  "local.title": "Локальный терминал",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "Перезагрузить",
@@ -774,6 +778,9 @@ export default {
     "текст под ссылкой, не выбросит браузер на экран посреди работы.",
   "settings.terminal.link.click": "Щелчок",
   "settings.terminal.link.modifier": "{modifier} + щелчок",
+  "settings.terminal.localShell": "Оболочка по умолчанию",
+  "settings.terminal.localShellDesc": "Используется новыми локальными терминалами. Оставьте пустым, чтобы следовать системе, или укажите полный путь либо имя команды.",
+  "settings.terminal.localShellReset": "Как в системе",
   "settings.terminal.reset": "Вернуть значения по умолчанию",
   "settings.terminal.resetAlready":
     "Всё, что выше, уже имеет значение по умолчанию.",
@@ -1346,8 +1353,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "Последовательный порт",
-  "protocol.desktop": "Рабочий стол",
-  "protocol.ssh.summary": "Шифрованная оболочка и всё, что на ней построено",
+  "protocol.local": "Локальный",
+  "protocol.desktop": "Рабочий стол",  "protocol.ssh.summary": "Шифрованная оболочка и всё, что на ней построено",
   "protocol.ssh.detail":
     "Файлы, проброс портов и удалённый рабочий стол это каналы одного " +
     "соединения SSH, поэтому они предлагаются только здесь.",

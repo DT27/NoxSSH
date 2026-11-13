@@ -378,9 +378,13 @@ export default {
   "newTab.notSaved": "未保存",
   "newTab.notSavedNote": "未保存。连接时会询问登录信息。",
   "newTab.connectTo": "连接到",
+  "newTab.localTerminal": "本地终端",
   "newTab.hintNavigate": "移动",
   "newTab.hintConnect": "连接",
   "newTab.hintClose": "关闭标签页",
+
+  /* ---- Local terminal ---- */
+  "local.title": "本地终端",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "重新加载",
@@ -683,6 +687,9 @@ export default {
     "是编辑器的做法：这样一来，原本想点在 URL 下方文字上的点击就不会在会话中途弹出浏览器。",
   "settings.terminal.link.click": "单击",
   "settings.terminal.link.modifier": "{modifier} + 单击",
+  "settings.terminal.localShell": "默认 Shell",
+  "settings.terminal.localShellDesc": "之后新打开的本地终端会使用它。留空则跟随系统，也可以填完整路径或命令名。",
+  "settings.terminal.localShellReset": "跟随系统",
   "settings.terminal.reset": "恢复默认值",
   "settings.terminal.resetAlready": "以上各项都已是默认值。",
   "settings.terminal.resetDesc":
@@ -1140,8 +1147,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "串口",
-  "protocol.desktop": "远程桌面",
-  "protocol.ssh.summary": "加密 shell，以及基于它的一切",
+  "protocol.local": "本地",
+  "protocol.desktop": "远程桌面",  "protocol.ssh.summary": "加密 shell，以及基于它的一切",
   "protocol.ssh.detail":
     "文件、端口转发和远程桌面都是 SSH 连接上的通道，因此只在这里提供。",
   "protocol.telnet.summary": "连到没有 SSH 的设备的普通套接字",

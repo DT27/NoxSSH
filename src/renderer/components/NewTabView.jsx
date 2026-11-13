@@ -1,5 +1,5 @@
 import { memo, useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import { Search01Icon, PlusSignIcon, CloudServerIcon, SearchRemoveIcon, Plug01Icon } from 'hugeicons-react';
+import { Search01Icon, PlusSignIcon, CloudServerIcon, SearchRemoveIcon, Plug01Icon, CommandLineIcon } from 'hugeicons-react';
 import EmptyFrame from './ui/EmptyFrame';
 import { OsIcon, hostOs } from '../lib/os-icons';
 import { parseAddress, formatAddress } from '../lib/address';
@@ -134,7 +134,7 @@ function SectionLabel({ children }) {
  * saved is the same gesture as reaching one that was: type it, press Enter,
  * answer the login on the pane. See `onQuickConnect` and lib/address.js.
  */
-function NewTabView({ hosts, folders, isActive, onConnect, onQuickConnect, onNewHost, onClose }) {
+function NewTabView({ hosts, folders, isActive, onConnect, onQuickConnect, onNewHost, onLocalTerminal, onClose }) {
     const t = useT();
     const [query, setQuery] = useState('');
     const [selected, setSelected] = useState(0);
@@ -232,14 +232,27 @@ function NewTabView({ hosts, folders, isActive, onConnect, onQuickConnect, onNew
                             {t('newTab.subtitle')}
                         </p>
                     </div>
-                    <button
-                        type="button"
-                        className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md"
-                        onClick={onNewHost}
-                    >
-                        <PlusSignIcon className="w-4 h-4" size={16} strokeWidth={2.5} />
-                        <span>{t('hosts.newHost')}</span>
-                    </button>
+                    <div className="shrink-0 flex items-center gap-2">
+                        {/* A shell on this machine, beside the hosts rather
+                            than in the list: it is not one of them, and it
+                            does not compete with them for the keyboard. */}
+                        <button
+                            type="button"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 dark:border-neutral-800 text-gray-700 dark:text-gray-200 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 active:scale-95 transition-all"
+                            onClick={onLocalTerminal}
+                        >
+                            <CommandLineIcon className="w-4 h-4" size={16} strokeWidth={2} />
+                            <span>{t('newTab.localTerminal')}</span>
+                        </button>
+                        <button
+                            type="button"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-black font-semibold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md"
+                            onClick={onNewHost}
+                        >
+                            <PlusSignIcon className="w-4 h-4" size={16} strokeWidth={2.5} />
+                            <span>{t('hosts.newHost')}</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Search: a hero control, so it takes the 12px control radius

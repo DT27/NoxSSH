@@ -18,9 +18,10 @@ const store = require('./store');
 const ssh = require('./ssh');
 const telnet = require('./telnet');
 const serial = require('./serial');
+const localShell = require('./local-shell');
 const { normalizeProtocol } = require('./protocol-config');
 
-const BACKENDS = { ssh, telnet, serial };
+const BACKENDS = { ssh, telnet, serial, local: localShell };
 
 function backendFor(protocol) {
     return BACKENDS[normalizeProtocol(protocol)] || ssh;
@@ -32,8 +33,14 @@ function backendFor(protocol) {
  * The protocol is read from the store rather than passed in, for the same
  * reason credentials are: the renderer asking for a particular transport would
  * be the renderer deciding what a stored record means.
+ *
+ * A local shell is the one exception, and it is not really one: there is no
+ * stored record to read, so the renderer says `local` and gets this machine's
+ * shell. Nothing else about the transport is chosen by that side.
  */
 function connect(payload, deps = {}) {
+    if (payload?.local) return localShell.connect(payload, deps);
+
     const protocol = store.getHostProtocol(payload?.hostId);
     return backendFor(protocol).connect(payload, deps);
 }

@@ -113,6 +113,7 @@ export default function SessionLogSection() {
                             { key: 'ssh', label: 'SSH' },
                             { key: 'telnet', label: 'Telnet' },
                             { key: 'serial', label: 'Serial' },
+                            { key: 'local', label: t('protocol.local') },
                         ].map(({ key, label }) => (
                             <Checkbox
                                 key={key}

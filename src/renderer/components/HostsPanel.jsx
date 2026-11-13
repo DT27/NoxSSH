@@ -138,6 +138,7 @@ function HostsPanel({
     onDeleteHost,
     onConnect,
     onNewFolder,
+    onLocalTerminal,
     onCreateFolder,
     onEditFolder,
     onDeleteFolder,
@@ -1092,6 +1093,7 @@ function HostsPanel({
                 onViewChange={setView}
                 onNewFolder={onNewFolder}
                 onNewHost={onNewHost}
+                onLocalTerminal={onLocalTerminal}
             />
 
             <div className="flex items-center justify-between gap-4 shrink-0 min-h-[28px]">

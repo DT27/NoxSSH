@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import SettingsPage from '../ui/SettingsPage';
 import SettingCard from '../ui/SettingCard';
@@ -88,6 +88,27 @@ export default function TerminalPage({
 }) {
     const t = useT();
     const [editorOpen, setEditorOpen] = useState(false);
+
+    /**
+     * What an empty shell setting resolves to. Main answers, because main is
+     * where the environment the shell inherits is decided; the field shows it
+     * as a placeholder so the empty state is not an unexplained blank.
+     */
+    const [defaultShell, setDefaultShell] = useState('');
+
+    useEffect(() => {
+        let cancelled = false;
+
+        window.api?.ssh?.defaultShell?.()
+            .then((answer) => {
+                if (!cancelled) setDefaultShell(answer?.shell || '');
+            })
+            .catch(() => {
+                // The placeholder stays empty; the setting still works.
+            });
+
+        return () => { cancelled = true; };
+    }, []);
 
     const customColors = sanitizeCustomTheme(customTerminalTheme);
     const customSelected = terminalTheme === CUSTOM_THEME_ID;
@@ -360,6 +381,45 @@ export default function TerminalPage({
                         </button>
                     }
                 />
+            </SettingCard>
+
+            {/* ---------------- Local terminal ---------------- */}
+            <SettingCard>
+                <SettingRow
+                    title={t('settings.terminal.localShell')}
+                    description={t('settings.terminal.localShellDesc')}
+                >
+                    <div className="flex items-center gap-2">
+                        {/* The placeholder is the answer the machine gives when
+                            this is empty, so the field explains itself without a
+                            second line of prose naming a path. */}
+                        <input
+                            id="terminal-local-shell"
+                            type="text"
+                            spellCheck={false}
+                            autoComplete="off"
+                            aria-label={t('settings.terminal.localShell')}
+                            className="w-72 px-3 py-2 rounded-xl text-sm font-mono bg-white dark:bg-neutral-800
+                                border border-gray-300 dark:border-neutral-700
+                                text-gray-900 dark:text-gray-100 placeholder:text-gray-400
+                                dark:placeholder:text-neutral-500 outline-none
+                                focus-visible:ring-2 focus-visible:ring-gray-900/20 dark:focus-visible:ring-white/25"
+                            placeholder={defaultShell || '—'}
+                            value={terminalSettings.localShell}
+                            onChange={(event) => set({ localShell: event.target.value })}
+                        />
+                        <button
+                            className="px-3 py-2 rounded-xl text-sm font-semibold border border-gray-300
+                                dark:border-neutral-700 text-gray-700 dark:text-gray-300 transition-all
+                                active:scale-95 hover:bg-gray-50 dark:hover:bg-neutral-800
+                                disabled:opacity-40 disabled:cursor-not-allowed"
+                            disabled={!terminalSettings.localShell}
+                            onClick={() => set({ localShell: '' })}
+                        >
+                            {t('settings.terminal.localShellReset')}
+                        </button>
+                    </div>
+                </SettingRow>
             </SettingCard>
 
             {/* ---------------- Colour ---------------- */}

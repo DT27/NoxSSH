@@ -17,8 +17,13 @@ const ANSI = {
 };
 
 /**
- * Owns one tab's SSH session: the initial dial, and getting back on after a
- * drop.
+ * Owns one tab's session: the initial dial, and getting back on after a drop.
+ *
+ * Named for SSH because that is what every session was when this was written.
+ * A pane can also run a local shell on it; the two differ in what is dialled
+ * and in what a drop means, and both are handled here so the pane keeps one
+ * idea of session state (see `local` below). Everything else — bytes in, bytes
+ * out, the status a header shows — is the same either way.
  *
  * Retries only ever follow a session that was actually established. A failed
  * first dial is left alone, since an authentication failure is not worth repeating,
@@ -31,7 +36,7 @@ const ANSI = {
  *   failed        out of attempts, or the first dial failed
  *   closed        the user disconnected on purpose
  */
-export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }) {
+export function useSshConnection({ tabId, hostId, getGeometry, write, onResult, local = false, shell = '' }) {
     const [status, setStatus] = useState('connecting');
     const [attempt, setAttempt] = useState(0);
     const [retryIn, setRetryIn] = useState(0);
@@ -142,7 +147,16 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
         setPhase(reconnect ? 'reconnecting' : 'connecting');
 
         const { cols, rows } = callbacks.current.getGeometry() || {};
-        const result = await window.api.ssh.connect({ tabId, hostId, cols, rows });
+
+        // Main can fail the call itself — a locked vault, a handler that threw —
+        // and that arrives as a rejection rather than a `result`. Unwrapped, it
+        // would leave the pane on "connecting" for ever, with nothing said.
+        let result;
+        try {
+            result = await window.api.ssh.connect({ tabId, hostId, cols, rows, local, shell });
+        } catch (error) {
+            result = { success: false, message: error?.message || 'Connection failed' };
+        }
 
         if (disposedRef.current) return result;
 
@@ -161,8 +175,10 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
         }
 
         // A retry that failed goes back on the clock rather than reporting up:
-        // one toast per attempt would be six toasts for one dropped link.
-        if (reconnect && attemptRef.current < MAX_ATTEMPTS) {
+        // one toast per attempt would be six toasts for one dropped link. A
+        // local shell has nothing to retry: a second spawn either works at once
+        // or fails for a reason (no binding, no shell) that waiting will not fix.
+        if (reconnect && !local && attemptRef.current < MAX_ATTEMPTS) {
             scheduleRetry(result.message);
             return result;
         }
@@ -175,7 +191,7 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
         callbacks.current.write(ANSI.error(result.message || 'Connection failed'));
         callbacks.current.onResult?.(result, { reconnect });
         return result;
-    }, [tabId, hostId, clearTimers, setPhase, scheduleRetry]);
+    }, [tabId, hostId, local, shell, clearTimers, setPhase, scheduleRetry]);
 
     dialRef.current = dial;
 
@@ -190,13 +206,24 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
      * both close on one drop, a dial that fails closes its own client, and
      * reconnecting tears the previous session down on purpose. Each of those
      * would otherwise look like a fresh drop and reset the backoff.
+     *
+     * A local shell that exits is not a drop to chase. The command the user ran
+     * ended, or they typed `exit`; either way there is no path back to the shell
+     * that was there. Reconnect stays on the header, where it means a new one.
      */
     const handleDropped = useCallback(() => {
         if (disposedRef.current || phaseRef.current !== 'connected') return;
 
+        if (local) {
+            setPhase('closed');
+            setRoute([]);
+            callbacks.current.write(ANSI.dim('Local shell exited'));
+            return;
+        }
+
         attemptRef.current = 0;
         scheduleRetry('Connection closed by remote host');
-    }, [scheduleRetry]);
+    }, [local, scheduleRetry, setPhase]);
 
     const disconnect = useCallback(() => {
         clearTimers();
@@ -216,8 +243,14 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
     /**
      * Waking from sleep or regaining the network is the moment a retry is most
      * likely to work, so skip the remaining countdown and try immediately.
+     *
+     * Only for a networked session: a local shell that failed to start did so
+     * for a local reason, and opening a second one nobody asked for as the lid
+     * comes up is not something to do on the user's behalf.
      */
     useEffect(() => {
+        if (local) return undefined;
+
         const wake = () => {
             if (!establishedRef.current) return;
             if (phaseRef.current !== 'waiting' && phaseRef.current !== 'failed') return;
@@ -231,7 +264,7 @@ export function useSshConnection({ tabId, hostId, getGeometry, write, onResult }
             offResume();
             window.removeEventListener('online', wake);
         };
-    }, [reconnectNow]);
+    }, [local, reconnectNow]);
 
     return {
         status,

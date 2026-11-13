@@ -40,6 +40,7 @@ function HomeView({
     onTerminalSettingsReset,
     onDataImported,
     onNewHost,
+    onLocalTerminal,
     onEditHost,
     onDuplicateHost,
     onDeleteHost,
@@ -72,6 +73,7 @@ function HomeView({
                     currentFolderId={currentFolderId}
                     connectedHostIds={connectedHostIds}
                     onNewHost={onNewHost}
+                    onLocalTerminal={onLocalTerminal}
                     onEditHost={onEditHost}
                     onDuplicateHost={onDuplicateHost}
                     onDeleteHost={onDeleteHost}

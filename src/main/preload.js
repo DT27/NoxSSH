@@ -224,11 +224,16 @@ contextBridge.exposeInMainWorld("api", {
   // still are; main reads the host record and picks between SSH, telnet and a
   // serial port. Nothing on this side has to know which it got: the port
   // carries bytes either way.
+  //
+  // `local` is the one session with no host record behind it — this machine's
+  // own shell — so the pane names it rather than naming a host.
   ssh: {
-    connect: ({ tabId, hostId, cols, rows }) =>
-      ipcRenderer.invoke("ssh-connect", { tabId, hostId, cols, rows }),
+    connect: ({ tabId, hostId, cols, rows, local, shell }) =>
+      ipcRenderer.invoke("ssh-connect", { tabId, hostId, cols, rows, local, shell }),
     disconnect: (tabId) => ipcRenderer.invoke("ssh-disconnect", tabId),
     detectOS: (tabId) => ipcRenderer.invoke("ssh-detect-os", tabId),
+    // What an empty shell setting means here, for the settings page to show.
+    defaultShell: () => ipcRenderer.invoke("local-shell-default"),
 
     sendInput: (tabId, data) => post(tabId, { type: "input", data }),
     resize: (tabId, cols, rows) => post(tabId, { type: "resize", cols, rows }),

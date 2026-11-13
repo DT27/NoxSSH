@@ -16,6 +16,7 @@ import { toastOptions } from '../lib/toast';
 import { MODIFIER_KEY } from '../lib/platform';
 import { OsIcon, hostOs } from '../lib/os-icons';
 import { protocolLabel } from '../lib/protocols';
+import { isLocalHost } from '../lib/local-shell';
 import SegmentedControl from './ui/SegmentedControl';
 import MenuButton from './ui/MenuButton';
 import Tooltip from './ui/Tooltip';
@@ -274,6 +275,16 @@ function TerminalView({
     const bmcOnly = Boolean(pane?.host?.bmc?.enabled && pane.host.bmc.only);
 
     /**
+     * A pane running this machine's own shell rather than a connection.
+     *
+     * It is a session like any other — bytes over the same port, the same
+     * status, the same Reconnect — but none of the SSH channels exist behind
+     * it: no files, no forwards, no desktop. `sshHost` below already reads the
+     * protocol, so most of the pane's chrome follows from this one flag.
+     */
+    const isLocal = isLocalHost(pane?.host);
+
+    /**
      * A pane with no SSH session behind it, by either route.
      *
      * The session's own chrome (the status dot, the route mark, Reconnect) is
@@ -382,6 +393,11 @@ function TerminalView({
     const connection = useSshConnection({
         tabId: pane?.id,
         hostId: pane?.host?.id,
+        // A local shell is dialled on the same channel and reported through the
+        // same status; only what is started, and what a close means, differ.
+        local: isLocal,
+        // Only a shell of our own takes this; SSH ignores it on the way through.
+        shell: terminalSettings.localShell,
         getGeometry: () => ({
             cols: termRef.current?.cols || 80,
             rows: termRef.current?.rows || 24,
@@ -1737,8 +1753,14 @@ function TerminalView({
                     // typed address may have arrived without it, and this
                     // screen is where it gets asked for: `@10.0.0.5:22` under
                     // a box asking who to log in as reads as a bug.
-                    address={`${pane.host?.username ? `${pane.host.username}@` : ''}`
-                        + `${pane.host?.host || ''}:${pane.host?.port || 22}`}
+                    //
+                    // A local shell has no address at all: the thing that did
+                    // not start is the shell on this machine, and the title
+                    // already says so.
+                    address={isLocal
+                        ? ''
+                        : `${pane.host?.username ? `${pane.host.username}@` : ''}`
+                            + `${pane.host?.host || ''}:${pane.host?.port || 22}`}
                     os={hostOs(pane.host)}
                     distro={pane.host?.distro}
                     background={themeConfig.background}

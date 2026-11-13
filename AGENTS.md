@@ -127,3 +127,21 @@ NoxSSH 是一个基于 Electron、React 和 xterm.js 构建的现代 SSH 客户�
 - 词条：新增 `settings.about.autoCheck*` 系列词条（zh / en / ja / ko / pt / ru / vi）
 
 手动点击"检查更新"按钮不受此开关影响，始终可用。
+
+## 本地终端
+
+在主机页工具栏或新建标签页打开本机 Shell，与远程会话共用标签、分屏、搜索、复制粘贴、片段、录制与布局恢复。
+
+- 主进程：[`src/main/local-shell.js`](src/main/local-shell.js) 用 `node-pty` 创建伪终端
+  - Shell 选择：`$SHELL` → macOS `/bin/zsh` / Linux `/bin/bash` / Windows PowerShell（其次 `COMSPEC`）
+  - POSIX 以登录 shell（`-l`）启动，恢复 PATH；Windows 不传 `-l`
+  - 清掉 `TMUX` / `STY` / `COLUMNS` 等继承变量，设置 `TERM=xterm-256color`
+- 分发：[`src/main/transport.js`](src/main/transport.js) 的 `local` 后端；本地会话不走 SSH 拨号、认证、主机密钥
+- 渲染进程：[`src/renderer/lib/local-shell.js`](src/renderer/lib/local-shell.js) 合成 `protocol: 'local'` 的临时主机，不写入主机库；[`panes.js`](src/renderer/lib/panes.js) 以 `{ local: true }` 序列化，恢复为新 Shell
+- 默认 Shell 设置：设置 → 终端，存于 `terminal.appearance.localShell`
+  - 留空跟随系统；可填完整路径或命令名（按 `PATH` 查找）
+  - 找不到时连接失败并提示 `Shell not found: …`，不静默替换
+  - 不参与 WebDAV 同步（[`settings-snapshot.js`](src/renderer/lib/settings-snapshot.js) 上报时剥离、拉取时保留本机值）
+- 录制：`session-log` 的 `protocols.local` 控制，默认开启
+- 打包：`node-pty` 在依赖与 `asarUnpack` 中；[`before-build.js`](scripts/before-build.js) 修正 `spawn-helper` 执行位（npm 包内为 0644）
+- 词条：`newTab.localTerminal`、`local.title`、`protocol.local`、`settings.terminal.localShell*`（zh / en / ja / ko / pt / ru / vi）

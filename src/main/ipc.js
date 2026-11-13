@@ -16,6 +16,7 @@ const hello = require("./hello");
 const ssh = require("./ssh");
 const transport = require("./transport");
 const serial = require("./serial");
+const localShell = require("./local-shell");
 const agent = require("./agent");
 const sftp = require("./sftp");
 const transfers = require("./transfers");
@@ -737,6 +738,17 @@ function register(getWindow) {
   });
 
   handle("ssh-disconnect", (event, tabId) => transport.destroy(tabId));
+
+  /**
+   * What an empty "default shell" setting means on this machine.
+   *
+   * The lookup lives in the main process because that is where the environment
+   * the shell will inherit is, and it is the environment that decides.
+   */
+  handle("local-shell-default", () => ({
+    shell: localShell.defaultShell(),
+    platform: process.platform,
+  }));
   handle("ssh-detect-os", (event, tabId) => ssh.detectOS(tabId));
 
   /* ---------------- Serial ports ---------------- */
@@ -1428,7 +1440,9 @@ function register(getWindow) {
   // resolved from the live session rather than passed in, so the renderer
   // cannot name a file after a server it is not actually connected to.
   handle("session-log-start", (event, tabId) => {
-    const session = ssh.get(tabId);
+    // A local shell records too: it is a session like any other, and the
+    // binding is what the module is asking for rather than which host it is.
+    const session = ssh.get(tabId) || localShell.get(tabId);
     if (!session)
       return { success: false, message: "That session is not connected" };
 

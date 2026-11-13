@@ -40,7 +40,7 @@ const DEFAULTS = {
     // Which kinds of session "record every session" records. A session forced
     // from its own header is recorded regardless: that gesture names one
     // specific session, so a filter meant for the blanket setting has no say.
-    protocols: { ssh: true, telnet: true, serial: true },
+    protocols: { ssh: true, telnet: true, serial: true, local: true },
     // How many days a transcript is kept before the sweep deletes it.
     // 0 means forever.
     retentionDays: 0,

@@ -431,9 +431,15 @@ export default {
   "newTab.notSaved": "Not saved",
   "newTab.notSavedNote": "Not saved. It asks for the login as it connects.",
   "newTab.connectTo": "Connect to",
+  "newTab.localTerminal": "Local terminal",
   "newTab.hintNavigate": "navigate",
   "newTab.hintConnect": "connect",
   "newTab.hintClose": "close tab",
+
+  /* ---------------------------------------------------------------- *
+   * Local terminal
+   * ---------------------------------------------------------------- */
+  "local.title": "Local Terminal",
 
   /* ---------------------------------------------------------------- *
    * Title bar and the tab strip
@@ -783,6 +789,9 @@ export default {
     "the text under a URL from throwing a browser at the screen mid-session.",
   "settings.terminal.link.click": "Click",
   "settings.terminal.link.modifier": "{modifier} + click",
+  "settings.terminal.localShell": "Default shell",
+  "settings.terminal.localShellDesc": "Used by local terminals you open from now on. Leave it empty to follow the system, or give a full path or a command name.",
+  "settings.terminal.localShellReset": "Use system default",
   "settings.terminal.reset": "Back to the defaults",
   "settings.terminal.resetAlready":
     "Everything above is already at its default.",
@@ -1320,8 +1329,8 @@ export default {
    * What a host connects with
    * ---------------------------------------------------------------- */
   "protocol.serial": "Serial",
-  "protocol.desktop": "Desktop",
-  "protocol.ssh.summary": "Encrypted shell, and everything built on it",
+  "protocol.local": "Local",
+  "protocol.desktop": "Desktop",  "protocol.ssh.summary": "Encrypted shell, and everything built on it",
   "protocol.ssh.detail":
     "Files, port forwarding and a remote desktop are all channels on an SSH " +
     "connection, so they are only offered here.",

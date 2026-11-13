@@ -378,9 +378,13 @@ export default {
   "newTab.notSaved": "未保存",
   "newTab.notSavedNote": "未保存です。接続時にログイン情報を尋ねます。",
   "newTab.connectTo": "接続先",
+  "newTab.localTerminal": "ローカルターミナル",
   "newTab.hintNavigate": "移動",
   "newTab.hintConnect": "接続",
   "newTab.hintClose": "タブを閉じる",
+
+  /* ---- Local terminal ---- */
+  "local.title": "ローカルターミナル",
 
   /* ---- Title bar ---- */
   "titleBar.reload": "再読み込み",
@@ -683,6 +687,9 @@ export default {
     "URL の下の文字をクリックしたつもりで、セッションの途中にブラウザーが開かないようにするためです。",
   "settings.terminal.link.click": "クリック",
   "settings.terminal.link.modifier": "{modifier} + クリック",
+  "settings.terminal.localShell": "既定のシェル",
+  "settings.terminal.localShellDesc": "これから開くローカルターミナルで使われます。空欄ならシステムに従い、フルパスまたはコマンド名も指定できます。",
+  "settings.terminal.localShellReset": "システムに従う",
   "settings.terminal.reset": "既定値に戻す",
   "settings.terminal.resetAlready": "上の項目はすべて既定値です。",
   "settings.terminal.resetDesc":
@@ -1136,8 +1143,8 @@ export default {
 
   /* ---- Protocols ---- */
   "protocol.serial": "シリアル",
-  "protocol.desktop": "リモートデスクトップ",
-  "protocol.ssh.summary": "暗号化されたシェルと、その上のすべて",
+  "protocol.local": "ローカル",
+  "protocol.desktop": "リモートデスクトップ",  "protocol.ssh.summary": "暗号化されたシェルと、その上のすべて",
   "protocol.ssh.detail":
     "ファイル、ポート転送、リモートデスクトップはいずれも SSH 接続上のチャネルなので、ここだけで提供されます。",
   "protocol.telnet.summary": "SSH のない機器へつなぐ普通のソケット",

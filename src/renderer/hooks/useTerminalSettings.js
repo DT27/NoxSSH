@@ -3,7 +3,8 @@ import { MODIFIER_KEY } from '../lib/platform';
 
 /**
  * How the terminal is typeset: the face, its size and weight, the space around
- * it, and the cursor drawn in it.
+ * it, and the cursor drawn in it — plus which shell a local terminal starts,
+ * which is the one setting here that is not about how anything looks.
  *
  * One record rather than a setting apiece, because these are read together:
  * every one of them changes the cell geometry, so a change to any of them has
@@ -73,6 +74,10 @@ export const DEFAULT_TERMINAL_SETTINGS = {
     scrollback: 10000,
     smoothScrollDuration: 0,
     linkActivation: 'click',
+    // Empty means "whatever the machine says": $SHELL, then the platform's own
+    // default. A path set here names an executable on one machine, so it stays
+    // out of the settings snapshot: see lib/settings-snapshot.js.
+    localShell: '',
 };
 
 /**
@@ -166,6 +171,11 @@ export function sanitizeTerminalSettings(raw) {
     if (typeof source.cursorBlink === 'boolean') next.cursorBlink = source.cursorBlink;
     if (LINK_ACTIVATIONS.some(mode => mode.id === source.linkActivation)) {
         next.linkActivation = source.linkActivation;
+    }
+    // A path, not an arbitrary string: trimmed, and capped at something no
+    // filesystem path exceeds, so a pasted blob cannot land in the setting.
+    if (typeof source.localShell === 'string') {
+        next.localShell = source.localShell.trim().slice(0, 512);
     }
 
     return next;

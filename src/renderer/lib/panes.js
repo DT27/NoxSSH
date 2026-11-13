@@ -23,6 +23,8 @@
  * did not touch so React can skip re-rendering them.
  */
 
+import { createLocalHost, isLocalHost } from './local-shell';
+
 /** Gap between two panes, and the width of the handle drawn in it. */
 export const DIVIDER_SIZE = 8;
 
@@ -436,6 +438,12 @@ export function neighborPane(rects, fromId, direction) {
 export function serializeLayout(node) {
     if (!node) return null;
     if (isPane(node)) {
+        // A local shell has no host id to resolve on the way back in, so the
+        // record says what it is instead. It restores as a fresh shell, which
+        // is the only thing a saved local terminal could honestly be.
+        if (isLocalHost(node.host)) {
+            return { k: 'p', id: node.id, local: true };
+        }
         return { k: 'p', id: node.id, hostId: node.host?.id || null };
     }
     return {
@@ -455,6 +463,10 @@ export function deserializeLayout(record, hostsById) {
     if (!record) return null;
 
     if (record.k === 'p') {
+        if (record.local) {
+            return createPane({ id: record.id, host: createLocalHost() });
+        }
+
         const host = hostsById[record.hostId];
         if (!host) return null;
         return createPane({ id: record.id, host, title: host.name });

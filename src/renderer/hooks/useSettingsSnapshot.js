@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { withLocalDeviceFields, withoutDeviceFields } from '../lib/settings-snapshot';
 
 /**
  * Carries terminal settings in and out of the cloud snapshot.
@@ -30,7 +31,9 @@ function readSettings() {
 
     for (const key of SYNCED_KEYS) {
         const value = localStorage.getItem(key);
-        if (value !== null) settings[key] = value;
+        // Without the settings that name something on this machine only, such
+        // as the local shell's path; see lib/settings-snapshot.js.
+        if (value !== null) settings[key] = withoutDeviceFields(key, value);
     }
 
     return settings;
@@ -71,9 +74,14 @@ export default function useSettingsSnapshot() {
             for (const key of SYNCED_KEYS) {
                 const incoming = settings[key];
                 if (typeof incoming !== 'string') continue;
-                if (localStorage.getItem(key) === incoming) continue;
 
-                localStorage.setItem(key, incoming);
+                // Merge rather than replace: the fields this machine owns stay
+                // as they are, so a snapshot from another computer cannot blank
+                // a shell path that only makes sense here.
+                const next = withLocalDeviceFields(key, incoming, localStorage.getItem(key));
+                if (localStorage.getItem(key) === next) continue;
+
+                localStorage.setItem(key, next);
                 changed = true;
             }
 
