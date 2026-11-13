@@ -277,4 +277,48 @@ check('malformed records are skipped, not fatal', () => {
     assert.strictEqual(result.hosts.skipped, 3);
 });
 
+/* ---------------- host deletion tombstones ---------------- */
+
+console.log('\nhost deletion tombstones');
+
+check('a payload tombstone removes a local host that the snapshot already dropped', () => {
+    storeB.saveHost({
+        id: 'doomed', name: 'doomed', host: '10.0.0.9', username: 'root',
+        authMethod: 'password', password: 'x',
+    });
+    const result = storeB.importAll({
+        hosts: [{ id: 'kept', name: 'kept', host: '10.0.0.8', username: 'root' }],
+        tombs: { doomed: '2026-01-02T00:00:00.000Z' },
+    }, { overwrite: true });
+    assert.strictEqual(result.hosts.deleted, 1);
+    assert.ok(!storeB.getHosts().some((h) => h.id === 'doomed'), 'tombed host is still in the list');
+    assert.ok(storeB.exportAll().tombs.doomed, 'tomb was not kept');
+});
+
+check('a local deletion is not undone by a snapshot that still carries the host', () => {
+    storeB.saveHost({
+        id: 'stay-gone', name: 'stay-gone', host: '10.0.0.7', username: 'root',
+        authMethod: 'password', password: 'x',
+    });
+    storeB.deleteHost('stay-gone');
+    storeB.importAll({
+        hosts: [{ id: 'stay-gone', name: 'stay-gone', host: '10.0.0.7', username: 'root' }],
+    }, { overwrite: true });
+    assert.ok(!storeB.getHosts().some((h) => h.id === 'stay-gone'), 'deleted host came back');
+});
+
+check('a snapshot that still lists a host ignores its own tomb for that id', () => {
+    storeB.saveHost({
+        id: 'live-wins', name: 'live-wins', host: '10.0.0.6', username: 'root',
+        authMethod: 'password', password: 'x',
+    });
+    storeB.importAll({
+        hosts: [{ id: 'live-wins', name: 'renamed', host: '10.0.0.6', username: 'root' }],
+        tombs: { 'live-wins': '2026-01-01T00:00:00.000Z' },
+    }, { overwrite: true });
+    const host = storeB.getHosts().find((h) => h.id === 'live-wins');
+    assert.ok(host, 'live record was dropped because of a conflicting tomb');
+    assert.strictEqual(host.name, 'renamed');
+});
+
 console.log(`\n${passed} checks passed${process.exitCode ? ', with failures above' : ''}\n`);

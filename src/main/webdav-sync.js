@@ -416,7 +416,7 @@ function collect() {
   };
 }
 
-function apply(payload) {
+function apply(payload, { pruneMissingHosts = false } = {}) {
   if (!payload) return { hosts: { added: 0 }, keys: { added: 0 } };
 
   // WebDAV live sync is last-write-wins by revision: pull() only calls this
@@ -431,9 +431,30 @@ function apply(payload) {
       keys: payload.keys || [],
       snippets: payload.snippets || [],
       proxies: payload.proxies || [],
+      // Without this, a pull or backup restore only upserts records and
+      // never learns about deletions — a host already removed in the
+      // snapshot stays on this machine.
+      tombs: payload.tombs || {},
     },
     { overwrite: true }
   );
+
+  // A historical backup is a point in time, not a live merge. Hosts this
+  // machine still has that the backup does not carry were added after it
+  // was taken (or deleted in it without a tomb). Drop them so restore
+  // actually looks like that version.
+  if (pruneMissingHosts) {
+    const keep = new Set(
+      (Array.isArray(payload.hosts) ? payload.hosts : [])
+        .map((h) => h?.id)
+        .filter(Boolean)
+    );
+    for (const host of store.getHosts()) {
+      if (keep.has(host.id)) continue;
+      store.deleteHost(host.id);
+      summary.hosts.deleted = (summary.hosts.deleted || 0) + 1;
+    }
+  }
 
   if (payload.knownHosts) {
     knownHosts.importAll(payload.knownHosts, { overwrite: false });
@@ -797,7 +818,7 @@ async function restoreFromBackup(name) {
     if (!payload)
       throw new Error("Could not decrypt backup (wrong sync passphrase?)");
 
-    const summary = apply(payload);
+    const summary = apply(payload, { pruneMissingHosts: true });
 
     // Do not bump live snapshot revision; this is a point-in-time restore
     state = { ...s, lastPullAt: new Date().toISOString(), lastError: null };
