@@ -10,6 +10,7 @@ const hello = require('./hello');
 const activity = require('./activity');
 const sessionLog = require('./session-log');
 const { classifySystemOutput } = require('./os-detect');
+const { installOsc7Command } = require('./shell-integration');
 
 // tabId -> { client, stream, port, sftp }
 const sessions = new Map();
@@ -995,6 +996,15 @@ function connect({ tabId, hostId, cols, rows }, { window, requestTrust, requestK
 
             if (window && !window.isDestroyed()) {
                 window.webContents.postMessage('ssh-port', { tabId }, [port2]);
+            }
+
+            // Teach the shell to report its cwd through OSC 7 so the SFTP
+            // browser can follow the user across. Sent before initCommand so
+            // the first prompt (and any `cd` in the init command) is captured.
+            try {
+                stream.write(`${installOsc7Command()}\n`);
+            } catch (error) {
+                console.error(`Could not install shell integration for ${tabId}:`, error.message);
             }
 
             // Whatever the host wants run as soon as its shell is up: a

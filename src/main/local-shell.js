@@ -31,6 +31,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { createPipe } = require('./session-pipe');
+const { installOsc7Command } = require('./shell-integration');
 
 // tabId -> { term, pipe, hostId, hostName, address, openedAt }
 const sessions = new Map();
@@ -352,6 +353,15 @@ function connect({ tabId, cols, rows, shell: requestedShell }, { window } = {}) 
         });
 
         term.onData((chunk) => pipe.deliver(chunk));
+
+        // Same OSC 7 cwd reporting as remote SSH: the local SFTP browser has
+        // to be able to follow the shell too. node-pty delivers this straight
+        // to the shell's stdin, so there is no prompt to wait for.
+        try {
+            term.write(`${installOsc7Command()}\n`);
+        } catch (error) {
+            console.error(`Could not install shell integration for ${tabId}:`, error.message);
+        }
 
         term.onExit(() => {
             // A replaced session leaves its exit behind after the new one has

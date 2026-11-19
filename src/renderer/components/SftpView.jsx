@@ -71,7 +71,7 @@ function droppedPaths(event) {
         .filter(Boolean);
 }
 
-function SftpView({ tabId, isActive = true }) {
+function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
     const {
         path, homePath, entries, loading, ready, initError, disk,
         canGoBack, canGoForward, open, openTyped, refresh, goUp, goHome, goBack, goForward,
@@ -843,6 +843,19 @@ function SftpView({ tabId, isActive = true }) {
     useEffect(() => {
         if (isActive && ready) listRef.current?.focus();
     }, [isActive, ready]);
+
+    // When the user flips over from the shell, land the browser in the
+    // directory the shell is standing in. syncId bumps on every switch so a
+    // return to the same path still re-navigates (the user may have moved
+    // around in the browser between visits). Gated on `ready` so the initial
+    // "open home" listing does not race and win over the sync.
+    const lastSyncId = useRef(0);
+    useEffect(() => {
+        if (!syncId || syncId === lastSyncId.current || !syncPath || !ready) return;
+        if (syncPath === path) return;
+        lastSyncId.current = syncId;
+        open(syncPath, { push: false });
+    }, [syncId, syncPath, path, open, ready]);
 
     if (initError) {
         return (

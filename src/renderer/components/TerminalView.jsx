@@ -17,6 +17,7 @@ import { MODIFIER_KEY } from '../lib/platform';
 import { OsIcon, hostOs } from '../lib/os-icons';
 import { protocolLabel } from '../lib/protocols';
 import { isLocalHost } from '../lib/local-shell';
+import { feedOsc7 } from '../lib/osc';
 import SegmentedControl from './ui/SegmentedControl';
 import MenuButton from './ui/MenuButton';
 import Tooltip from './ui/Tooltip';
@@ -36,6 +37,10 @@ import SnippetDialog from './snippets/SnippetDialog';
 // Pane ids that already opened a connection. Guards against React StrictMode's
 // double-mount in development dialling the same host twice.
 const connectedPanes = new Set();
+// Cleanup schedules a deferred removal so StrictMode's unmount→remount dance
+// does not drop the guard between the two setups. A real close lets the timer
+// fire; a StrictMode remount cancels it.
+const pendingPaneDeletes = new Map();
 
 // A pane can be a quarter of the window, so the header sheds what it cannot
 // fit, least important first: the view labels, then the status line. What is
@@ -227,6 +232,11 @@ function TerminalView({
     const termRef = useRef(null);
     const fitAddonRef = useRef(null);
     const searchAddonRef = useRef(null);
+    // Shell-integration cwd, parsed out of OSC 7 sequences in the data stream.
+    // A ref because nothing renders off it — it is only read the moment the
+    // user flips across to the SFTP view.
+    const cwdRef = useRef('');
+    const oscBufferRef = useRef('');
     // Held so the ligature toggle can tear the GPU renderer down and put it
     // back without rebuilding the terminal underneath it.
     const webglRef = useRef(null);
@@ -322,6 +332,15 @@ function TerminalView({
     // Once opened, the SFTP pane stays mounted: unmounting it would throw away
     // the browsing position and stop the transfer queue reporting progress.
     const [sftpOpened, setSftpOpened] = useState(false);
+    // A one-shot "follow the terminal" request for the SFTP pane. The id bumps
+    // whenever the pane is asked to navigate to the shell's cwd so the effect
+    // in SftpView fires even if the path is unchanged.
+    const [sftpSync, setSftpSync] = useState({ path: '', id: 0 });
+    // Whether the current connection has already handed its cwd to the SFTP
+    // pane. The sync happens only on the first switch to files after connect;
+    // after that the user's own browsing position is left alone. Reset on
+    // disconnect so a reconnect gets a fresh sync.
+    const sftpSyncedRef = useRef(false);
     // Same for the desktop, and more so: unmounting it would drop a live RFB
     // session and its framebuffer just for glancing at the shell. Open from the
     // start when the desktop is the only thing this pane is for.
@@ -799,6 +818,12 @@ function TerminalView({
             // to chase it.
             unsubscribeData = window.api.ssh.onData(pane.id, (message) => {
                 if (message.type === 'data') {
+                    // Shells announce their cwd through OSC 7 ("file://…") when
+                    // they redraw the prompt. Fish it out before the bytes go
+                    // to xterm — xterm eats them, and we need the path so the
+                    // SFTP browser can follow the user across.
+                    const cwd = feedOsc7(message.data, oscBufferRef);
+                    if (cwd) cwdRef.current = cwd;
                     term.write(message.data);
                     hideOverlayOnce();
                 } else if (message.type === 'disconnected') {
@@ -843,6 +868,15 @@ function TerminalView({
             if (pane?.host?.desktop?.enabled && pane.host.desktop.only) return;
             if (pane?.host?.bmc?.enabled && pane.host.bmc.only) return;
 
+            // If a previous cleanup scheduled a deferred removal (StrictMode's
+            // unmount just before this remount), cancel it: this is the same
+            // pane coming back, not a fresh connection.
+            const pending = pendingPaneDeletes.get(pane.id);
+            if (pending) {
+                clearTimeout(pending);
+                pendingPaneDeletes.delete(pane.id);
+            }
+
             if (connectedPanes.has(pane.id)) return;
             connectedPanes.add(pane.id);
 
@@ -859,7 +893,15 @@ function TerminalView({
             observer?.disconnect();
             unsubscribeData?.();
             unsubscribeDisconnect?.();
-            connectedPanes.delete(pane.id);
+            // Defer the guard removal. StrictMode unmounts and remounts every
+            // effect in dev, and deleting synchronously would let the remount
+            // dial the host a second time. A real close has no remount, so the
+            // timer runs and cleans up normally.
+            const deleteTimer = setTimeout(() => {
+                connectedPanes.delete(pane.id);
+                pendingPaneDeletes.delete(pane.id);
+            }, 1000);
+            pendingPaneDeletes.set(pane.id, deleteTimer);
             searchAddonRef.current = null;
             window.api.ssh.release(pane.id);
 
@@ -1100,6 +1142,13 @@ function TerminalView({
 
     const statusUi = STATUS_UI[connection.status] || STATUS_UI.connecting;
     const isLive = connection.status === 'connected';
+
+    // A dropped connection means the shell (and its cwd) is gone. Let the next
+    // successful reconnect sync the SFTP pane again instead of remembering a
+    // path that may no longer be the one the user is standing in.
+    useEffect(() => {
+        if (!isLive) sftpSyncedRef.current = false;
+    }, [isLive]);
 
     // A desktop is offered only when the host has one configured. A tunnelled
     // one additionally needs the SSH session it rides on, which is why the two
@@ -1586,7 +1635,18 @@ function TerminalView({
                                 // switch to, this outranks it.
                                 pendingView.current = null;
                                 setViewMode(next);
-                                if (next === 'sftp') setSftpOpened(true);
+                                if (next === 'sftp') {
+                                    setSftpOpened(true);
+                                    // Follow the shell's cwd once per
+                                    // connection: the first time the user
+                                    // flips over to files. Later switches
+                                    // keep wherever they were browsing.
+                                    const cwd = cwdRef.current;
+                                    if (cwd && !sftpSyncedRef.current) {
+                                        sftpSyncedRef.current = true;
+                                        setSftpSync({ path: cwd, id: Date.now() });
+                                    }
+                                }
                                 if (next === 'desktop') setDesktopOpened(true);
                                 if (next === 'bmc') setBmcOpened(true);
                             }}
@@ -1798,7 +1858,12 @@ function TerminalView({
                     className="flex-1 overflow-hidden"
                     style={{ display: viewMode === 'sftp' ? 'block' : 'none' }}
                 >
-                    <SftpView tabId={pane.id} isActive={isActive && isFocused && viewMode === 'sftp'} />
+                    <SftpView
+                        tabId={pane.id}
+                        isActive={isActive && isFocused && viewMode === 'sftp'}
+                        syncPath={sftpSync.path}
+                        syncId={sftpSync.id}
+                    />
                 </div>
             )}
 
