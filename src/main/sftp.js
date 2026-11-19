@@ -558,6 +558,131 @@ function diskUsage(tabId, remotePath) {
     });
 }
 
+/* ------------------------------------------------------------------ *
+ * Compress / extract (run on the server through an exec channel)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Run a shell command on the server through the SSH client's exec channel.
+ * Resolves { success, message } where message is the trimmed error output on
+ * failure. A 30 s timeout guards against a wedged exec.
+ */
+function execRemote(tabId, command) {
+    return new Promise((resolve) => {
+        const client = ssh.sessions.get(tabId)?.client;
+        if (!client) {
+            resolve({ success: false, message: 'No active SSH session' });
+            return;
+        }
+
+        let settled = false;
+        const settle = (value) => {
+            if (settled) return;
+            settled = true;
+            resolve(value);
+        };
+
+        const timer = setTimeout(() => settle({ success: false, message: 'Command timed out' }), 30000);
+
+        client.exec(command, (err, stream) => {
+            if (err) {
+                clearTimeout(timer);
+                settle({ success: false, message: err.message });
+                return;
+            }
+
+            let stderr = '';
+            stream.stderr.on('data', (data) => { stderr += data.toString(); });
+            stream.on('close', (code) => {
+                clearTimeout(timer);
+                if (code === 0) {
+                    settle({ success: true });
+                } else {
+                    settle({ success: false, message: stderr.trim() || `Command exited with ${code}` });
+                }
+            });
+        });
+    });
+}
+
+// Archive formats we can create. Each entry maps the user-facing label to the
+// file extension and the command that produces it. `cd` into the parent
+// directory first so the archive ends up next to its sources and the paths
+// inside are relative.
+const COMPRESS_FORMATS = {
+    zip:     { ext: 'zip',     cmd: (out, files) => `zip -r ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+    tar:     { ext: 'tar',     cmd: (out, files) => `tar -cf ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+    'tar.gz':{ ext: 'tar.gz',  cmd: (out, files) => `tar -czf ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+    'tar.bz2':{ ext: 'tar.bz2', cmd: (out, files) => `tar -cjf ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+    'tar.xz':{ ext: 'tar.xz',  cmd: (out, files) => `tar -cJf ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+    '7z':    { ext: '7z',      cmd: (out, files) => `7z a ${shellQuote(out)} ${files.map(shellQuote).join(' ')}` },
+};
+
+/**
+ * Compress one or more remote paths into an archive in their parent directory.
+ * `format` is a key from COMPRESS_FORMATS. The archive name is derived from the
+ * first source (or "archive" when several are selected) with the format's
+ * extension appended.
+ */
+async function compress(tabId, sources, format) {
+    const list = Array.isArray(sources) ? sources : [sources];
+    if (list.length === 0) return { success: false, message: 'Nothing to compress' };
+
+    const spec = COMPRESS_FORMATS[format];
+    if (!spec) return { success: false, message: `Unsupported format: ${format}` };
+
+    // All sources must share the same parent; the archive is written there.
+    const dir = path.posix.dirname(list[0]);
+    for (const source of list) {
+        if (path.posix.dirname(source) !== dir) {
+            return { success: false, message: 'Selected files must be in the same directory' };
+        }
+    }
+
+    const basenames = list.map(p => path.posix.basename(p));
+    const stem = list.length === 1 ? path.posix.basename(list[0]) : 'archive';
+    const archive = `${stem}.${spec.ext}`;
+
+    // Build the command inside the parent directory so paths inside the
+    // archive stay relative and the archive lands next to the sources.
+    const inner = spec.cmd(archive, basenames);
+    const command = `cd ${shellQuote(dir)} && ${inner}`;
+
+    return execRemote(tabId, command);
+}
+
+// How to unpack each extension we recognise. The command runs in the file's
+// parent directory and extracts in place. `tar` auto-detects the compression
+// from the magic bytes when no -j/-J/-z flag is given, so a single invocation
+// covers .tar, .tar.gz, .tar.bz2 and .tar.xz.
+const EXTRACT_RULES = [
+    { test: /\.zip$/i,                 cmd: (f) => `unzip -o ${shellQuote(f)}` },
+    { test: /\.(tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz)$/i, cmd: (f) => `tar -xf ${shellQuote(f)}` },
+    { test: /\.7z$/i,                  cmd: (f) => `7z x -y ${shellQuote(f)}` },
+    { test: /\.gz$/i,                  cmd: (f) => `gunzip -k -f ${shellQuote(f)}` },
+    { test: /\.bz2$/i,                 cmd: (f) => `bunzip2 -k -f ${shellQuote(f)}` },
+    { test: /\.xz$/i,                  cmd: (f) => `unxz -k -f ${shellQuote(f)}` },
+    { test: /\.rar$/i,                 cmd: (f) => `unrar x -o+ ${shellQuote(f)}` },
+];
+
+/**
+ * Extract a remote archive in place. The format is guessed from the file
+ * extension. Single-file compressors (.gz/.bz2/.xz) keep the original with
+ * `-k`; everything else unpacks into the current directory.
+ */
+async function extract(tabId, archivePath) {
+    const rule = EXTRACT_RULES.find(r => r.test(archivePath));
+    if (!rule) {
+        return { success: false, message: `Unsupported archive format: ${path.posix.basename(archivePath)}` };
+    }
+
+    const dir = path.posix.dirname(archivePath);
+    const name = path.posix.basename(archivePath);
+    const command = `cd ${shellQuote(dir)} && ${rule.cmd(name)}`;
+
+    return execRemote(tabId, command);
+}
+
 module.exports = {
     init,
     close,
@@ -575,6 +700,8 @@ module.exports = {
     remove,
     transferRemote,
     diskUsage,
+    compress,
+    extract,
     isDirMode,
     isLinkMode,
     toEntry,

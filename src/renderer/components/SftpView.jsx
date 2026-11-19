@@ -20,6 +20,7 @@ import {
     Refresh01Icon,
     Alert02Icon,
     HardDriveIcon,
+    ArchiveIcon,
 } from 'hugeicons-react';
 
 import { useSftp } from '../hooks/useSftp';
@@ -492,6 +493,48 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         });
     }, [tabId, pathOf, runAndRefresh, clearSelection]);
 
+    /* ---- Compress / extract ---- */
+
+    // Archive formats offered in the right-click "Compress" submenu. The label
+    // is what the user sees; the value is the format key the main process
+    // understands.
+    const COMPRESS_FORMATS = [
+        { label: 'ZIP (.zip)', value: 'zip' },
+        { label: 'TAR (.tar)', value: 'tar' },
+        { label: 'TAR.GZ (.tar.gz)', value: 'tar.gz' },
+        { label: 'TAR.BZ2 (.tar.bz2)', value: 'tar.bz2' },
+        { label: 'TAR.XZ (.tar.xz)', value: 'tar.xz' },
+        { label: '7Z (.7z)', value: '7z' },
+    ];
+
+    // File extensions that can be unpacked. Used to decide whether the
+    // "Extract" item appears for a given selection.
+    const ARCHIVE_RE = /\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz|7z|gz|bz2|xz|rar)$/i;
+
+    const isArchive = useCallback((entry) => !entry.isDirectory && ARCHIVE_RE.test(entry.name), []);
+
+    const handleCompress = useCallback(async (targets, format) => {
+        const result = await runAndRefresh(
+            () => window.api.sftp.compress(tabId, targets.map(pathOf), format),
+            targets.length === 1
+                ? `Compressed ${targets[0].name} as .${format}`
+                : `Compressed ${targets.length} items as .${format}`
+        );
+        if (result?.success === false) {
+            toast.error(result.message || 'Compression failed', toastOptions({ duration: 6000 }));
+        }
+    }, [tabId, pathOf, runAndRefresh]);
+
+    const handleExtract = useCallback(async (entry) => {
+        const result = await runAndRefresh(
+            () => window.api.sftp.extract(tabId, pathOf(entry)),
+            `Extracted ${entry.name}`
+        );
+        if (result?.success === false) {
+            toast.error(result.message || 'Extraction failed', toastOptions({ duration: 6000 }));
+        }
+    }, [tabId, pathOf, runAndRefresh]);
+
     const handleChmod = useCallback(async (mode, recursive) => {
         const entry = permissionsFor;
         setPermissionsFor(null);
@@ -809,6 +852,22 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
             },
             { label: 'Duplicate', icon: <Copy01Icon size={size} />, onClick: () => duplicate(entry), disabled: !single },
             { type: 'separator' },
+            // Extract only makes sense for a single archive; multi-select
+            // compression is offered for any non-empty selection.
+            single && isArchive(entry) && {
+                label: 'Extract here',
+                icon: <ArchiveIcon size={size} />,
+                onClick: () => handleExtract(entry),
+            },
+            {
+                label: 'Compress',
+                icon: <ArchiveIcon size={size} />,
+                submenu: COMPRESS_FORMATS.map(fmt => ({
+                    label: fmt.label,
+                    onClick: () => handleCompress(targets, fmt.value),
+                })),
+            },
+            { type: 'separator' },
             { label: 'Rename', icon: <Edit01Icon size={size} />, onClick: () => startRename(entry), disabled: !single, shortcut: 'F2' },
             { label: 'Permissions…', icon: <LockKeyIcon size={size} />, onClick: () => setPermissionsFor(entry), disabled: !single },
             { label: 'Copy path', icon: <Link01Icon size={size} />, onClick: () => {
@@ -823,6 +882,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         contextMenu, selection, selectedEntries, clipboard, editedPaths, pathOf,
         openEntry, downloadEntries, handleEditLocally, stopEditing, copyToClipboard,
         paste, duplicate, startRename, requestDelete, handleUploadFiles, handleUploadFolder, refresh,
+        handleCompress, handleExtract, isArchive,
     ]);
 
     /* -------------------------------------------------------------- *

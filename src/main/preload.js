@@ -307,6 +307,10 @@ contextBridge.exposeInMainWorld("api", {
       ipcRenderer.invoke("sftp-chmod", { tabId, remotePath, mode, recursive }),
     copy: (tabId, sources, destinationDir, move = false) =>
       ipcRenderer.invoke("sftp-copy", { tabId, sources, destinationDir, move }),
+    compress: (tabId, sources, format) =>
+      ipcRenderer.invoke("sftp-compress", { tabId, sources, format }),
+    extract: (tabId, archivePath) =>
+      ipcRenderer.invoke("sftp-extract", { tabId, archivePath }),
 
     // Fired when a completed transfer may have changed the remote tree.
     onChanged: (callback) => subscribe("sftp-changed", callback),

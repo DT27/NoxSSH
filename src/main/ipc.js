@@ -1374,6 +1374,21 @@ function register(getWindow) {
     );
   });
 
+  handle("sftp-compress", (event, { tabId, sources, format }) => {
+    const list = Array.isArray(sources) ? sources : [sources];
+    return logFile(
+      "file.compress",
+      tabId,
+      list[0] || "",
+      list.length > 1 ? `and ${list.length - 1} more → .${format}` : `→ .${format}`,
+      () => sftp.compress(tabId, sources, format)
+    );
+  });
+
+  handle("sftp-extract", (event, { tabId, archivePath }) =>
+    logFile("file.extract", tabId, archivePath, "", () => sftp.extract(tabId, archivePath))
+  );
+
   /* ---------------- Activity log ----------------
    *
    * Behind the same lock as everything else: the log names every server this
