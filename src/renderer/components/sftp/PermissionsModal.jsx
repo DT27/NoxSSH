@@ -3,21 +3,23 @@ import { LockKeyIcon } from 'hugeicons-react';
 import Dialog, { DialogButton } from '../ui/Dialog';
 import Checkbox from '../ui/Checkbox';
 import { formatMode } from '../../lib/format';
+import { useT } from '../../i18n';
 
 const CLASSES = [
-    { key: 'owner', label: 'Owner', shift: 6 },
-    { key: 'group', label: 'Group', shift: 3 },
-    { key: 'other', label: 'Others', shift: 0 },
+    { key: 'owner', label: 'sftp.permissions.owner', shift: 6 },
+    { key: 'group', label: 'sftp.permissions.group', shift: 3 },
+    { key: 'other', label: 'sftp.permissions.others', shift: 0 },
 ];
 
 const BITS = [
-    { key: 'read', label: 'Read', value: 4 },
-    { key: 'write', label: 'Write', value: 2 },
-    { key: 'execute', label: 'Execute', value: 1 },
+    { key: 'read', label: 'sftp.permissions.read', value: 4 },
+    { key: 'write', label: 'sftp.permissions.write', value: 2 },
+    { key: 'execute', label: 'sftp.permissions.execute', value: 1 },
 ];
 
 /** chmod, driven either by the checkbox grid or by typing the octal directly. */
 export default function PermissionsModal({ entry, onApply, onClose }) {
+    const t = useT();
     const [mode, setMode] = useState((entry.mode || 0) & 0o7777);
     const [octal, setOctal] = useState(((entry.mode || 0) & 0o7777).toString(8).padStart(3, '0'));
     const [recursive, setRecursive] = useState(false);
@@ -37,7 +39,7 @@ export default function PermissionsModal({ entry, onApply, onClose }) {
 
     return (
         <Dialog
-            title="Permissions"
+            title={t('sftp.permissions.title')}
             subtitle={entry.name}
             onClose={onClose}
             icon={
@@ -47,13 +49,13 @@ export default function PermissionsModal({ entry, onApply, onClose }) {
             }
             footer={
                 <>
-                    <DialogButton onClick={onClose}>Cancel</DialogButton>
+                    <DialogButton onClick={onClose}>{t('common.cancel')}</DialogButton>
                     <DialogButton
                         variant="primary"
                         onClick={() => onApply(mode, recursive)}
                         disabled={!octal}
                     >
-                        Apply
+                        {t('common.apply')}
                     </DialogButton>
                 </>
             }
@@ -63,21 +65,24 @@ export default function PermissionsModal({ entry, onApply, onClose }) {
                     <tr className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-neutral-500">
                         <th className="text-left pb-2 font-semibold" />
                         {BITS.map(bit => (
-                            <th key={bit.key} className="pb-2 font-semibold w-20">{bit.label}</th>
+                            <th key={bit.key} className="pb-2 font-semibold w-20">{t(bit.label)}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {CLASSES.map(({ key, label, shift }) => (
                         <tr key={key}>
-                            <td className="py-1.5 font-medium text-gray-700 dark:text-gray-300">{label}</td>
+                            <td className="py-1.5 font-medium text-gray-700 dark:text-gray-300">{t(label)}</td>
                             {BITS.map(bit => (
                                 <td key={bit.key} className="py-1.5 text-center">
                                     <Checkbox
                                         size="sm"
                                         checked={Boolean(mode & (bit.value << shift))}
                                         onChange={() => toggle(shift, bit.value)}
-                                        aria-label={`${label} ${bit.label}`}
+                                        aria-label={t('sftp.permissions.checkboxAria', {
+                                            className: t(label),
+                                            permission: t(bit.label),
+                                        })}
                                     />
                                 </td>
                             ))}
@@ -87,7 +92,7 @@ export default function PermissionsModal({ entry, onApply, onClose }) {
             </table>
 
             <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-surface-control">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Octal</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('sftp.permissions.octal')}</label>
                 <input
                     type="text"
                     value={octal}
@@ -105,7 +110,7 @@ export default function PermissionsModal({ entry, onApply, onClose }) {
                     className="mt-3"
                     checked={recursive}
                     onChange={(event) => setRecursive(event.target.checked)}
-                    label="Apply to all contents"
+                    label={t('sftp.permissions.recursive')}
                 />
             )}
         </Dialog>

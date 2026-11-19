@@ -10,14 +10,15 @@ import {
     Delete02Icon,
 } from 'hugeicons-react';
 import { formatSize, formatSpeed, formatEta } from '../../lib/format';
+import { useT } from '../../i18n';
 
 const STATE_LABELS = {
-    queued: 'Queued',
-    scanning: 'Scanning…',
+    queued: 'sftp.transfer.queued',
+    scanning: 'sftp.transfer.scanning',
     running: '',
-    done: 'Completed',
-    error: 'Failed',
-    canceled: 'Canceled',
+    done: 'sftp.transfer.done',
+    error: 'sftp.transfer.failed',
+    canceled: 'sftp.transfer.canceled',
 };
 
 const isActive = (state) => state === 'queued' || state === 'scanning' || state === 'running';
@@ -38,6 +39,7 @@ function StateIcon({ transfer }) {
 }
 
 function TransferRow({ transfer, onCancel, onRetry }) {
+    const t = useT();
     const percent = transfer.totalBytes
         ? Math.min(100, Math.round((transfer.transferredBytes / transfer.totalBytes) * 100))
         : transfer.state === 'done' ? 100 : 0;
@@ -52,13 +54,19 @@ function TransferRow({ transfer, onCancel, onRetry }) {
             ? [
                 `${formatSize(transfer.transferredBytes)} / ${formatSize(transfer.totalBytes)}`,
                 formatSpeed(transfer.speed),
-                eta ? `${formatEta(eta)} left` : '',
-                transfer.totalFiles > 1 ? `${transfer.completedFiles}/${transfer.totalFiles} files` : '',
+                eta ? t('sftp.transfer.timeLeft', { eta: formatEta(eta, t('sftp.transfer.moment')) }) : '',
+                transfer.totalFiles > 1
+                    ? t('sftp.transfer.fileProgress', {
+                        done: transfer.completedFiles,
+                        total: transfer.totalFiles,
+                        count: transfer.totalFiles,
+                    })
+                    : '',
             ].filter(Boolean).join(' · ')
             : [
-                STATE_LABELS[transfer.state],
+                t(STATE_LABELS[transfer.state]),
                 transfer.state === 'done' ? formatSize(transfer.totalBytes) : '',
-                transfer.skippedFiles ? `${transfer.skippedFiles} skipped` : '',
+                transfer.skippedFiles ? t('sftp.transfer.skipped', { count: transfer.skippedFiles }) : '',
             ].filter(Boolean).join(' · ');
 
     return (
@@ -107,7 +115,7 @@ function TransferRow({ transfer, onCancel, onRetry }) {
                 <button
                     onClick={() => onCancel(transfer.id)}
                     className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                    title="Cancel"
+                    title={t('common.cancel')}
                 >
                     <Cancel01Icon size={14} strokeWidth={2} />
                 </button>
@@ -115,7 +123,7 @@ function TransferRow({ transfer, onCancel, onRetry }) {
                 <button
                     onClick={() => onRetry(transfer.id)}
                     className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-                    title="Retry"
+                    title={t('sftp.transfer.retry')}
                 >
                     <Refresh01Icon size={14} strokeWidth={2} />
                 </button>
@@ -126,15 +134,21 @@ function TransferRow({ transfer, onCancel, onRetry }) {
 
 /** Collapsible queue drawer; the header doubles as the summary when collapsed. */
 function TransferPanel({ transfers, summary, expanded, onToggle, onCancel, onRetry, onCancelAll, onClear }) {
+    const t = useT();
     if (transfers.length === 0) return null;
 
     const headline = summary.active
-        ? `${summary.active} transfer${summary.active > 1 ? 's' : ''} · ${summary.percent}%${
-            summary.speed ? ` · ${formatSpeed(summary.speed)}` : ''
-        }${summary.eta ? ` · ${formatEta(summary.eta)} left` : ''}`
+        ? [
+            t('sftp.transfer.activeCount', { count: summary.active }),
+            `${summary.percent}%`,
+            summary.speed ? formatSpeed(summary.speed) : '',
+            summary.eta
+                ? t('sftp.transfer.timeLeft', { eta: formatEta(summary.eta, t('sftp.transfer.moment')) })
+                : '',
+        ].filter(Boolean).join(' · ')
         : summary.failed
-            ? `${summary.failed} failed`
-            : `${transfers.length} transfer${transfers.length > 1 ? 's' : ''} finished`;
+            ? t('sftp.transfer.failedSummary', { count: summary.failed })
+            : t('sftp.transfer.finishedSummary', { count: transfers.length });
 
     return (
         <div className="shrink-0 border-t border-gray-200 dark:border-surface-control bg-white dark:bg-surface-raised">
@@ -142,14 +156,14 @@ function TransferPanel({ transfers, summary, expanded, onToggle, onCancel, onRet
                 <button
                     onClick={onToggle}
                     className="flex items-center gap-2 min-w-0 flex-1 text-left group"
-                    title={expanded ? 'Collapse' : 'Expand'}
+                    title={expanded ? t('sftp.transfer.collapse') : t('sftp.transfer.expand')}
                 >
                     <ArrowDown01Icon
                         size={14}
                         strokeWidth={2.5}
                         className={`shrink-0 text-gray-400 transition-transform ${expanded ? '' : '-rotate-90'}`}
                     />
-                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Transfers</span>
+                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{t('sftp.transfer.title')}</span>
                     <span className="text-[11px] text-gray-500 dark:text-gray-400 truncate">{headline}</span>
                 </button>
 
@@ -158,14 +172,14 @@ function TransferPanel({ transfers, summary, expanded, onToggle, onCancel, onRet
                         onClick={onCancelAll}
                         className="shrink-0 px-2 py-1 rounded-lg text-[11px] font-medium text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                     >
-                        Cancel all
+                        {t('sftp.transfer.cancelAll')}
                     </button>
                 )}
                 {summary.finished > 0 && (
                     <button
                         onClick={onClear}
                         className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-surface-control transition-colors"
-                        title="Clear finished"
+                        title={t('sftp.transfer.clearFinished')}
                     >
                         <Delete02Icon size={14} strokeWidth={2} />
                     </button>

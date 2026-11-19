@@ -1,16 +1,19 @@
 import { Alert02Icon } from 'hugeicons-react';
 import Dialog, { DialogButton } from './Dialog';
+import { useT } from '../../i18n';
 
 /** Blocking confirmation for destructive work, so deletes never run unprompted. */
 export default function ConfirmDialog({
     title,
     message,
     details,
-    confirmLabel = 'Confirm',
+    confirmLabel,
     variant = 'danger',
     onConfirm,
     onCancel,
 }) {
+    const t = useT();
+
     return (
         <Dialog
             title={title}
@@ -27,9 +30,9 @@ export default function ConfirmDialog({
             }
             footer={
                 <>
-                    <DialogButton onClick={onCancel}>Cancel</DialogButton>
+                    <DialogButton onClick={onCancel}>{t('common.cancel')}</DialogButton>
                     <DialogButton variant={variant} onClick={onConfirm} data-autofocus>
-                        {confirmLabel}
+                        {confirmLabel === undefined ? t('common.confirm') : confirmLabel}
                     </DialogButton>
                 </>
             }
@@ -43,7 +46,7 @@ export default function ConfirmDialog({
                     ))}
                     {details.length > 50 && (
                         <li className="text-xs text-gray-400 dark:text-neutral-500">
-                            …and {details.length - 50} more
+                            {t('common.andMore', { count: details.length - 50 })}
                         </li>
                     )}
                 </ul>

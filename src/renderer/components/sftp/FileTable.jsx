@@ -8,16 +8,17 @@ import {
     PencilEdit01Icon,
 } from 'hugeicons-react';
 import { formatSize, formatDate, formatMode } from '../../lib/format';
+import { useT } from '../../i18n';
 
 const ROW_HEIGHT = 32;
 // Rows kept above and below the viewport so fast scrolling doesn't flash blank.
 const OVERSCAN = 8;
 
 const COLUMNS = [
-    { key: 'name', label: 'Name', className: 'flex-1 min-w-0' },
-    { key: 'size', label: 'Size', className: 'w-24 text-right' },
-    { key: 'modifyTime', label: 'Modified', className: 'w-40 text-right' },
-    { key: 'mode', label: 'Permissions', className: 'w-32 text-right' },
+    { key: 'name', label: 'sftp.column.name', className: 'flex-1 min-w-0' },
+    { key: 'size', label: 'sftp.column.size', className: 'w-24 text-right' },
+    { key: 'modifyTime', label: 'sftp.column.modified', className: 'w-40 text-right' },
+    { key: 'mode', label: 'sftp.column.permissions', className: 'w-32 text-right' },
 ];
 
 function iconFor(entry) {
@@ -49,6 +50,7 @@ function Row({
     onContextMenu,
     onDropFiles,
 }) {
+    const t = useT();
     const Icon = iconFor(entry);
     const inputRef = useRef(null);
     const [dropTarget, setDropTarget] = useState(false);
@@ -125,7 +127,7 @@ function Row({
                                 size={12}
                                 strokeWidth={2.5}
                                 className="shrink-0 text-amber-500"
-                                title="Open in your editor (saves upload automatically)"
+                                title={t('sftp.remoteEdit.openHint')}
                             />
                         )}
                     </>
@@ -171,6 +173,7 @@ function FileTable({
     draft,
     emptyState,
 }) {
+    const t = useT();
     const viewportRef = useRef(null);
     const [scrollTop, setScrollTop] = useState(0);
     const [height, setHeight] = useState(0);
@@ -244,7 +247,7 @@ function FileTable({
                             column.key === 'name' ? 'justify-start pl-7' : 'justify-end'
                         }`}
                     >
-                        <span>{column.label}</span>
+                        <span>{t(column.label)}</span>
                         {sort.key === column.key && (
                             sort.direction === 'asc'
                                 ? <ArrowUp01Icon size={12} strokeWidth={3} />

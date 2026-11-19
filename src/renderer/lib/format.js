@@ -19,9 +19,9 @@ export function formatSpeed(bytesPerSecond) {
     return `${formatSize(bytesPerSecond)}/s`;
 }
 
-export function formatEta(seconds) {
+export function formatEta(seconds, moment = 'a moment') {
     if (!Number.isFinite(seconds) || seconds < 0) return '';
-    if (seconds < 1) return 'a moment';
+    if (seconds < 1) return moment;
     if (seconds < 60) return `${Math.round(seconds)}s`;
 
     const minutes = Math.floor(seconds / 60);

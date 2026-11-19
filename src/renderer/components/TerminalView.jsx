@@ -1681,7 +1681,7 @@ function TerminalView({
                                     label: compact ? null : 'SFTP',
                                     icon: <Folder01Icon size={13} strokeWidth={2.25} />,
                                     disabled: !isLive,
-                                    title: isLive ? 'Browse and transfer files' : 'Connect to browse files',
+                                    title: isLive ? t('sftp.view.browse') : t('sftp.view.connectToBrowse'),
                                     // Transfers keep running while the terminal
                                     // is in front; this is the only sign they
                                     // are there.

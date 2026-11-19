@@ -28,6 +28,7 @@ import { useTransfers } from '../hooks/useTransfers';
 import { joinRemote, isInside } from '../lib/remote-path';
 import { formatSize } from '../lib/format';
 import { toastOptions } from '../lib/toast';
+import { useT } from '../i18n';
 
 import SftpToolbar from './sftp/SftpToolbar';
 import FileTable from './sftp/FileTable';
@@ -73,6 +74,7 @@ function droppedPaths(event) {
 }
 
 function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
+    const t = useT();
     const {
         path, homePath, entries, loading, ready, initError, disk,
         canGoBack, canGoForward, open, openTyped, refresh, goUp, goHome, goBack, goForward,
@@ -208,12 +210,15 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         });
 
         if (status.state === 'saved') {
-            toast.success(`Uploaded ${status.name}`, toastOptions({ duration: 2000 }));
+            toast.success(t('sftp.remoteEdit.saved', { name: status.name }), toastOptions({ duration: 2000 }));
             refresh({ silent: true });
         } else if (status.state === 'error') {
-            toast.error(`${status.name}: ${status.message}`, toastOptions({ duration: 6000 }));
+            toast.error(t('sftp.remoteEdit.error', {
+                name: status.name,
+                error: status.message || t('sftp.error.operationFailed'),
+            }), toastOptions({ duration: 6000 }));
         }
-    }), [tabId, refresh]);
+    }), [tabId, refresh, t]);
 
     // Restore edit markers when the pane remounts on an existing session.
     useEffect(() => {
@@ -297,7 +302,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
     const downloadEntries = useCallback(async (targets, { ask = true } = {}) => {
         if (targets.length === 0) return;
 
-        let destinationDir = ask ? await pickLocalDirectory('Download to') : null;
+        let destinationDir = ask ? await pickLocalDirectory(t('sftp.dialog.downloadTo')) : null;
 
         if (!ask) {
             const downloads = await window.api.local.downloadsDir();
@@ -310,7 +315,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
             sources: targets.map(pathOf),
             destinationDir,
         });
-    }, [enqueue, pathOf, pickLocalDirectory]);
+    }, [enqueue, pathOf, pickLocalDirectory, t]);
 
     const uploadPaths = useCallback((localPaths, destinationDir = path) => {
         if (localPaths.length === 0) return;
@@ -320,20 +325,20 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
     const handleUploadFiles = useCallback(async () => {
         const result = await window.api.dialog.open({
             properties: ['openFile', 'multiSelections'],
-            title: 'Upload files',
+            title: t('sftp.dialog.uploadFiles'),
         });
         if (result.canceled || !result.filePaths?.length) return;
         uploadPaths(result.filePaths);
-    }, [uploadPaths]);
+    }, [uploadPaths, t]);
 
     const handleUploadFolder = useCallback(async () => {
         const result = await window.api.dialog.open({
             properties: ['openDirectory', 'multiSelections'],
-            title: 'Upload folder',
+            title: t('sftp.dialog.uploadFolder'),
         });
         if (result.canceled || !result.filePaths?.length) return;
         uploadPaths(result.filePaths);
-    }, [uploadPaths]);
+    }, [uploadPaths, t]);
 
     /* -------------------------------------------------------------- *
      * Navigation / opening
@@ -342,10 +347,10 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
     const navigate = useCallback(async (target) => {
         const result = await open(target);
         if (!result.success && !result.superseded) {
-            toast.error(result.message || `Could not open ${target}`, toastOptions());
+            toast.error(result.message || t('sftp.error.openPath', { path: target }), toastOptions());
         }
         return result;
-    }, [open]);
+    }, [open, t]);
 
     const openEntry = useCallback((entry) => {
         if (entry.isDirectory || entry.targetIsDirectory) {
@@ -353,19 +358,22 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
             return;
         }
         if (entry.broken) {
-            toast.error(`${entry.name} is a broken symlink`, toastOptions());
+            toast.error(t('sftp.error.brokenSymlink', { name: entry.name }), toastOptions());
             return;
         }
         downloadEntries([entry], { ask: false });
-        toast.success(`Downloading ${entry.name}`, toastOptions({ duration: 2000 }));
-    }, [navigate, pathOf, downloadEntries]);
+        toast.success(t('sftp.toast.downloading', { name: entry.name }), toastOptions({ duration: 2000 }));
+    }, [navigate, pathOf, downloadEntries, t]);
 
     const handleSubmitPath = useCallback(async (value) => {
         const result = await openTyped(value);
         if (!result.success && !result.superseded) {
-            toast.error(result.message || 'No such directory', toastOptions());
+            toast.error(
+                result.message || (result.messageKey ? t(result.messageKey) : t('sftp.error.noSuchDirectory')),
+                toastOptions()
+            );
         }
-    }, [openTyped]);
+    }, [openTyped, t]);
 
     /* -------------------------------------------------------------- *
      * Mutations
@@ -374,13 +382,13 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
     const runAndRefresh = useCallback(async (action, successMessage) => {
         const result = await action();
         if (result?.success === false) {
-            toast.error(result.message || 'Operation failed', toastOptions({ duration: 6000 }));
+            toast.error(result.message || t('sftp.error.operationFailed'), toastOptions({ duration: 6000 }));
         } else if (successMessage) {
             toast.success(successMessage, toastOptions({ duration: 2000 }));
         }
         await refresh({ silent: true });
         return result;
-    }, [refresh]);
+    }, [refresh, t]);
 
     const startRename = useCallback((entry) => {
         renamingRef.current = entry.name;
@@ -404,7 +412,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         if (!original || !next || next === original) return;
 
         if (next.includes('/')) {
-            toast.error('A name cannot contain "/"', toastOptions());
+            toast.error(t('sftp.error.invalidName'), toastOptions());
             return;
         }
 
@@ -412,12 +420,12 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         try {
             await runAndRefresh(
                 () => window.api.sftp.rename(tabId, joinRemote(path, original), joinRemote(path, next)),
-                `Renamed to ${next}`
+                t('sftp.toast.renamed', { name: next })
             );
         } finally {
             committing.current = false;
         }
-    }, [renameValue, tabId, path, runAndRefresh]);
+    }, [renameValue, tabId, path, runAndRefresh, t]);
 
     const startDraft = useCallback((type) => {
         const next = { type, value: '' };
@@ -448,7 +456,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         if (!pending || !name) return;
 
         if (name.includes('/')) {
-            toast.error('A name cannot contain "/"', toastOptions());
+            toast.error(t('sftp.error.invalidName'), toastOptions());
             return;
         }
 
@@ -459,39 +467,45 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
                 () => pending.type === 'folder'
                     ? window.api.sftp.mkdir(tabId, target)
                     : window.api.sftp.createFile(tabId, target),
-                `Created ${name}`
+                t('sftp.toast.created', { name })
             );
             setSelection(new Set([name]));
         } finally {
             committing.current = false;
         }
-    }, [tabId, path, runAndRefresh]);
+    }, [tabId, path, runAndRefresh, t]);
 
     const requestDelete = useCallback((targets) => {
         if (targets.length === 0) return;
 
+        const single = targets.length === 1;
         const directories = targets.filter(entry => entry.isDirectory).length;
-        const noun = targets.length === 1 ? `“${targets[0].name}”` : `${targets.length} items`;
+        const count = targets.length;
+        const messageKey = single
+            ? (directories > 0 ? 'sftp.delete.messageDirectory' : 'sftp.delete.messageFile')
+            : (directories > 0 ? 'sftp.delete.messageManyWithFolders' : 'sftp.delete.messageMany');
 
         setConfirmState({
-            title: `Delete ${targets.length === 1 ? 'item' : 'items'}?`,
-            message: directories > 0
-                ? `${noun} will be deleted from the server, including everything inside ${
-                    directories === 1 ? 'the folder' : 'the folders'
-                }. This cannot be undone.`
-                : `${noun} will be permanently deleted from the server. This cannot be undone.`,
-            details: targets.length > 1 ? targets.map(entry => entry.name) : null,
-            confirmLabel: 'Delete',
+            title: single
+                ? t('sftp.delete.titleOne')
+                : t('sftp.delete.titleCount', { count }),
+            message: single
+                ? t(messageKey, { name: targets[0].name })
+                : t(messageKey, { count }),
+            details: single ? null : targets.map(entry => entry.name),
+            confirmLabel: t('common.delete'),
             onConfirm: async () => {
                 setConfirmState(null);
                 await runAndRefresh(
                     () => window.api.sftp.remove(tabId, targets.map(pathOf)),
-                    `Deleted ${targets.length === 1 ? targets[0].name : `${targets.length} items`}`
+                    single
+                        ? t('sftp.toast.deletedOne', { name: targets[0].name })
+                        : t('sftp.toast.deletedCount', { count })
                 );
                 clearSelection();
             },
         });
-    }, [tabId, pathOf, runAndRefresh, clearSelection]);
+    }, [tabId, pathOf, runAndRefresh, clearSelection, t]);
 
     /* ---- Compress / extract ---- */
 
@@ -517,48 +531,48 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         const result = await runAndRefresh(
             () => window.api.sftp.compress(tabId, targets.map(pathOf), format),
             targets.length === 1
-                ? `Compressed ${targets[0].name} as .${format}`
-                : `Compressed ${targets.length} items as .${format}`
+                ? t('sftp.toast.compressedOne', { name: targets[0].name, extension: `.${format}` })
+                : t('sftp.toast.compressedCount', { count: targets.length, extension: `.${format}` })
         );
         if (result?.success === false) {
-            toast.error(result.message || 'Compression failed', toastOptions({ duration: 6000 }));
+            toast.error(result.message || t('sftp.error.compressionFailed'), toastOptions({ duration: 6000 }));
         }
-    }, [tabId, pathOf, runAndRefresh]);
+    }, [tabId, pathOf, runAndRefresh, t]);
 
     const handleExtract = useCallback(async (entry) => {
         const result = await runAndRefresh(
             () => window.api.sftp.extract(tabId, pathOf(entry)),
-            `Extracted ${entry.name}`
+            t('sftp.toast.extracted', { name: entry.name })
         );
         if (result?.success === false) {
-            toast.error(result.message || 'Extraction failed', toastOptions({ duration: 6000 }));
+            toast.error(result.message || t('sftp.error.extractionFailed'), toastOptions({ duration: 6000 }));
         }
-    }, [tabId, pathOf, runAndRefresh]);
+    }, [tabId, pathOf, runAndRefresh, t]);
 
     const handleChmod = useCallback(async (mode, recursive) => {
         const entry = permissionsFor;
         setPermissionsFor(null);
         await runAndRefresh(
             () => window.api.sftp.chmod(tabId, pathOf(entry), mode, recursive),
-            `Permissions updated for ${entry.name}`
+            t('sftp.toast.permissionsUpdated', { name: entry.name })
         );
-    }, [permissionsFor, tabId, pathOf, runAndRefresh]);
+    }, [permissionsFor, tabId, pathOf, runAndRefresh, t]);
 
     const handleEditLocally = useCallback(async (entry) => {
         const result = await window.api.remoteEdit.open(tabId, pathOf(entry));
         if (!result.success) {
-            toast.error(result.message || 'Could not open the file', toastOptions({ duration: 6000 }));
+            toast.error(result.message || t('sftp.error.openFile'), toastOptions({ duration: 6000 }));
             return;
         }
         if (!result.reused) {
-            toast.success(`${entry.name} opened. Saves upload automatically`, toastOptions({ duration: 4000 }));
+            toast.success(t('sftp.toast.editOpened', { name: entry.name }), toastOptions({ duration: 4000 }));
         }
-    }, [tabId, pathOf]);
+    }, [tabId, pathOf, t]);
 
     const stopEditing = useCallback(async (entry) => {
         await window.api.remoteEdit.stop(tabId, pathOf(entry));
-        toast.success(`Stopped watching ${entry.name}`, toastOptions({ duration: 2000 }));
-    }, [tabId, pathOf]);
+        toast.success(t('sftp.toast.editStopped', { name: entry.name }), toastOptions({ duration: 2000 }));
+    }, [tabId, pathOf, t]);
 
     /* -------------------------------------------------------------- *
      * Clipboard (remote to remote)
@@ -568,34 +582,33 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         if (targets.length === 0) return;
         setClipboard({ mode, paths: targets.map(pathOf), sourceDir: path });
         toast.success(
-            `${targets.length} item${targets.length > 1 ? 's' : ''} ready to ${mode === 'cut' ? 'move' : 'copy'}`,
+            t(mode === 'cut' ? 'sftp.toast.moveReady' : 'sftp.toast.copyReady', { count: targets.length }),
             toastOptions({ duration: 2000 })
         );
-    }, [pathOf, path]);
+    }, [pathOf, path, t]);
 
     const paste = useCallback(async () => {
         if (!clipboard) return;
 
         const selfReferential = clipboard.paths.find(source => isInside(source, path));
         if (selfReferential) {
-            toast.error('A folder cannot be pasted inside itself', toastOptions());
+            toast.error(t('sftp.error.pasteInsideItself'), toastOptions());
             return;
         }
         if (clipboard.mode === 'cut' && clipboard.sourceDir === path) {
-            toast.error('Source and destination are the same folder', toastOptions());
+            toast.error(t('sftp.error.sameFolder'), toastOptions());
             return;
         }
 
-        const label = clipboard.mode === 'cut' ? 'Moved' : 'Copied';
         const count = clipboard.paths.length;
 
         const result = await runAndRefresh(
             () => window.api.sftp.copy(tabId, clipboard.paths, path, clipboard.mode === 'cut'),
-            `${label} ${count} item${count > 1 ? 's' : ''}`
+            t(clipboard.mode === 'cut' ? 'sftp.toast.movedCount' : 'sftp.toast.copiedCount', { count })
         );
 
         if (result?.success !== false && clipboard.mode === 'cut') setClipboard(null);
-    }, [clipboard, path, tabId, runAndRefresh]);
+    }, [clipboard, path, tabId, runAndRefresh, t]);
 
     const duplicate = useCallback(async (entry) => {
         await runAndRefresh(
@@ -631,11 +644,11 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
 
         const paths = droppedPaths(event);
         if (paths.length === 0) {
-            toast.error('Only files from your computer can be dropped here', toastOptions());
+            toast.error(t('sftp.error.dropLocalOnly'), toastOptions());
             return;
         }
         uploadPaths(paths);
-    }, [uploadPaths]);
+    }, [uploadPaths, t]);
 
     const handleDropOnFolder = useCallback((event, entry) => {
         setDragDepth(0);
@@ -809,22 +822,26 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
             ? (selection.has(entry.name) ? selectedEntries : [entry])
             : [];
 
+        const pasteLabel = clipboard
+            ? t('sftp.action.pasteCount', { count: clipboard.paths.length })
+            : t('sftp.action.paste');
+
         if (!entry) {
             return [
-                { label: 'New folder', icon: <FolderAddIcon size={size} />, onClick: () => startDraft('folder') },
-                { label: 'New file', icon: <FileAddIcon size={size} />, onClick: () => startDraft('file') },
+                { label: t('sftp.action.newFolder'), icon: <FolderAddIcon size={size} />, onClick: () => startDraft('folder') },
+                { label: t('sftp.action.newFile'), icon: <FileAddIcon size={size} />, onClick: () => startDraft('file') },
                 { type: 'separator' },
-                { label: 'Upload files…', icon: <Upload01Icon size={size} />, onClick: handleUploadFiles },
-                { label: 'Upload folder…', icon: <Upload01Icon size={size} />, onClick: handleUploadFolder },
+                { label: t('sftp.action.uploadFilesEllipsis'), icon: <Upload01Icon size={size} />, onClick: handleUploadFiles },
+                { label: t('sftp.action.uploadFolderEllipsis'), icon: <Upload01Icon size={size} />, onClick: handleUploadFolder },
                 {
-                    label: `Paste${clipboard ? ` (${clipboard.paths.length})` : ''}`,
+                    label: pasteLabel,
                     icon: <ClipboardIcon size={size} />,
                     onClick: paste,
                     disabled: !clipboard,
                     shortcut: 'Ctrl+V',
                 },
                 { type: 'separator' },
-                { label: 'Refresh', icon: <Refresh01Icon size={size} />, onClick: () => refresh(), shortcut: 'F5' },
+                { label: t('sftp.nav.refresh'), icon: <Refresh01Icon size={size} />, onClick: () => refresh(), shortcut: 'F5' },
             ];
         }
 
@@ -834,33 +851,33 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
 
         return [
             isFolder
-                ? { label: 'Open', icon: <Folder01Icon size={size} />, onClick: () => openEntry(entry), shortcut: '↵' }
-                : { label: 'Download', icon: <Download01Icon size={size} />, onClick: () => downloadEntries(targets, { ask: false }), shortcut: '↵' },
-            { label: 'Download to…', icon: <Download01Icon size={size} />, onClick: () => downloadEntries(targets) },
+                ? { label: t('sftp.action.open'), icon: <Folder01Icon size={size} />, onClick: () => openEntry(entry), shortcut: '↵' }
+                : { label: t('sftp.action.download'), icon: <Download01Icon size={size} />, onClick: () => downloadEntries(targets, { ask: false }), shortcut: '↵' },
+            { label: t('sftp.action.downloadTo'), icon: <Download01Icon size={size} />, onClick: () => downloadEntries(targets) },
             !isFolder && (beingEdited
-                ? { label: 'Stop editing', icon: <PencilEdit01Icon size={size} />, onClick: () => stopEditing(entry) }
-                : { label: 'Edit locally', icon: <Edit01Icon size={size} />, onClick: () => handleEditLocally(entry), disabled: !single, shortcut: 'F4' }),
+                ? { label: t('sftp.action.stopEditing'), icon: <PencilEdit01Icon size={size} />, onClick: () => stopEditing(entry) }
+                : { label: t('sftp.action.editLocally'), icon: <Edit01Icon size={size} />, onClick: () => handleEditLocally(entry), disabled: !single, shortcut: 'F4' }),
             { type: 'separator' },
-            { label: 'Copy', icon: <Copy01Icon size={size} />, onClick: () => copyToClipboard('copy', targets), shortcut: 'Ctrl+C' },
-            { label: 'Cut', icon: <Scissor01Icon size={size} />, onClick: () => copyToClipboard('cut', targets), shortcut: 'Ctrl+X' },
+            { label: t('common.copy'), icon: <Copy01Icon size={size} />, onClick: () => copyToClipboard('copy', targets), shortcut: 'Ctrl+C' },
+            { label: t('sftp.action.cut'), icon: <Scissor01Icon size={size} />, onClick: () => copyToClipboard('cut', targets), shortcut: 'Ctrl+X' },
             {
-                label: `Paste${clipboard ? ` (${clipboard.paths.length})` : ''}`,
+                label: pasteLabel,
                 icon: <ClipboardIcon size={size} />,
                 onClick: paste,
                 disabled: !clipboard,
                 shortcut: 'Ctrl+V',
             },
-            { label: 'Duplicate', icon: <Copy01Icon size={size} />, onClick: () => duplicate(entry), disabled: !single },
+            { label: t('sftp.action.duplicate'), icon: <Copy01Icon size={size} />, onClick: () => duplicate(entry), disabled: !single },
             { type: 'separator' },
             // Extract only makes sense for a single archive; multi-select
             // compression is offered for any non-empty selection.
             single && isArchive(entry) && {
-                label: 'Extract here',
+                label: t('sftp.action.extractHere'),
                 icon: <ArchiveIcon size={size} />,
                 onClick: () => handleExtract(entry),
             },
             {
-                label: 'Compress',
+                label: t('sftp.action.compress'),
                 icon: <ArchiveIcon size={size} />,
                 submenu: COMPRESS_FORMATS.map(fmt => ({
                     label: fmt.label,
@@ -868,21 +885,27 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
                 })),
             },
             { type: 'separator' },
-            { label: 'Rename', icon: <Edit01Icon size={size} />, onClick: () => startRename(entry), disabled: !single, shortcut: 'F2' },
-            { label: 'Permissions…', icon: <LockKeyIcon size={size} />, onClick: () => setPermissionsFor(entry), disabled: !single },
-            { label: 'Copy path', icon: <Link01Icon size={size} />, onClick: () => {
+            { label: t('common.rename'), icon: <Edit01Icon size={size} />, onClick: () => startRename(entry), disabled: !single, shortcut: 'F2' },
+            { label: t('sftp.action.permissions'), icon: <LockKeyIcon size={size} />, onClick: () => setPermissionsFor(entry), disabled: !single },
+            { label: t('sftp.action.copyPath'), icon: <Link01Icon size={size} />, onClick: () => {
                 navigator.clipboard.writeText(targets.map(pathOf).join('\n'));
-                toast.success('Path copied', toastOptions({ duration: 1500 }));
+                toast.success(t('sftp.toast.pathCopied'), toastOptions({ duration: 1500 }));
             } },
-            { label: 'Properties', icon: <InformationCircleIcon size={size} />, onClick: () => setPropertiesFor(entry), disabled: !single },
+            { label: t('sftp.action.properties'), icon: <InformationCircleIcon size={size} />, onClick: () => setPropertiesFor(entry), disabled: !single },
             { type: 'separator' },
-            { label: `Delete${single ? '' : ` ${targets.length} items`}`, icon: <Delete02Icon size={size} />, onClick: () => requestDelete(targets), danger: true, shortcut: 'Del' },
+            {
+                label: single ? t('common.delete') : t('sftp.action.deleteCount', { count: targets.length }),
+                icon: <Delete02Icon size={size} />,
+                onClick: () => requestDelete(targets),
+                danger: true,
+                shortcut: 'Del',
+            },
         ];
     }, [
         contextMenu, selection, selectedEntries, clipboard, editedPaths, pathOf,
         openEntry, downloadEntries, handleEditLocally, stopEditing, copyToClipboard,
         paste, duplicate, startRename, requestDelete, handleUploadFiles, handleUploadFolder, refresh,
-        handleCompress, handleExtract, isArchive,
+        handleCompress, handleExtract, isArchive, t,
     ]);
 
     /* -------------------------------------------------------------- *
@@ -923,15 +946,17 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
                 <Alert02Icon size={40} strokeWidth={1.5} className="text-red-500" />
                 <div>
                     <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                        SFTP is unavailable
+                        {t('sftp.init.unavailable')}
                     </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-md">{initError}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-md">
+                        {initError.message || t(initError.messageKey)}
+                    </p>
                 </div>
                 <button
                     onClick={() => navigate(homePath)}
                     className="mt-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
-                    Try again
+                    {t('session.tryAgain')}
                 </button>
             </div>
         );
@@ -957,7 +982,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
                 }}
                 onClick={(event) => event.stopPropagation()}
                 onBlur={commitDraft}
-                placeholder={draft.type === 'folder' ? 'New folder name' : 'New file name'}
+                placeholder={t(draft.type === 'folder' ? 'sftp.input.newFolderName' : 'sftp.input.newFileName')}
                 spellCheck={false}
                 className="flex-1 min-w-0 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder:text-gray-400"
             />
@@ -968,11 +993,11 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
         <div className="h-full flex flex-col items-center justify-center text-center px-6 py-12 pointer-events-none">
             <Folder01Icon size={40} strokeWidth={1.5} className="text-gray-300 dark:text-neutral-700 mb-3" />
             <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {filter ? `Nothing matches “${filter}”` : 'This folder is empty'}
+                {filter ? t('common.noMatches', { query: filter }) : t('sftp.empty.folder')}
             </p>
             {!filter && (
                 <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">
-                    Drop files here to upload them
+                    {t('sftp.empty.dropHint')}
                 </p>
             )}
         </div>
@@ -1056,29 +1081,32 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
             {/* Status bar */}
             <div className="shrink-0 h-7 flex items-center gap-3 px-3 border-t border-gray-200 dark:border-surface-control text-[11px] text-gray-500 dark:text-gray-400">
                 <span className="tabular-nums">
-                    {visibleEntries.length} item{visibleEntries.length === 1 ? '' : 's'}
-                    {entries.length !== visibleEntries.length && ` of ${entries.length}`}
+                    {entries.length !== visibleEntries.length
+                        ? t('sftp.status.itemCountFiltered', { count: visibleEntries.length, total: entries.length })
+                        : t('sftp.status.itemCount', { count: visibleEntries.length })}
                 </span>
 
                 {selection.size > 0 && (
                     <span className="tabular-nums">
-                        · {selection.size} selected{selectedBytes > 0 && ` (${formatSize(selectedBytes)})`}
+                        · {selectedBytes > 0
+                            ? t('sftp.status.selectedCountWithSize', { count: selection.size, size: formatSize(selectedBytes) })
+                            : t('sftp.status.selectedCount', { count: selection.size })}
                     </span>
                 )}
 
                 {editedPaths.size > 0 && (
                     <span className="flex items-center gap-1 text-amber-600 dark:text-amber-500">
                         <PencilEdit01Icon size={11} strokeWidth={2.5} />
-                        {editedPaths.size} open in editor
+                        {t('sftp.status.editorCount', { count: editedPaths.size })}
                     </span>
                 )}
 
                 <span className="ml-auto flex items-center gap-3">
                     {loading && <Loading03Icon size={12} className="animate-spin" />}
                     {disk?.success && (
-                        <span className="flex items-center gap-1.5 tabular-nums" title="Free space on this filesystem">
+                        <span className="flex items-center gap-1.5 tabular-nums" title={t('sftp.status.freeSpaceHint')}>
                             <HardDriveIcon size={12} strokeWidth={2} />
-                            {formatSize(disk.free)} free of {formatSize(disk.total)}
+                            {t('sftp.status.freeOfTotal', { free: formatSize(disk.free), total: formatSize(disk.total) })}
                         </span>
                     )}
                 </span>
@@ -1089,7 +1117,7 @@ function SftpView({ tabId, isActive = true, syncPath = '', syncId = 0 }) {
                 <div className="absolute inset-0 z-40 m-2 rounded-xl border-2 border-dashed border-blue-500 bg-blue-500/10 dark:bg-blue-500/15 flex items-center justify-center pointer-events-none sftp-drop-zone-active">
                     <div className="text-center">
                         <Upload01Icon size={40} className="mx-auto text-blue-500 mb-2" />
-                        <p className="text-blue-600 dark:text-blue-400 font-semibold">Drop to upload</p>
+                        <p className="text-blue-600 dark:text-blue-400 font-semibold">{t('sftp.status.dropToUpload')}</p>
                         <p className="text-blue-500/70 text-xs mt-1 font-mono">{path}</p>
                     </div>
                 </div>

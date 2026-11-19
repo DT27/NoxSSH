@@ -110,7 +110,7 @@ export function useSftp(tabId, { enabled = true } = {}) {
     /** Accept `~`, `..` and relative input from the path bar. */
     const openTyped = useCallback(async (input) => {
         const trimmed = (input || '').trim();
-        if (!trimmed) return { success: false, message: 'Enter a path' };
+        if (!trimmed) return { success: false, messageKey: 'sftp.error.enterPath' };
 
         if (trimmed.startsWith('/')) return open(trimmed);
 
@@ -136,7 +136,7 @@ export function useSftp(tabId, { enabled = true } = {}) {
             if (disposed) return;
 
             if (!opened.success) {
-                setInitError(opened.message || 'Could not open SFTP');
+                setInitError({ message: opened.message, messageKey: 'sftp.init.openFailed' });
                 setLoading(false);
                 return;
             }
@@ -155,7 +155,7 @@ export function useSftp(tabId, { enabled = true } = {}) {
                 // safest place to drop the user instead of failing outright.
                 const fallback = await open('/');
                 if (!fallback.success && !disposed) {
-                    setInitError(listed.message || 'Could not read the remote directory');
+                    setInitError({ message: listed.message, messageKey: 'sftp.init.readFailed' });
                 }
             }
 

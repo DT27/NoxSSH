@@ -3,6 +3,7 @@ import { FileSyncIcon } from 'hugeicons-react';
 import Dialog, { DialogButton } from '../ui/Dialog';
 import Checkbox from '../ui/Checkbox';
 import { formatSize, formatDateTime } from '../../lib/format';
+import { useT } from '../../i18n';
 
 function Comparison({ label, size, modifiedAt, highlight }) {
     return (
@@ -32,6 +33,7 @@ function Comparison({ label, size, modifiedAt, highlight }) {
  * path out of here has to send a decision.
  */
 export default function ConflictDialog({ conflict, onRespond }) {
+    const t = useT();
     const [applyToAll, setApplyToAll] = useState(false);
 
     const respond = (action) => onRespond({ action, applyToAll });
@@ -41,7 +43,7 @@ export default function ConflictDialog({ conflict, onRespond }) {
     return (
         <Dialog
             width="32rem"
-            title="File already exists"
+            title={t('sftp.conflict.title')}
             subtitle={conflict.destination}
             onClose={() => respond('cancel')}
             icon={
@@ -51,22 +53,22 @@ export default function ConflictDialog({ conflict, onRespond }) {
             }
             footer={
                 <>
-                    <DialogButton onClick={() => respond('cancel')}>Cancel transfer</DialogButton>
-                    <DialogButton onClick={() => respond('skip')}>Skip</DialogButton>
+                    <DialogButton onClick={() => respond('cancel')}>{t('sftp.conflict.cancelTransfer')}</DialogButton>
+                    <DialogButton onClick={() => respond('skip')}>{t('sftp.conflict.skip')}</DialogButton>
                     {canResume && (
-                        <DialogButton onClick={() => respond('resume')}>Resume</DialogButton>
+                        <DialogButton onClick={() => respond('resume')}>{t('sftp.conflict.resume')}</DialogButton>
                     )}
-                    <DialogButton onClick={() => respond('rename')}>Keep both</DialogButton>
+                    <DialogButton onClick={() => respond('rename')}>{t('sftp.conflict.keepBoth')}</DialogButton>
                     <DialogButton variant="danger" onClick={() => respond('overwrite')} data-autofocus>
-                        Overwrite
+                        {t('sftp.conflict.overwrite')}
                     </DialogButton>
                 </>
             }
         >
             <div className="flex gap-3">
-                <Comparison label="Incoming" size={conflict.sourceSize} highlight />
+                <Comparison label={t('sftp.conflict.incoming')} size={conflict.sourceSize} highlight />
                 <Comparison
-                    label="Existing"
+                    label={t('sftp.conflict.existing')}
                     size={conflict.targetSize}
                     modifiedAt={conflict.targetModifiedAt}
                 />
@@ -74,8 +76,7 @@ export default function ConflictDialog({ conflict, onRespond }) {
 
             {canResume && (
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
-                    The existing file is smaller. <strong>Resume</strong> appends the missing
-                    {' '}{formatSize(conflict.sourceSize - conflict.targetSize)} instead of starting over.
+                    {t('sftp.conflict.resumeHint', { size: formatSize(conflict.sourceSize - conflict.targetSize) })}
                 </p>
             )}
 
@@ -83,7 +84,7 @@ export default function ConflictDialog({ conflict, onRespond }) {
                 className="mt-4"
                 checked={applyToAll}
                 onChange={(event) => setApplyToAll(event.target.checked)}
-                label="Apply to the rest of this transfer"
+                label={t('sftp.conflict.applyToRest')}
             />
         </Dialog>
     );

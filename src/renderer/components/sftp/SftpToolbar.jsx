@@ -17,6 +17,7 @@ import {
     Cancel01Icon,
 } from 'hugeicons-react';
 import { breadcrumbFor } from '../../lib/remote-path';
+import { useT } from '../../i18n';
 
 function IconButton({ icon, title, onClick, disabled, active, danger }) {
     return (
@@ -46,6 +47,7 @@ const Divider = () => <div className="w-px h-5 shrink-0 bg-gray-200 dark:bg-surf
  * pasted without leaving the pane.
  */
 function PathBar({ path, onNavigate, onSubmitPath }) {
+    const t = useT();
     const [editing, setEditing] = useState(false);
     const [value, setValue] = useState(path);
     const inputRef = useRef(null);
@@ -100,7 +102,7 @@ function PathBar({ path, onNavigate, onSubmitPath }) {
             ref={scrollRef}
             onClick={(event) => { if (event.target === event.currentTarget) setEditing(true); }}
             onDoubleClick={() => setEditing(true)}
-            title="Click to type a path"
+            title={t('sftp.nav.typePath')}
             className="flex-1 min-w-0 h-8 flex items-center gap-0.5 px-2 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-surface-control overflow-x-auto sftp-pathbar cursor-text"
         >
             <button
@@ -153,34 +155,36 @@ function SftpToolbar({
     onToggleHidden,
     onFilterChange,
 }) {
+    const t = useT();
+
     return (
         <div className="shrink-0 h-12 flex items-center gap-1 px-2 border-b border-gray-200 dark:border-surface-control bg-white dark:bg-surface-raised">
             <IconButton
                 icon={<ArrowLeft01Icon size={17} strokeWidth={2} />}
-                title="Back"
+                title={t('sftp.nav.back')}
                 onClick={onBack}
                 disabled={!canGoBack}
             />
             <IconButton
                 icon={<ArrowRight01Icon size={17} strokeWidth={2} />}
-                title="Forward"
+                title={t('sftp.nav.forward')}
                 onClick={onForward}
                 disabled={!canGoForward}
             />
             <IconButton
                 icon={<ArrowUp01Icon size={17} strokeWidth={2} />}
-                title="Up one level"
+                title={t('sftp.nav.up')}
                 onClick={onUp}
                 disabled={path === '/'}
             />
             <IconButton
                 icon={<Home01Icon size={17} strokeWidth={2} />}
-                title="Home directory"
+                title={t('sftp.nav.home')}
                 onClick={onHome}
             />
             <IconButton
                 icon={<Refresh01Icon size={17} strokeWidth={2} className={loading ? 'animate-spin' : ''} />}
-                title="Refresh"
+                title={t('sftp.nav.refresh')}
                 onClick={onRefresh}
             />
 
@@ -207,7 +211,7 @@ function SftpToolbar({
                             event.currentTarget.blur();
                         }
                     }}
-                    placeholder="Filter"
+                    placeholder={t('common.filter')}
                     spellCheck={false}
                     className="w-36 h-8 pl-8 pr-7 rounded-lg border border-gray-200 dark:border-surface-control bg-gray-50 dark:bg-surface-base text-gray-900 dark:text-white text-xs outline-none focus:border-gray-300 dark:focus:border-neutral-700 placeholder:text-gray-400"
                 />
@@ -215,7 +219,7 @@ function SftpToolbar({
                     <button
                         onClick={() => onFilterChange('')}
                         className="absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                        title="Clear filter"
+                        title={t('sftp.filter.clear')}
                     >
                         <Cancel01Icon size={11} strokeWidth={2.5} />
                     </button>
@@ -226,7 +230,7 @@ function SftpToolbar({
                 icon={showHidden
                     ? <ViewIcon size={16} strokeWidth={2} />
                     : <ViewOffSlashIcon size={16} strokeWidth={2} />}
-                title={showHidden ? 'Hide dotfiles' : 'Show dotfiles'}
+                title={showHidden ? t('sftp.filter.hideHidden') : t('sftp.filter.showHidden')}
                 onClick={onToggleHidden}
                 active={showHidden}
             />
@@ -235,33 +239,33 @@ function SftpToolbar({
 
             <IconButton
                 icon={<FolderAddIcon size={17} strokeWidth={2} />}
-                title="New folder"
+                title={t('sftp.action.newFolder')}
                 onClick={onNewFolder}
             />
             <IconButton
                 icon={<FileAddIcon size={17} strokeWidth={2} />}
-                title="New file"
+                title={t('sftp.action.newFile')}
                 onClick={onNewFile}
             />
             <IconButton
                 icon={<Upload01Icon size={17} strokeWidth={2} />}
-                title="Upload files"
+                title={t('sftp.action.uploadFiles')}
                 onClick={onUploadFiles}
             />
             <IconButton
                 icon={<FolderUploadIcon size={17} strokeWidth={2} />}
-                title="Upload folder"
+                title={t('sftp.action.uploadFolder')}
                 onClick={onUploadFolder}
             />
             <IconButton
                 icon={<Download01Icon size={17} strokeWidth={2} />}
-                title="Download selected"
+                title={t('sftp.action.downloadSelected')}
                 onClick={onDownload}
                 disabled={selectionCount === 0}
             />
             <IconButton
                 icon={<Delete02Icon size={17} strokeWidth={2} />}
-                title="Delete selected"
+                title={t('sftp.action.deleteSelected')}
                 onClick={onDelete}
                 disabled={selectionCount === 0}
                 danger
