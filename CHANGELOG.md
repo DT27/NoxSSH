@@ -1,5 +1,25 @@
 # 更新日志
 
+## [1.4.4] - 2026-11-20
+
+### 新增
+
+- **SFTP 压缩 / 解压**：右键菜单可将所选文件或文件夹压缩为 ZIP、tar.gz、tar.bz2、tar.xz，也可对已有压缩包一键解压；在服务器端执行，无需下载到本机
+- **终端路径同步到 SFTP**：终端通过 shell 集成上报当前目录（OSC 7），切换到 SFTP 时自动定位到该路径，远程 SSH 与本地终端均支持
+
+### 改进
+
+- SFTP 界面全面本地化：工具栏、文件列表、传输面板、属性与权限弹窗、冲突与确认对话框均接入 i18n（zh / en / ja / ko / pt / ru / vi）
+
+### 技术细节
+
+- [`sftp.js`](src/main/sftp.js) 新增 `compress` / `extract`，经 exec 通道调用服务器端的 `zip`、`tar`、`unzip` 等命令
+- 新增 [`shell-integration.js`](src/main/shell-integration.js) 与 [`osc.js`](src/renderer/lib/osc.js)，解析 OSC 7 目录上报；终端与本地 Shell 均适用
+- [`ContextMenu.jsx`](src/renderer/components/ui/ContextMenu.jsx) 支持子菜单
+- Release 工作流：macOS 构建迁移到自托管 runner，并支持复用已有运行的编译产物
+
+---
+
 ## [1.4.3] - 2026-11-13
 
 ### 新增
