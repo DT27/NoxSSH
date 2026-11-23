@@ -24,22 +24,25 @@ const BODY = `printf '\\033]7;file://%s%s\\033\\\\' "$(hostname 2>/dev/null)" "$
 
 // How the install command is kept off the user's screen:
 //
-//   1. ESC [ 8 m  — SGR "conceal": the terminal stops drawing the bytes the
-//      PTY echoes back. Everything until ESC [ 28 m is invisible.
-//   2. Ctrl-U — the line-kill character. It erases whatever is already in the
-//      input buffer (the ESC [ 8 m bytes) so they are never handed to the
-//      shell as a command. We deliberately use Ctrl-U rather than Ctrl-C:
-//      Ctrl-C sends SIGINT, which on some hosts (e.g. unraid) tears down the
-//      shell instead of just clearing the line. Ctrl-U is a line-editing
-//      operation in bash/zsh and never signals the process.
-//   3. The actual setup command, echoed invisibly.
-//   4. The newline runs it.
+//   1. `: ESC [ 8 m` — the colon is the null command; everything after it on
+//      the same line is an argument it ignores. The PTY echoes the bytes back
+//      to the terminal, so the ESC [ 8 m (SGR "conceal") lands in the output
+//      stream and the terminal stops drawing subsequent echoed characters.
+//
+//      We used to send the conceal sequence first and then erase it from the
+//      input buffer with Ctrl-U / Ctrl-C so the shell would never see it. That
+//      broke on hosts whose PTY line discipline visually erases the echoed
+//      characters on line-kill — the conceal sequence was wiped before the
+//      terminal could act on it, and the setup command ended up on screen.
+//      Passing it as an argument to `:` is harmless and always echoed.
+//
+//   2. The actual setup command, echoed invisibly now that conceal is on.
+//   3. The newline runs it.
 //
 // The reveal (ESC [ 28 m) is emitted from inside PROMPT_COMMAND / precmd, not
 // from the install line, so it always runs once the shell is back at the
 // prompt and the display is never left concealed.
 const HIDE = '\x1b[8m';
-const CTRL_U = '\x15';
 const REVEAL = "\\033[28m";
 
 /**
@@ -47,7 +50,8 @@ const REVEAL = "\\033[28m";
  *
  * Written to the PTY right after the connection comes up, before any
  * initCommand, so it is in place before the user types anything. It runs as
- * one line and produces no visible output of its own.
+ * two lines and produces no visible output of its own (only the leading `:`
+ * of the conceal line is drawn, a single character).
  */
 export function installOsc7Command() {
     const body = [
@@ -66,5 +70,8 @@ export function installOsc7Command() {
         `fi`,
     ].join(' ');
 
-    return `${HIDE}${CTRL_U}${body}; printf '${REVEAL}'\n`;
+    // Line 1: `:` null-command whose argument is the conceal escape. The
+    // terminal sees the echoed ESC [ 8 m and switches to hidden output.
+    // Line 2: the real setup, echoed invisibly, then executed.
+    return `: ${HIDE}\n${body}; printf '${REVEAL}'\n`;
 }
