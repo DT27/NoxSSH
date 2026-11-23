@@ -400,19 +400,25 @@ function TerminalView({
     /**
      * Ask the shell for its cwd without leaving anything behind.
      *
-     * Line 1: `: ESC[8m` — the null command ignores the escape argument, but
-     *   the PTY echoes it so the terminal switches to concealed output.
-     * Line 2: a `printf` that emits a single OSC 7 "file://…" announcement,
-     *   then another that turns conceal back off. The OSC 7 is parsed out of
-     *   the data stream in onData above.
+     * One `printf` emits, in order:
+     *   1. ESC [ 8 m  — conceal (SGR 8) so what follows is drawn invisibly
+     *   2. ESC ] 7 ; file://host/path ST — the OSC 7 cwd announcement
+     *   3. ESC [ 2 8 m — reveal (SGR 28)
+     *
+     * The command line itself is echoed normally (the shell has to show what
+     * it was asked to run), but its *output* — the OSC 7 — is concealed and
+     * never appears on screen. The sequence is still in the data stream, so
+     * onData above can parse the path out of it.
+     *
+     * We deliberately do not send ESC [ 8 m as *input*: bash's readline parses
+     * CSI sequences on the input line and silently drops ESC [ 8 m, so the
+     * terminal would never see it. Putting it inside a `printf` argument lets
+     * the shell produce the bytes instead.
      *
      * No PROMPT_COMMAND or precmd is touched — this runs once and is gone.
      */
     const sendCwdProbe = useCallback(() => {
-        const probe = [
-            ": \x1b[8m",
-            `printf '\\033]7;file://%s%s\\033\\\\' "$(hostname 2>/dev/null)" "$PWD"; printf '\\033[28m'`,
-        ].join('\n') + '\n';
+        const probe = `printf '\\033[8m\\033]7;file://%s%s\\033\\\\\\033[28m' "$(hostname 2>/dev/null)" "$PWD"\n`;
         awaitingCwdRef.current = true;
         oscBufferRef.current = '';
         sendInput(probe);
