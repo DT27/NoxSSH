@@ -236,8 +236,13 @@ function TerminalView({
     // hidden `printf` that emits an OSC 7 sequence, parse it out of the data
     // stream, and hand it to the SFTP pane. After that the shell is left
     // completely untouched — no PROMPT_COMMAND, no persistent hooks.
+    //
+    // While waiting for the probe response we drop every byte from the
+    // terminal (echo of the command + concealed OSC 7 + prompt) so nothing
+    // lands on screen. The user is on the SFTP side at that moment anyway.
     const oscBufferRef = useRef('');
     const awaitingCwdRef = useRef(false);
+    const cwdTimeoutRef = useRef(null);
     // Held so the ligature toggle can tear the GPU renderer down and put it
     // back without rebuilding the terminal underneath it.
     const webglRef = useRef(null);
@@ -421,6 +426,13 @@ function TerminalView({
         const probe = `printf '\\033[8m\\033]7;file://%s%s\\033\\\\\\033[28m' "$(hostname 2>/dev/null)" "$PWD"\n`;
         awaitingCwdRef.current = true;
         oscBufferRef.current = '';
+        // Safety net: if the shell never answers (no printf, weird PS1, etc.)
+        // stop dropping output after 2s so the terminal doesn't stay blank.
+        if (cwdTimeoutRef.current) clearTimeout(cwdTimeoutRef.current);
+        cwdTimeoutRef.current = setTimeout(() => {
+            awaitingCwdRef.current = false;
+            oscBufferRef.current = '';
+        }, 2000);
         sendInput(probe);
     }, [sendInput]);
 
@@ -846,17 +858,24 @@ function TerminalView({
             // to chase it.
             unsubscribeData = window.api.ssh.onData(pane.id, (message) => {
                 if (message.type === 'data') {
-                    // Only parse OSC 7 while we are waiting for the cwd probe
-                    // to come back. Once we have the path the shell is no
-                    // longer asked to emit anything, so there is nothing to
-                    // parse and we skip the regex entirely.
                     if (awaitingCwdRef.current) {
+                        // Probe in flight: parse OSC 7 out of the stream and
+                        // drop everything else (echoed command, concealed
+                        // response, fresh prompt). The user is on the SFTP
+                        // pane now so they won't notice the missing output,
+                        // and when they flip back the terminal is clean.
                         const cwd = feedOsc7(message.data, oscBufferRef);
                         if (cwd) {
                             awaitingCwdRef.current = false;
                             oscBufferRef.current = '';
+                            if (cwdTimeoutRef.current) {
+                                clearTimeout(cwdTimeoutRef.current);
+                                cwdTimeoutRef.current = null;
+                            }
                             setSftpSync({ path: cwd, id: Date.now() });
                         }
+                        hideOverlayOnce();
+                        return;
                     }
                     term.write(message.data);
                     hideOverlayOnce();
@@ -1185,6 +1204,10 @@ function TerminalView({
             sftpSyncedRef.current = false;
             awaitingCwdRef.current = false;
             oscBufferRef.current = '';
+            if (cwdTimeoutRef.current) {
+                clearTimeout(cwdTimeoutRef.current);
+                cwdTimeoutRef.current = null;
+            }
         }
     }, [isLive]);
 
