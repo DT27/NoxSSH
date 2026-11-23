@@ -232,11 +232,12 @@ function TerminalView({
     const termRef = useRef(null);
     const fitAddonRef = useRef(null);
     const searchAddonRef = useRef(null);
-    // Shell-integration cwd, parsed out of OSC 7 sequences in the data stream.
-    // A ref because nothing renders off it — it is only read the moment the
-    // user flips across to the SFTP view.
-    const cwdRef = useRef('');
+    // One-shot cwd probe: the first time the user flips to SFTP we send a
+    // hidden `printf` that emits an OSC 7 sequence, parse it out of the data
+    // stream, and hand it to the SFTP pane. After that the shell is left
+    // completely untouched — no PROMPT_COMMAND, no persistent hooks.
     const oscBufferRef = useRef('');
+    const awaitingCwdRef = useRef(false);
     // Held so the ligature toggle can tear the GPU renderer down and put it
     // back without rebuilding the terminal underneath it.
     const webglRef = useRef(null);
@@ -395,6 +396,27 @@ function TerminalView({
         if (inputRef.current) inputRef.current(pane.id, data);
         else window.api.ssh.sendInput(pane.id, data);
     }, [pane?.id]);
+
+    /**
+     * Ask the shell for its cwd without leaving anything behind.
+     *
+     * Line 1: `: ESC[8m` — the null command ignores the escape argument, but
+     *   the PTY echoes it so the terminal switches to concealed output.
+     * Line 2: a `printf` that emits a single OSC 7 "file://…" announcement,
+     *   then another that turns conceal back off. The OSC 7 is parsed out of
+     *   the data stream in onData above.
+     *
+     * No PROMPT_COMMAND or precmd is touched — this runs once and is gone.
+     */
+    const sendCwdProbe = useCallback(() => {
+        const probe = [
+            ": \x1b[8m",
+            `printf '\\033]7;file://%s%s\\033\\\\' "$(hostname 2>/dev/null)" "$PWD"; printf '\\033[28m'`,
+        ].join('\n') + '\n';
+        awaitingCwdRef.current = true;
+        oscBufferRef.current = '';
+        sendInput(probe);
+    }, [sendInput]);
 
     /**
      * Re-measure the pane and tell the remote what it now is.
@@ -818,12 +840,18 @@ function TerminalView({
             // to chase it.
             unsubscribeData = window.api.ssh.onData(pane.id, (message) => {
                 if (message.type === 'data') {
-                    // Shells announce their cwd through OSC 7 ("file://…") when
-                    // they redraw the prompt. Fish it out before the bytes go
-                    // to xterm — xterm eats them, and we need the path so the
-                    // SFTP browser can follow the user across.
-                    const cwd = feedOsc7(message.data, oscBufferRef);
-                    if (cwd) cwdRef.current = cwd;
+                    // Only parse OSC 7 while we are waiting for the cwd probe
+                    // to come back. Once we have the path the shell is no
+                    // longer asked to emit anything, so there is nothing to
+                    // parse and we skip the regex entirely.
+                    if (awaitingCwdRef.current) {
+                        const cwd = feedOsc7(message.data, oscBufferRef);
+                        if (cwd) {
+                            awaitingCwdRef.current = false;
+                            oscBufferRef.current = '';
+                            setSftpSync({ path: cwd, id: Date.now() });
+                        }
+                    }
                     term.write(message.data);
                     hideOverlayOnce();
                 } else if (message.type === 'disconnected') {
@@ -1147,7 +1175,11 @@ function TerminalView({
     // successful reconnect sync the SFTP pane again instead of remembering a
     // path that may no longer be the one the user is standing in.
     useEffect(() => {
-        if (!isLive) sftpSyncedRef.current = false;
+        if (!isLive) {
+            sftpSyncedRef.current = false;
+            awaitingCwdRef.current = false;
+            oscBufferRef.current = '';
+        }
     }, [isLive]);
 
     // A desktop is offered only when the host has one configured. A tunnelled
@@ -1639,12 +1671,13 @@ function TerminalView({
                                     setSftpOpened(true);
                                     // Follow the shell's cwd once per
                                     // connection: the first time the user
-                                    // flips over to files. Later switches
-                                    // keep wherever they were browsing.
-                                    const cwd = cwdRef.current;
-                                    if (cwd && !sftpSyncedRef.current) {
+                                    // flips over to files. Send a one-shot
+                                    // probe (no persistent hooks) and let
+                                    // onData navigate the SFTP pane when the
+                                    // answer comes back.
+                                    if (!sftpSyncedRef.current) {
                                         sftpSyncedRef.current = true;
-                                        setSftpSync({ path: cwd, id: Date.now() });
+                                        sendCwdProbe();
                                     }
                                 }
                                 if (next === 'desktop') setDesktopOpened(true);

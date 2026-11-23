@@ -10,7 +10,6 @@ const hello = require('./hello');
 const activity = require('./activity');
 const sessionLog = require('./session-log');
 const { classifySystemOutput } = require('./os-detect');
-const { installOsc7Command } = require('./shell-integration');
 
 // tabId -> { client, stream, port, sftp }
 const sessions = new Map();
@@ -904,6 +903,12 @@ function connect({ tabId, hostId, cols, rows }, { window, requestTrust, requestK
             term: 'xterm-256color',
             cols: cols || 80,
             rows: rows || 24,
+            // Turn off ECHOCTL so control characters (notably the ESC that
+            // leads off the shell-integration conceal sequence) are echoed
+            // verbatim instead of as ^X. Without this the terminal never sees
+            // a valid SGR escape and the install command leaks onto the
+            // screen.
+            modes: { ECHOCTL: 0 },
         };
 
         client.shell(shellOptions, (err, stream) => {
@@ -998,14 +1003,9 @@ function connect({ tabId, hostId, cols, rows }, { window, requestTrust, requestK
                 window.webContents.postMessage('ssh-port', { tabId }, [port2]);
             }
 
-            // Teach the shell to report its cwd through OSC 7 so the SFTP
-            // browser can follow the user across. Sent before initCommand so
-            // the first prompt (and any `cd` in the init command) is captured.
-            try {
-                stream.write(`${installOsc7Command()}\n`);
-            } catch (error) {
-                console.error(`Could not install shell integration for ${tabId}:`, error.message);
-            }
+            // Note: shell cwd is no longer injected on connect. The renderer
+            // sends a one-shot OSC 7 probe the first time the user flips to the
+            // SFTP view, so nothing is written into the user's shell startup.
 
             // Whatever the host wants run as soon as its shell is up: a
             // `cd`, an `export`, `tmux attach`. Written straight to the PTY,
