@@ -26,10 +26,12 @@ const BODY = `printf '\\033]7;file://%s%s\\033\\\\' "$(hostname 2>/dev/null)" "$
 //
 //   1. ESC [ 8 m  — SGR "conceal": the terminal stops drawing the bytes the
 //      PTY echoes back. Everything until ESC [ 28 m is invisible.
-//   2. ETX (Ctrl-C) — the line-discipline interrupt character. It flushes the
-//      input buffer, so the ESC [ 8 m bytes are never handed to the shell as
-//      a command. Without this the shell would try to execute "\x1b[8m…" and
-//      print a "command not found".
+//   2. Ctrl-U — the line-kill character. It erases whatever is already in the
+//      input buffer (the ESC [ 8 m bytes) so they are never handed to the
+//      shell as a command. We deliberately use Ctrl-U rather than Ctrl-C:
+//      Ctrl-C sends SIGINT, which on some hosts (e.g. unraid) tears down the
+//      shell instead of just clearing the line. Ctrl-U is a line-editing
+//      operation in bash/zsh and never signals the process.
 //   3. The actual setup command, echoed invisibly.
 //   4. The newline runs it.
 //
@@ -37,7 +39,7 @@ const BODY = `printf '\\033]7;file://%s%s\\033\\\\' "$(hostname 2>/dev/null)" "$
 // from the install line, so it always runs once the shell is back at the
 // prompt and the display is never left concealed.
 const HIDE = '\x1b[8m';
-const CTRL_C = '\x03';
+const CTRL_U = '\x15';
 const REVEAL = "\\033[28m";
 
 /**
@@ -64,5 +66,5 @@ export function installOsc7Command() {
         `fi`,
     ].join(' ');
 
-    return `${HIDE}${CTRL_C}${body}; printf '${REVEAL}'\n`;
+    return `${HIDE}${CTRL_U}${body}; printf '${REVEAL}'\n`;
 }
